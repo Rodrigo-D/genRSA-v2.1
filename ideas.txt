@@ -2,6 +2,7 @@
 
  Conocimientos
 ---------------
+al parecer se usa mucho mas openSSL que las librerias de JAVA, entonces quiza interese hacer una llamada a openSSL.
 mil bits unos 300 dígitos decimales
 
  Ataques
@@ -27,7 +28,8 @@ http://www.criptored.upm.es/crypt4you/temas/RSA/leccion6/leccion06.html y todas 
  Obligatorio Leer
 ------------------
 
-http://www.thedeveloperspoint.com/using-java-security-libraries-for-implementing-rsa/
+X http://www.thedeveloperspoint.com/implementing-rsa-in-java/
+X http://www.thedeveloperspoint.com/using-java-security-libraries-for-implementing-rsa/
 http://java-limos.blogspot.com.es/2011/05/encriptacion-utilizando-el-algoritmo_25.html
 https://javadigest.wordpress.com/2012/08/26/rsa-encryption-example/
 http://www.java2s.com/Tutorial/Java/0490__Security/BasicRSAexample.htm
@@ -37,6 +39,8 @@ https://www.google.es/search?q=apijava+RSA&ie=utf-8&oe=utf-8&client=firefox-b-ab
 
  Cosas a leer / Librerias
 --------------------------
+https://docs.oracle.com/javase/7/docs/api/java/math/BigInteger.html
+
 http://www.java2s.com/Tutorial/Java/0490__Security/BasicRSAexample.htm
 
 http://chuwiki.chuidiang.org/index.php?title=Encriptacion_con_Java
@@ -50,6 +54,9 @@ otra libreria por si no se quiere usar las librerias desarrolladas por java: htt
 otra mas http://www.bouncycastle.org/latest_releases.html
 otra para noobs http://www.jasypt.org/index.html
 
+oracle java
+http://docs.oracle.com/javase/7/docs/technotes/guides/security/crypto/CryptoSpec.html
+https://docs.oracle.com/cd/E19944-01/819-4480/IM_installation_appendixF_JCE.html
  Links cosas leidas
 --------------------
 http://www.criptored.upm.es/descarga/articuloRSAcumple36.pdf

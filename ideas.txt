@@ -25,17 +25,20 @@ http://stackoverflow.com/questions/26978189/simple-rsa-encryption-using-javas-bu
 
 http://www.criptored.upm.es/crypt4you/temas/RSA/leccion6/leccion06.html y todas las lecciones
 
+TFG de otra persona: https://www.iit.comillas.edu/pfc/resumenes/46eab0a6a63d1.pdf
+
  Obligatorio Leer
 ------------------
 
 X http://www.thedeveloperspoint.com/implementing-rsa-in-java/
 X http://www.thedeveloperspoint.com/using-java-security-libraries-for-implementing-rsa/
-http://java-limos.blogspot.com.es/2011/05/encriptacion-utilizando-el-algoritmo_25.html
-https://javadigest.wordpress.com/2012/08/26/rsa-encryption-example/
-http://www.java2s.com/Tutorial/Java/0490__Security/BasicRSAexample.htm
+X es basura http://java-limos.blogspot.com.es/2011/05/encriptacion-utilizando-el-algoritmo_25.html
+X correcto! guardado codigo en Workspace https://javadigest.wordpress.com/2012/08/26/rsa-encryption-example/
+X bueno y con mas ejemplos (tb otros tipo) http://www.java2s.com/Tutorial/Java/0490__Security/BasicRSAexample.htm
 https://www.example-code.com/java/rsa.asp
-https://www.google.es/search?q=apijava+RSA&ie=utf-8&oe=utf-8&client=firefox-b-ab&gfe_rd=cr&ei=h2eXWInFK7L38AfM3qzADw#q=api+java+RSA
-
+X https://www.google.es/search?q=apijava+RSA&ie=utf-8&oe=utf-8&client=firefox-b-ab&gfe_rd=cr&ei=h2eXWInFK7L38AfM3qzADw#q=api+java+RSA
+tratar de entender como funciona la pagina: https://community.rsa.com/community/products/securid/authentication-agent-api-81/content?filterID=contentstatus%5Bpublished%5D~category%5Bdevelopment%5D
+https://www.rsa.com/en-us
 
  Cosas a leer / Librerias
 --------------------------
@@ -54,10 +57,54 @@ otra libreria por si no se quiere usar las librerias desarrolladas por java: htt
 otra mas http://www.bouncycastle.org/latest_releases.html
 otra para noobs http://www.jasypt.org/index.html
 
+https://docs.oracle.com/javase/7/docs/api/allclasses-noframe.html
+
+Package security and crypto
+http://docs.oracle.com/javase/7/docs/api/java/security/package-summary.html
+http://docs.oracle.com/javase/7/docs/api/javax/crypto/package-summary.html
+RSAKey
+RSAKeyGenParameterSpec
+RSAMultiPrimePrivateCrtKey
+RSAMultiPrimePrivateCrtKeySpec
+RSAOtherPrimeInfo
+RSAPrivateCrtKey
+RSAPrivateCrtKeySpec
+RSAPrivateKey
+RSAPrivateKeySpec
+RSAPublicKey
+RSAPublicKeySpec
+
+Key
+KeyPublic
+KeyPrivate
+KeyGenerator
+KeyPairGenerator
+SecureRandom
+BigInteger
+Certificate
+KeyFactory??
+
+EXCEPTIONS-->https://docs.oracle.com/javase/7/docs/api/java/security/package-summary.html
+
+package cipher
+
+Cipher
+CipherInputStream
+CipherOutputStream
+EncryptedPrivateKeyInfo
+KeyGenerator
+NullCipher
+SecretKeyFactory 	
+
 oracle java
 http://docs.oracle.com/javase/7/docs/technotes/guides/security/crypto/CryptoSpec.html
 https://docs.oracle.com/cd/E19944-01/819-4480/IM_installation_appendixF_JCE.html
- Links cosas leidas
+
+libreria oracle RSA
+https://docs.oracle.com/cloud/latest/as111170/SCRPJ/index.html?oracle/security/crypto/core/RSA.html
+https://docs.oracle.com/cloud/latest/as111170/SCRPJ/oracle/security/crypto/core/RSA.html
+
+
 --------------------
 http://www.criptored.upm.es/descarga/articuloRSAcumple36.pdf
 

@@ -1,4 +1,4 @@
-package genRsa;
+package RSAkey;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

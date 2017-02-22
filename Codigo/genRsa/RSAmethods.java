@@ -141,24 +141,43 @@ public class RSAmethods {
 		this.numMNC = parte1.multiply(parte2);
 		
 		if (calculateMNC){
-			calculateMessagesNoCipherable();
+			calculateMessagesNoCipherable(this.numMNC.intValue());
 		}
 		
 		return this.numMNC;
 	}
 	
-	public void calculateMessagesNoCipherable( ){
+	public void calculateMessagesNoCipherable(int numMNC ){
 		BigInteger i = BigInteger.ONE;
 		BigInteger message;
-				
+		BigInteger inv_pq,inv_qp, ppq, qqp;
+		int numNp, numNq, iteradorP, iteradorQ; //ojito  cuidado que es un int y puede llegar a crecer una barbaridad
+		//if (numMNC > 40){ 
+			//hablar con jorge ramio para ver como lo hacemos!!!
+			BigInteger[] Np = new BigInteger[numMNC];
+			BigInteger[] Nq = new BigInteger[numMNC];
+		//}
+			
+			//comprobar en la clave que p y q no sean el mismo numero
+		inv_pq= this.p.modInverse(this.q);
+		inv_qp= this.q.modInverse(this.p);
+		
+		ppq = this.p.multiply(inv_pq);
+		qqp = this.q.multiply(inv_qp);
+		
 		System.out.println(" NNC de p ");
 		//	x^e mod p = x con 1 ≤ x ≤ p-1
+		Np[0]= BigInteger.ZERO;
+		Np[1]= BigInteger.ONE;
+		numNp = 1;
 		do{
 			i=i.add(BigInteger.ONE);
 			
 			message = i.modPow(this.e, this.p);
 			
 			if (message.compareTo(i)==0){
+				numNp++;
+				Np[numNp]= message;
 				System.out.println("Mensaje no cifrable --> " + message.toString());
 			}			
 		} while (i.compareTo(this.pMinusOne)!=0);
@@ -166,30 +185,119 @@ public class RSAmethods {
 		System.out.println(" NNC de q ");
 		i = BigInteger.ONE;
 		//x^e mod q = x con 1 ≤ x ≤ q-1
+		Nq[0]= BigInteger.ZERO;
+		Nq[1]= BigInteger.ONE;
+		numNq = 1;		
 		do{
 			i=i.add(BigInteger.ONE);
 			
 			message = i.modPow(this.e, this.q);
 			
 			if (message.compareTo(i)==0){
+				numNq++;
+				Nq[numNq]= message;
 				System.out.println("Mensaje no cifrable --> " + message.toString());
 			}			
 		} while (i.compareTo(this.qMinusOne)!=0);
 		
-		System.out.println(" Los de n ");
-		i = BigInteger.ONE;
-	
-		do{
-			i=i.add(BigInteger.ONE);
-			
-			message = i.modPow(this.e, this.n);
-			
-			if (message.compareTo(i)==0){
-				System.out.println("Mensaje no cifrable --> " + message.toString());
-			}			
-		} while (i.compareTo(this.n)!=0);
+
+		System.out.println("----> NUMEROS NO CIFRABLES <-----");
+		for (iteradorP=0; iteradorP<=numNp; iteradorP++){
+			Np[iteradorP]=Np[iteradorP].multiply(qqp);
+			for (iteradorQ=0; iteradorQ<=numNq; iteradorQ++){
+				Nq[iteradorQ]=Nq[iteradorQ].multiply(ppq);
+				message=(Np[iteradorP].add(Nq[iteradorQ])).mod(n);
+				System.out.println("** Numero no cifrable --> " + message.toString());
+			}
+		}
+		//estaria bien ordenar los numeros 
+		
+//		System.out.println(" Los de n ");
+//		i = BigInteger.ONE;
+//	
+//		do{
+//			i=i.add(BigInteger.ONE);
+//			
+//			message = i.modPow(this.e, this.n);
+//			
+//			if (message.compareTo(i)==0){
+//				System.out.println("Mensaje no cifrable --> " + message.toString());
+//			}			
+//		} while (i.compareTo(this.n)!=0);
 	}
 	
+	//Algoritmo de exponenciación rápida
+	public void fastExponentiation (BigInteger num, BigInteger exponente, BigInteger modulo){
+		System.out.println("modulo: " + modulo.toString());
+		System.out.println("exponente: " + exponente.toString());
+		System.out.println("num: " + num.toString());		
+		
+		runningTime = System.currentTimeMillis();
+		int iterador;
+		BigInteger x;		
+		char bit;
+		
+		String numEnBits = exponente.toString(2);
+		int lengthNum = exponente.bitLength();
+		
+		System.out.println("El valor en bits es: " + numEnBits);
+		
+		x=BigInteger.ONE;
+		for (iterador = 0; iterador < lengthNum; iterador++){
+			bit = numEnBits.charAt(iterador);
+			x = (x.multiply(x)).mod(modulo);
+			if (bit == '1'){
+				x = (x.multiply(num)).mod(modulo);
+			} 
+		}
+		runningTime1= System.currentTimeMillis();
+		
+		System.out.println("\n\n 1.El valor que se ha obtenido es: " + x.toString());
+		System.out.println("Tiempo en realizar la primera exponenciacion: " + (runningTime1  - runningTime) + " ms");
+		
+		x = BigInteger.ONE;
+		
+		runningTime = System.currentTimeMillis();
+		x = (num.modPow(exponente, modulo));
+		runningTime1= System.currentTimeMillis();
+		System.out.println("\n 2.El valor que se ha obtenido es: " + x.toString());
+		System.out.println("Tiempo en realizar la segunda exponenciacion: " + (runningTime1  - runningTime) + " ms");
+		
+	}
+	
+	//TeoremaChinoDelResto
+	public void calculateCRT (BigInteger num){
+		runningTime = System.currentTimeMillis();
+		BigInteger Ap,Aq,dp,dq,Cp,Cq, resultado;
+		
+		Ap= this.q.multiply(this.q.modInverse(this.p));//hay otra forma
+		Aq= this.p.multiply(this.p.modInverse(this.q));//hay otra forma
+		dp= this.d.mod(this.pMinusOne);
+		dq= this.d.mod(this.qMinusOne);
+		Cp= num.mod(this.p);
+		Cq= num.mod(this.q);
+		runningTime1= System.currentTimeMillis();
+		System.out.println("\n\nTiempo en realizar los calculos preestablecidos " + (runningTime1  - runningTime) + " ms");
+		runningTime=System.currentTimeMillis();
+		resultado = ((Ap.multiply(Cp.modPow(dp, this.p))).add(Aq.multiply(Cq.modPow(dq, this.q)))).mod(this.n);
+		runningTime1= System.currentTimeMillis();
+		System.out.println("El valor que se ha obtenido es: " + resultado.toString());
+		System.out.println("Tiempo en realizar el calculo final: " + (runningTime1  - runningTime) + " ms");
+		
+		
+		resultado= BigInteger.ONE;
+		runningTime = System.currentTimeMillis();
+		resultado= num.modPow(this.d, this.n);
+		runningTime1= System.currentTimeMillis();
+		System.out.println("\n El valor que se ha obtenido es: " + resultado.toString());
+		System.out.println("Tiempo en realizar los calculos con BigInteger: " + (runningTime1  - runningTime) + " ms");
+		
+	}
+	
+	//Miller Rabin
+	public void primalityMillerRabin (BigInteger probPrime) {
+		
+	}
 	
 	
 	@Override
@@ -290,15 +398,20 @@ public class RSAmethods {
 		
 		System.out.println("\n");
 		
+		//esto es de ejemplo
+		app.fastExponentiation(app.phiN,app.d,app.n);
+		app.calculateCRT(app.phiN);
+		System.out.println("\n");
+		
 		app.calculateCKP();
 		
 		System.out.println("\n\n" + "Do you want to show all MNC? (yes/no)");
 		answer = br.readLine();
 		
 		if (answer.equals("yes") || answer.equals("YES")){
-			System.out.println(app.numMessagesNoCipherable(true));
+			System.out.println("\n\n Numeros de mensajes no cifrables: " + app.numMessagesNoCipherable(true));
 		} else {
-			System.out.println(app.numMessagesNoCipherable(false));
+			System.out.println("\n\n Numeros de mensajes no cifrables: " + app.numMessagesNoCipherable(false));
 		}
 		
 		System.out.println("e-->" + app.countBits(app.e));
@@ -309,13 +422,21 @@ public class RSAmethods {
 		
 	}
 	
-	//mensajes no cifrables
-	//crear p y q de igual tamaño al generarlo automaticamente para e conocida
-	//crear p y q de distinto tamaño al generarlo automaticamente para e desconocida
-	//TeoremaChinoDelResto
-	//guardar las claves en fichero
-	//Algoritmo de exponenciación rápida
+	
+	
+	
+	
+	
 	//test de primalidad: Miller Rabin y Fermat
 	
 	//ataques: factorizar n, paradoja del cumpleaños y ciclico.
+
+	//crear p y q de igual tamaño al generarlo automaticamente para e conocida
+	//crear p y q de distinto tamaño al generarlo automaticamente para e desconocida
+	//guardar las claves en fichero
+	//comprobar en la clave que p y q no sean el mismo numero
+	//comprobar que no de e y d iguales
+	//mirar por que a veces la clave privada se pone como pareja
+	//buscar mas algoritmos de exponenciacion rapida
+	//buscar en internet todas las clases creadas, ejemplo: test de primalidad de miller rabin
 }

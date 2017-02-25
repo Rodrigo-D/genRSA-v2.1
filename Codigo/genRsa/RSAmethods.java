@@ -508,21 +508,62 @@ public class RSAmethods {
 	
 	*/
 	
-	
+	//paradoja del cumpleaños.
+	public void ataqueParadojaCumpleaños (BigInteger N, BigInteger publica, BigInteger modulo){
+		BigInteger i, Ci, initCi, j, Cj, initCj, w, s, t = BigInteger.ZERO;
+				
+		i = new BigInteger("1");
+		j = modulo.divide(this.TWO);
+		
+		initCi = N.modPow(i, modulo);
+		initCj = N.modPow(j, modulo);
+		do{
+			i = i.add(BigInteger.ONE);
+			j = j.add(BigInteger.ONE);
+			Ci = N.modPow(i, modulo);
+			Cj = N.modPow(j, modulo);
+		} while (!(Ci.equals(initCj) || Cj.equals(initCi)));
+		
+		if (Ci.equals(initCj)){
+			j = modulo.divide(this.TWO);
+		} else {
+			i = new BigInteger("1");
+		}
+		
+		w = (i.subtract(j)).divide((publica.gcd(i.subtract(j))).abs());
+		
+		s = (w.abs()).modInverse(publica);
+		t = publica.modInverse(w.abs());
+			
+		// comprobar, pero no sirve para nada((w.multiply(s)).add(publica.multiply(t))).equals(BigInteger.ONE));
+		
+		System.out.println ("Ci = " + Ci);
+		System.out.println ("initCj = " + initCj);
+		System.out.println ("Cj = " + Cj);
+		System.out.println ("initCi = " + initCi);
+		
+		System.out.println("\n\n La clave privada o la publica pareja hallada es: " + t.toString());
+	}
 	
 	
 	
 	public static void main(String[] args) throws IOException {
 		RSAmethods app = new RSAmethods();
 		long tiempo, tiempo1;
-		app.createRSAkeys(900);
-		System.out.println(app.toString());
+		//app.createRSAkeys(900);
+	//	System.out.println(app.toString());
 			
 		BigInteger quizaPrimo = new BigInteger("4");
 		boolean resultado = false;
 		
 		
-		tiempo = System.currentTimeMillis();		
+		tiempo = System.currentTimeMillis();
+		app.ataqueParadojaCumpleaños(new BigInteger("100"), 
+									 new BigInteger("29171"),
+									 new BigInteger("2628587419"));
+		tiempo1 = System.currentTimeMillis();
+		
+		/*tiempo = System.currentTimeMillis();		
 		resultado = app.testPrimalityFermat(quizaPrimo, 100);
 		tiempo1 = System.currentTimeMillis();
 		
@@ -555,7 +596,7 @@ public class RSAmethods {
 		app.ataqueFactorizacion( new BigInteger ("46"));
 		tiempo1 = System.currentTimeMillis();
 		System.out.println("Tiempo factorizacion: " + (tiempo1  - tiempo) + " ms");
-		
+		*/
 	}
 
 
@@ -612,14 +653,16 @@ public class RSAmethods {
 		return descifrado;
 	}
 	
-	
-	
-	
-	
-	
-	
-	//paradoja del cumpleaños.
+		
 
+	
+	
+	
+	
+	
+	
+	
+	
 	//crear p y q de igual tamaño al generarlo automaticamente para e conocida
 	//crear p y q de distinto tamaño al generarlo automaticamente para e desconocida
 	//guardar las claves en fichero

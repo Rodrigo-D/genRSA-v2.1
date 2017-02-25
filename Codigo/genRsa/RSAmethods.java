@@ -32,6 +32,9 @@ public class RSAmethods {
 
 	long runningTime, runningTime1;
 	
+	BigInteger TWO = new BigInteger("2");
+	BigInteger THREE = new BigInteger("3");
+	
 	//automatic, primes with same number of bits. PublicKeySize equal to PrivateKeySize
 	public void createRSAkeys(int keySize) {
 		runningTime = System.currentTimeMillis();
@@ -294,10 +297,90 @@ public class RSAmethods {
 		
 	}
 	
+	
+	
+	
+	
 	//Miller Rabin
-	public void primalityMillerRabin (BigInteger probPrime) {
+	public boolean testPrimalityMillerRabin (BigInteger n, int k) {
+		BigInteger d,a,x;
+		int s = 0;
+		int r;
 		
+		if (n.compareTo(this.THREE) <= 0)
+			return true;
+	//	System.out.println("Numero a comprobar primalidad: " + n.toString());
+		d = n.subtract(BigInteger.ONE);
+		
+		do{
+			s++;
+			d = d.divide(this.TWO);
+	//		System.out.println("Proceso obtener " + d.toString() + " s: " + s);
+		}while (d.mod(this.TWO).equals(BigInteger.ZERO));
+		
+	//	System.out.println ("s-->" + s);
+	//	System.out.println ("d-->" + d.toString());
+		
+		
+		for (int i = 0; i < k; i++) {
+			a = uniformRandom(BigInteger.ONE, n.subtract(BigInteger.ONE)); //segun wikipedia
+	//		System.out.println("a: " + a.toString());
+			x = a.modPow(d, n);
+			if (x.equals(BigInteger.ONE) || x.equals(n.subtract(BigInteger.ONE))){
+	//			System.out.println("Pasada la ronda: " + i);
+				continue;
+			}
+			for (r=1 ; r < s; r++) {				
+				x = x.modPow(this.TWO, n);
+	//			System.out.println("       subronda" + r + ", valor de x: " + x.toString());
+				if (x.equals(BigInteger.ONE)){
+	//				System.out.println("No pasa la ronda: " + i + ", subronda: " + r);
+					return false;
+				}
+				if (x.equals(n.subtract(BigInteger.ONE))){
+	//				System.out.println("Break en la ronda: " + i + ", subronda: " + r);
+					break;
+				}
+			}
+			if (r == s) // None of the steps made x equal n-1.
+				return false;
+	//		System.out.println("Pasada la ronda: " + i);
+		}
+		return true;
 	}
+
+	//test de primalidad: Fermat	
+		public boolean testPrimalityFermat(BigInteger probPrime, int iterations) {
+			BigInteger a, probPrimeMinusOne;
+			
+			if (probPrime.compareTo(this.THREE) <= 0)
+				return true;
+			
+			probPrimeMinusOne=probPrime.subtract(BigInteger.ONE);		
+					
+			for(int i=0;i<iterations;i++){
+				// choose a random integer between 1 and p ( non inclusive )		       
+				a = uniformRandom(BigInteger.ONE, probPrimeMinusOne); 
+				//System.out.println(i + " Valor de a:                         *" + a.toString() + "*");
+				//new BigInteger(n.bitLength() - 1, rand);
+				a = a.modPow(probPrimeMinusOne,probPrime);
+				//System.out.println(i + " Valor de a: *" + a.toString() + "*");
+			    if(!a.equals(BigInteger.ONE)){ 
+			    	return false; /* p is definitely composite */
+			    }
+			}
+		    return true;	
+		}
+		
+		
+		private BigInteger uniformRandom(BigInteger bottom, BigInteger top) {
+			SecureRandom rnd = new SecureRandom();
+			BigInteger res;
+			do {
+				res = new BigInteger(top.bitLength(), rnd);
+			} while (res.compareTo(bottom) <= 0 || res.compareTo(top) >= 0);
+			return res;
+		}
 	
 	
 	@Override
@@ -348,7 +431,7 @@ public class RSAmethods {
 	}
 	
 
-	public static void main(String[] args) throws IOException {
+	/*public static void main(String[] args) throws IOException {
 		
 		int size;
 		int plaintext;
@@ -420,6 +503,113 @@ public class RSAmethods {
 		System.out.println("q-->" + app.countBits(app.q));
 		System.out.println("n-->" + app.countBits(app.n));
 		
+		
+	}
+	
+	*/
+	
+	
+	
+	
+	
+	public static void main(String[] args) throws IOException {
+		RSAmethods app = new RSAmethods();
+		long tiempo, tiempo1;
+		app.createRSAkeys(900);
+		System.out.println(app.toString());
+			
+		BigInteger quizaPrimo = new BigInteger("4");
+		boolean resultado = false;
+		
+		
+		tiempo = System.currentTimeMillis();		
+		resultado = app.testPrimalityFermat(quizaPrimo, 100);
+		tiempo1 = System.currentTimeMillis();
+		
+		System.out.println("Resultado Fermat: " + resultado);				
+		System.out.println("Tiempo Fermat: " + (tiempo1  - tiempo) + " ms");
+		
+		tiempo = System.currentTimeMillis();
+		resultado = app.testPrimalityMillerRabin(quizaPrimo,1000);
+		tiempo1 = System.currentTimeMillis();
+		
+		System.out.println("Resultado Miller: " + resultado);		
+		System.out.println("Tiempo Miller: " + (tiempo1  - tiempo) + " ms");
+		
+		
+
+		System.out.println("Resultado p: " + app.testPrimalityFermat(new BigInteger ("1511949185864632539567787991079510782249437798779777218111488406839643374894935152396956759019100856328086041684321781948238670185646547"),1000));
+		System.out.println("Resultado q: " + app.testPrimalityFermat(new BigInteger ("1540715895183319835405857717802535934072662832559654900632553148806444695825545786089192177265472438672433379808541090456576150462735993"),1000));
+		System.out.println("Resultado n: " + app.testPrimalityFermat(new BigInteger ("2329484143371118947941032403343940322576439643916063874254831922158909520555007157297959717176454598627172127456407287554010934050622024074810742956396740898420246921943806289464493983826508950991479339016191673445455682252624518038051722245818081946211339408699273066171"),1000));
+		
+		
+		
+		
+		app.e= new BigInteger ("2011");//e
+		app.n= new BigInteger ("3577358461");//n
+		
+		app.ataqueCiclico( new BigInteger("12345"));
+		
+		
+		tiempo = System.currentTimeMillis();		
+		app.ataqueFactorizacion( new BigInteger ("46"));
+		tiempo1 = System.currentTimeMillis();
+		System.out.println("Tiempo factorizacion: " + (tiempo1  - tiempo) + " ms");
+		
+	}
+
+
+	//ataques: factorizar n, 
+	
+	public void ataqueFactorizacion (BigInteger numero){
+		BigInteger x, x2,xPrime, x2Prime, s, antesDeS;
+		
+		x = this.TWO;
+		x2 = this.TWO;
+		//comprobar que no sea primo antes!
+		
+		do{
+			xPrime = (x.pow(2)).add(BigInteger.ONE);
+			x2Prime = (((x2.modPow(this.TWO,numero)).add(BigInteger.ONE)).modPow(this.TWO,numero)).add(BigInteger.ONE);
+			
+			x = xPrime.mod(numero);
+			x2 = x2Prime.mod(numero);
+			antesDeS=(x.subtract(x2));
+			s = antesDeS.gcd(numero);
+		} while (s.equals(BigInteger.ONE) || s.equals(numero));
+		
+		System.out.println("Primo p: " + s.toString());
+		System.out.println("Primo q: " + (numero.divide(s).toString()));
+		
+		
+	}
+		
+	
+	//ataque ciclico
+	public BigInteger ataqueCiclico (BigInteger criptOriginal){
+		BigInteger descifrado, iteracion, siguiente, MILLON = new BigInteger ("1000000");
+		iteracion = BigInteger.ZERO;
+		long tiempo11, tiempo12;
+		
+		siguiente = criptOriginal.modPow(this.e, this.n);
+		iteracion = iteracion.add(BigInteger.ONE);
+		descifrado=siguiente;
+		tiempo11 = System.currentTimeMillis();
+		while(!siguiente.equals(criptOriginal)){
+			descifrado = siguiente;
+			siguiente = siguiente.modPow(this.e, this.n);
+			iteracion = iteracion.add(BigInteger.ONE);
+			if ((iteracion.mod(MILLON)).equals(BigInteger.ZERO)){
+				tiempo12 = System.currentTimeMillis();
+				System.out.println("Iteracion numero-->" + iteracion.toString() + " ,tiempo tardado --> " + (tiempo12  - tiempo11));
+				tiempo11=tiempo12;
+			}
+		}
+		
+		System.out.println("Num iteraciones: " + iteracion.toString());
+		System.out.println("El numero descifrado es: " + descifrado.toString());
+		
+		return descifrado;
 	}
 	
 	
@@ -427,9 +617,8 @@ public class RSAmethods {
 	
 	
 	
-	//test de primalidad: Miller Rabin y Fermat
 	
-	//ataques: factorizar n, paradoja del cumpleaños y ciclico.
+	//paradoja del cumpleaños.
 
 	//crear p y q de igual tamaño al generarlo automaticamente para e conocida
 	//crear p y q de distinto tamaño al generarlo automaticamente para e desconocida
@@ -439,4 +628,6 @@ public class RSAmethods {
 	//mirar por que a veces la clave privada se pone como pareja
 	//buscar mas algoritmos de exponenciacion rapida
 	//buscar en internet todas las clases creadas, ejemplo: test de primalidad de miller rabin
+	//quiza todos los metodos deberian ser static?
+	//ojo con fermat y rabin y los numeros de uniformRandom
 }

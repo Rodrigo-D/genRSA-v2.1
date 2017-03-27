@@ -23,30 +23,36 @@ public class GenerarClaves {
     private final Utilidades utilidades;
     
     private final Print print;
+    //decimal =10, hexadecimal =16
+    private int radix;
     
     // atributo que almacena el tiempo inicial de una operacion
     private long runningTime0;
     // atributo que almacena el tiempo final de una operacion
     private long runningTime1;
     // atributo que almacena el tiempo empleado en una operacion
-    private long runningTimeFinal;
+    private String runningTimeFinal;
     
     public GenerarClaves (sceneController scene){
         this.RSA = new ComponentesRSA();
         this.utilidades = new Utilidades();
-        this.print = new Print(scene);    }
+        this.print = new Print(scene);
+        this.radix = 10;
+    }
     
     
     
     /**
      * automatic, primes with same number of bits. PublicKeySize equal to PrivateKeySize
      * @param keySize
+     * @param sameSizePrimes
      * @return 
      */
     //preguntar al profesor y comprobar cual tiene que ser el keySize minimo 
     //comprobar en la clave que p y q no sean el mismo numero
-    public ComponentesRSA autoRSAkeys(String keySize) {        
+    public ComponentesRSA autoRSAkeys(String keySize, boolean sameSizePrimes) {        
         this.runningTime0 = System.currentTimeMillis();
+        int distanceBits;
         
         keySize = this.utilidades.formatNumber(keySize);
         
@@ -55,12 +61,14 @@ public class GenerarClaves {
             return null;
         } 
         this.RSA.setKeySize(Integer.parseInt(keySize));
-        this.createRSAKeys();        
+        
+        distanceBits = this.calculateDistanceBits(sameSizePrimes);
+        this.createRSAKeys(distanceBits);        
         
         this.runningTime1 = System.currentTimeMillis();
-        this.runningTimeFinal = (runningTime1  - runningTime0) / 1000;
+        this.runningTimeFinal = this.utilidades.millisToSeconds(runningTime1  - runningTime0) ;
         
-        this.print.automaticGeneration(this.RSA, keySize, this.runningTimeFinal);  
+        this.print.autoGeneration(this.RSA, keySize, this.runningTimeFinal, this.radix);          
         
         this.calculateCKP();
         this.calculateNumNNC();
@@ -72,10 +80,10 @@ public class GenerarClaves {
      * 
      * @param keySize
      */
-    private void createRSAKeys() {
+    private void createRSAKeys(int distanceBits) {
          /* Step 1: Select the prime numbers (p and q) */
-        this.RSA.setP( BigInteger.probablePrime(this.RSA.getKeySize()/2, new SecureRandom()));
-        this.RSA.setQ( BigInteger.probablePrime(this.RSA.getKeySize()/2, new SecureRandom()));
+        this.RSA.setP( BigInteger.probablePrime((this.RSA.getKeySize()/2)+distanceBits, new SecureRandom()));
+        this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-distanceBits, new SecureRandom()));
 
         /* Step 2:  n = p.q */
         this.RSA.setN( this.RSA.getP().multiply(this.RSA.getQ()));
@@ -118,7 +126,7 @@ public class GenerarClaves {
             
             //Imprime           
             this.print.numClavesParejas(this.RSA.getNumCKP());
-            this.print.clavePareja(cpp);
+            this.print.clavePareja(cpp, this.radix);
             
             //para controlar el while, dado que si el numero es mayor que el max_value de los integer
             //podria llegar a ser un numero negativo y no se calcularian las CKP
@@ -127,7 +135,7 @@ public class GenerarClaves {
             while (CKP_int >= iterador || iterador > 30){
                     cpp=cpp.add(this.RSA.getGamma());
                     if (cpp.compareTo(this.RSA.getD()) != 0){
-                            this.print.addClavePareja(cpp);
+                            this.print.addClavePareja(cpp, this.radix);
                     }
                     iterador++;
             }
@@ -150,6 +158,8 @@ public class GenerarClaves {
 
     
     
+    
+    
     private int CKPtoInt() {
         int numCKP = Constantes.MAX_INT;
         
@@ -160,4 +170,38 @@ public class GenerarClaves {
         
         return numCKP;
     }
+    /**
+     * Metodo para calcular la diferencia de bits en el caso de que no se quieran p y q del mismo tamaño
+     * @param isSameSize
+     * @return 
+     */
+    private int calculateDistanceBits(boolean isSameSize) {
+        int keySize = this.RSA.getKeySize();
+        int distance = 0;
+        
+        if (!isSameSize){
+             if (keySize > 40){
+            distance = 4;
+            } else if (keySize > 30){
+                distance = 3;
+            } else if (keySize > 25){
+                distance = 2;
+            } else if (keySize > 18){
+                distance = 1;
+            }
+        }       
+        
+        return distance;
+    }
+    
+    
+    /**
+     * 
+     * @param radix 
+     */
+    public void setUnits( int radix){
+        this.radix = radix;
+    }
+
+    
 }

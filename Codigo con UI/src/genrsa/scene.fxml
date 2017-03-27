@@ -54,8 +54,8 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Unidades">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Decimal" />
-                  <MenuItem mnemonicParsing="false" text="Hexadecimal" />
+                  <MenuItem fx:id="Decimal" mnemonicParsing="false" onAction="#unitsDecimal" text="Decimal" />
+                  <MenuItem fx:id="Hexadecimal" mnemonicParsing="false" onAction="#unitsHexadecimal" text="Hexadecimal" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Ayuda">
@@ -132,16 +132,16 @@
                                           <Insets right="50.0" />
                                        </padding>
                                     </Label>
-                                    <TextField fx:id="clave_Privada" />
+                                    <TextField fx:id="clave_Privada" editable="false" prefHeight="25.0" prefWidth="339.0" />
                                     <Label text="dec" />
-                                    <TextField fx:id="bits_clave_Privada" editable="false" />
+                                    <TextField fx:id="bits_clave_Privada" editable="false" prefHeight="25.0" prefWidth="41.0" />
                                     <Label text="Bits" />
                                  </children>
                                  <GridPane.margin>
                                     <Insets left="45.0" top="5.0" />
                                  </GridPane.margin>
                               </HBox>
-                              <Label text="Componentes privados RSA" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                              <Label text="Componentes publicos RSA" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                                  <GridPane.margin>
                                     <Insets left="30.0" top="50.0" />
                                  </GridPane.margin>
@@ -153,7 +153,7 @@
                                           <Insets right="37.0" />
                                        </padding>
                                     </Label>
-                                    <TextField fx:id="modulo_N" />
+                                    <TextField fx:id="modulo_N" editable="false" />
                                     <Label text="dec" />
                                     <TextField fx:id="bits_modulo_N" editable="false" promptText="0" />
                                     <Label text="Bits" />
@@ -173,7 +173,7 @@
                                        </padding>
                                     </Label>
                                     <TextField fx:id="clave_Publica" />
-                                    <Label text="dec" />
+                                    <Label fx:id="units" text="dec" />
                                     <TextField fx:id="bits_clave_Publica" editable="false" />
                                     <Label text="Bits" />
                                  </children>
@@ -199,10 +199,10 @@
                                     <AnchorPane prefHeight="183.0" prefWidth="136.0">
                                        <children>
                                           <Label alignment="TOP_LEFT" layoutX="35.0" layoutY="94.0" text="Nº Claves" />
-                                          <TextField fx:id="num_claves_parejas" layoutX="11.0" layoutY="119.0" prefHeight="29.0" prefWidth="99.0" />
+                                          <TextField fx:id="num_claves_parejas" editable="false" layoutX="11.0" layoutY="119.0" prefHeight="29.0" prefWidth="99.0" />
                                        </children>
                                     </AnchorPane>
-                                    <TextArea fx:id="claves_parejas" prefHeight="183.0" prefWidth="456.0" HBox.hgrow="ALWAYS" />
+                                    <TextArea fx:id="claves_parejas" editable="false" prefHeight="183.0" prefWidth="456.0" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
                            </children>
@@ -297,7 +297,7 @@
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
                                  <children>
                                     <Button fx:id="generar_automatica" mnemonicParsing="false" onAction="#processAutomaticGeneration" text="Generar" />
-                                    <CheckBox fx:id="P_Q_igualTamaño" mnemonicParsing="false" />
+                                    <CheckBox fx:id="sameSizePrimes" mnemonicParsing="false" />
                                     <Label text="p y q igual tamaño" />
                                  </children>
                               </HBox>
@@ -313,7 +313,7 @@
                               <HBox alignment="CENTER" prefHeight="77.0" prefWidth="252.0" spacing="7.0">
                                  <children>
                                     <Label text="Nº Mensajes" />
-                                    <TextField fx:id="num_mensajes_noCifrables" prefHeight="25.0" prefWidth="76.0" />
+                                    <TextField fx:id="num_mensajes_noCifrables" editable="false" prefHeight="25.0" prefWidth="76.0" />
                                  </children>
                               </HBox>
                               <Button fx:id="generar_log_nnc" mnemonicParsing="false" onAction="#generateNNC" text="Generar Log" />
@@ -326,7 +326,7 @@
                   </AnchorPane>
                   <AnchorPane prefHeight="79.0" prefWidth="457.0">
                      <children>
-                        <Button fx:id="borrar" alignment="CENTER" contentDisplay="CENTER" layoutX="202.0" layoutY="23.0" mnemonicParsing="false" text="Borrar" />
+                        <Button fx:id="borrar" alignment="CENTER" contentDisplay="CENTER" layoutX="116.0" layoutY="29.0" mnemonicParsing="false" onAction="#delete" text="Borrar" />
                      </children>
                   </AnchorPane>
                </children>

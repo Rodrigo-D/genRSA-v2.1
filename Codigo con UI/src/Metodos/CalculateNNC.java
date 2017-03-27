@@ -19,13 +19,16 @@ import java.util.List;
  */
 public class CalculateNNC {
     
-    private final ComponentesRSA RSA;   
+    private ComponentesRSA RSA;   
     
-    private final LogNNC log;
+    private LogNNC log;
+    //decimal =10, hexadecimal =16
+    private int radix;
     
-    public CalculateNNC(ComponentesRSA RSA){
-        this.RSA = RSA;
-        this.log = new LogNNC();
+    public CalculateNNC(){
+        this.RSA = null;
+        this.log = null;
+        this.radix = 10;
     }
     
     //comprueba que se haya creado una clave y su num de NNC
@@ -33,6 +36,7 @@ public class CalculateNNC {
         //quiza añadir variable tipo isCreated en componentes
         try{
             this.RSA.getNumNNC();
+            this.log = new LogNNC();
             calculate();
         } catch (NullPointerException e){
             //de momento asi hasta que sepa imprimir un cuadrado por pantalla dando el error
@@ -73,7 +77,7 @@ public class CalculateNNC {
         p_invpq = this.RSA.getP().multiply(inv_pq);
         q_invqp = this.RSA.getQ().multiply(inv_qp);
         
-        this.log.createHTML(this.RSA);
+        this.log.createHTML(this.RSA, this.radix);
 
         //Obtener los NNC de p 
         numNp = this.calculatePQ_NNC(listNp, this.RSA.getpMinusOne(), this.RSA.getP());
@@ -99,7 +103,7 @@ public class CalculateNNC {
         //ordeno la lista
         Collections.sort(listNNC);
         
-        this.log.WriteList(listNNC);        
+        this.log.WriteList(listNNC, this.radix);        
         this.log.closeHTML();
     }
     
@@ -141,4 +145,16 @@ public class CalculateNNC {
     private boolean keySizeGreaterThanMAX() {
         return (this.RSA.getKeySize()>Constantes.MAX_KeySize);
     }
+    
+    /**
+     * @param radix 
+     */
+    public void setUnits( int radix){
+        this.radix = radix;
+    }
+    
+    public void setRSA( ComponentesRSA RSA){
+        this.RSA = RSA;
+    }
+    
 }

@@ -36,7 +36,7 @@ public class LogNNC {
     }
     
     
-    public void createHTML(ComponentesRSA RSA) {
+    public void createHTML(ComponentesRSA RSA, int radix) {
         Date fecha = new Date();
         SimpleDateFormat estilo = new SimpleDateFormat( "dd 'de' MMMM 'de' yyyy", new Locale("es_ES"));
         String fechaStr = estilo.format(fecha);
@@ -51,15 +51,15 @@ public class LogNNC {
         print.println("<center><h1><font color=\"grey\"> ( " + fechaStr + " ) </font></h1></center>");
         
         print.println("<B><font color=\"IndianRed\">Numero primo P generado:</font></B>");
-        print.println("<B>" + RSA.getP() + "</B>");        
+        print.println("<B>" + RSA.getP().toString(radix) + "</B>");        
         print.println("<B><font color=\"IndianRed\">Numero primo Q generado:</font></B>");
-        print.println("<B>" + RSA.getQ() + "</B>");
+        print.println("<B>" + RSA.getQ().toString(radix) + "</B>");
         print.println("<b><font color=\"IndianRed\">Modulo N generado:</font></B>");
-        print.println("<B>" + RSA.getN() + "</B>");        
+        print.println("<B>" + RSA.getN().toString(radix) + "</B>");        
         print.println("<B><font color=\"IndianRed\">Clave Publica e generada:</font></B>");
-        print.println("<B>" + RSA.getE() + "</B>");
+        print.println("<B>" + RSA.getE().toString(radix) + "</B>");
         print.println("<B><font color=\"IndianRed\">Clave Privada d generada:</font></B>");
-        print.println("<B>" + RSA.getD() + "</B>");
+        print.println("<B>" + RSA.getD().toString(radix) + "</B>");
         
         print.println("<H3><B>NUMEROS NO CIFRABLES</B></H3>");
         print.println("<B>El numero de Numeros No Cifrables es:" + RSA.getNumNNC() + "</B>");
@@ -94,10 +94,10 @@ public class LogNNC {
         
     }
 
-    public void WriteList(List<BigInteger> listNNC) {
+    public void WriteList(List<BigInteger> listNNC, int radix) {
         
         for (BigInteger NNC: listNNC){
-            this.print.println(NNC.toString());
+            this.print.println(NNC.toString(radix));
         }
     }
 

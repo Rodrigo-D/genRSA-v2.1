@@ -50,5 +50,25 @@ public class Utilidades {
 
             return String.valueOf(numBits);
     }
+
+    public String millisToSeconds(long runningTime) {
+       String time;
+       int numChars;
+       
+       time = String.valueOf(runningTime);
+       numChars = time.length();
+       
+       if (numChars > 3){
+           time = time.substring(0, numChars-3) + "," + time.substring(numChars-3, numChars);
+       } else if (numChars == 3){
+           time = "0," + time;
+       } else if (numChars == 2){
+           time = "0,0" + time;
+       } else {
+           time ="0,00" + time;
+       }
+                  
+        return time;
+    }
     
 }

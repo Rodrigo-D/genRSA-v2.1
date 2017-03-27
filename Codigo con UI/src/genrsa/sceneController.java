@@ -5,9 +5,9 @@
  */
 package genrsa;
 
+import Imprimir.MainWindow;
 import Metodos.CalculateNNC;
 import Metodos.GenerarClaves;
-import Metodos.Utilidades;
 import Model.ComponentesRSA;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -92,8 +93,8 @@ public class sceneController {
     @FXML // fx:id="generar_automatica"
     private Button generar_automatica; // Value injected by FXMLLoader
 
-    @FXML // fx:id="P_Q_igualTamaño"
-    private CheckBox P_Q_igualTamaño; // Value injected by FXMLLoader
+    @FXML // fx:id="sameSizePrimes"
+    private CheckBox sameSizePrimes; // Value injected by FXMLLoader
 
     @FXML // fx:id="num_mensajes_noCifrables"
     private TextField num_mensajes_noCifrables; // Value injected by FXMLLoader
@@ -103,12 +104,24 @@ public class sceneController {
 
     @FXML // fx:id="borrar"
     private Button borrar; // Value injected by FXMLLoader   
+    
+    @FXML // fx:id="borrar"
+    private MenuItem Decimal; // Value injected by FXMLLoader 
+
+    @FXML // fx:id="borrar"
+    private MenuItem Hexadecimal; // Value injected by FXMLLoader 
+    
+    @FXML // fx:id="units"
+    private Label units; // Value injected by FXMLLoader
         
     private ComponentesRSA RSA;
     
     private GenerarClaves generate;
     
     private CalculateNNC calculate;
+    
+    private MainWindow mainWindow;
+    
     
    
 
@@ -147,12 +160,17 @@ public class sceneController {
         assert bits_clave_automatica != null : "fx:id=\"bits_clave_automatica\" was not injected: check your FXML file 'scene.fxml'.";
         assert tiempo_clave_automatica != null : "fx:id=\"tiempo_clave_automatica\" was not injected: check your FXML file 'scene.fxml'.";
         assert generar_automatica != null : "fx:id=\"generar_automatica\" was not injected: check your FXML file 'scene.fxml'.";
-        assert P_Q_igualTamaño != null : "fx:id=\"P_Q_igualTamaño\" was not injected: check your FXML file 'scene.fxml'.";
+        assert sameSizePrimes != null : "fx:id=\"sameSizePrimes\" was not injected: check your FXML file 'scene.fxml'.";
         assert num_mensajes_noCifrables != null : "fx:id=\"num_mensajes_noCifrables\" was not injected: check your FXML file 'scene.fxml'.";
         assert generar_log_nnc != null : "fx:id=\"generar_log_nnc\" was not injected: check your FXML file 'scene.fxml'.";
         assert borrar != null : "fx:id=\"borrar\" was not injected: check your FXML file 'scene.fxml'.";
-
+        assert Decimal != null : "fx:id=\"Decimal\" was not injected: check your FXML file 'scene.fxml'.";
+        assert Hexadecimal != null : "fx:id=\"Hexadecimal\" was not injected: check your FXML file 'scene.fxml'.";
+        assert units != null : "fx:id=\"units\" was not injected: check your FXML file 'scene.fxml'.";
+        
         generate = new GenerarClaves(this);
+        mainWindow = new MainWindow(this);
+        calculate = new CalculateNNC();
     }    
     
     /**
@@ -161,22 +179,53 @@ public class sceneController {
      */
     //poner un tooltip encima de bits_clave_automatica que diga que se van a quitar puntos comas y espacios
     public void processAutomaticGeneration(ActionEvent event) {       
-        String keySize = bits_clave_automatica.getText(); 
+        String keySize = this.bits_clave_automatica.getText(); 
+        boolean isSameSize = this.sameSizePrimes.isSelected();
          
-        this.RSA = generate.autoRSAkeys(keySize);        
+        this.RSA = this.generate.autoRSAkeys(keySize, isSameSize);        
     }
     /**
      * Método usado cuando se pulsa el boton de generarLog de NNC
      * @param event 
      */
-    //primero comprobar que no sea nulo el RSA
     public void generateNNC(ActionEvent event) {
-        calculate = new CalculateNNC(this.RSA);
+        calculate.setRSA(this.RSA);
         
         calculate.calculateNNC();        
     }
-     
-     
+    
+    /**
+     * Método usado para borrar toda la informacion de la pantalla principal
+     * @param event 
+     */
+    public void delete(ActionEvent event) {
+        this.mainWindow.delete();
+    }   
+    
+    
+    /**
+     * Establece el formato de unidades a Decimal
+     * @param event 
+     */
+    //hacer que ponga por pantalla dec
+    public void unitsDecimal(ActionEvent event) {
+        //this.Decimal.;  este y el de hexadecimal ponerlo a negrita
+        this.generate.setUnits(10);  
+        this.calculate.setUnits(10);
+        //cambiarlo y hacerlo con un CSS
+        this.mainWindow.changeUnits("dec", units);
+    }
+    
+    /**
+     * Establece el formato de unidades a Hexadecimal
+     * @param event 
+     */
+    //hacer que ponga por pantalla hex
+    public void unitsHexadecimal(ActionEvent event) {
+        this.generate.setUnits(16);
+        this.calculate.setUnits(16);
+        this.mainWindow.changeUnits("hex", units);
+    }
      
      
      
@@ -262,8 +311,8 @@ public class sceneController {
         return generar_automatica;
     }
 
-    public CheckBox getP_Q_igualTamaño() {
-        return P_Q_igualTamaño;
+    public CheckBox getSameSizePrimes() {
+        return sameSizePrimes;
     }
 
     public TextField getNum_mensajes_noCifrables() {
@@ -278,8 +327,7 @@ public class sceneController {
         return borrar;
     }
 
-  
-    
+      
      
      
      

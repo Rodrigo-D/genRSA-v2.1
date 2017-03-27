@@ -9,7 +9,6 @@ import Metodos.Utilidades;
 import Model.ComponentesRSA;
 import genrsa.sceneController;
 import java.math.BigInteger;
-import javafx.scene.control.TextArea;
 
 /**
  *
@@ -28,15 +27,15 @@ public class Print {
         utilidades = new Utilidades();
     }
     
-    public TextArea automaticGeneration (ComponentesRSA RSA, String keySize, long tiempo){
+    public void autoGeneration (ComponentesRSA RSA, String keySize, String tiempo, int radix){
         
         this.scene.getBits_clave_automatica().setText(keySize);
         
-        this.scene.getPrimo_P().setText(RSA.getP().toString());
-        this.scene.getPrimo_Q().setText(RSA.getQ().toString());
-        this.scene.getClave_Privada().setText(RSA.getD().toString());
-        this.scene.getClave_Publica().setText(RSA.getE().toString());
-        this.scene.getModulo_N().setText(RSA.getN().toString());
+        this.scene.getPrimo_P().setText(RSA.getP().toString(radix));
+        this.scene.getPrimo_Q().setText(RSA.getQ().toString(radix));
+        this.scene.getClave_Privada().setText(RSA.getD().toString(radix));
+        this.scene.getClave_Publica().setText(RSA.getE().toString(radix));
+        this.scene.getModulo_N().setText(RSA.getN().toString(radix));
         
         this.scene.getBits_primo_P().setText(this.utilidades.countBits(RSA.getP()));
         this.scene.getBits_primo_Q().setText(this.utilidades.countBits(RSA.getQ()));
@@ -44,20 +43,18 @@ public class Print {
         this.scene.getBits_clave_Publica().setText(this.utilidades.countBits(RSA.getE()));
         this.scene.getBits_modulo_N().setText(this.utilidades.countBits(RSA.getN()));
         
-        this.scene.getTiempo_clave_automatica().setText(String.valueOf(tiempo));
-        
-        return this.scene.getClaves_parejas();
-}
+        this.scene.getTiempo_clave_automatica().setText(tiempo);
+    }
 
-    public void clavePareja(BigInteger claveP) {
+    public void clavePareja(BigInteger claveP, int radix) {
         
-        this.scene.getClaves_parejas().setText(claveP.toString());
+        this.scene.getClaves_parejas().setText(claveP.toString(radix));
     }
     
-    public void addClavePareja(BigInteger claveP) {
+    public void addClavePareja(BigInteger claveP, int radix) {
         
         this.scene.getClaves_parejas().appendText("\n");
-        this.scene.getClaves_parejas().appendText(claveP.toString());
+        this.scene.getClaves_parejas().appendText(claveP.toString(radix));
     }
 
     public void numClavesParejas(BigInteger numCKP) {

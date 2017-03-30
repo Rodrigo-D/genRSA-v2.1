@@ -64,6 +64,23 @@ public class Print {
     public void numNNC(BigInteger numMNC) {
         this.scene.getNum_mensajes_noCifrables().setText(numMNC.toString());
     }
+
+    public void isPrime(boolean primeP) {
+        if (primeP){
+            this.scene.getEsPrimo_P().setText("SI");
+        } else {
+            this.scene.getEsPrimo_Q().setText("SI");
+        }
+
+    }
+
+    public void isNotPrime(boolean primeP) {
+        if (primeP){
+            this.scene.getEsPrimo_P().setText("NO");
+        } else {
+            this.scene.getEsPrimo_Q().setText("NO");
+        }
+    }
     
     
 }

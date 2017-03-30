@@ -32,7 +32,7 @@ public class Utilidades {
     }
     
     
-    private boolean isNumber(String possibleNum) {        
+    public boolean isNumber(String possibleNum) {        
         boolean out = true;
         try{
             Integer.parseInt(possibleNum);
@@ -70,5 +70,6 @@ public class Utilidades {
                   
         return time;
     }
+    
     
 }

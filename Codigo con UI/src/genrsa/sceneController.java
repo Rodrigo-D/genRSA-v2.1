@@ -7,6 +7,7 @@ package genrsa;
 
 import Imprimir.MainWindow;
 import Metodos.CalculateNNC;
+import Metodos.CheckPrimes;
 import Metodos.GenerarClaves;
 import Model.ComponentesRSA;
 import java.net.URL;
@@ -105,15 +106,22 @@ public class sceneController {
     @FXML // fx:id="borrar"
     private Button borrar; // Value injected by FXMLLoader   
     
-    @FXML // fx:id="borrar"
+    @FXML // fx:id="Decimal"
     private MenuItem Decimal; // Value injected by FXMLLoader 
 
-    @FXML // fx:id="borrar"
+    @FXML // fx:id="Hexadecimal"
     private MenuItem Hexadecimal; // Value injected by FXMLLoader 
     
     @FXML // fx:id="units"
     private Label units; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="Miller"
+    private MenuItem Miller; // Value injected by FXMLLoader
+
+    @FXML // fx:id="Fermat"
+    private MenuItem Fermat; // Value injected by FXMLLoader
         
+    
     private ComponentesRSA RSA;
     
     private GenerarClaves generate;
@@ -122,7 +130,7 @@ public class sceneController {
     
     private MainWindow mainWindow;
     
-    
+    private CheckPrimes checkPrimes;
    
 
     
@@ -167,10 +175,13 @@ public class sceneController {
         assert Decimal != null : "fx:id=\"Decimal\" was not injected: check your FXML file 'scene.fxml'.";
         assert Hexadecimal != null : "fx:id=\"Hexadecimal\" was not injected: check your FXML file 'scene.fxml'.";
         assert units != null : "fx:id=\"units\" was not injected: check your FXML file 'scene.fxml'.";
+        assert Miller != null : "fx:id=\"Miller\" was not injected: check your FXML file 'scene.fxml'.";
+        assert Fermat != null : "fx:id=\"Fermat\" was not injected: check your FXML file 'scene.fxml'.";
         
         generate = new GenerarClaves(this);
         mainWindow = new MainWindow(this);
         calculate = new CalculateNNC();
+        checkPrimes = new CheckPrimes(this);
     }    
     
     /**
@@ -228,7 +239,23 @@ public class sceneController {
     }
      
      
+    /**
+     * Comprueba la primalidad de P y Q por el metodo de Miller Rabin
+     * @param event 
+     */
+    public void primalityMiller(ActionEvent event) {
+        this.checkPrimes.check(this.primo_P.getText(), this.iteraciones_primalidad.getText(), true, true);
+        this.checkPrimes.check(this.primo_Q.getText(), this.iteraciones_primalidad.getText(), true, false);
+    }
      
+    /**
+     * Comprueba la primalidad de P y Q por el metodo de Fermat
+     * @param event 
+     */
+    public void primalityFermat(ActionEvent event) {
+        this.checkPrimes.check(this.primo_P.getText(), this.iteraciones_primalidad.getText(), false, true);
+        this.checkPrimes.check(this.primo_Q.getText(), this.iteraciones_primalidad.getText(), false, false);
+    }
      
 
     public TextField getPrimo_P() {

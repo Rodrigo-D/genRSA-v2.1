@@ -41,8 +41,8 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Test Primalidad">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Miller Rabin" />
-                  <MenuItem mnemonicParsing="false" text="Fermat" />
+                  <MenuItem fx:id="Miller" mnemonicParsing="false" onAction="#primalityMiller" text="Miller Rabin" />
+                  <MenuItem fx:id="Fermat" mnemonicParsing="false" onAction="#primalityFermat" text="Fermat" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Ataques">

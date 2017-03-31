@@ -81,6 +81,33 @@ public class Print {
             this.scene.getEsPrimo_Q().setText("NO");
         }
     }
+
+    public void primeError() {
+        //poner un if es decimal
+        this.scene.getEstado().setText("Por favor, introduzca un número sin caracteres ni letras.");
+        //solo permitido comas, puntos y espacios
+    }
+
+    public void iterationsError() {
+         this.scene.getEstado().setText("Por favor, introduzca un número sin caracteres ni letras.");
+    }
+
+
+    public void primeLittleError() {
+        this.scene.getEstado().setText("Por favor, introduzca un número mayor que 3.");
+    }
+
+    public void flushIsPrime(boolean primeP) {
+        if (primeP){
+            this.scene.getEsPrimo_P().setText("");
+        } else {
+            this.scene.getEsPrimo_Q().setText("");
+        }
+    }
+
+    public void multipleTwoError() {
+          this.scene.getEstado().setText("Por favor, introduzca un número que no sea multiplo de 2.");
+    }
     
     
 }

@@ -50,7 +50,8 @@ public class CheckPrimes {
         try {
             this.probPrime = new BigInteger (probNumber);
         } catch (NumberFormatException n){
-            //imprimir mensaje diciendo que no es un número
+            this.print.primeError();
+            this.print.flushIsPrime(isPrimeP);
             return;
         }
         
@@ -58,23 +59,26 @@ public class CheckPrimes {
            // imprimir un mensaje diciendo que no es un numero
            // hacerlo en tiempo real, no cuando se pulse el boton de miller o fermat
            // ,es decir, quitar este if 
+            this.print.flushIsPrime(true);
+            this.print.flushIsPrime(false);
+            this.print.iterationsError();         
             return;
         } 
         
         this.vueltas = Integer.parseInt(vueltas);
         
         if (this.probPrime.compareTo(Constantes.THREE) <= 0){
-                this.print.isPrime(isPrimeP);
+                this.print.primeLittleError();                  
+                this.print.flushIsPrime(isPrimeP);
                 return;
         }
         if (this.probPrime.mod(Constantes.TWO).equals(Constantes.ZERO)){
-                this.print.isNotPrime(isPrimeP);
+                this.print.multipleTwoError();                          
+                this.print.flushIsPrime(isPrimeP);
                 //devolver que no es primo FALSE
                 return;
                 //imprimir por pantalla que el numero ha de ser un probable primo impar
-        }
-        
-        
+        }       
         
         if(isMiller){
             resultado = this.testPrimalityMillerRabin();
@@ -93,12 +97,11 @@ public class CheckPrimes {
     //Miller Rabin
     private boolean testPrimalityMillerRabin() {
         //probPrime - 1 = (2^k) * m 
-        BigInteger k = Constantes.ZERO;
+        int k = 0;
         BigInteger m;		
         BigInteger probPrimeMinusOne = this.probPrime.subtract(Constantes.ONE);
 
-        BigInteger kMinusOne;
-        BigInteger iterador = Constantes.ONE;
+        int iterador;
         // aleatorio  tal que 2 >= a <= n-2
         //usado para comprobar si es primo o compuesto el numero a evaluar
         BigInteger a;
@@ -108,14 +111,12 @@ public class CheckPrimes {
         
 
         // Calculate: probPrime - 1 = (2^k) * m 
-        m = this.probPrime.subtract(Constantes.ONE);
+        m = probPrimeMinusOne;
         do{
-                k.add(Constantes.ONE);
+                k++;
                 m = m.divide(Constantes.TWO);
 
         }while (m.mod(Constantes.TWO).equals(Constantes.ZERO));
-
-        kMinusOne = k.subtract(Constantes.ONE);
 
         //Check primality
         for (int i = 0; i < this.vueltas; i++) {
@@ -127,13 +128,12 @@ public class CheckPrimes {
                 if (x.equals(Constantes.ONE) || x.equals(probPrimeMinusOne)){
                         // primera ronda (iteracion del for) PASADA con exito
                         continue;
-                }			
-
-                while (iterador.compareTo(kMinusOne) < 1) {
+                }		
+                for (iterador=1; iterador<k; iterador ++) {
                         x = x.modPow(Constantes.TWO, this.probPrime);
 
                         if (x.equals(Constantes.ONE)){
-                                //Mensaje diciendo en que ronda falla
+                                //log fallo en ronda tal con random tal
                                 return false;
                         }
                         if (x.equals(probPrimeMinusOne)){
@@ -141,10 +141,11 @@ public class CheckPrimes {
                                 break;
                         }
 
-                        iterador = iterador.add(Constantes.ONE);
+                        iterador++;
                 }
 
-                if (iterador.equals(k) && !(x.equals(probPrimeMinusOne))){
+              //  if (iterador.equals(k) && !(x.equals(probPrimeMinusOne))){
+               if (k==iterador && !(x.equals(probPrimeMinusOne))){
                         return false;
                 }
         }

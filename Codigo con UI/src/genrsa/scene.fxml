@@ -31,7 +31,7 @@
           <Menu mnemonicParsing="false" text="Generar Clave">
             <items>
               <MenuItem mnemonicParsing="false" text="Manual" />
-                  <MenuItem mnemonicParsing="false" text="Automática" />
+                  <MenuItem mnemonicParsing="false" onAction="#processAutomaticGeneration" text="Automática" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Operaciones">
@@ -41,8 +41,8 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Test Primalidad">
                <items>
-                  <MenuItem fx:id="Miller" mnemonicParsing="false" onAction="#primalityMiller" text="Miller Rabin" />
-                  <MenuItem fx:id="Fermat" mnemonicParsing="false" onAction="#primalityFermat" text="Fermat" />
+                  <MenuItem mnemonicParsing="false" onAction="#primalityMiller" text="Miller Rabin" />
+                  <MenuItem mnemonicParsing="false" onAction="#primalityFermat" text="Fermat" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Ataques">
@@ -296,7 +296,7 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
                                  <children>
-                                    <Button fx:id="generar_automatica" mnemonicParsing="false" onAction="#processAutomaticGeneration" text="Generar" />
+                                    <Button mnemonicParsing="false" onAction="#processAutomaticGeneration" text="Generar" />
                                     <CheckBox fx:id="sameSizePrimes" mnemonicParsing="false" />
                                     <Label text="p y q igual tamaño" />
                                  </children>
@@ -326,7 +326,7 @@
                   </AnchorPane>
                   <AnchorPane prefHeight="79.0" prefWidth="457.0">
                      <children>
-                        <Button fx:id="borrar" alignment="CENTER" contentDisplay="CENTER" layoutX="116.0" layoutY="29.0" mnemonicParsing="false" onAction="#delete" text="Borrar" />
+                        <Button alignment="CENTER" contentDisplay="CENTER" layoutX="116.0" layoutY="29.0" mnemonicParsing="false" onAction="#delete" text="Borrar" />
                      </children>
                   </AnchorPane>
                </children>

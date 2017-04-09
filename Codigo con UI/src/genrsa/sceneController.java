@@ -91,20 +91,11 @@ public class sceneController {
     @FXML // fx:id="tiempo_clave_automatica"
     private TextField tiempo_clave_automatica; // Value injected by FXMLLoader
 
-    @FXML // fx:id="generar_automatica"
-    private Button generar_automatica; // Value injected by FXMLLoader
-
-    @FXML // fx:id="sameSizePrimes"
+   @FXML // fx:id="sameSizePrimes"
     private CheckBox sameSizePrimes; // Value injected by FXMLLoader
 
     @FXML // fx:id="num_mensajes_noCifrables"
     private TextField num_mensajes_noCifrables; // Value injected by FXMLLoader
-
-    @FXML // fx:id="generar_log_nnc"
-    private Button generar_log_nnc; // Value injected by FXMLLoader
-
-    @FXML // fx:id="borrar"
-    private Button borrar; // Value injected by FXMLLoader   
     
     @FXML // fx:id="Decimal"
     private MenuItem Decimal; // Value injected by FXMLLoader 
@@ -114,13 +105,7 @@ public class sceneController {
     
     @FXML // fx:id="units"
     private Label units; // Value injected by FXMLLoader
-    
-    @FXML // fx:id="Miller"
-    private MenuItem Miller; // Value injected by FXMLLoader
-
-    @FXML // fx:id="Fermat"
-    private MenuItem Fermat; // Value injected by FXMLLoader
-        
+     
     
     private ComponentesRSA RSA;
     
@@ -167,16 +152,11 @@ public class sceneController {
         assert tiempo_primalidad != null : "fx:id=\"tiempo_primalidad\" was not injected: check your FXML file 'scene.fxml'.";
         assert bits_clave_automatica != null : "fx:id=\"bits_clave_automatica\" was not injected: check your FXML file 'scene.fxml'.";
         assert tiempo_clave_automatica != null : "fx:id=\"tiempo_clave_automatica\" was not injected: check your FXML file 'scene.fxml'.";
-        assert generar_automatica != null : "fx:id=\"generar_automatica\" was not injected: check your FXML file 'scene.fxml'.";
         assert sameSizePrimes != null : "fx:id=\"sameSizePrimes\" was not injected: check your FXML file 'scene.fxml'.";
         assert num_mensajes_noCifrables != null : "fx:id=\"num_mensajes_noCifrables\" was not injected: check your FXML file 'scene.fxml'.";
-        assert generar_log_nnc != null : "fx:id=\"generar_log_nnc\" was not injected: check your FXML file 'scene.fxml'.";
-        assert borrar != null : "fx:id=\"borrar\" was not injected: check your FXML file 'scene.fxml'.";
         assert Decimal != null : "fx:id=\"Decimal\" was not injected: check your FXML file 'scene.fxml'.";
         assert Hexadecimal != null : "fx:id=\"Hexadecimal\" was not injected: check your FXML file 'scene.fxml'.";
         assert units != null : "fx:id=\"units\" was not injected: check your FXML file 'scene.fxml'.";
-        assert Miller != null : "fx:id=\"Miller\" was not injected: check your FXML file 'scene.fxml'.";
-        assert Fermat != null : "fx:id=\"Fermat\" was not injected: check your FXML file 'scene.fxml'.";
         
         generate = new GenerarClaves(this);
         mainWindow = new MainWindow(this);
@@ -334,10 +314,6 @@ public class sceneController {
         return tiempo_clave_automatica;
     }
 
-    public Button getGenerar_automatica() {
-        return generar_automatica;
-    }
-
     public CheckBox getSameSizePrimes() {
         return sameSizePrimes;
     }
@@ -345,15 +321,6 @@ public class sceneController {
     public TextField getNum_mensajes_noCifrables() {
         return num_mensajes_noCifrables;
     }
-
-    public Button getGenerar_log_nnc() {
-        return generar_log_nnc;
-    }
-
-    public Button getBorrar() {
-        return borrar;
-    }
-
       
      
      

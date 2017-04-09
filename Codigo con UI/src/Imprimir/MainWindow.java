@@ -51,6 +51,11 @@ public class MainWindow {
         
         this.scene.getNum_claves_parejas().clear();
         this.scene.getClaves_parejas().clear();
+        
+        this.scene.getIteraciones_primalidad().clear();
+        this.scene.getEsPrimo_P().clear();
+        this.scene.getEsPrimo_Q().clear();
+        this.scene.getTiempo_primalidad().clear();
     
     }
 

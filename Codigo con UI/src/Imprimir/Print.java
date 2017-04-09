@@ -97,12 +97,10 @@ public class Print {
         this.scene.getEstado().setText("Por favor, introduzca un número mayor que 3.");
     }
 
-    public void flushIsPrime(boolean primeP) {
-        if (primeP){
-            this.scene.getEsPrimo_P().setText("");
-        } else {
-            this.scene.getEsPrimo_Q().setText("");
-        }
+    
+    public void flushIsPrime() {
+        this.scene.getEsPrimo_P().setText("");
+        this.scene.getEsPrimo_Q().setText("");
     }
 
     public void multipleTwoError() {

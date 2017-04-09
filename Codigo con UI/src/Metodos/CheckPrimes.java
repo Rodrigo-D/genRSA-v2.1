@@ -44,6 +44,10 @@ public class CheckPrimes {
     public void check(String probNumber, String vueltas, final boolean isMiller, final boolean isPrimeP){      
         boolean resultado;
         
+        if (isPrimeP){
+            this.print.flushIsPrime();
+        }
+        
         probNumber = this.utilidades.formatNumber(probNumber);
         vueltas = this.utilidades.formatNumber(vueltas);
         
@@ -51,16 +55,11 @@ public class CheckPrimes {
             this.probPrime = new BigInteger (probNumber);
         } catch (NumberFormatException n){
             this.print.primeError();
-            this.print.flushIsPrime(isPrimeP);
             return;
         }
         
         if (!this.utilidades.isNumber(vueltas)){
            // imprimir un mensaje diciendo que no es un numero
-           // hacerlo en tiempo real, no cuando se pulse el boton de miller o fermat
-           // ,es decir, quitar este if 
-            this.print.flushIsPrime(true);
-            this.print.flushIsPrime(false);
             this.print.iterationsError();         
             return;
         } 
@@ -68,13 +67,11 @@ public class CheckPrimes {
         this.vueltas = Integer.parseInt(vueltas);
         
         if (this.probPrime.compareTo(Constantes.THREE) <= 0){
-                this.print.primeLittleError();                  
-                this.print.flushIsPrime(isPrimeP);
+                this.print.primeLittleError();        
                 return;
         }
         if (this.probPrime.mod(Constantes.TWO).equals(Constantes.ZERO)){
-                this.print.multipleTwoError();                          
-                this.print.flushIsPrime(isPrimeP);
+                this.print.multipleTwoError();          
                 //devolver que no es primo FALSE
                 return;
                 //imprimir por pantalla que el numero ha de ser un probable primo impar

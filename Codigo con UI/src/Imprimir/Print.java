@@ -65,31 +65,35 @@ public class Print {
         this.scene.getNum_mensajes_noCifrables().setText(numMNC.toString());
     }
 
-    public void isPrime(boolean primeP) {
-        if (primeP){
+    //hacer que parpadee el cuadrito cuando de el resultado
+    public void primalityResults(boolean resultadoP, boolean resultadoQ, String time) {
+        if (resultadoP){
             this.scene.getEsPrimo_P().setText("SI");
         } else {
-            this.scene.getEsPrimo_Q().setText("SI");
-        }
-
-    }
-
-    public void isNotPrime(boolean primeP) {
-        if (primeP){
             this.scene.getEsPrimo_P().setText("NO");
+        }
+        
+        if (resultadoQ){
+            this.scene.getEsPrimo_Q().setText("SI");
         } else {
             this.scene.getEsPrimo_Q().setText("NO");
         }
+        
+        this.scene.getTiempo_primalidad().setText(time);
     }
 
-    public void primeError() {
-        //poner un if es decimal
-        this.scene.getEstado().setText("Por favor, introduzca un número sin caracteres ni letras.");
-        //solo permitido comas, puntos y espacios
+    public void primeError(boolean isDecimal) {
+        if (isDecimal){
+            //solo permitido comas, puntos y espacios
+             this.scene.getEstado().setText("Por favor, introduzca un número sin caracteres ni letras.");        
+        } else {
+            this.scene.getEstado().setText("Por favor, introduzca un número sin caracteres extraños.");
+        }
+       
     }
 
     public void iterationsError() {
-         this.scene.getEstado().setText("Por favor, introduzca un número sin caracteres ni letras.");
+         this.scene.getEstado().setText("Por favor, introduzca en VUELTAS un número sin caracteres ni letras.");
     }
 
 

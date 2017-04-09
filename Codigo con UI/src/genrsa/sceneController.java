@@ -106,6 +106,7 @@ public class sceneController {
     @FXML // fx:id="units"
     private Label units; // Value injected by FXMLLoader
      
+    private boolean isDecimal;
     
     private ComponentesRSA RSA;
     
@@ -158,6 +159,8 @@ public class sceneController {
         assert Hexadecimal != null : "fx:id=\"Hexadecimal\" was not injected: check your FXML file 'scene.fxml'.";
         assert units != null : "fx:id=\"units\" was not injected: check your FXML file 'scene.fxml'.";
         
+        isDecimal = true;
+        
         generate = new GenerarClaves(this);
         mainWindow = new MainWindow(this);
         calculate = new CalculateNNC();
@@ -201,6 +204,7 @@ public class sceneController {
     //hacer que ponga por pantalla dec
     public void unitsDecimal(ActionEvent event) {
         //this.Decimal.;  este y el de hexadecimal ponerlo a negrita
+        this.isDecimal = true;
         this.generate.setUnits(10);  
         this.calculate.setUnits(10);
         //cambiarlo y hacerlo con un CSS
@@ -213,6 +217,7 @@ public class sceneController {
      */
     //hacer que ponga por pantalla hex
     public void unitsHexadecimal(ActionEvent event) {
+        this.isDecimal = false;
         this.generate.setUnits(16);
         this.calculate.setUnits(16);
         this.mainWindow.changeUnits("hex", units);
@@ -224,8 +229,9 @@ public class sceneController {
      * @param event 
      */
     public void primalityMiller(ActionEvent event) {
-        this.checkPrimes.check(this.primo_P.getText(), this.iteraciones_primalidad.getText(), true, true);
-        this.checkPrimes.check(this.primo_Q.getText(), this.iteraciones_primalidad.getText(), true, false);
+        boolean isMiller = true;
+        this.checkPrimes.check(this.primo_P.getText(), this.primo_Q.getText(), 
+                                this.iteraciones_primalidad.getText(), isMiller, this.isDecimal);
     }
      
     /**
@@ -233,8 +239,9 @@ public class sceneController {
      * @param event 
      */
     public void primalityFermat(ActionEvent event) {
-        this.checkPrimes.check(this.primo_P.getText(), this.iteraciones_primalidad.getText(), false, true);
-        this.checkPrimes.check(this.primo_Q.getText(), this.iteraciones_primalidad.getText(), false, false);
+        boolean isMiller = false;
+        this.checkPrimes.check(this.primo_P.getText(), this.primo_Q.getText(), 
+                                this.iteraciones_primalidad.getText(), isMiller, this.isDecimal);
     }
      
 

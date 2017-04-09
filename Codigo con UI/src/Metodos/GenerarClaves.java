@@ -26,11 +26,11 @@ public class GenerarClaves {
     //decimal =10, hexadecimal =16
     private int radix;
     
-    // atributo que almacena el tiempo inicial de una operacion
+    // atributo que almacena el tiempo inicial 
     private long runningTime0;
-    // atributo que almacena el tiempo final de una operacion
+    // atributo que almacena el tiempo final
     private long runningTime1;
-    // atributo que almacena el tiempo empleado en una operacion
+    // atributo que almacena el tiempo empleado 
     private String runningTimeFinal;
     
     public GenerarClaves (sceneController scene){

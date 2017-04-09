@@ -17,7 +17,8 @@ import java.security.SecureRandom;
  */
 public class CheckPrimes {
     
-    BigInteger probPrime;
+    BigInteger probPrimeP;
+    BigInteger probPrimeQ;
     Utilidades utilidades;
     int vueltas;
     //true si es P, false si es Q
@@ -36,25 +37,42 @@ public class CheckPrimes {
     
     /**
      * 
-     * @param probNumber
+     * @param probNumberP
+     * @param probNumberQ
      * @param vueltas
-     * @param isMiller
-     * @param isPrimeP 
+     * @param isMiller 
+     * @param isDecimal 
      */
-    public void check(String probNumber, String vueltas, final boolean isMiller, final boolean isPrimeP){      
-        boolean resultado;
+    public void check(String probNumberP, String probNumberQ, String vueltas, 
+                    final boolean isMiller, final boolean isDecimal){   
         
-        if (isPrimeP){
-            this.print.flushIsPrime();
-        }
+        //atributos que almacenan los resultados del test de primalidad
+        boolean resultadoP, resultadoQ;
+        // atributo que almacena el tiempo inicial 
+        long startTime;
+        // atributo que almacena el tiempo empleado
+        String time;
         
-        probNumber = this.utilidades.formatNumber(probNumber);
+        
+        startTime = System.currentTimeMillis();
+        this.print.flushIsPrime();
+        
+         
+        probNumberP = this.utilidades.formatNumber(probNumberP);
+        probNumberQ = this.utilidades.formatNumber(probNumberQ);                
         vueltas = this.utilidades.formatNumber(vueltas);
         
+        //con que uno de los dos no sea valido se termina
         try {
-            this.probPrime = new BigInteger (probNumber);
+            if (isDecimal) {
+                this.probPrimeP = new BigInteger (probNumberP);
+                this.probPrimeQ = new BigInteger (probNumberQ);     
+            } else {
+                this.probPrimeP = new BigInteger (probNumberP, 16);
+                this.probPrimeQ = new BigInteger (probNumberQ, 16);    
+            }
         } catch (NumberFormatException n){
-            this.print.primeError();
+            this.print.primeError(isDecimal);
             return;
         }
         
@@ -66,37 +84,35 @@ public class CheckPrimes {
         
         this.vueltas = Integer.parseInt(vueltas);
         
-        if (this.probPrime.compareTo(Constantes.THREE) <= 0){
+        if (this.probPrimeP.compareTo(Constantes.THREE) <= 0 || this.probPrimeQ.compareTo(Constantes.THREE) <= 0){
                 this.print.primeLittleError();        
                 return;
         }
-        if (this.probPrime.mod(Constantes.TWO).equals(Constantes.ZERO)){
+        if (this.probPrimeP.mod(Constantes.TWO).equals(Constantes.ZERO) || this.probPrimeP.mod(Constantes.TWO).equals(Constantes.ZERO)){
                 this.print.multipleTwoError();          
-                //devolver que no es primo FALSE
                 return;
                 //imprimir por pantalla que el numero ha de ser un probable primo impar
         }       
         
         if(isMiller){
-            resultado = this.testPrimalityMillerRabin();
+            resultadoP = this.testPrimalityMillerRabin(this.probPrimeP);
+            resultadoQ = this.testPrimalityMillerRabin(this.probPrimeQ);
         } else {
-            resultado = this.testPrimalityFermat();
+            resultadoP = this.testPrimalityFermat(this.probPrimeP);
+            resultadoQ = this.testPrimalityFermat(this.probPrimeQ);
         }
         
-        if (resultado){
-            this.print.isPrime(isPrimeP);
-        } else{
-            this.print.isNotPrime(isPrimeP);
-        }
+        time = this.utilidades.millisToSeconds(System.currentTimeMillis() - startTime);
+        this.print.primalityResults(resultadoP, resultadoQ, time);        
     }
     
 
     //Miller Rabin
-    private boolean testPrimalityMillerRabin() {
+    private boolean testPrimalityMillerRabin(BigInteger probPrime) {        
         //probPrime - 1 = (2^k) * m 
         int k = 0;
         BigInteger m;		
-        BigInteger probPrimeMinusOne = this.probPrime.subtract(Constantes.ONE);
+        BigInteger probPrimeMinusOne = probPrime.subtract(Constantes.ONE);
 
         int iterador;
         // aleatorio  tal que 2 >= a <= n-2
@@ -118,16 +134,16 @@ public class CheckPrimes {
         //Check primality
         for (int i = 0; i < this.vueltas; i++) {
                 //2 >= a <= n-2
-                a = uniformRandom(Constantes.TWO, this.probPrime.subtract(Constantes.TWO)); 
+                a = uniformRandom(Constantes.TWO, probPrime.subtract(Constantes.TWO)); 
 
                 //Step 1
-                x = a.modPow(m, this.probPrime);
+                x = a.modPow(m, probPrime);
                 if (x.equals(Constantes.ONE) || x.equals(probPrimeMinusOne)){
                         // primera ronda (iteracion del for) PASADA con exito
                         continue;
                 }		
                 for (iterador=1; iterador<k; iterador ++) {
-                        x = x.modPow(Constantes.TWO, this.probPrime);
+                        x = x.modPow(Constantes.TWO, probPrime);
 
                         if (x.equals(Constantes.ONE)){
                                 //log fallo en ronda tal con random tal
@@ -152,21 +168,21 @@ public class CheckPrimes {
 
 
     //test de primalidad: Fermat	
-    private boolean testPrimalityFermat() {
+    private boolean testPrimalityFermat(BigInteger probPrime) {
         BigInteger a;
         BigInteger probPrimeMinusTwo;
         BigInteger probPrimeMinusOne;
         
 
-        probPrimeMinusTwo=this.probPrime.subtract(Constantes.TWO);
-        probPrimeMinusOne=this.probPrime.subtract(Constantes.ONE);		
+        probPrimeMinusTwo = probPrime.subtract(Constantes.TWO);
+        probPrimeMinusOne = probPrime.subtract(Constantes.ONE);		
 
         for(int i=0;i<this.vueltas;i++){
                 // entre 2 y probPrime-2 puesto que 1 y probPrime-1 eleveado a probPrime-1 
                 // siempre da de resultado 1 en mod probPrime.
                 a = uniformRandom(Constantes.TWO, probPrimeMinusTwo); 
                 // a^(probPrime-1) mod probPrime
-                a = a.modPow(probPrimeMinusOne,this.probPrime);
+                a = a.modPow(probPrimeMinusOne, probPrime);
 
             if(!a.equals(Constantes.ONE)){ 
                 return false; /* p is definitely composite */

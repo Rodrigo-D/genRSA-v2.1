@@ -24,6 +24,9 @@ public class CheckPrimes {
     //true si es P, false si es Q
     boolean isPrimeP;
     
+    //decimal =10, hexadecimal =16
+    private int radix;
+    
     private final Print print;
     
     /**
@@ -41,10 +44,9 @@ public class CheckPrimes {
      * @param probNumberQ
      * @param vueltas
      * @param isMiller 
-     * @param isDecimal 
      */
     public void check(String probNumberP, String probNumberQ, String vueltas, 
-                    final boolean isMiller, final boolean isDecimal){   
+                    final boolean isMiller){   
         
         //atributos que almacenan los resultados del test de primalidad
         boolean resultadoP, resultadoQ;
@@ -64,15 +66,11 @@ public class CheckPrimes {
         
         //con que uno de los dos no sea valido se termina
         try {
-            if (isDecimal) {
-                this.probPrimeP = new BigInteger (probNumberP);
-                this.probPrimeQ = new BigInteger (probNumberQ);     
-            } else {
-                this.probPrimeP = new BigInteger (probNumberP, 16);
-                this.probPrimeQ = new BigInteger (probNumberQ, 16);    
-            }
+            this.probPrimeP = new BigInteger (probNumberP, this.radix);
+            this.probPrimeQ = new BigInteger (probNumberQ, this.radix);    
+            
         } catch (NumberFormatException n){
-            this.print.primeError(isDecimal);
+            this.print.primeError(this.radix);
             return;
         }
         
@@ -88,7 +86,7 @@ public class CheckPrimes {
                 this.print.primeLittleError();        
                 return;
         }
-        if (this.probPrimeP.mod(Constantes.TWO).equals(Constantes.ZERO) || this.probPrimeP.mod(Constantes.TWO).equals(Constantes.ZERO)){
+        if (this.probPrimeP.mod(Constantes.TWO).equals(Constantes.ZERO) || this.probPrimeQ.mod(Constantes.TWO).equals(Constantes.ZERO)){
                 this.print.multipleTwoError();          
                 return;
                 //imprimir por pantalla que el numero ha de ser un probable primo impar
@@ -202,4 +200,12 @@ public class CheckPrimes {
         return random;
     }
     
+    
+    /**
+     * 
+     * @param radix 
+     */
+    public void setUnits( int radix){
+        this.radix = radix;
+    }
 }

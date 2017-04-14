@@ -27,11 +27,9 @@ public class GenerarClaves {
     private int radix;
     
     // atributo que almacena el tiempo inicial 
-    private long runningTime0;
-    // atributo que almacena el tiempo final
-    private long runningTime1;
+    private long startTime;
     // atributo que almacena el tiempo empleado 
-    private String runningTimeFinal;
+    private String time;
     
     public GenerarClaves (sceneController scene){
         this.RSA = new ComponentesRSA();
@@ -40,10 +38,86 @@ public class GenerarClaves {
         this.radix = 10;
     }
     
+    /**
+     * manual generation of RSAKeys
+     * 
+     * @param primeP
+     * @param primeQ
+     * @param pubKey
+     * @return 
+     */
+     public ComponentesRSA manualRSAkeys(String primeP, String primeQ, String pubKey) {
+        this.startTime = System.currentTimeMillis();
+         
+        primeP = this.utilidades.formatNumber(primeP);
+        primeQ = this.utilidades.formatNumber(primeQ);                
+        pubKey = this.utilidades.formatNumber(pubKey);
+        
+         //con que uno de los tres no sea valido se termina
+         /* Step 1: Get the prime numbers (p and q) and the public key */
+        try {
+            this.RSA.setP ( new BigInteger (primeP, this.radix));
+            this.RSA.setQ ( new BigInteger (primeQ, this.radix));    
+            this.RSA.setE ( new BigInteger (pubKey, this.radix));
+            
+        } catch (NumberFormatException n){
+            this.print.primeError(this.radix);
+            this.print.flushNotManual();
+            return null;
+        }
+        
+        if (this.RSA.getP().compareTo(Constantes.THREE) <= 0 || this.RSA.getQ().compareTo(Constantes.THREE) <= 0){
+                this.print.primeLittleError();        
+                this.print.flushNotManual();
+                return null;
+        }
+        
+        if (this.RSA.getP().mod(Constantes.TWO).equals(Constantes.ZERO) || this.RSA.getQ().mod(Constantes.TWO).equals(Constantes.ZERO)){
+                this.print.multipleTwoError();          
+                this.print.flushNotManual();
+                return null;
+                //imprimir por pantalla que el numero ha de ser un probable primo impar
+        }       
+        
+        
+        /* Step 2:  n = p.q */
+        this.RSA.setN( this.RSA.getP().multiply(this.RSA.getQ()));
+        
+        /* Step 3: phi N = (p - 1).(q - 1) */
+        this.RSA.setpMinusOne( this.RSA.getP().subtract(Constantes.ONE));
+        this.RSA.setqMinusOne( this.RSA.getQ().subtract(Constantes.ONE));
+        this.RSA.setPhiN( this.RSA.getpMinusOne().multiply(this.RSA.getqMinusOne()));
+
+        /* Step 4: Check e, gcd(e, ø(n)) = 1 ; 1 < e < ø(n) */
+        // compareTo da 1 si es mayor que el valor entre parentesis
+        if ((this.RSA.getE().compareTo(this.RSA.getPhiN()) > -1) || 
+                 (this.RSA.getE().gcd(this.RSA.getPhiN()).compareTo(Constantes.ONE)) != 0){
+            this.print.invalidPublicKey();            
+        }
+
+        /* Step 5: Calculate d such that e.d = 1 (mod ø(n)) */
+        this.RSA.setD( this.RSA.getE().modInverse(this.RSA.getPhiN()));
+        
+        
+        
+        this.time = this.utilidades.millisToSeconds(System.currentTimeMillis()  - this.startTime);
+        
+        this.print.rsaGeneration(this.RSA, this.time, this.radix);          
+        
+        this.calculateCKP();
+        this.calculateNumNNC();
+        
+        return this.RSA;
+        
+     }
+    
+    
+    
+    
     
     
     /**
-     * automatic, primes with same number of bits. PublicKeySize equal to PrivateKeySize
+     * automatic generation of RSA KEYS, with the same or different number of bits in prime P and Q
      * @param keySize
      * @param sameSizePrimes
      * @return 
@@ -51,7 +125,7 @@ public class GenerarClaves {
     //preguntar al profesor y comprobar cual tiene que ser el keySize minimo 
     //comprobar en la clave que p y q no sean el mismo numero
     public ComponentesRSA autoRSAkeys(String keySize, boolean sameSizePrimes) {        
-        this.runningTime0 = System.currentTimeMillis();
+        this.startTime = System.currentTimeMillis();
         int distanceBits;
         
         keySize = this.utilidades.formatNumber(keySize);
@@ -65,10 +139,10 @@ public class GenerarClaves {
         distanceBits = this.calculateDistanceBits(sameSizePrimes);
         this.createRSAKeys(distanceBits);        
         
-        this.runningTime1 = System.currentTimeMillis();
-        this.runningTimeFinal = this.utilidades.millisToSeconds(runningTime1  - runningTime0) ;
+        this.time = this.utilidades.millisToSeconds(System.currentTimeMillis()  - this.startTime);
         
-        this.print.autoGeneration(this.RSA, keySize, this.runningTimeFinal, this.radix);          
+        this.print.rsaGeneration(this.RSA, this.time, this.radix);          
+        this.print.autoBitsKey(keySize);
         
         this.calculateCKP();
         this.calculateNumNNC();
@@ -132,7 +206,7 @@ public class GenerarClaves {
             //podria llegar a ser un numero negativo y no se calcularian las CKP
             CKP_int = this.CKPtoInt();
             //OJO, he añadido condicion para que pare a las 30
-            while (CKP_int >= iterador || iterador > 30){
+            while (CKP_int >= iterador && iterador <= 30){
                     cpp=cpp.add(this.RSA.getGamma());
                     if (cpp.compareTo(this.RSA.getD()) != 0){
                             this.print.addClavePareja(cpp, this.radix);

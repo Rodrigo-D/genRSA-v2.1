@@ -17,20 +17,20 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1094.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="genrsa.sceneController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="genrsa.sceneController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="Archivo">
             <items>
-              <MenuItem mnemonicParsing="false" text="Guardar Clave" />
-                  <MenuItem mnemonicParsing="false" text="Borrar Clave" />
-                  <MenuItem mnemonicParsing="false" text="Salir" />
+              <MenuItem mnemonicParsing="false" onAction="#generateNNC" text="Guardar Clave" />
+                  <MenuItem mnemonicParsing="false" onAction="#delete" text="Borrar Clave" />
+                  <MenuItem mnemonicParsing="false" onAction="#exitApplication" text="Salir" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Generar Clave">
             <items>
-              <MenuItem mnemonicParsing="false" text="Manual" />
+              <MenuItem mnemonicParsing="false" onAction="#processManualGeneration" text="Manual" />
                   <MenuItem mnemonicParsing="false" onAction="#processAutomaticGeneration" text="Automática" />
             </items>
           </Menu>

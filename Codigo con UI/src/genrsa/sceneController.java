@@ -14,7 +14,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -178,6 +177,22 @@ public class sceneController {
          
         this.RSA = this.generate.autoRSAkeys(keySize, isSameSize);        
     }
+    
+    
+    /**
+     * Método usado cuando se pulsa el boton de generar de manera manual una clave   
+     * @param event 
+     */
+    public void processManualGeneration(ActionEvent event) {       
+        String primeP = this.primo_P.getText(); 
+        String primeQ = this.primo_Q.getText(); 
+        String publicKey = this.clave_Publica.getText(); 
+        
+        this.RSA = this.generate.manualRSAkeys(primeP, primeQ, publicKey);
+    }
+    
+    
+    
     /**
      * Método usado cuando se pulsa el boton de generarLog de NNC
      * @param event 
@@ -207,6 +222,7 @@ public class sceneController {
         this.isDecimal = true;
         this.generate.setUnits(10);  
         this.calculate.setUnits(10);
+        this.checkPrimes.setUnits(10);
         //cambiarlo y hacerlo con un CSS
         this.mainWindow.changeUnits("dec", units);
     }
@@ -220,6 +236,7 @@ public class sceneController {
         this.isDecimal = false;
         this.generate.setUnits(16);
         this.calculate.setUnits(16);
+        this.checkPrimes.setUnits(16);
         this.mainWindow.changeUnits("hex", units);
     }
      
@@ -231,7 +248,7 @@ public class sceneController {
     public void primalityMiller(ActionEvent event) {
         boolean isMiller = true;
         this.checkPrimes.check(this.primo_P.getText(), this.primo_Q.getText(), 
-                                this.iteraciones_primalidad.getText(), isMiller, this.isDecimal);
+                                this.iteraciones_primalidad.getText(), isMiller);
     }
      
     /**
@@ -241,9 +258,16 @@ public class sceneController {
     public void primalityFermat(ActionEvent event) {
         boolean isMiller = false;
         this.checkPrimes.check(this.primo_P.getText(), this.primo_Q.getText(), 
-                                this.iteraciones_primalidad.getText(), isMiller, this.isDecimal);
+                                this.iteraciones_primalidad.getText(), isMiller);
     }
      
+    /**
+     * Cierra todo el programa
+     * @param event 
+     */
+    public void exitApplication(ActionEvent event) {
+        System.exit(0);
+    }
 
     public TextField getPrimo_P() {
         return primo_P;

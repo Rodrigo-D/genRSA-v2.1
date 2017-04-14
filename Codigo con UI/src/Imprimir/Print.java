@@ -27,9 +27,7 @@ public class Print {
         utilidades = new Utilidades();
     }
     
-    public void autoGeneration (ComponentesRSA RSA, String keySize, String tiempo, int radix){
-        
-        this.scene.getBits_clave_automatica().setText(keySize);
+    public void rsaGeneration (ComponentesRSA RSA,  String tiempo, int radix){
         
         this.scene.getPrimo_P().setText(RSA.getP().toString(radix));
         this.scene.getPrimo_Q().setText(RSA.getQ().toString(radix));
@@ -45,7 +43,14 @@ public class Print {
         
         this.scene.getTiempo_clave_automatica().setText(tiempo);
     }
+    
+    
+    public void autoBitsKey (String keySize){
+        
+        this.scene.getBits_clave_automatica().setText(keySize);        
+    }
 
+    
     public void clavePareja(BigInteger claveP, int radix) {
         
         this.scene.getClaves_parejas().setText(claveP.toString(radix));
@@ -82,8 +87,8 @@ public class Print {
         this.scene.getTiempo_primalidad().setText(time);
     }
 
-    public void primeError(boolean isDecimal) {
-        if (isDecimal){
+    public void primeError (int radix) {
+        if (radix==10){
             //solo permitido comas, puntos y espacios
              this.scene.getEstado().setText("Por favor, introduzca un número sin caracteres ni letras.");        
         } else {
@@ -110,6 +115,19 @@ public class Print {
     public void multipleTwoError() {
           this.scene.getEstado().setText("Por favor, introduzca un número que no sea multiplo de 2.");
     }
+
+    public void invalidPublicKey() {
+        this.scene.getEstado().setText("Por favor, introduzca una clave publica tal que gcd(e, ø(n)) = 1 ; 1 < e < ø(n) ");
+    }
     
+    public void flushNotManual() {
+        this.scene.getModulo_N().setText("");
+        this.scene.getBits_modulo_N().setText("");
+        this.scene.getClave_Privada().setText("");
+        this.scene.getBits_clave_Privada().setText("");
+        this.scene.getClaves_parejas().setText("");
+        this.scene.getNum_claves_parejas().setText("");
+        this.scene.getNum_mensajes_noCifrables().setText("");
+    }
     
 }

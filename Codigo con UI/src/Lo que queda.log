@@ -1,0 +1,45 @@
+http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/file-chooser.htm para elegir el lugar donde se guardará la clave.
+
+
+
+
+Quiza añadir scrollpane para cuando hacen la pantalla pequeña: http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/scrollpane.htm, muy facil, hacer un wrap in. PREGUNTAR A RAMIO
+
+
+
+Poner tooltips a todos los campos.
+
+Hacer que segun se metan los primos p y q o la clave E se ponga automaticamente los bits, cuando se haga creo que se puede borrar de la clase print,
+del metodo flushnotmanual las dos sentencias en las que pone bits
+
+poner mensaje al final de CKP diciendo que solo se calculan 30 en el caso de que el num de ckp sea mayor que 30
+
+Mejorar el html de los logNNC
+Hacer que cuando se pulse logNNC o guardar clave se abra una ventana dandote la opcion de elegir el lugar donde guardarlo
+
+
+http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/menu_controls.htm para hacer que cuando se seleccione decimal este marcado y se desmarque hexadecimal
+	tb para añadir un control X para cerrar toda la  aplicacion y cosas asi.
+
+Hacer que no se puedo bajar el tamaño de pantalla cuando llegue a un minimo
+
+http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/custom.htm para realizar el css para customizarlo.
+
+Quiza usar un choiceBox o ListView o ComboBox para dar a elegir algun primo p o q?
+
+quiza añadir un boton con un dibujito a la derecha de los primos o claves para que cuando se pulse se copie al portapapeles. http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/text-field.htm 
+	copy()– transfers the currently selected range in the text to the clipboard, leaving the current selection.
+	selectAll() - selects all text in the text input.
+
+	
+http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/progress.htm para hacer el control de progreso y cargando.
+
+Poner un hiperlink en donde las preferencias para que te lleve a la pagina de github.
+	
+
+
+
+	
+	
+	
+	

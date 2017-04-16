@@ -11,6 +11,7 @@ import Model.Constantes;
 import genrsa.sceneController;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import javafx.scene.control.TextField;
 
 /**
  *
@@ -268,6 +269,28 @@ public class GenerarClaves {
         return distance;
     }
     
+    /**
+     * Método para calcular los bits de los numeros que se van introduciendo para la clave manual.
+     * @param number
+     * @param bits
+     */
+    public void numberToBits(String number, TextField bits) {
+        number = this.utilidades.formatNumber(number);
+        
+        BigInteger num;
+        
+         //con que uno de los tres no sea valido se termina
+         /* Step 1: Get the prime numbers (p and q) and the public key */
+        try {
+            num = new BigInteger (number, this.radix);
+            bits.setText(this.utilidades.countBits(num));
+            
+        } catch (NumberFormatException n){
+            bits.setText("0");
+        }
+    }
+    
+    
     
     /**
      * 
@@ -276,6 +299,7 @@ public class GenerarClaves {
     public void setUnits( int radix){
         this.radix = radix;
     }
+
 
     
 }

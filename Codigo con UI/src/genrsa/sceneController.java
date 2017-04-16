@@ -19,6 +19,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 
 /**
@@ -90,20 +92,26 @@ public class sceneController {
     @FXML // fx:id="tiempo_clave_automatica"
     private TextField tiempo_clave_automatica; // Value injected by FXMLLoader
 
-   @FXML // fx:id="sameSizePrimes"
+    @FXML // fx:id="sameSizePrimes"
     private CheckBox sameSizePrimes; // Value injected by FXMLLoader
 
     @FXML // fx:id="num_mensajes_noCifrables"
     private TextField num_mensajes_noCifrables; // Value injected by FXMLLoader
     
-    @FXML // fx:id="Decimal"
-    private MenuItem Decimal; // Value injected by FXMLLoader 
-
-    @FXML // fx:id="Hexadecimal"
-    private MenuItem Hexadecimal; // Value injected by FXMLLoader 
+    @FXML // fx:id="unitsP"
+    private Label unitsP; // Value injected by FXMLLoader
     
-    @FXML // fx:id="units"
-    private Label units; // Value injected by FXMLLoader
+    @FXML // fx:id="unitsQ"
+    private Label unitsQ; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="unitsD"
+    private Label unitsD; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="unitsN"
+    private Label unitsN; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="unitsE"
+    private Label unitsE; // Value injected by FXMLLoader
      
     private boolean isDecimal;
     
@@ -154,9 +162,11 @@ public class sceneController {
         assert tiempo_clave_automatica != null : "fx:id=\"tiempo_clave_automatica\" was not injected: check your FXML file 'scene.fxml'.";
         assert sameSizePrimes != null : "fx:id=\"sameSizePrimes\" was not injected: check your FXML file 'scene.fxml'.";
         assert num_mensajes_noCifrables != null : "fx:id=\"num_mensajes_noCifrables\" was not injected: check your FXML file 'scene.fxml'.";
-        assert Decimal != null : "fx:id=\"Decimal\" was not injected: check your FXML file 'scene.fxml'.";
-        assert Hexadecimal != null : "fx:id=\"Hexadecimal\" was not injected: check your FXML file 'scene.fxml'.";
-        assert units != null : "fx:id=\"units\" was not injected: check your FXML file 'scene.fxml'.";
+        assert unitsP != null : "fx:id=\"unitsP\" was not injected: check your FXML file 'scene.fxml'.";
+        assert unitsQ != null : "fx:id=\"unitsQ\" was not injected: check your FXML file 'scene.fxml'.";
+        assert unitsD != null : "fx:id=\"unitsD\" was not injected: check your FXML file 'scene.fxml'.";
+        assert unitsN != null : "fx:id=\"unitsN\" was not injected: check your FXML file 'scene.fxml'.";
+        assert unitsE != null : "fx:id=\"unitsE\" was not injected: check your FXML file 'scene.fxml'.";
         
         isDecimal = true;
         
@@ -164,6 +174,7 @@ public class sceneController {
         mainWindow = new MainWindow(this);
         calculate = new CalculateNNC();
         checkPrimes = new CheckPrimes(this);
+        checkPrimes.setUnits(10);
     }    
     
     /**
@@ -178,6 +189,20 @@ public class sceneController {
         this.RSA = this.generate.autoRSAkeys(keySize, isSameSize);        
     }
     
+    /**
+     * Método usado cuando se pulsa enter al meter los bits de generar de manera automática una clave   
+     * @param keyEvent
+     */
+    //poner un tooltip encima de bits_clave_automatica que diga que se van a quitar puntos comas y espacios
+    public void processAutomaticGeneration2(KeyEvent keyEvent) {    
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            String keySize = this.bits_clave_automatica.getText(); 
+            boolean isSameSize = this.sameSizePrimes.isSelected();
+         
+            this.RSA = this.generate.autoRSAkeys(keySize, isSameSize); 
+        }
+               
+    }
     
     /**
      * Método usado cuando se pulsa el boton de generar de manera manual una clave   
@@ -218,13 +243,13 @@ public class sceneController {
      */
     //hacer que ponga por pantalla dec
     public void unitsDecimal(ActionEvent event) {
-        //this.Decimal.;  este y el de hexadecimal ponerlo a negrita
         this.isDecimal = true;
         this.generate.setUnits(10);  
         this.calculate.setUnits(10);
         this.checkPrimes.setUnits(10);
         //cambiarlo y hacerlo con un CSS
-        this.mainWindow.changeUnits("dec", units);
+        
+        this.mainWindow.changeUnits("dec");
     }
     
     /**
@@ -237,7 +262,7 @@ public class sceneController {
         this.generate.setUnits(16);
         this.calculate.setUnits(16);
         this.checkPrimes.setUnits(16);
-        this.mainWindow.changeUnits("hex", units);
+        this.mainWindow.changeUnits("hex");
     }
      
      
@@ -261,6 +286,46 @@ public class sceneController {
                                 this.iteraciones_primalidad.getText(), isMiller);
     }
      
+    
+   /**
+     * Método usado cuando se introduce el primo P de forma manual,
+     * para mostrar su numero de bits
+     * @param keyEvent
+     */
+    //poner un tooltip encima de bits_clave_automatica que diga que se van a quitar puntos comas y espacios
+    public void bitsP(KeyEvent keyEvent) {    
+        String primeP = this.primo_P.getText(); 
+        
+        this.generate.numberToBits(primeP, this.bits_primo_P);
+    }
+    
+    /**
+     * Método usado cuando se introduce el primo Q de forma manual,
+     * para mostrar su numero de bits
+     * @param keyEvent
+     */
+    //poner un tooltip encima de bits_clave_automatica que diga que se van a quitar puntos comas y espacios
+    public void bitsQ(KeyEvent keyEvent) {    
+        String primeQ = this.primo_Q.getText(); 
+        
+        this.generate.numberToBits(primeQ, this.bits_primo_Q);
+    }
+    
+    /**
+     * Método usado cuando se introduce la clave publica de forma manual,
+     * para mostrar su numero de bits
+     * @param keyEvent
+     */
+    //poner un tooltip encima de bits_clave_automatica que diga que se van a quitar puntos comas y espacios
+    public void bitsPublicKey(KeyEvent keyEvent) {  
+        String publicKey = this.clave_Publica.getText(); 
+        
+        this.generate.numberToBits(publicKey, this.bits_clave_Publica);
+    }
+               
+    
+    
+    
     /**
      * Cierra todo el programa
      * @param event 
@@ -268,6 +333,10 @@ public class sceneController {
     public void exitApplication(ActionEvent event) {
         System.exit(0);
     }
+    
+
+    
+    
 
     public TextField getPrimo_P() {
         return primo_P;
@@ -352,9 +421,26 @@ public class sceneController {
     public TextField getNum_mensajes_noCifrables() {
         return num_mensajes_noCifrables;
     }
-      
-     
-     
+
+    public Label getUnitsP() {
+        return unitsP;
+    }
+
+    public Label getUnitsQ() {
+        return unitsQ;
+    }    
+
+    public Label getUnitsD() {
+        return unitsD;
+    }    
+
+    public Label getUnitsN() {
+        return unitsN;
+    }     
+
+    public Label getUnitsE() {
+        return unitsE;
+    }     
      
 }
 /*

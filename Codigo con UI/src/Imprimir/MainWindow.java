@@ -6,7 +6,6 @@
 package Imprimir;
 
 import genrsa.sceneController;
-import javafx.scene.control.Label;
 
 
 /**
@@ -25,9 +24,14 @@ public class MainWindow {
         this.scene = sceneC;
     }
     
-    //esto quitarlo y hacerlo con un .css
-    public void changeUnits(String decHex, Label units ){
-        units.setText(decHex);
+    
+    public void changeUnits(String decHex ){
+        
+        this.scene.getUnitsP().setText(decHex);
+        this.scene.getUnitsQ().setText(decHex);
+        this.scene.getUnitsD().setText(decHex);
+        this.scene.getUnitsN().setText(decHex);
+        this.scene.getUnitsE().setText(decHex);
     }
 
     public void delete() {

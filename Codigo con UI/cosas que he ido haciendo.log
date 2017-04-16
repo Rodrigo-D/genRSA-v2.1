@@ -1,0 +1,17 @@
+cosas que he ido haciendo:
+
+16 - 04 - 2017
+
+Porque tienen decimal, hexadecimal y generateLogNNC fx:id - quitados
+
+Poner en mayuscula cuando sea hexadecimal. - toUpperCase()
+
+Ver por que falla generar logs y tests de primalidad.- cuestion de unidades 10 y 16
+
+http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/menu_controls.htm para decimal y hexadecimal. - puesto que sean excluyentes
+
+Para cerrar la aplicación : System.exit(0);
+
+Añadido que cuando se pulse enter al poner los bits de la clave automatica la genere.
+
+Hacer que según se metan los primos p y q o la clave E se ponga automaticamente los bits - Añadido que cuando se metan los numeros de forma manual vayan apareciendo su numero de bits.

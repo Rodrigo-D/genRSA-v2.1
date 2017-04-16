@@ -1,0 +1,32 @@
+VA EN JAVA  
+
+Cambiar los setText("") por clear() ??
+
+Hacer que cuando se pulse logNNC o guardar clave se abra una ventana dandote la opcion de elegir el lugar donde guardarlo
+http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/file-chooser.htm para elegir el lugar donde se guardará la clave.http://docs.oracle.com/javase/8/javafx/api/javafx/stage/DirectoryChooser.html
+
+poner mensaje al final de CKP diciendo que solo se calculan 30 en el caso de que el num de ckp sea mayor que 30
+
+Mejorar el html de los logNNC
+
+
+
+quiza añadir un boton con un dibujito a la derecha de los primos o claves para que cuando se pulse se copie al portapapeles. http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/text-field.htm 
+	copy()– transfers the currently selected range in the text to the clipboard, leaving the current selection.
+	selectAll() - selects all text in the text input.
+	
+http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/progress.htm para hacer el control de progreso y cargando.
+
+Poner un hiperlink en donde las preferencias para que te lleve a la pagina de github.
+Ojito con todos los comentarios del codigo.
+Mirar si se pueden cambiar los shortcuts de ayuda.
+
+CSS:
+poner en el mismo color que el fondo los campos que no son editables.
+http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/custom.htm para realizar el css para customizarlo.
+
+
+Quiza añadir scrollpane para cuando hacen la pantalla pequeña, O MEJOR HACER QUE NO SE PUEDA HACER MAS PEQUEÑA DE UN CIERTO TAMAÑO: http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/scrollpane.htm
+Quiza usar un choiceBox o ListView o ComboBox para dar a elegir algun primo p o q?
+
+MEJORAR: el contenido de los tooltips.

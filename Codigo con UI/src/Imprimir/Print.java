@@ -29,11 +29,11 @@ public class Print {
     
     public void rsaGeneration (ComponentesRSA RSA,  String tiempo, int radix){
         
-        this.scene.getPrimo_P().setText(RSA.getP().toString(radix));
-        this.scene.getPrimo_Q().setText(RSA.getQ().toString(radix));
-        this.scene.getClave_Privada().setText(RSA.getD().toString(radix));
-        this.scene.getClave_Publica().setText(RSA.getE().toString(radix));
-        this.scene.getModulo_N().setText(RSA.getN().toString(radix));
+        this.scene.getPrimo_P().setText(RSA.getP().toString(radix).toUpperCase());
+        this.scene.getPrimo_Q().setText(RSA.getQ().toString(radix).toUpperCase());
+        this.scene.getClave_Privada().setText(RSA.getD().toString(radix).toUpperCase());
+        this.scene.getClave_Publica().setText(RSA.getE().toString(radix).toUpperCase());
+        this.scene.getModulo_N().setText(RSA.getN().toString(radix).toUpperCase());
         
         this.scene.getBits_primo_P().setText(this.utilidades.countBits(RSA.getP()));
         this.scene.getBits_primo_Q().setText(this.utilidades.countBits(RSA.getQ()));
@@ -53,13 +53,13 @@ public class Print {
     
     public void clavePareja(BigInteger claveP, int radix) {
         
-        this.scene.getClaves_parejas().setText(claveP.toString(radix));
+        this.scene.getClaves_parejas().setText(claveP.toString(radix).toUpperCase());
     }
     
     public void addClavePareja(BigInteger claveP, int radix) {
         
         this.scene.getClaves_parejas().appendText("\n");
-        this.scene.getClaves_parejas().appendText(claveP.toString(radix));
+        this.scene.getClaves_parejas().appendText(claveP.toString(radix).toUpperCase());
     }
 
     public void numClavesParejas(BigInteger numCKP) {

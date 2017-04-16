@@ -51,15 +51,15 @@ public class LogNNC {
         print.println("<center><h1><font color=\"grey\"> ( " + fechaStr + " ) </font></h1></center>");
         
         print.println("<B><font color=\"IndianRed\">Numero primo P generado:</font></B>");
-        print.println("<B>" + RSA.getP().toString(radix) + "</B>");        
+        print.println("<B>" + RSA.getP().toString(radix).toUpperCase() + "</B>");        
         print.println("<B><font color=\"IndianRed\">Numero primo Q generado:</font></B>");
-        print.println("<B>" + RSA.getQ().toString(radix) + "</B>");
+        print.println("<B>" + RSA.getQ().toString(radix).toUpperCase() + "</B>");
         print.println("<b><font color=\"IndianRed\">Modulo N generado:</font></B>");
-        print.println("<B>" + RSA.getN().toString(radix) + "</B>");        
+        print.println("<B>" + RSA.getN().toString(radix).toUpperCase() + "</B>");        
         print.println("<B><font color=\"IndianRed\">Clave Publica e generada:</font></B>");
-        print.println("<B>" + RSA.getE().toString(radix) + "</B>");
+        print.println("<B>" + RSA.getE().toString(radix).toUpperCase() + "</B>");
         print.println("<B><font color=\"IndianRed\">Clave Privada d generada:</font></B>");
-        print.println("<B>" + RSA.getD().toString(radix) + "</B>");
+        print.println("<B>" + RSA.getD().toString(radix).toUpperCase() + "</B>");
         
         print.println("<H3><B>NUMEROS NO CIFRABLES</B></H3>");
         print.println("<B>El numero de Numeros No Cifrables es:" + RSA.getNumNNC() + "</B>");

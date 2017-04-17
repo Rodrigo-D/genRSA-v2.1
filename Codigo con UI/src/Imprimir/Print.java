@@ -7,7 +7,7 @@ package Imprimir;
 
 import Metodos.Utilidades;
 import Model.ComponentesRSA;
-import genrsa.sceneController;
+import genrsa.SceneController;
 import java.math.BigInteger;
 
 /**
@@ -18,11 +18,11 @@ public class Print {
     /**
      * Atributo encargado de manejar todos 
      */
-    private final sceneController scene;
+    private final SceneController scene;
     
     private final Utilidades utilidades;
     
-    public Print (sceneController sceneC){
+    public Print (SceneController sceneC){
         this.scene = sceneC;
         utilidades = new Utilidades();
     }
@@ -108,8 +108,9 @@ public class Print {
 
     
     public void flushIsPrime() {
-        this.scene.getEsPrimo_P().setText("");
-        this.scene.getEsPrimo_Q().setText("");
+        this.scene.getEsPrimo_P().clear();
+        this.scene.getEsPrimo_Q().clear();
+        this.scene.getTiempo_primalidad().clear();
     }
 
     public void multipleTwoError() {
@@ -121,13 +122,13 @@ public class Print {
     }
     
     public void flushNotManual() {
-        this.scene.getModulo_N().setText("");
-        this.scene.getBits_modulo_N().setText("");
-        this.scene.getClave_Privada().setText("");
-        this.scene.getBits_clave_Privada().setText("");
-        this.scene.getClaves_parejas().setText("");
-        this.scene.getNum_claves_parejas().setText("");
-        this.scene.getNum_mensajes_noCifrables().setText("");
+        this.scene.getModulo_N().clear();
+        this.scene.getBits_modulo_N().clear();
+        this.scene.getClave_Privada().clear();
+        this.scene.getBits_clave_Privada().clear();
+        this.scene.getClaves_parejas().clear();
+        this.scene.getNum_claves_parejas().clear();
+        this.scene.getNum_mensajes_noCifrables().clear();
     }
     
 }

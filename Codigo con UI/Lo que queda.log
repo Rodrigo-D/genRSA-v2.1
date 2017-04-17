@@ -1,9 +1,16 @@
 VA EN JAVA  
 
-Cambiar los setText("") por clear() ??
 
-Hacer que cuando se pulse logNNC o guardar clave se abra una ventana dandote la opcion de elegir el lugar donde guardarlo
+//Me queda comprobar que puedan ser bigInteger o quiza no haga falta gracias al metodo
+            //Tb comprobar si es decimal o no, y poner el controller a decimal o hexadecimal.
+            //poner si es decimal o no en el logNNC
+
+Hacer que cuando se pulse logNNC o guardar clave se abra una ventana dandote la opcion de elegir el lugar donde guardarlo showSaveDialog mirar api de filechooser
 http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/file-chooser.htm para elegir el lugar donde se guardará la clave.http://docs.oracle.com/javase/8/javafx/api/javafx/stage/DirectoryChooser.html
+problemas de mantener el foco en la ventana solucionado gracias a esto: http://stackoverflow.com/questions/42417126/prevent-window-from-being-focused-when-filechooser-is-active
+
+http://stackoverflow.com/questions/42417126/prevent-window-from-being-focused-when-filechooser-is-active window focused filechooser/other stage
+
 
 poner mensaje al final de CKP diciendo que solo se calculan 30 en el caso de que el num de ckp sea mayor que 30
 
@@ -20,6 +27,7 @@ http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/progress.htm para
 Poner un hiperlink en donde las preferencias para que te lleve a la pagina de github.
 Ojito con todos los comentarios del codigo.
 Mirar si se pueden cambiar los shortcuts de ayuda.
+Cuando se  busque un archivo obtener la ruta y dejarla guardada para que las proximas veces se mire ahí.
 
 CSS:
 poner en el mismo color que el fondo los campos que no son editables.

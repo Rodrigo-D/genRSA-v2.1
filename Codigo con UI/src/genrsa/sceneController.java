@@ -9,6 +9,7 @@ import Imprimir.MainWindow;
 import Metodos.CalculateNNC;
 import Metodos.CheckPrimes;
 import Metodos.GenerarClaves;
+import Metodos.ManageKey;
 import Model.ComponentesRSA;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,7 +17,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -27,7 +27,7 @@ import javafx.scene.input.KeyEvent;
  *
  * @author rdiazarr
  */
-public class sceneController {
+public class SceneController {
     
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -114,7 +114,7 @@ public class sceneController {
     private Label unitsE; // Value injected by FXMLLoader
      
     private boolean isDecimal;
-    
+        
     private ComponentesRSA RSA;
     
     private GenerarClaves generate;
@@ -124,6 +124,8 @@ public class sceneController {
     private MainWindow mainWindow;
     
     private CheckPrimes checkPrimes;
+    
+    private ManageKey manageKey;
    
 
     
@@ -175,6 +177,7 @@ public class sceneController {
         calculate = new CalculateNNC();
         checkPrimes = new CheckPrimes(this);
         checkPrimes.setUnits(10);
+        manageKey = new ManageKey();
     }    
     
     /**
@@ -235,6 +238,23 @@ public class sceneController {
     public void delete(ActionEvent event) {
         this.mainWindow.delete();
     }   
+    
+    /**
+     * Método usado para abrir una clave previamente guardada
+     * @param event 
+     */
+    public void openKey(ActionEvent event) {
+        String[] keys;
+        
+        keys = this.manageKey.open(this.unitsP);
+        
+        if (keys==null){
+            //imprimir mensaje de error fichero no existente o no encontrado
+        } else {
+            this.RSA = this.generate.manualRSAkeys(keys[0], keys[1], keys[2]);
+        }
+        
+    }
     
     
     /**
@@ -334,7 +354,6 @@ public class sceneController {
         System.exit(0);
     }
     
-
     
     
 

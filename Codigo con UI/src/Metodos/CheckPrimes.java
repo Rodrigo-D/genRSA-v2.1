@@ -7,7 +7,7 @@ package Metodos;
 
 import Imprimir.Print;
 import Model.Constantes;
-import genrsa.sceneController;
+import genrsa.SceneController;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
@@ -33,7 +33,7 @@ public class CheckPrimes {
      * Constructor de la clase
      * @param scene
      */
-    public CheckPrimes(sceneController scene) {
+    public CheckPrimes(SceneController scene) {
         this.utilidades = new Utilidades();
         this.print = new Print(scene);
     }

@@ -5,7 +5,7 @@
  */
 package Imprimir;
 
-import genrsa.sceneController;
+import genrsa.SceneController;
 
 
 /**
@@ -14,13 +14,13 @@ import genrsa.sceneController;
  */
 public class MainWindow {  
     
-    private final sceneController scene;
+    private final SceneController scene;
     
     /**
      * Constructor de la clase
      * @param sceneC 
      */
-    public MainWindow (sceneController sceneC){
+    public MainWindow (SceneController sceneC){
         this.scene = sceneC;
     }
     

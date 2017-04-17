@@ -26,16 +26,23 @@ public class GenRSA extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
+            
             Parent root = FXMLLoader.load(getClass().getResource("escena.fxml"));
-
+            
+            //FXMLLoader loader = new FXMLLoader(getClass().getResource("escena.fxml"));
+            //Parent root = (Parent)loader.load();
+            //SceneController myController = loader.getController();
+            //myController.setStage(primaryStage);
+            
             Scene scene = new Scene(root);
             
             primaryStage.setMinWidth(MINIMUM_WINDOW_WIDTH);
             primaryStage.setMinHeight(MINIMUM_WINDOW_HEIGHT);
 
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Aplicacion pantalla principal");
+            primaryStage.setTitle("Aplicacion pantalla principal");            
             primaryStage.show();
+            
         } catch (IOException ex) {
             Logger.getLogger(GenRSA.class.getName()).log(Level.SEVERE, null, ex);
         }

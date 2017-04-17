@@ -8,7 +8,7 @@ package Metodos;
 import Imprimir.Print;
 import Model.ComponentesRSA;
 import Model.Constantes;
-import genrsa.sceneController;
+import genrsa.SceneController;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import javafx.scene.control.TextField;
@@ -32,7 +32,7 @@ public class GenerarClaves {
     // atributo que almacena el tiempo empleado 
     private String time;
     
-    public GenerarClaves (sceneController scene){
+    public GenerarClaves (SceneController scene){
         this.RSA = new ComponentesRSA();
         this.utilidades = new Utilidades();
         this.print = new Print(scene);

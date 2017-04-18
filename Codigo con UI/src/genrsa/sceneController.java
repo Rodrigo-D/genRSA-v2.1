@@ -11,6 +11,7 @@ import Metodos.CheckPrimes;
 import Metodos.GenerarClaves;
 import Metodos.ManageKey;
 import Model.ComponentesRSA;
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -21,6 +22,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import org.apache.commons.lang3.StringUtils;
 
 
 /**
@@ -199,10 +201,8 @@ public class SceneController {
     //poner un tooltip encima de bits_clave_automatica que diga que se van a quitar puntos comas y espacios
     public void processAutomaticGeneration2(KeyEvent keyEvent) {    
         if (keyEvent.getCode() == KeyCode.ENTER) {
-            String keySize = this.bits_clave_automatica.getText(); 
-            boolean isSameSize = this.sameSizePrimes.isSelected();
-         
-            this.RSA = this.generate.autoRSAkeys(keySize, isSameSize); 
+            
+            processAutomaticGeneration(new ActionEvent());
         }
                
     }
@@ -237,22 +237,41 @@ public class SceneController {
      */
     public void delete(ActionEvent event) {
         this.mainWindow.delete();
+        this.RSA = null;
     }   
     
     /**
      * Método usado para abrir una clave previamente guardada
      * @param event 
      */
-    public void openKey(ActionEvent event) {
+    public void openKey(ActionEvent event)  {
         String[] keys;
         
         keys = this.manageKey.open(this.unitsP);
         
-        if (keys==null){
-            //imprimir mensaje de error fichero no existente o no encontrado
-        } else {
+        if (keys.length < 5){
+            
+            if (StringUtils.equals(keys[3], "Decimal")){
+                this.unitsDecimal(event);
+            } else {
+                this.unitsHexadecimal(event);
+            }
+            
             this.RSA = this.generate.manualRSAkeys(keys[0], keys[1], keys[2]);
+            
+        } else {            
+            //imprimir mensaje de error fichero no existente o no encontrado
         }
+        
+    }
+    
+    /**
+     * Método usado para guardar una clave previamente generada
+     * @param event 
+     */
+    public void saveKey(ActionEvent event)  {
+                
+        this.manageKey.save(this.unitsP, this.RSA, this.isDecimal);
         
     }
     

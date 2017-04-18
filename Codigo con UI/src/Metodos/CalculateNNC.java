@@ -35,7 +35,7 @@ public class CalculateNNC {
     public void calculateNNC() {
         //quiza añadir variable tipo isCreated en componentes
         try{
-            this.RSA.getNumNNC();
+            this.RSA.getNumNNC(); //devuelve la excepción si no se ha creado una clave
             this.log = new LogNNC();
             calculate();
         } catch (NullPointerException e){

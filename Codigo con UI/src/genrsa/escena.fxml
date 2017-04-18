@@ -25,7 +25,7 @@
          <menus>
             <Menu mnemonicParsing="false" text="Archivo">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#generateNNC" text="Guardar Clave">
+                  <MenuItem mnemonicParsing="false" onAction="#saveKey" text="Guardar Clave">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="G" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>

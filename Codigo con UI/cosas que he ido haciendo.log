@@ -1,5 +1,22 @@
 cosas que he ido haciendo:
 
+
+18 - 04 - 2017
+
+Metodo openFile
+	--comprobar si es decimal o no, y poner el controller a decimal o hexadecimal.
+	--comprobar que puedan ser bigInteger - no hace falta gracias al metodo de crear manual
+
+Empezado el metodo saveFile y acabado a falta de errores
+
+Quitada duplicidad de código en el método processAutomaticGeneration2 haciendo una llamada al primer método con un new ActionEvent()
+
+cuando se pulsa delete hacer que se borre tb this.RSA
+
+añadir al logNNC: Unidades: Hexadecimal
+
+
+
 17 - 04 -2017
 
 Cambiar los setText("") por clear() - hecho para la primalidad (tb añadido el recuadro del tiempo) y flushnot manual.

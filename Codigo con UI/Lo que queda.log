@@ -1,20 +1,26 @@
 VA EN JAVA  
 
-
-//Me queda comprobar que puedan ser bigInteger o quiza no haga falta gracias al metodo
-            //Tb comprobar si es decimal o no, y poner el controller a decimal o hexadecimal.
-            //poner si es decimal o no en el logNNC
+hacer que para saveKEY y logNNC ponga un nombre de archivo por defecto
 
 Hacer que cuando se pulse logNNC o guardar clave se abra una ventana dandote la opcion de elegir el lugar donde guardarlo showSaveDialog mirar api de filechooser
-http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/file-chooser.htm para elegir el lugar donde se guardará la clave.http://docs.oracle.com/javase/8/javafx/api/javafx/stage/DirectoryChooser.html
+http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/file-chooser.htm para elegir el lugar donde se guardará la clave.
 problemas de mantener el foco en la ventana solucionado gracias a esto: http://stackoverflow.com/questions/42417126/prevent-window-from-being-focused-when-filechooser-is-active
 
 http://stackoverflow.com/questions/42417126/prevent-window-from-being-focused-when-filechooser-is-active window focused filechooser/other stage
 
 
+
+
+
++que hacer cuando se modifique un componente y no se genere la clave manual, pero se de a guardar clave? 
+-Se podría  hacer que se volviera a poner por pantalla todo como la clave this.RSA?(se quedaría sin las claves parejas)
+
+imprimir errores en saveKEY  y OpenFile 
+
+
 poner mensaje al final de CKP diciendo que solo se calculan 30 en el caso de que el num de ckp sea mayor que 30
 
-Mejorar el html de los logNNC
+Mejorar el html de los logNNC y de saveKEY
 
 
 

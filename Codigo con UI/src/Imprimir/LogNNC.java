@@ -7,6 +7,7 @@ package Imprimir;
 
 import Model.ComponentesRSA;
 import Model.Constantes;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,9 +27,9 @@ public class LogNNC {
     
     private PrintWriter print;
     
-    public LogNNC () {
+    public LogNNC (File logFile) {
         try {
-            file = new FileWriter ("LogNNC.html"); //ojo poner un buen nombre de fichero
+            file = new FileWriter (logFile); 
             print = new PrintWriter (file);
         } catch (IOException e) {
             //imprimir mensaje de error por pantalla debido a que el nombre no es correcto
@@ -103,7 +104,7 @@ public class LogNNC {
     public void WriteList(List<BigInteger> listNNC, int radix) {
         
         for (BigInteger NNC: listNNC){
-            this.print.println(NNC.toString(radix));
+            this.print.println(NNC.toString(radix).toUpperCase());
         }
     }
 

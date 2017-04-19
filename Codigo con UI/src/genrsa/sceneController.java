@@ -6,12 +6,10 @@
 package genrsa;
 
 import Imprimir.MainWindow;
-import Metodos.CalculateNNC;
 import Metodos.CheckPrimes;
 import Metodos.GenerarClaves;
 import Metodos.ManageKey;
 import Model.ComponentesRSA;
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -120,9 +118,7 @@ public class SceneController {
     private ComponentesRSA RSA;
     
     private GenerarClaves generate;
-    
-    private CalculateNNC calculate;
-    
+        
     private MainWindow mainWindow;
     
     private CheckPrimes checkPrimes;
@@ -176,9 +172,7 @@ public class SceneController {
         
         generate = new GenerarClaves(this);
         mainWindow = new MainWindow(this);
-        calculate = new CalculateNNC();
         checkPrimes = new CheckPrimes(this);
-        checkPrimes.setUnits(10);
         manageKey = new ManageKey();
     }    
     
@@ -226,9 +220,7 @@ public class SceneController {
      * @param event 
      */
     public void generateNNC(ActionEvent event) {
-        calculate.setRSA(this.RSA);
-        
-        calculate.calculateNNC();        
+       this.manageKey.saveLogNNC(this.unitsP, this.RSA);
     }
     
     /**
@@ -271,7 +263,7 @@ public class SceneController {
      */
     public void saveKey(ActionEvent event)  {
                 
-        this.manageKey.save(this.unitsP, this.RSA, this.isDecimal);
+        this.manageKey.saveKey(this.unitsP, this.RSA);
         
     }
     
@@ -284,7 +276,7 @@ public class SceneController {
     public void unitsDecimal(ActionEvent event) {
         this.isDecimal = true;
         this.generate.setUnits(10);  
-        this.calculate.setUnits(10);
+        this.manageKey.setUnits(10);
         this.checkPrimes.setUnits(10);
         //cambiarlo y hacerlo con un CSS
         
@@ -299,7 +291,7 @@ public class SceneController {
     public void unitsHexadecimal(ActionEvent event) {
         this.isDecimal = false;
         this.generate.setUnits(16);
-        this.calculate.setUnits(16);
+        this.manageKey.setUnits(16);
         this.checkPrimes.setUnits(16);
         this.mainWindow.changeUnits("hex");
     }

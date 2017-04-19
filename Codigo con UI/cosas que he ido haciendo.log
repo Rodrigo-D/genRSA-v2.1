@@ -1,5 +1,14 @@
 cosas que he ido haciendo:
 
+19 - 04 -  2017
+
+
+hacer que para saveKEY y logNNC ponga un nombre de archivo por defecto - setInitialFileName
+
+Hacer que cuando se pulse logNNC o guardar clave se abra una ventana dandote la opcion de elegir el lugar donde guardarlo showSaveDialog mirar api de filechooser
+http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/file-chooser.htm para elegir el lugar donde se guardará la clave.
+problemas de mantener el foco en la ventana solucionado gracias a esto: http://stackoverflow.com/questions/42417126/prevent-window-from-being-focused-when-filechooser-is-active
+
 
 18 - 04 - 2017
 
@@ -14,6 +23,8 @@ Quitada duplicidad de código en el método processAutomaticGeneration2 haciendo
 cuando se pulsa delete hacer que se borre tb this.RSA
 
 añadir al logNNC: Unidades: Hexadecimal
+
+Cuando se  busque un archivo obtener la ruta y dejarla guardada para que las proximas veces se mire ahí.
 
 
 

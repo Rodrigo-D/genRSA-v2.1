@@ -8,6 +8,7 @@ package Metodos;
 import Imprimir.LogNNC;
 import Model.ComponentesRSA;
 import Model.Constantes;
+import java.io.File;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,31 +24,18 @@ public class CalculateNNC {
     
     private LogNNC log;
     //decimal =10, hexadecimal =16
-    private int radix;
+    private final int radix;
     
-    public CalculateNNC(){
+    public CalculateNNC(int radix, ComponentesRSA RSA){
         this.RSA = null;
         this.log = null;
-        this.radix = 10;
+        this.radix = radix;
+        this.RSA = RSA;
     }
     
-    //comprueba que se haya creado una clave y su num de NNC
-    public void calculateNNC() {
-        //quiza añadir variable tipo isCreated en componentes
-        try{
-            this.RSA.getNumNNC(); //devuelve la excepción si no se ha creado una clave
-            this.log = new LogNNC();
-            calculate();
-        } catch (NullPointerException e){
-            //de momento asi hasta que sepa imprimir un cuadrado por pantalla dando el error
-        }
-    }  
-    
-    /**
-    * Metodo para calcular los Numeros No Cifrables
-    */
+    //Metodo para calcular los Numeros No Cifrables
     //http://www.criptored.upm.es/crypt4you/temas/RSA/leccion5/leccion05.html
-    public void calculate() {  
+    public void calculate(File logFile) {
         BigInteger number;
         BigInteger inv_pq,inv_qp, p_invpq, q_invqp;
         //numNp y numNq llevan el valor de la posicion del array
@@ -56,6 +44,8 @@ public class CalculateNNC {
                                      //si se cambiase ojito con todos los int de este metodo y metodos llamados desde aqui
 
         
+        this.log = new LogNNC(logFile);                            
+                                     
         //Preguntar cual queremos que sea el maximo de nnc a imprimir
         //Preguntar/calclar por el keySize maximo con el q se calcularan los nnc
         if (this.nncGreaterThanMAX() || this.keySizeGreaterThanMAX()){
@@ -146,15 +136,7 @@ public class CalculateNNC {
         return (this.RSA.getKeySize()>Constantes.MAX_KeySize);
     }
     
-    /**
-     * @param radix 
-     */
-    public void setUnits( int radix){
-        this.radix = radix;
-    }
-    
-    public void setRSA( ComponentesRSA RSA){
-        this.RSA = RSA;
-    }
+
+   
     
 }

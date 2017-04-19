@@ -24,6 +24,8 @@ import org.apache.commons.lang3.StringUtils;
 public class ManageKey {
           
     private final FileChooser fileChooser;
+    //decimal = 10, hexadecimal = 16
+    private int radix;
     
     
     public ManageKey(){        
@@ -32,6 +34,8 @@ public class ManageKey {
         this.fileChooser = new FileChooser();
         this.fileChooser.setInitialDirectory( new File(System.getProperty("user.home")));
         fileChooser.getExtensionFilters().add(extensionFilter);
+        
+        this.radix=10;
                 
     }
     
@@ -157,19 +161,15 @@ public class ManageKey {
      * Método encargado de guardar la clave creada
      * @param label nodo cualquiera de la escena que se usa para ir escalando y obtener la ventana. 
      * @param RSA 
-     * @param isDecimal 
      */
-    public void save (Label label, ComponentesRSA RSA, boolean isDecimal) {        
+    public void saveKey (Label label, ComponentesRSA RSA) {        
         File keyFile;
         SaveKey saveKey;
-        int radix = 16;
-        
-        if (isDecimal){
-            radix = 10;
-        }
+       
         
         this.fileChooser.setTitle("Seleccionar directorio donde guardar la clave");        
-        keyFile = fileChooser.showSaveDialog(label.getScene().getWindow());        
+        this.fileChooser.setInitialFileName("Clave genRSA");
+        keyFile = this.fileChooser.showSaveDialog(label.getScene().getWindow());        
         
         if (keyFile != null ){
             
@@ -177,7 +177,7 @@ public class ManageKey {
              
             if (RSA != null){
                 saveKey = new SaveKey(keyFile);
-                saveKey.generateHTML(RSA, radix);
+                saveKey.generateHTML(RSA, this.radix);
             } else {
                 //imprimir mensaje de error diciendo que no se ha generado una clave
             }
@@ -187,5 +187,45 @@ public class ManageKey {
         }
     }
     
+    
+     /**
+     * Método encargado de guardar el log de Número No Cifrables
+     * @param label nodo cualquiera de la escena que se usa para ir escalando y obtener la ventana. 
+     * @param RSA 
+     */
+    public void saveLogNNC (Label label, ComponentesRSA RSA) {        
+        File logNNCFile;
+        CalculateNNC NNC;
+        
+        
+        this.fileChooser.setTitle("Seleccionar directorio donde guardar el log.");        
+        this.fileChooser.setInitialFileName("LogNNC genRSA");
+        logNNCFile = this.fileChooser.showSaveDialog(label.getScene().getWindow());        
+        
+        if (logNNCFile != null ){
+            
+            this.fileChooser.setInitialDirectory(logNNCFile.getParentFile());
+             
+            if (RSA != null){
+                NNC = new CalculateNNC(this.radix, RSA);
+                               
+                NNC.calculate(logNNCFile);
+                
+            } else {
+                //imprimir mensaje de error diciendo que no se ha generado una clave
+            }
+            
+        } else {            
+            //imprimir mensaje de error diciendo que no se ha seleccionado un fichero donde guardarlo
+        }
+    }
+    
+    
+    /**
+     * @param radix 
+     */
+    public void setUnits( int radix){
+        this.radix = radix;
+    }
     
 }

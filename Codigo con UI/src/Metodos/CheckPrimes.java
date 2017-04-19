@@ -36,6 +36,7 @@ public class CheckPrimes {
     public CheckPrimes(SceneController scene) {
         this.utilidades = new Utilidades();
         this.print = new Print(scene);
+        this.radix = 10;
     }
     
     /**

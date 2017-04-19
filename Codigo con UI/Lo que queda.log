@@ -1,26 +1,15 @@
 VA EN JAVA  
 
-hacer que para saveKEY y logNNC ponga un nombre de archivo por defecto
-
-Hacer que cuando se pulse logNNC o guardar clave se abra una ventana dandote la opcion de elegir el lugar donde guardarlo showSaveDialog mirar api de filechooser
-http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/file-chooser.htm para elegir el lugar donde se guardará la clave.
-problemas de mantener el foco en la ventana solucionado gracias a esto: http://stackoverflow.com/questions/42417126/prevent-window-from-being-focused-when-filechooser-is-active
-
-http://stackoverflow.com/questions/42417126/prevent-window-from-being-focused-when-filechooser-is-active window focused filechooser/other stage
-
-
-
+http://www.javafxtutorials.com/tutorials/switching-to-different-screens-in-javafx-and-fxml/ sobre lo mismo
+imprimir errores en saveKEY  y OpenFile 
 
 
 +que hacer cuando se modifique un componente y no se genere la clave manual, pero se de a guardar clave? 
 -Se podría  hacer que se volviera a poner por pantalla todo como la clave this.RSA?(se quedaría sin las claves parejas)
 
-imprimir errores en saveKEY  y OpenFile 
-
-
 poner mensaje al final de CKP diciendo que solo se calculan 30 en el caso de que el num de ckp sea mayor que 30
 
-Mejorar el html de los logNNC y de saveKEY
+Mejorar el html de los logNNC y de saveKEY: https://html-online.com/editor/
 
 
 
@@ -28,19 +17,26 @@ quiza añadir un boton con un dibujito a la derecha de los primos o claves para 
 	copy()– transfers the currently selected range in the text to the clipboard, leaving the current selection.
 	selectAll() - selects all text in the text input.
 	
-http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/progress.htm para hacer el control de progreso y cargando.
 
+Ver capturas de pantalla en mi movil.
 Poner un hiperlink en donde las preferencias para que te lleve a la pagina de github.
 Ojito con todos los comentarios del codigo.
 Mirar si se pueden cambiar los shortcuts de ayuda.
-Cuando se  busque un archivo obtener la ruta y dejarla guardada para que las proximas veces se mire ahí.
+
+http://docs.oracle.com/javase/8/javafx/interoperability-tutorial/concurrency.htm#JFXIP546 Para hacer threads en caso de proceso muy pesado.
 
 CSS:
 poner en el mismo color que el fondo los campos que no son editables.
+http://docs.oracle.com/javase/8/javafx/layout-tutorial/style_css.htm
+http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/css_tutorial.htm
 http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/custom.htm para realizar el css para customizarlo.
+http://docs.oracle.com/javase/8/javafx/api/javafx/scene/doc-files/cssref.html
 
 
+
+::::
+http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/progress.htm para hacer el control de progreso y cargando.
 Quiza añadir scrollpane para cuando hacen la pantalla pequeña, O MEJOR HACER QUE NO SE PUEDA HACER MAS PEQUEÑA DE UN CIERTO TAMAÑO: http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/scrollpane.htm
-Quiza usar un choiceBox o ListView o ComboBox para dar a elegir algun primo p o q?
+Quiza usar un choiceBox o ListView o ComboBox (esta última es la mejor) para dar a elegir algun primo p o q?
 
 MEJORAR: el contenido de los tooltips.

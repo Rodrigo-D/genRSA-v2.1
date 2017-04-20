@@ -5,6 +5,7 @@
  */
 package Metodos;
 
+import Imprimir.ErrorDialog;
 import Imprimir.Print;
 import Model.ComponentesRSA;
 import Model.Constantes;
@@ -18,6 +19,8 @@ import javafx.scene.control.TextField;
  * @author rdiazarr
  */
 public class GenerarClaves {
+    
+    private final ErrorDialog errorDialog;
     
     private final ComponentesRSA RSA;   
     
@@ -37,6 +40,7 @@ public class GenerarClaves {
         this.utilidades = new Utilidades();
         this.print = new Print(scene);
         this.radix = 10;
+        this.errorDialog = new ErrorDialog();
     }
     
     /**
@@ -54,7 +58,7 @@ public class GenerarClaves {
         primeQ = this.utilidades.formatNumber(primeQ);                
         pubKey = this.utilidades.formatNumber(pubKey);
         
-         //con que uno de los tres no sea valido se termina
+         //con que uno de los tres no sea valido se visualiza una pantalla de error
          /* Step 1: Get the prime numbers (p and q) and the public key */
         try {
             this.RSA.setP ( new BigInteger (primeP, this.radix));
@@ -62,22 +66,26 @@ public class GenerarClaves {
             this.RSA.setE ( new BigInteger (pubKey, this.radix));
             
         } catch (NumberFormatException n){
-            this.print.primeError(this.radix);
+            
+            this.errorDialog.componentConversion(this.radix);
             this.print.flushNotManual();
             return null;
         }
         
+        //se comprueba que p y q no sean menores que 3
         if (this.RSA.getP().compareTo(Constantes.THREE) <= 0 || this.RSA.getQ().compareTo(Constantes.THREE) <= 0){
-                this.print.primeLittleError();        
-                this.print.flushNotManual();
-                return null;
+            
+            this.errorDialog.primeLittle();  
+            this.print.flushNotManual();
+            return null;
         }
         
+        // se comprueba que p y q no sean pares
         if (this.RSA.getP().mod(Constantes.TWO).equals(Constantes.ZERO) || this.RSA.getQ().mod(Constantes.TWO).equals(Constantes.ZERO)){
-                this.print.multipleTwoError();          
-                this.print.flushNotManual();
-                return null;
-                //imprimir por pantalla que el numero ha de ser un probable primo impar
+            
+            this.errorDialog.multipleTwo();    
+            this.print.flushNotManual();
+            return null;
         }       
         
         
@@ -93,14 +101,17 @@ public class GenerarClaves {
         // compareTo da 1 si es mayor que el valor entre parentesis
         if ((this.RSA.getE().compareTo(this.RSA.getPhiN()) > -1) || 
                  (this.RSA.getE().gcd(this.RSA.getPhiN()).compareTo(Constantes.ONE)) != 0){
-            this.print.invalidPublicKey();            
+            
+            this.errorDialog.invalidPubKey();
+            this.print.invalidPublicKey();      
+            this.print.flushNotManual();
+            return null;
         }
 
         /* Step 5: Calculate d such that e.d = 1 (mod ø(n)) */
         this.RSA.setD( this.RSA.getE().modInverse(this.RSA.getPhiN()));
         
-        
-        
+                
         this.time = this.utilidades.millisToSeconds(System.currentTimeMillis()  - this.startTime);
         
         this.print.rsaGeneration(this.RSA, this.time, this.radix);          
@@ -108,12 +119,8 @@ public class GenerarClaves {
         this.calculateCKP();
         this.calculateNumNNC();
         
-        return this.RSA;
-        
+        return this.RSA;        
      }
-    
-    
-    
     
     
     
@@ -124,18 +131,24 @@ public class GenerarClaves {
      * @return 
      */
     //preguntar al profesor y comprobar cual tiene que ser el keySize minimo 
-    //comprobar en la clave que p y q no sean el mismo numero
     public ComponentesRSA autoRSAkeys(String keySize, boolean sameSizePrimes) {        
         this.startTime = System.currentTimeMillis();
         int distanceBits;
         
         keySize = this.utilidades.formatNumber(keySize);
         
-        if (!this.utilidades.checkKeySize(keySize)){            
-            //  llamar al metodo que imprima error en autoRSAKeys    
+        //se comprueba que sea un número
+        if (!this.utilidades.isNumber(keySize)){
+            this.errorDialog.keySize(); 
             return null;
         } 
+        
         this.RSA.setKeySize(Integer.parseInt(keySize));
+            
+        if (this.RSA.getKeySize() < 5){ 
+            this.errorDialog.littleKeySize(); 
+            return null;
+        }      
         
         distanceBits = this.calculateDistanceBits(sameSizePrimes);
         this.createRSAKeys(distanceBits);        
@@ -245,6 +258,8 @@ public class GenerarClaves {
         
         return numCKP;
     }
+    
+    
     /**
      * Metodo para calcular la diferencia de bits en el caso de que no se quieran p y q del mismo tamaño
      * @param isSameSize

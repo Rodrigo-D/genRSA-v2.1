@@ -19,18 +19,7 @@ public class Utilidades {
         
         return number;
     }
-    
-    
-    public boolean checkKeySize (String keySize){
-        boolean out = false;
-        if (this.isNumber(keySize)){
-           if (Integer.parseInt(keySize) > 3){
-              out=true;
-            }
-        } 
-        return out;
-    }
-    
+        
     
     public boolean isNumber(String possibleNum) {        
         boolean out = true;

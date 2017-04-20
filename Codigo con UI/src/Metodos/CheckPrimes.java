@@ -5,6 +5,7 @@
  */
 package Metodos;
 
+import Imprimir.ErrorDialog;
 import Imprimir.Print;
 import Model.Constantes;
 import genrsa.SceneController;
@@ -29,6 +30,8 @@ public class CheckPrimes {
     
     private final Print print;
     
+    private final ErrorDialog errorDialog; 
+    
     /**
      * Constructor de la clase
      * @param scene
@@ -36,7 +39,8 @@ public class CheckPrimes {
     public CheckPrimes(SceneController scene) {
         this.utilidades = new Utilidades();
         this.print = new Print(scene);
-        this.radix = 10;
+        this.radix = 10;        
+        this.errorDialog = new ErrorDialog();
     }
     
     /**
@@ -70,27 +74,25 @@ public class CheckPrimes {
             this.probPrimeP = new BigInteger (probNumberP, this.radix);
             this.probPrimeQ = new BigInteger (probNumberQ, this.radix);    
             
-        } catch (NumberFormatException n){
-            this.print.primeError(this.radix);
+        } catch (NumberFormatException n){            
+            this.errorDialog.primeConversion(this.radix);
             return;
         }
         
         if (!this.utilidades.isNumber(vueltas)){
-           // imprimir un mensaje diciendo que no es un numero
-            this.print.iterationsError();         
+            this.errorDialog.iterations();         
             return;
         } 
         
         this.vueltas = Integer.parseInt(vueltas);
         
         if (this.probPrimeP.compareTo(Constantes.THREE) <= 0 || this.probPrimeQ.compareTo(Constantes.THREE) <= 0){
-                this.print.primeLittleError();        
+                this.errorDialog.primeLittle();
                 return;
         }
         if (this.probPrimeP.mod(Constantes.TWO).equals(Constantes.ZERO) || this.probPrimeQ.mod(Constantes.TWO).equals(Constantes.ZERO)){
-                this.print.multipleTwoError();          
+                this.errorDialog.multipleTwo();
                 return;
-                //imprimir por pantalla que el numero ha de ser un probable primo impar
         }       
         
         if(isMiller){

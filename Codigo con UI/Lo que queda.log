@@ -1,22 +1,24 @@
 VA EN JAVA  
 
-http://www.javafxtutorials.com/tutorials/switching-to-different-screens-in-javafx-and-fxml/ sobre lo mismo
-imprimir errores en saveKEY  y OpenFile 
+http://www.javafxtutorials.com/tutorials/switching-to-different-screens-in-javafx-and-fxml/ para cifrado y descifrado y ataques.
 
+imprimir errores en saveKEY  y OpenFile.
 
-+que hacer cuando se modifique un componente y no se genere la clave manual, pero se de a guardar clave? 
--Se podría  hacer que se volviera a poner por pantalla todo como la clave this.RSA?(se quedaría sin las claves parejas)
+poner siempre que este en estado calculando cuando empiece cualquier operación, si no pondrá preparado.
+
 
 poner mensaje al final de CKP diciendo que solo se calculan 30 en el caso de que el num de ckp sea mayor que 30
 
 Mejorar el html de los logNNC y de saveKEY: https://html-online.com/editor/
 
-
-
+solucionar bug creacion de claves con primos p y q 5,5 clave 9 y que de tantas claves parejas.
+	
 quiza añadir un boton con un dibujito a la derecha de los primos o claves para que cuando se pulse se copie al portapapeles. http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/text-field.htm 
 	copy()– transfers the currently selected range in the text to the clipboard, leaving the current selection.
 	selectAll() - selects all text in the text input.
 	
+	http://code.makery.ch/blog/javafx-dialogs-official/ para poner icono a la aplicación
+	http://code.makery.ch/blog/javafx-8-dialogs/ progress dialog 
 
 Ver capturas de pantalla en mi movil.
 Poner un hiperlink en donde las preferencias para que te lleve a la pagina de github.
@@ -32,6 +34,8 @@ http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/css_tutorial.htm
 http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/custom.htm para realizar el css para customizarlo.
 http://docs.oracle.com/javase/8/javafx/api/javafx/scene/doc-files/cssref.html
 
+
+http://code.makery.ch/library/javafx-8-tutorial/part7/ deployment - packaging the app
 
 
 ::::

@@ -86,35 +86,11 @@ public class Print {
         
         this.scene.getTiempo_primalidad().setText(time);
     }
-
-    public void primeError (int radix) {
-        if (radix==10){
-            //solo permitido comas, puntos y espacios
-             this.scene.getEstado().setText("Por favor, introduzca un número sin caracteres ni letras.");        
-        } else {
-            this.scene.getEstado().setText("Por favor, introduzca un número sin caracteres extraños.");
-        }
-       
-    }
-
-    public void iterationsError() {
-         this.scene.getEstado().setText("Por favor, introduzca en VUELTAS un número sin caracteres ni letras.");
-    }
-
-
-    public void primeLittleError() {
-        this.scene.getEstado().setText("Por favor, introduzca un número mayor que 3.");
-    }
-
     
     public void flushIsPrime() {
         this.scene.getEsPrimo_P().clear();
         this.scene.getEsPrimo_Q().clear();
         this.scene.getTiempo_primalidad().clear();
-    }
-
-    public void multipleTwoError() {
-          this.scene.getEstado().setText("Por favor, introduzca un número que no sea multiplo de 2.");
     }
 
     public void invalidPublicKey() {

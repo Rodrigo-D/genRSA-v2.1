@@ -1,5 +1,15 @@
 cosas que he ido haciendo:
 
+20 - 04 -2017
+
+Encontrado y resuelto un bug en Check e, gcd(e, ø(n)) = 1 ; 1 < e < ø(n)  de la generación manual.
+Descubierto los Alert Dialogs para mostrar errores.
+
+comprobar en la clave automatica que p y q no sean el mismo numero - secureRandom lo soluciona
+
++que hacer cuando se modifique un componente y no se genere la clave manual, pero se de a guardar clave? 
+-Se podría  hacer que se volviera a poner por pantalla todo como la clave this.RSA?(se quedaría sin las claves parejas)
+
 19 - 04 -  2017
 
 

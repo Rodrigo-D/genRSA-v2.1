@@ -93,9 +93,6 @@ public class Print {
         this.scene.getTiempo_primalidad().clear();
     }
 
-    public void invalidPublicKey() {
-        this.scene.getEstado().setText("Por favor, introduzca una clave publica tal que gcd(e, ø(n)) = 1 ; 1 < e < ø(n) ");
-    }
     
     public void flushNotManual() {
         this.scene.getModulo_N().clear();

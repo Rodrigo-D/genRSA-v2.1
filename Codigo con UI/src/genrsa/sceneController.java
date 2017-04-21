@@ -124,17 +124,8 @@ public class SceneController {
     private CheckPrimes checkPrimes;
     
     private ManageKey manageKey;
-   
-
-    
-  /*  @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-     //   label.setText("Hello World!");
-    }
-    */
-    
-     /**
+      
+    /**
      * Initializes the controller class.
      */
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -180,7 +171,6 @@ public class SceneController {
      * Método usado cuando se pulsa el boton de generar de manera automática una clave   
      * @param event 
      */
-    //poner un tooltip encima de bits_clave_automatica que diga que se van a quitar puntos comas y espacios
     public void processAutomaticGeneration(ActionEvent event) {       
         String keySize = this.bits_clave_automatica.getText(); 
         boolean isSameSize = this.sameSizePrimes.isSelected();
@@ -192,7 +182,6 @@ public class SceneController {
      * Método usado cuando se pulsa enter al meter los bits de generar de manera automática una clave   
      * @param keyEvent
      */
-    //poner un tooltip encima de bits_clave_automatica que diga que se van a quitar puntos comas y espacios
     public void processAutomaticGeneration2(KeyEvent keyEvent) {    
         if (keyEvent.getCode() == KeyCode.ENTER) {
             
@@ -241,7 +230,7 @@ public class SceneController {
         
         keys = this.manageKey.open(this.unitsP);
         
-        if (keys.length < 5){
+        if (keys != null){
             
             if (StringUtils.equals(keys[3], "Decimal")){
                 this.unitsDecimal(event);
@@ -250,21 +239,15 @@ public class SceneController {
             }
             
             this.RSA = this.generate.manualRSAkeys(keys[0], keys[1], keys[2]);
-            
-        } else {            
-            //imprimir mensaje de error fichero no existente o no encontrado
-        }
-        
+        }//el else ya se ha tenido en cuenta en el interior de manageKey.open         
     }
     
     /**
      * Método usado para guardar una clave previamente generada
      * @param event 
      */
-    public void saveKey(ActionEvent event)  {
-                
-        this.manageKey.saveKey(this.unitsP, this.RSA);
-        
+    public void saveKey(ActionEvent event)  {                
+        this.manageKey.saveKey(this.unitsP, this.RSA);        
     }
     
     
@@ -272,13 +255,11 @@ public class SceneController {
      * Establece el formato de unidades a Decimal
      * @param event 
      */
-    //hacer que ponga por pantalla dec
     public void unitsDecimal(ActionEvent event) {
         this.isDecimal = true;
         this.generate.setUnits(10);  
         this.manageKey.setUnits(10);
         this.checkPrimes.setUnits(10);
-        //cambiarlo y hacerlo con un CSS
         
         this.mainWindow.changeUnits("dec");
     }
@@ -287,7 +268,6 @@ public class SceneController {
      * Establece el formato de unidades a Hexadecimal
      * @param event 
      */
-    //hacer que ponga por pantalla hex
     public void unitsHexadecimal(ActionEvent event) {
         this.isDecimal = false;
         this.generate.setUnits(16);
@@ -323,7 +303,6 @@ public class SceneController {
      * para mostrar su numero de bits
      * @param keyEvent
      */
-    //poner un tooltip encima de bits_clave_automatica que diga que se van a quitar puntos comas y espacios
     public void bitsP(KeyEvent keyEvent) {    
         String primeP = this.primo_P.getText(); 
         
@@ -335,7 +314,6 @@ public class SceneController {
      * para mostrar su numero de bits
      * @param keyEvent
      */
-    //poner un tooltip encima de bits_clave_automatica que diga que se van a quitar puntos comas y espacios
     public void bitsQ(KeyEvent keyEvent) {    
         String primeQ = this.primo_Q.getText(); 
         
@@ -347,15 +325,11 @@ public class SceneController {
      * para mostrar su numero de bits
      * @param keyEvent
      */
-    //poner un tooltip encima de bits_clave_automatica que diga que se van a quitar puntos comas y espacios
     public void bitsPublicKey(KeyEvent keyEvent) {  
         String publicKey = this.clave_Publica.getText(); 
         
         this.generate.numberToBits(publicKey, this.bits_clave_Publica);
     }
-               
-    
-    
     
     /**
      * Cierra todo el programa
@@ -364,6 +338,8 @@ public class SceneController {
     public void exitApplication(ActionEvent event) {
         System.exit(0);
     }
+    
+    
     
     
     

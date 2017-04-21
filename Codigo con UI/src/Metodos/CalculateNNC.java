@@ -20,40 +20,29 @@ import java.util.List;
  */
 public class CalculateNNC {
     
-    private ComponentesRSA RSA;   
+    private final ComponentesRSA RSA;   
     
-    private LogNNC log;
+    private final LogNNC log;
     //decimal =10, hexadecimal =16
     private final int radix;
     
-    public CalculateNNC(int radix, ComponentesRSA RSA){
-        this.RSA = null;
-        this.log = null;
+    public CalculateNNC(int radix, ComponentesRSA RSA, File logFile){
+        this.log = new LogNNC(logFile); 
         this.radix = radix;
-        this.RSA = RSA;
+        this.RSA = RSA;        
     }
     
     //Metodo para calcular los Numeros No Cifrables
     //http://www.criptored.upm.es/crypt4you/temas/RSA/leccion5/leccion05.html
-    public void calculate(File logFile) {
+    public void calculate() {
         BigInteger number;
         BigInteger inv_pq,inv_qp, p_invpq, q_invqp;
         //numNp y numNq llevan el valor de la posicion del array
-        int numNp, numNq, iteradorP, iteradorQ; //ojito  cuidado que es un int y puede llegar a crecer una barbaridad
-                                                // se controla con el if de abajo
-                                     //si se cambiase ojito con todos los int de este metodo y metodos llamados desde aqui
-
+        int numNp, numNq, iteradorP, iteradorQ; // ojo si se deja que se puedan calcular logNNC  muy grandes
+                                                //porque esto se iría de rango  --en parte controlado ante de llamar
+                                                //a este metodo
         
-        this.log = new LogNNC(logFile);                            
-                                     
-        //Preguntar cual queremos que sea el maximo de nnc a imprimir
-        //Preguntar/calclar por el keySize maximo con el q se calcularan los nnc
-        if (this.nncGreaterThanMAX() || this.keySizeGreaterThanMAX()){
-           this.log.writeErrorHTML(this.RSA.getNumNNC());
-           this.log.closeHTML();
-           return;
-        } 
-       
+                                                
         //arrays donde se almacenan los num no cifrables  en p y en q. Y los NNC en el cuerpo de cifra
         List <BigInteger> listNp = new ArrayList <>();
         List <BigInteger> listNq = new ArrayList <>();
@@ -127,16 +116,6 @@ public class CalculateNNC {
         return position;
     }
     
-    public boolean nncGreaterThanMAX (){
-        
-       return (this.RSA.getNumNNC().compareTo(Constantes.MAX_NNC))==1;        
-    }
-
-    private boolean keySizeGreaterThanMAX() {
-        return (this.RSA.getKeySize()>Constantes.MAX_KeySize);
-    }
-    
-
-   
+  
     
 }

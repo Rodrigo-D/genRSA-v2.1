@@ -103,7 +103,6 @@ public class GenerarClaves {
                  (this.RSA.getE().gcd(this.RSA.getPhiN()).compareTo(Constantes.ONE)) != 0){
             
             this.errorDialog.invalidPubKey();
-            this.print.invalidPublicKey();      
             this.print.flushNotManual();
             return null;
         }

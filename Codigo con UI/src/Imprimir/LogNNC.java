@@ -6,7 +6,6 @@
 package Imprimir;
 
 import Model.ComponentesRSA;
-import Model.Constantes;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -78,27 +77,6 @@ public class LogNNC {
         this.print.println("</body>");
         this.print.println("</html>");
         this.print.close();
-    }
-
-    public void writeErrorHTML(BigInteger numNNC) {
-        
-        Date fecha = new Date();
-        SimpleDateFormat estilo = new SimpleDateFormat( "dd 'de' MMMM 'de' yyyy", new Locale("es_ES"));
-        String fechaStr = estilo.format(fecha);
-        
-        print.println("<html>");
-        print.println("<head><title> Log Numeros No Cifrables </title></head>");    
-        
-        print.println("<body>");
-        print.println("<PRE>");
-        
-        print.println("<center><h1><font color=\"navy\"> ERROR AL GENERAR EL LOG </font></h1></center>");        
-        print.println("<center><h1><font color=\"grey\"> ( " + fechaStr + " ) </font></h1></center>");
-        
-        print.println("<B><font color=\"IndianRed\">El numero de Numeros No Cifrables es"
-                + " mucho mayor del permitido(" + Constantes.MAX_NNC + ")</font></B>");
-        print.println("<B> NNC = " + numNNC + "</B>");        
-        
     }
 
     public void WriteList(List<BigInteger> listNNC, int radix) {

@@ -17,8 +17,8 @@ public class ErrorDialog {
     Alert alertError;
     
     public ErrorDialog() {
-        alertError = new Alert(AlertType.ERROR);
-        alertError.setTitle("Error");
+        this.alertError = new Alert(AlertType.ERROR);
+        this.alertError.setTitle("Error");
     }
     
             
@@ -109,6 +109,65 @@ public class ErrorDialog {
                 + "Otros caracteres permitidos son: espacios, puntos y comas.");       
         
         alertError.showAndWait();    
+    }
+
+    public void manyNNC() {
+        alertError.setHeaderText("Error, demasiados NNC a calcular");        
+       
+        alertError.setContentText("Por favor, genere una clave con menos Números No Cifrables");       
+        
+        alertError.showAndWait(); 
+    }
+
+    public void bigKeySize() {
+        alertError.setHeaderText("Error, longitud de clave demasiado grande como para calcular los NNC");        
+       
+        alertError.setContentText("Por favor, genere una clave con una longitud de clave menor");       
+        
+        alertError.showAndWait();   
+    }
+
+    public void RSAnotGenerated() {
+        alertError.setHeaderText("Error, clave RSA no generada");        
+       
+        alertError.setContentText("Por favor, genere una clave RSA");       
+        
+        alertError.showAndWait(); 
+    }
+
+    public void FileToSave() {
+        alertError.setHeaderText("Error, no se ha seleccionado/creado ningún fichero");        
+       
+        alertError.setContentText("Por favor, seleccione un fichero válido para"
+                + " guardar la clave RSA o cree uno nuevo");       
+        
+        alertError.showAndWait(); 
+    }
+    
+    public void FileToOpen() {
+        alertError.setHeaderText("Error, no se ha seleccionado ningún fichero");        
+       
+        alertError.setContentText("Por favor, seleccione un fichero HTML válido");       
+        
+        alertError.showAndWait(); 
+    }
+
+    public void readingFile() {
+        alertError.setHeaderText("Error, al leer el fichero. ");        
+       
+        alertError.setContentText("El fichero seleccionado puede estar dañado.\n"
+                + "Por favor, seleccione un fichero HTML válido");       
+        
+        alertError.showAndWait(); 
+    }
+
+    public void missingComponents() {
+        alertError.setHeaderText("Error, el fichero está incompleto ");        
+       
+        alertError.setContentText("Faltan componentes necesarios para recuperar la clave.\n"
+                + "Por favor, seleccione un fichero HTML válido");       
+        
+        alertError.showAndWait(); 
     }
     
 }

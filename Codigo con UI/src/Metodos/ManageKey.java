@@ -5,10 +5,14 @@
  */
 package Metodos;
 
+import Imprimir.ErrorDialog;
+import Imprimir.InfoDialog;
 import Imprimir.SaveKey;
 import Model.ComponentesRSA;
+import Model.Constantes;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.math.BigInteger;
 import java.util.Scanner;
 import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
@@ -24,9 +28,12 @@ import org.apache.commons.lang3.StringUtils;
 public class ManageKey {
           
     private final FileChooser fileChooser;
-    //decimal = 10, hexadecimal = 16
-    private int radix;
     
+    private final ErrorDialog errorDialog;
+    
+    private final InfoDialog infoDialog;
+    //decimal = 10, hexadecimal = 16
+    private int radix;    
     
     public ManageKey(){        
         ExtensionFilter extensionFilter = new ExtensionFilter("HTML files", "*.html");        
@@ -35,8 +42,9 @@ public class ManageKey {
         this.fileChooser.setInitialDirectory( new File(System.getProperty("user.home")));
         fileChooser.getExtensionFilters().add(extensionFilter);
         
-        this.radix=10;
-                
+        this.errorDialog = new ErrorDialog();
+        this.infoDialog = new InfoDialog();
+        this.radix=10;                
     }
     
     /**
@@ -45,8 +53,8 @@ public class ManageKey {
      * @return 
      */
     public String[] open (Label label) {
-        //Pos0: primo P, Pos1: primo Q, Pos2: clave e, Pos3: unidades, Pos4: error
-        String[] keys;
+        //Pos0: primo P, Pos1: primo Q, Pos2: clave e, Pos3: unidades
+        String[] keys = null;
         File keyFile;
                 
         this.fileChooser.setTitle("Seleccionar clave guardada");
@@ -55,13 +63,11 @@ public class ManageKey {
         if (keyFile != null) {
             //para que la primera vez que se elija una ruta se acuerde 
             //de cual es esa ruta para las siguientes busquedas
-            this.fileChooser.setInitialDirectory(keyFile.getParentFile());
-            
-            
+            this.fileChooser.setInitialDirectory(keyFile.getParentFile());             
             keys = processFile(keyFile);
+
         } else {
-            keys = new String[5];
-            keys[4] = "No se ha seleccionado ningun archivo.";
+            this.errorDialog.FileToOpen();
         }
         
         return keys;         
@@ -75,72 +81,68 @@ public class ManageKey {
     private String[] processFile(File keyFile) {
         String[] keys = new String[4];
         String line;
-        //para saber que se han rellenado los 4 campos y no seguir leyendo
-        int PQEU = 0;
+        // dentro de las primeras 20 lineas han de estar todos los componentes necesarios
+        int numLines = 0;
         
         try {
             Scanner file = new Scanner(keyFile);
             
-            while (file.hasNextLine() && PQEU < 4){
+            while (file.hasNextLine() && numLines < 20){
                 
                 line = file.nextLine();
+                numLines++;
                 
                 if (StringUtils.contains(line, "P generado")){
                     line = file.nextLine();
                     //para dejar solo los números
                     keys[0] = StringUtils.replaceAll(line, "[^0-9]", "");    
-                    PQEU++;
+                    
+                    numLines++;
                 }
                 
                 if (StringUtils.contains(line, "Q generado")){
                     line = file.nextLine();
                     
                     keys[1] = StringUtils.replaceAll(line, "[^0-9]", "");  
-                    PQEU++;
+                    
+                    numLines++;
                 }
                 
                 if (StringUtils.contains(line, "e generada")){
                     line = file.nextLine();
                     
                     keys[2] = StringUtils.replaceAll(line, "[^0-9]", "");
-                    PQEU++;
+                    
+                    numLines++;
                 }          
                 
-                if (StringUtils.contains(line, "Unidades: Decimal")){
+                if (StringUtils.contains(line, "Unidades:")){
                     
-                    keys[3] = "Decimal";
-                    PQEU++;
-                }
-                
-                
-                if (StringUtils.contains(line, "Unidades: Hexadecimal")){
+                    if (StringUtils.contains(line,"Decimal")){
+                        keys[3] = "Decimal";
+                    } else {
+                        keys[3] = "Hexadecimal";
+                    }
                     
-                    keys[3] = "Hexadecimal";
-                    PQEU++;
-                }
-                    
+                    numLines++;
+                }                    
             }
-                
+            
         } catch (FileNotFoundException e) {
-             keys = new String[5];
-             keys[4] = "Error al leer el fichero";
-        }        
+             this.errorDialog.readingFile();
+             return null;
+        }
         
-        
-        if ( keys.length < 5){
-           
-            if (this.keysNotOk(keys)){
-               keys = new String[5];
-               keys[4] = "Error al leer el fichero, falta algún componente";
-             }
+        if (this.keysNotOk(keys)){
+            this.errorDialog.missingComponents();
+            keys = null;
         }
         
         return keys;
         
     }
 
-    private boolean keysNotOk(String[] keys){
-        boolean out;
+    private boolean keysNotOk(final String[] keys){       
         boolean existsP;
         boolean existsQ;
         boolean existsE;
@@ -150,10 +152,8 @@ public class ManageKey {
         existsQ = keys[1] == null;
         existsE = keys[2] == null;
         existsUnits = keys[3] == null;
-
-        out = existsP || existsQ || existsE || existsUnits;
                
-        return out;
+        return (existsP || existsQ || existsE || existsUnits);
     }
     
     
@@ -166,27 +166,27 @@ public class ManageKey {
         File keyFile;
         SaveKey saveKey;
        
+        if (RSA == null){
+            this.errorDialog.RSAnotGenerated();
+            return;
+        }
+               
         
         this.fileChooser.setTitle("Seleccionar directorio donde guardar la clave");        
         this.fileChooser.setInitialFileName("Clave genRSA");
         keyFile = this.fileChooser.showSaveDialog(label.getScene().getWindow());        
         
-        if (keyFile != null ){
+        if (keyFile != null ){            
+            this.fileChooser.setInitialDirectory(keyFile.getParentFile());             
             
-            this.fileChooser.setInitialDirectory(keyFile.getParentFile());
-             
-            if (RSA != null){
-                saveKey = new SaveKey(keyFile);
-                saveKey.generateHTML(RSA, this.radix);
-            } else {
-                //imprimir mensaje de error diciendo que no se ha generado una clave
-            }
-            
+            saveKey = new SaveKey(keyFile);
+            saveKey.generateHTML(RSA, this.radix);
+            this.infoDialog.KeySaved();
+                        
         } else {            
-            //imprimir mensaje de error diciendo que no se ha seleccionado un fichero donde guardarlo
-        }
-    }
-    
+            this.errorDialog.FileToSave();
+        }        
+    }    
     
      /**
      * Método encargado de guardar el log de Número No Cifrables
@@ -197,27 +197,48 @@ public class ManageKey {
         File logNNCFile;
         CalculateNNC NNC;
         
+        if (RSA != null){
+            if (this.nncGreaterThanMAX(RSA.getNumNNC())){ 
+                this.errorDialog.manyNNC();
+                return;
+            } 
+
+            if (this.keySizeGreaterThanMAX(RSA.getKeySize())){
+                this.errorDialog.bigKeySize();
+                return;
+            }  
+        } else {
+                this.errorDialog.RSAnotGenerated();
+                return;
+        }
         
-        this.fileChooser.setTitle("Seleccionar directorio donde guardar el log.");        
+        this.fileChooser.setTitle("Seleccionar directorio donde guardar el log");        
         this.fileChooser.setInitialFileName("LogNNC genRSA");
-        logNNCFile = this.fileChooser.showSaveDialog(label.getScene().getWindow());        
+        logNNCFile = this.fileChooser.showSaveDialog(label.getScene().getWindow()); 
         
-        if (logNNCFile != null ){
-            
+        if (logNNCFile != null ){            
             this.fileChooser.setInitialDirectory(logNNCFile.getParentFile());
-             
-            if (RSA != null){
-                NNC = new CalculateNNC(this.radix, RSA);
-                               
-                NNC.calculate(logNNCFile);
-                
-            } else {
-                //imprimir mensaje de error diciendo que no se ha generado una clave
-            }
+
+            NNC = new CalculateNNC(this.radix, RSA, logNNCFile);
+            NNC.calculate(); 
+            this.infoDialog.LogNNCSaved();
             
         } else {            
-            //imprimir mensaje de error diciendo que no se ha seleccionado un fichero donde guardarlo
+            this.errorDialog.FileToSave();
         }
+    }
+    
+    
+    
+    
+    
+    public boolean nncGreaterThanMAX (BigInteger NumNNC){
+        
+       return (NumNNC.compareTo(Constantes.MAX_NNC)) == 1;        
+    }
+
+    private boolean keySizeGreaterThanMAX(int KeySize) {
+        return (KeySize > Constantes.MAX_KeySize);
     }
     
     

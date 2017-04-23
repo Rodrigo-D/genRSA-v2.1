@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="708.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="genrsa.SceneController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="580.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="genrsa.SceneController">
    <children>
       <MenuBar VBox.vgrow="NEVER">
          <menus>
@@ -83,11 +83,11 @@
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="DIGIT1" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Cíclico">
+                  <MenuItem mnemonicParsing="false" onAction="#Cyclic" text="Cíclico">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="DIGIT2" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Factorizar n">
+                  <MenuItem mnemonicParsing="false" onAction="#Factorize" text="Factorizar n">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="DIGIT3" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
@@ -223,7 +223,7 @@
                                              <tooltip>
                                                 <Tooltip text="Unidades" />
                                              </tooltip></Label>
-                                          <TextField fx:id="bits_primo_P" alignment="CENTER" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="43.0" HBox.hgrow="NEVER">
+                                          <TextField fx:id="bits_primo_P" alignment="CENTER" blendMode="DARKEN" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="43.0" HBox.hgrow="NEVER">
                                              <tooltip>
                                                 <Tooltip text="Número de bits del primo p" />
                                              </tooltip></TextField>
@@ -246,7 +246,7 @@
                                              <tooltip>
                                                 <Tooltip text="Unidades" />
                                              </tooltip></Label>
-                                          <TextField fx:id="bits_primo_Q" alignment="CENTER" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="43.0" HBox.hgrow="NEVER">
+                                          <TextField fx:id="bits_primo_Q" alignment="CENTER" blendMode="DARKEN" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="43.0" HBox.hgrow="NEVER">
                                              <tooltip>
                                                 <Tooltip text="Número de bits del primo q" />
                                              </tooltip></TextField>
@@ -261,7 +261,7 @@
                                        <children>
                                           <Separator orientation="VERTICAL" prefHeight="200.0" />
                                           <Label minWidth="-Infinity" prefHeight="25.0" prefWidth="89.0" text="Clave privada d" HBox.hgrow="NEVER" />
-                                          <TextField fx:id="clave_Privada" editable="false" minWidth="100.0" prefHeight="25.0" prefWidth="340.0" HBox.hgrow="ALWAYS">
+                                          <TextField fx:id="clave_Privada" blendMode="DARKEN" editable="false" minWidth="100.0" prefHeight="25.0" prefWidth="340.0" HBox.hgrow="ALWAYS">
                                              <tooltip>
                                                 <Tooltip text="Exponente privado" />
                                              </tooltip></TextField>
@@ -269,7 +269,7 @@
                                              <tooltip>
                                                 <Tooltip text="Unidades" />
                                              </tooltip></Label>
-                                          <TextField fx:id="bits_clave_Privada" alignment="CENTER" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="43.0" HBox.hgrow="NEVER">
+                                          <TextField fx:id="bits_clave_Privada" alignment="CENTER" blendMode="DARKEN" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="43.0" HBox.hgrow="NEVER">
                                              <tooltip>
                                                 <Tooltip text="Número de bits de la clave privada" />
                                              </tooltip></TextField>
@@ -319,7 +319,7 @@
                                        <children>
                                           <Separator orientation="VERTICAL" prefHeight="200.0" />
                                           <Label minWidth="-Infinity" prefHeight="25.0" prefWidth="89.0" text="Módulo n" HBox.hgrow="NEVER" />
-                                          <TextField fx:id="modulo_N" editable="false" minWidth="100.0" prefHeight="25.0" prefWidth="340.0" HBox.hgrow="ALWAYS">
+                                          <TextField fx:id="modulo_N" blendMode="DARKEN" editable="false" minWidth="100.0" prefHeight="25.0" prefWidth="340.0" HBox.hgrow="ALWAYS">
                                              <tooltip>
                                                 <Tooltip text="Módulo del cuerpo de cifra" />
                                              </tooltip></TextField>
@@ -327,7 +327,7 @@
                                              <tooltip>
                                                 <Tooltip text="Unidades" />
                                              </tooltip></Label>
-                                          <TextField fx:id="bits_modulo_N" alignment="CENTER" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="43.0" HBox.hgrow="NEVER">
+                                          <TextField fx:id="bits_modulo_N" alignment="CENTER" blendMode="DARKEN" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="43.0" HBox.hgrow="NEVER">
                                              <tooltip>
                                                 <Tooltip text="Número de bits del módulo n" />
                                              </tooltip></TextField>
@@ -350,7 +350,7 @@
                                              <tooltip>
                                                 <Tooltip text="Unidades" />
                                              </tooltip></Label>
-                                          <TextField fx:id="bits_clave_Publica" alignment="CENTER" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="43.0" HBox.hgrow="NEVER">
+                                          <TextField fx:id="bits_clave_Publica" alignment="CENTER" blendMode="DARKEN" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="43.0" HBox.hgrow="NEVER">
                                              <tooltip>
                                                 <Tooltip text="Número de bits de la clave pública e" />
                                              </tooltip></TextField>
@@ -424,10 +424,10 @@
                                        </tooltip></TextField>
                                  </children>
                                  <HBox.margin>
-                                    <Insets right="17.0" />
+                                    <Insets bottom="10.0" right="17.0" />
                                  </HBox.margin>
                               </AnchorPane>
-                              <TextArea fx:id="claves_parejas" editable="false" prefHeight="177.0" prefWidth="224.0" HBox.hgrow="ALWAYS">
+                              <TextArea fx:id="claves_parejas" blendMode="DARKEN" editable="false" prefHeight="177.0" prefWidth="224.0" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets bottom="10.0" right="10.0" />
                                  </HBox.margin>
@@ -508,7 +508,10 @@
                                     <Insets right="20.0" />
                                  </HBox.margin>
                               </Separator>
-                              <TextField fx:id="esPrimo_P" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="30.0" HBox.hgrow="NEVER" />
+                              <TextField fx:id="esPrimo_P" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="30.0" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </HBox.margin></TextField>
                               <Label minWidth="-Infinity" prefHeight="25.0" text="Número primo p" HBox.hgrow="NEVER">
                                  <HBox.margin>
                                     <Insets right="52.0" />
@@ -552,7 +555,10 @@
                               <TextField fx:id="tiempo_primalidad" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="53.0" promptText="0.000" HBox.hgrow="NEVER">
                                  <tooltip>
                                     <Tooltip text="Tiempo transcurrido en el cálculo de los resultados" />
-                                 </tooltip></TextField>
+                                 </tooltip>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </HBox.margin></TextField>
                               <Label minWidth="-Infinity" prefHeight="25.0" text="Seg" HBox.hgrow="NEVER">
                                  <HBox.margin>
                                     <Insets right="32.0" />
@@ -606,7 +612,10 @@
                               <TextField fx:id="bits_clave_automatica" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" onKeyPressed="#processAutomaticGeneration2" prefHeight="25.0" prefWidth="53.0">
                                  <tooltip>
                                     <Tooltip text="Longitud en bits de la clave a generar" />
-                                 </tooltip></TextField>
+                                 </tooltip>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </HBox.margin></TextField>
                               <Label minWidth="-Infinity" prefHeight="25.0" text="Bits" HBox.hgrow="NEVER" />
                               <Separator orientation="VERTICAL" />
                            </children>
@@ -647,7 +656,10 @@
                               <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#processAutomaticGeneration" text="Generar">
                                  <tooltip>
                                     <Tooltip text="Pulsar para generar la clave RSA" />
-                                 </tooltip></Button>
+                                 </tooltip>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </HBox.margin></Button>
                               <CheckBox fx:id="sameSizePrimes" alignment="BOTTOM_LEFT" minWidth="-Infinity" mnemonicParsing="false" prefHeight="17.0" prefWidth="16.0">
                                  <tooltip>
                                     <Tooltip text="Marcar si se desea que la clave tenga los primos p y q de igual tamaño" />
@@ -709,9 +721,9 @@
                                     <Insets />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="num_mensajes_noCifrables" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="76.0">
+                              <TextField fx:id="num_mensajes_noCifrables" blendMode="DARKEN" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="76.0">
                                  <HBox.margin>
-                                    <Insets right="40.0" />
+                                    <Insets bottom="5.0" right="40.0" />
                                  </HBox.margin>
                                  <tooltip>
                                     <Tooltip text="Número de NNC" />
@@ -731,7 +743,7 @@
                               </Separator>
                               <Button alignment="TOP_LEFT" minWidth="-Infinity" mnemonicParsing="false" onAction="#generateNNC" text="Generar Log">
                                  <HBox.margin>
-                                    <Insets right="58.0" />
+                                    <Insets bottom="5.0" right="58.0" />
                                  </HBox.margin>
                                  <tooltip>
                                     <Tooltip text="Pulsar para generar el log" />

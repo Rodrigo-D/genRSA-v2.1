@@ -38,7 +38,7 @@ public class ErrorDialog {
         alertError.showAndWait();
     }
     
-        public void primeConversion(int radix){                
+    public void primeConversion(int radix){                
         alertError.setHeaderText("Error al introducir los primos p y q");
         
         if (radix==10){
@@ -168,6 +168,76 @@ public class ErrorDialog {
                 + "Por favor, seleccione un fichero HTML válido");       
         
         alertError.showAndWait(); 
+    }
+
+    public void modulePrime() {
+         alertError.setHeaderText("Error, el módulo n no puede ser un número primo");        
+       
+        alertError.setContentText("Por favor, introduzca un número compuesto "
+                + "o genere una clave para factorizar su módulo.");       
+        
+        alertError.showAndWait(); 
+    }
+
+    public void module(int radix) {
+        alertError.setHeaderText("Error al introducir el módulo a factorizar");
+        
+        if (radix==10){
+            alertError.setContentText("Por favor, compruebe que se ha introducido correctamente el módulo.\n\n"
+                + "Solo se permiten números, guiones, puntos y espacios");
+        } else {
+            alertError.setContentText("Por favor, compruebe que se ha introducido correctamente el módulo.\n\n"
+                + "Solo se permiten letras, números, guiones, puntos y espacios");
+        }
+        
+        alertError.showAndWait();
+       
+    }
+
+    public void laps() {
+        alertError.setHeaderText("Error al introducir el número de vueltas de la factorización");        
+       
+        alertError.setContentText("Por favor, introduzca un número decimal. \n"
+                + "Otros caracteres permitidos son: espacios, puntos y comas.");       
+        
+        alertError.showAndWait();  
+    }
+
+    public void littleNumLaps() {
+        alertError.setHeaderText("Error al introducir el número de vueltas de la factorización");        
+       
+        alertError.setContentText("Por favor, introduzca un número decimal mayor que cero. \n"
+                + "Otros caracteres permitidos son: espacios, puntos y comas.");       
+        
+        alertError.showAndWait();  
+    }
+
+    public void cyclicMessage(int radix) {
+        alertError.setHeaderText("Error al introducir el mensaje cuyo cifrado se quiere atacar");        
+       
+        if (radix==10){
+            alertError.setContentText("Por favor, introduzca un número decimal mayor que uno. \n"
+                + "Otros caracteres permitidos son: espacios, puntos y comas.");
+        } else {
+            alertError.setContentText("Por favor, introduzca un número hexadecimal mayor que uno. \n"
+                + "Otros caracteres permitidos son: espacios, puntos y comas.");
+        }
+               
+        alertError.showAndWait();  
+    }
+
+    public void bigCyclicMessage(int radix) {
+        alertError.setHeaderText("Error el mensaje introducido es mayor que el módulo");        
+       
+        if (radix==10){
+            alertError.setContentText("Por favor, introduzca un número decimal menor que el módulo.\n"
+                + "Otros caracteres permitidos son: espacios, puntos y comas.");
+        } else {
+            alertError.setContentText("Por favor, introduzca un número hexadecimal menor que el módulo.\n"
+                + "Otros caracteres permitidos son: espacios, puntos y comas.");
+        }
+               
+        alertError.showAndWait();  
     }
     
 }

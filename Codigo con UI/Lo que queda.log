@@ -1,7 +1,12 @@
 VA EN JAVA  
+
+//factorizacion cuando se pulse obtener p y q que se deshabilite el num de vueltas.
+
+
 http://www.javafxtutorials.com/tutorials/switching-to-different-screens-in-javafx-and-fxml/ para cifrado y descifrado y ataques.
 Ver capturas de pantalla en mi movil.
 
+//buscar como hacer para que cuando se de a la tecla tabulador vaya al campo que quiero
 
 poner siempre que este en estado calculando cuando empiece cualquier operación, si no pondrá preparado.
 http://code.makery.ch/blog/javafx-dialogs-official/ para poner icono a la aplicación
@@ -10,6 +15,7 @@ http://code.makery.ch/blog/javafx-8-dialogs/ progress dialog
 poner mensaje al final de CKP diciendo que solo se calculan 30 en el caso de que el num de ckp sea mayor que 30
 //ojo al calcular CKP y NNC con claves muy altas (creo q con CKP no pasa nada) //si se hace posible cambiar el num max de nnc a calcular cambiar el mensaje de alerta error.(lo mismo con keySize)
 
+cambiar el borrar por "limpiar clave" y añadir boton arriba
 
 Mejorar el html de los logNNC y de saveKEY: https://html-online.com/editor/
 
@@ -20,13 +26,14 @@ solucionar bug creacion de claves con primos p y q 5,5 clave 9 y que de tantas c
 quiza añadir un boton con un dibujito a la derecha de los primos o claves para que cuando se pulse se copie al portapapeles. http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/text-field.htm 
 	copy()– transfers the currently selected range in the text to the clipboard, leaving the current selection.
 	selectAll() - selects all text in the text input.
+	Si hago esto poner un information nada mas abrir indicando que se puede copiar el texto sin puntos pulsando el boton ese.
 	
 
 
 Poner un hiperlink en donde las preferencias para que te lleve a la pagina de github.
 Mirar si se pueden cambiar los shortcuts de ayuda en el propio fxml para quitar los control.
-
-
+Mirar que se haya implementado toda la logica que programe y tengo en RSAmethodNetbeans
+Intenar que  quede alineado en el print functionValues xi y x2i
 http://docs.oracle.com/javase/8/javafx/interoperability-tutorial/concurrency.htm#JFXIP546 Para hacer threads en caso de proceso muy pesado. (logNNC)
 
 CSS:

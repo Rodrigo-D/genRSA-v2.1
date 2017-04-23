@@ -5,21 +5,29 @@
  */
 package genrsa;
 
+import Cyclic.CyclicController;
+import Factorize.FactorizeController;
 import Imprimir.MainWindow;
 import Metodos.CheckPrimes;
 import Metodos.GenerarClaves;
 import Metodos.ManageKey;
 import Model.ComponentesRSA;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 
 
@@ -112,8 +120,8 @@ public class SceneController {
     
     @FXML // fx:id="unitsE"
     private Label unitsE; // Value injected by FXMLLoader
-     
-    private boolean isDecimal;
+         
+    private int radix;
         
     private ComponentesRSA RSA;
     
@@ -124,7 +132,10 @@ public class SceneController {
     private CheckPrimes checkPrimes;
     
     private ManageKey manageKey;
-      
+
+    
+    
+    
     /**
      * Initializes the controller class.
      */
@@ -159,12 +170,13 @@ public class SceneController {
         assert unitsN != null : "fx:id=\"unitsN\" was not injected: check your FXML file 'scene.fxml'.";
         assert unitsE != null : "fx:id=\"unitsE\" was not injected: check your FXML file 'scene.fxml'.";
         
-        isDecimal = true;
+        radix = 10;
         
         generate = new GenerarClaves(this);
         mainWindow = new MainWindow(this);
         checkPrimes = new CheckPrimes(this);
         manageKey = new ManageKey();
+        
     }    
     
     /**
@@ -256,12 +268,14 @@ public class SceneController {
      * @param event 
      */
     public void unitsDecimal(ActionEvent event) {
-        this.isDecimal = true;
+        this.radix = 10;
         this.generate.setUnits(10);  
         this.manageKey.setUnits(10);
         this.checkPrimes.setUnits(10);
         
         this.mainWindow.changeUnits("dec");
+        this.mainWindow.delete();
+        this.RSA = null;
     }
     
     /**
@@ -269,11 +283,13 @@ public class SceneController {
      * @param event 
      */
     public void unitsHexadecimal(ActionEvent event) {
-        this.isDecimal = false;
+        this.radix = 16;
         this.generate.setUnits(16);
         this.manageKey.setUnits(16);
         this.checkPrimes.setUnits(16);
         this.mainWindow.changeUnits("hex");
+        this.mainWindow.delete();
+        this.RSA = null;
     }
      
      
@@ -330,6 +346,81 @@ public class SceneController {
         
         this.generate.numberToBits(publicKey, this.bits_clave_Publica);
     }
+    
+    /**
+     * 
+     * @param event 
+     */
+    public void Factorize(ActionEvent event) {          
+        Stage stage;
+        FXMLLoader fxmlLoader;
+        Parent root;
+        
+        try{              
+            stage= new Stage();
+            fxmlLoader = new FXMLLoader(getClass().getResource("/Factorize/Factorizacion.fxml"));
+            root = fxmlLoader.load();
+        
+            FactorizeController factorController = fxmlLoader.<FactorizeController>getController();
+            factorController.setRadix(this.radix);
+            
+            if (this.RSA != null){
+                 factorController.getModule().setText(this.RSA.getN().toString(this.radix).toUpperCase());
+            }          
+            
+            
+            Scene scene = new Scene(root);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(estado.getScene().getWindow());
+            stage.setScene(scene);
+            stage.show();            
+        
+        } catch (IOException ex) {
+            //poner mensaje de error;
+        }
+                
+    }
+    
+    /**
+     * 
+     * @param event 
+     */
+    public void Cyclic(ActionEvent event) {          
+        Stage stage;
+        FXMLLoader fxmlLoader;
+        Parent root;
+        
+        if (this.RSA == null){
+            //errorDialog
+            return;
+        }            
+        
+        try{              
+            stage= new Stage();
+            fxmlLoader = new FXMLLoader(getClass().getResource("/Cyclic/Cyclic.fxml"));
+            root = fxmlLoader.load();
+        
+            CyclicController cyclicController = fxmlLoader.<CyclicController>getController();
+            cyclicController.setRadix(this.radix);
+            cyclicController.setExponentBI(this.RSA.getE());
+            cyclicController.setModuleBI(this.RSA.getN());
+            
+            cyclicController.getModule().setText(this.RSA.getN().toString(this.radix).toUpperCase());            
+            cyclicController.getExponent().setText(this.RSA.getE().toString(this.radix).toUpperCase());
+            
+            Scene scene = new Scene(root);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(estado.getScene().getWindow());
+            stage.setScene(scene);
+            stage.show();            
+        
+        } catch (IOException ex) {
+            //poner mensaje de error;
+        }
+                
+    }
+    
+    
     
     /**
      * Cierra todo el programa

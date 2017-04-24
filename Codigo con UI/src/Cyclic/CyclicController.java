@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.BlendMode;
 
 /**
  *
@@ -93,7 +94,7 @@ public class CyclicController {
     }
     
     @FXML
-    void start(ActionEvent event) {
+    public void start(ActionEvent event) {
         this.cyclic.setRadix(this.radix); 
         
         String message = this.Message.getText();
@@ -104,28 +105,63 @@ public class CyclicController {
                 this.cyclic.complete();
             } else {
                 String numOfCyphers = this.NumCiphers.getText();            
-                //this.cyclic.start(this.moduleBI, this.exponentBI, numOfCyphers);
+                this.cyclic.start(numOfCyphers);
             }
         } 
     }
 
     @FXML
-    void Continue(ActionEvent event) {
-
+    public void Continue(ActionEvent event) {
+        String numOfCyphers = this.NumCiphers.getText();         
+        this.cyclic.Continue(numOfCyphers);
     }
-
-    @FXML
-    void clean(ActionEvent event) {
-
-    }
+    
 
     @FXML
     void info(ActionEvent event) {
+        this.cyclic.putInfo();
+    }
+    
+    
+    @FXML
+    void clean(ActionEvent event) {
+        
+        this.Complete.setDisable(false);
+        this.NumCiphers.setDisable(false);
+        this.NumCiphers.setBlendMode(BlendMode.SRC_OVER);
+        this.NumCiphers.setEditable(true);
+        this.NumCiphers.setText("10");
+        this.Message.setEditable(true);
+        this.Message.clear();
+        this.CypherMessage.clear();
+        this.Results.clear();        
+        this.Time.clear();
+        this.startBttn.setDisable(false);
+        this.continueBttn.setDisable(true);
 
     }
 
-   
+    
 
+    
+    
+    @FXML
+    public void checkSelected(ActionEvent event){
+        if (this.Complete.isSelected()){
+            this.NumCiphers.clear();
+            this.NumCiphers.setDisable(true);
+            this.NumCiphers.setBlendMode(BlendMode.DARKEN);
+        }
+        
+        if (!this.Complete.isSelected()){
+            this.NumCiphers.setText("10");
+            this.NumCiphers.setDisable(false);
+            this.NumCiphers.setBlendMode(BlendMode.SRC_OVER);
+        }
+    }   
+
+    
+    
     
     public void setRadix(int radix) {
         this.radix = radix;
@@ -169,4 +205,22 @@ public class CyclicController {
     public TextField getMRecovered() {
         return this.mRecovered;
     }
+    
+    public CheckBox getComplete() {
+        return this.Complete;
+    }
+    
+    public TextField getNumCiphers() {
+        return this.NumCiphers;
+    }
+    
+    public Button getContinueBttn() {
+        return this.continueBttn;
+    }
+     
+    public Button getStartBttn() {
+        return this.startBttn;
+    }
+
+
 }

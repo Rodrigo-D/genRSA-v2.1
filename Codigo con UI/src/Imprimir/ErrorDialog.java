@@ -239,5 +239,23 @@ public class ErrorDialog {
                
         alertError.showAndWait();  
     }
+
+    public void cyphers() {
+        alertError.setHeaderText("Error al introducir el número de cifrados del ataque cíclico");        
+       
+        alertError.setContentText("Por favor, introduzca un número decimal. \n"
+                + "Otros caracteres permitidos son: espacios, puntos y comas.");       
+        
+        alertError.showAndWait();  
+    }
+
+    public void littleNumOfCyphers() {
+        alertError.setHeaderText("Error al introducir el número de cifrados del ataque cíclico");        
+       
+        alertError.setContentText("Por favor, introduzca un número decimal mayor que cero. \n"
+                + "Otros caracteres permitidos son: espacios, puntos y comas.");       
+        
+        alertError.showAndWait();  
+    }
     
 }

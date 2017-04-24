@@ -42,7 +42,7 @@ public class FactorizeAttack {
     
     private BigInteger lapsNumTotal;
     
-    private long totalStartTime;
+    private long totalTime;
     
     
     
@@ -59,8 +59,9 @@ public class FactorizeAttack {
     public void start (String moduleStr, String lapsNumStr){
             BigInteger xPrime, x2Prime, s, antesDeS, laps; 
             String time;
+            long startTime;
             
-            this.totalStartTime = System.currentTimeMillis();
+            startTime = System.currentTimeMillis();
             
             this.print.clear();
             this.print.moduleEditable(false);
@@ -134,7 +135,8 @@ public class FactorizeAttack {
              this.lapsNumTotal = this.lapsNum;
         }
         
-        time = this.utilidades.millisToSeconds(System.currentTimeMillis() - this.totalStartTime);
+        this.totalTime = System.currentTimeMillis() - startTime;
+        time = this.utilidades.millisToSeconds(this.totalTime);
        
         this.print.moduleEditable(true);
         this.print.module(this.module.toString(this.radix));
@@ -144,40 +146,43 @@ public class FactorizeAttack {
     
     //Continuar factorizar n, en caso de que no se haya terminado en el start.	
     public void Continue(){
-            BigInteger xPrime, x2Prime, s, antesDeS, laps;  
-            String time;
-            
-            this.print.moduleEditable(false);
-            //lógica del metodo
-            laps = Constantes.ZERO; 
+        BigInteger xPrime, x2Prime, s, antesDeS, laps;  
+        String time;
+        long startTime;
 
-            do{
-                    xPrime = (this.x.pow(2)).add(BigInteger.ONE);
-                    x2Prime = (((this.x2.modPow(Constantes.TWO,this.module)).add(Constantes.ONE)).
-                                            modPow(Constantes.TWO,this.module)).add(Constantes.ONE);
+        startTime = System.currentTimeMillis();
 
-                    this.x = xPrime.mod(this.module);
-                    this.x2 = x2Prime.mod(this.module);
-                    antesDeS=(this.x.subtract(this.x2));
-                    s = antesDeS.gcd(this.module);
+        this.print.moduleEditable(false);
+        //lógica del metodo
+        laps = Constantes.ZERO; 
 
-                    laps = laps.add(Constantes.ONE);
-                    this.print.functionValues(this.x.toString(radix), this.x2.toString(this.radix), s.toString(this.radix));
-                    
-                    if (!(s.equals(Constantes.ONE)) && !(s.equals(this.module)) ){
-                        this.find = true;
-                        break;
-                    }
-                    
-                    if ( laps.equals(this.lapsNum)){
-                        this.find = false;
-                        break;
-                    }
-                    
-            } while (true);
-            
-            
-        time = this.utilidades.millisToSeconds(System.currentTimeMillis() - this.totalStartTime);
+        do{
+            xPrime = (this.x.pow(2)).add(BigInteger.ONE);
+            x2Prime = (((this.x2.modPow(Constantes.TWO,this.module)).add(Constantes.ONE)).
+                                    modPow(Constantes.TWO,this.module)).add(Constantes.ONE);
+
+            this.x = xPrime.mod(this.module);
+            this.x2 = x2Prime.mod(this.module);
+            antesDeS=(this.x.subtract(this.x2));
+            s = antesDeS.gcd(this.module);
+
+            laps = laps.add(Constantes.ONE);
+            this.print.functionValues(this.x.toString(radix), this.x2.toString(this.radix), s.toString(this.radix));
+
+            if (!(s.equals(Constantes.ONE)) && !(s.equals(this.module)) ){
+                this.find = true;
+                break;
+            }
+
+            if ( laps.equals(this.lapsNum)){
+                this.find = false;
+                break;
+            }
+
+        } while (true);
+        
+        this.totalTime = (System.currentTimeMillis() - startTime) + this.totalTime;
+        time = this.utilidades.millisToSeconds(this.totalTime);
 
         if (this.find){
             this.lapsNumTotal = this.lapsNumTotal.add(laps);
@@ -196,57 +201,58 @@ public class FactorizeAttack {
 
     //factorizar n hasta encontrar los primos P y Q
     public void obtainPQ (String moduleStr){
-            BigInteger xPrime, x2Prime, s, antesDeS, laps;  
-            String time;
-            
-            this.totalStartTime = System.currentTimeMillis();
-            
-            this.print.clear();
-            this.print.moduleEditable(false);
-            this.print.disableLapsNum();
-            this.print.disableBttns();
+        BigInteger xPrime, x2Prime, s, antesDeS, laps;  
+        String time;
+        long startTime;
+        
+        startTime = System.currentTimeMillis();
 
-            //comprobación de errores
-            moduleStr   = this.utilidades.formatNumber(moduleStr);
+        this.print.clear();
+        this.print.moduleEditable(false);
+        this.print.disableLapsNum();
+        this.print.disableBttns();
+
+        //comprobación de errores
+        moduleStr   = this.utilidades.formatNumber(moduleStr);
+
+        try{
+          this.module = new BigInteger(moduleStr, radix);
+        } catch (NumberFormatException n){            
+            this.errorDialog.module(radix);
+            return;
+        }
+
+        //comprobar que no sea primo antes
+        if (this.module.isProbablePrime(100)){
+            this.errorDialog.modulePrime();
+            return;
+        }
+
+        //COMPROBAR QUE EL NUMERO DE BITS DEL MODULO NO SEA MAYOR QUE Z CIERTO NUMERO
+        //SI ES MAYOR IMPRIMIR DIALOGO POR PANTALLA PREGUNTANDO SI SE QUIERE ABORTAR
+
+        //lógica del metodo
+        laps = Constantes.ZERO; 
+        this.x = Constantes.TWO;
+        this.x2 = Constantes.TWO;
+
+        do{
+            xPrime = (this.x.pow(2)).add(BigInteger.ONE);
+            x2Prime = (((this.x2.modPow(Constantes.TWO,this.module)).add(Constantes.ONE)).
+                                    modPow(Constantes.TWO,this.module)).add(Constantes.ONE);
+
+            this.x = xPrime.mod(this.module);
+            this.x2 = x2Prime.mod(this.module);
+            antesDeS=(this.x.subtract(this.x2));
+            s = antesDeS.gcd(this.module);
+
+            laps = laps.add(Constantes.ONE);
+            print.functionValues(this.x.toString(radix), this.x2.toString(radix), s.toString(radix));
+
+        } while (s.equals(Constantes.ONE) || s.equals(this.module));
+
             
-            try{
-              this.module = new BigInteger(moduleStr, radix);
-            } catch (NumberFormatException n){            
-                this.errorDialog.module(radix);
-                return;
-            }
-
-            //comprobar que no sea primo antes
-            if (this.module.isProbablePrime(100)){
-                this.errorDialog.modulePrime();
-                return;
-            }
-            
-            //COMPROBAR QUE EL NUMERO DE BITS DEL MODULO NO SEA MAYOR QUE Z CIERTO NUMERO
-            //SI ES MAYOR IMPRIMIR DIALOGO POR PANTALLA PREGUNTANDO SI SE QUIERE ABORTAR
-            
-            //lógica del metodo
-            laps = Constantes.ZERO; 
-            this.x = Constantes.TWO;
-            this.x2 = Constantes.TWO;
-
-            do{
-                    xPrime = (this.x.pow(2)).add(BigInteger.ONE);
-                    x2Prime = (((this.x2.modPow(Constantes.TWO,this.module)).add(Constantes.ONE)).
-                                            modPow(Constantes.TWO,this.module)).add(Constantes.ONE);
-
-                    this.x = xPrime.mod(this.module);
-                    this.x2 = x2Prime.mod(this.module);
-                    antesDeS=(this.x.subtract(this.x2));
-                    s = antesDeS.gcd(this.module);
-
-                    laps = laps.add(Constantes.ONE);
-                    print.functionValues(this.x.toString(radix), this.x2.toString(radix), s.toString(radix));
-                                        
-            } while (s.equals(Constantes.ONE) || s.equals(this.module));
-
-            
-        time = this.utilidades.millisToSeconds(System.currentTimeMillis() - this.totalStartTime);
+        time = this.utilidades.millisToSeconds(System.currentTimeMillis() - startTime);
         
         this.print.primeP(s.toString(radix));
         this.print.primeQ(this.module.divide(s).toString(radix));

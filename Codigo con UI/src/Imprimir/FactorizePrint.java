@@ -67,8 +67,10 @@ public class FactorizePrint {
     }
     
     public void enableLapsNum() {
-        this.scene.getNumLaps().setEditable(true);        
+        this.scene.getNumLaps().setEditable(true);     
+        this.scene.getNumLaps().setDisable(false);
         this.scene.getNumLaps().setBlendMode(BlendMode.SRC_OVER); 
+        this.scene.getNumLaps().setText("10");
         this.scene.getObtainPQ().setSelected(false);
     }
     

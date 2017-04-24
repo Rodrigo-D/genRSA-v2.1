@@ -34,7 +34,7 @@ public class InfoDialog {
     }
 
     public void factorization() {
-        info.setContentText("La funcion pollard Rho(N) se calcula según la siguiente función: \n\n" +
+        info.setContentText("La función pollard Rho(N) se calcula según la siguiente función: \n\n" +
                             "  # Valores Iniciales x(i) y x(2*i) for i = 0. \n" +
                             "  xi  := 2 \n" +
                             "  x2i := 2 \n" +
@@ -53,6 +53,23 @@ public class InfoDialog {
                             "  end do \n" +
                             "end function ");
         info.showAndWait();
+    }
+
+    public void cyclic() {
+         info.setContentText("El ataque por cifrado cíclico se basa en lo siguiente:\n\n" 
+                 + "Como C = N^e mod n, siendo N un valor secreto. \n"
+                 + "Se realizan cifrados sucesivos de los criptogramas Ci \n"
+                 + "resultantes con la misma clave pública e. \n"
+                 + "Si en uno de estos cifrados obtenemos nuevamente \n"
+                 + "el cifrado C original con el que se ha iniciado el ataque,\n"
+                 + "resulta obvio que el valor del paso anterior será el secreto N buscado.\n\n" 
+                 + "Esto se debe a que RSA es un grupo mutiplicativo.\n\n"
+                 + "Consejo -> Para dificultar este tipo de ataques, es interesante\n"
+                 + "usar primos seguros de forma que los subgrupos de trabajo  \n"
+                 + "sean lo suficientemente altos.\n");
+                 
+                 
+                 info.showAndWait();
     }
 
 }

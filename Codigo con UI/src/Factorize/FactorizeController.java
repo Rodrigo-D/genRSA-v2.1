@@ -104,12 +104,18 @@ public class FactorizeController {
         
     } 
     
-    public void obtainPQ(ActionEvent event) {
+    public void info(ActionEvent event) {        
+        this.factorize.putInfo();
+        
+    } 
+      
+    //creo que esto sobra
+   /* public void obtainPQ(ActionEvent event) {
         String moduleStr = this.Module.getText();
         this.factorize.setRadix(this.radix);
         this.factorize.obtainPQ(moduleStr);
         
-    }
+    }*/
     
     public void clearWhileEditModule(KeyEvent keyEvent){
         this.ObtainPQ.setDisable(false);
@@ -125,12 +131,12 @@ public class FactorizeController {
        
     }
     
-     public void clean(ActionEvent eventxº){
+     public void clean(ActionEvent eventx){
         this.ObtainPQ.setDisable(false);
         this.NumLaps.setDisable(false);
         this.NumLaps.setBlendMode(BlendMode.SRC_OVER);
         this.NumLaps.setEditable(true);
-        this.NumLaps.clear();
+        this.NumLaps.setText("10");
         this.Prime_p.clear();
         this.Prime_q.clear();
         this.Results.clear();        
@@ -140,11 +146,22 @@ public class FactorizeController {
        
     }
     
-    
-    public void info(ActionEvent event) {        
-        this.factorize.putInfo();
+    @FXML
+    public void checkSelected(ActionEvent event){
+        if (this.ObtainPQ.isSelected()){
+            this.NumLaps.clear();
+            this.NumLaps.setDisable(true);
+            this.NumLaps.setBlendMode(BlendMode.DARKEN);
+        }
         
-    } 
+        if (!this.ObtainPQ.isSelected()){
+            this.NumLaps.setText("10");
+            this.NumLaps.setDisable(false);
+            this.NumLaps.setBlendMode(BlendMode.SRC_OVER);
+        }
+    }   
+    
+  
     
     
     

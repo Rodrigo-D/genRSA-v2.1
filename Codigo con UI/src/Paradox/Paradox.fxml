@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
@@ -13,104 +12,27 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.5788770053475936" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Factorize.FactorizeController">
+<SplitPane dividerPositions="0.53" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="413.0" prefWidth="662.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Cyclic.CyclicController">
    <items>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+      <VBox alignment="TOP_CENTER">
          <children>
-            <HBox alignment="BOTTOM_CENTER" minWidth="400.0" VBox.vgrow="ALWAYS">
+            <HBox alignment="BOTTOM_CENTER" minWidth="300.0" VBox.vgrow="ALWAYS">
                <VBox.margin>
-                  <Insets left="15.0" right="15.0" top="15.0" />
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </VBox.margin>
                <children>
-                  <Label text="Factorización Pollar Rho">
+                  <Label text="Ataque Paradoja del Cumpleaños">
                      <font>
                         <Font name="System Bold" size="19.0" />
                      </font>
                   </Label>
                </children>
             </HBox>
-            <HBox alignment="TOP_CENTER" VBox.vgrow="NEVER">
-               <VBox.margin>
-                  <Insets left="15.0" top="10.0" />
-               </VBox.margin>
-               <children>
-                  <VBox alignment="TOP_CENTER" HBox.hgrow="NEVER">
-                     <children>
-                        <Separator valignment="BOTTOM" VBox.vgrow="NEVER">
-                           <VBox.margin>
-                              <Insets left="1.0" right="4.0" />
-                           </VBox.margin>
-                        </Separator>
-                        <HBox alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
-                           <children>
-                              <Separator orientation="VERTICAL" HBox.hgrow="NEVER">
-                                 <HBox.margin>
-                                    <Insets right="9.0" />
-                                 </HBox.margin>
-                              </Separator>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nº de Vueltas" HBox.hgrow="NEVER">
-                                 <HBox.margin>
-                                    <Insets right="5.0" />
-                                 </HBox.margin>
-                              </Text>
-                              <TextField fx:id="NumLaps" minHeight="-Infinity" minWidth="-Infinity" prefWidth="60.0" text="10" HBox.hgrow="NEVER">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" right="9.0" top="5.0" />
-                                 </HBox.margin>
-                              </TextField>
-                              <Separator orientation="VERTICAL" />
-                           </children>
-                        </HBox>
-                        <Separator>
-                           <VBox.margin>
-                              <Insets left="1.0" right="4.0" />
-                           </VBox.margin>
-                        </Separator>
-                     </children>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <HBox.margin>
-                        <Insets right="15.0" />
-                     </HBox.margin>
-                  </VBox>
-                  <VBox alignment="TOP_CENTER" HBox.hgrow="NEVER">
-                     <children>
-                        <Separator valignment="BOTTOM" VBox.vgrow="NEVER">
-                           <VBox.margin>
-                              <Insets left="1.0" right="4.0" />
-                           </VBox.margin>
-                        </Separator>
-                        <HBox alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
-                           <children>
-                              <Separator orientation="VERTICAL">
-                                 <HBox.margin>
-                                    <Insets right="9.0" />
-                                 </HBox.margin>
-                              </Separator>
-                              <CheckBox fx:id="ObtainPQ" mnemonicParsing="false" onAction="#checkSelected" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Obtener p y q">
-                                 <HBox.margin>
-                                    <Insets bottom="9.0" right="9.0" top="10.0" />
-                                 </HBox.margin>
-                              </Text>
-                              <Separator orientation="VERTICAL" />
-                           </children>
-                        </HBox>
-                        <Separator VBox.vgrow="NEVER">
-                           <VBox.margin>
-                              <Insets left="1.0" right="4.0" />
-                           </VBox.margin>
-                        </Separator>
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="NEVER">
+            <VBox prefHeight="230.0" VBox.vgrow="NEVER">
                <children>
                   <HBox alignment="CENTER_LEFT" VBox.vgrow="NEVER">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Factorización">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Datos Ataque Cíclico">
                            <HBox.margin>
                               <Insets bottom="5.0" right="5.0" />
                            </HBox.margin>
@@ -122,7 +44,7 @@
                         </Separator>
                         <Separator orientation="VERTICAL">
                            <HBox.margin>
-                              <Insets top="9.0" />
+                              <Insets top="10.0" />
                            </HBox.margin>
                         </Separator>
                      </children>
@@ -136,12 +58,12 @@
                      </VBox.margin>
                      <children>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="N = p * q">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Módulo n">
                            <HBox.margin>
                               <Insets left="30.0" right="20.0" />
                            </HBox.margin>
                         </Text>
-                        <TextField fx:id="Module" onKeyReleased="#clearWhileEditModule" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="Module" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="3.0" right="30.0" />
                            </HBox.margin>
@@ -152,12 +74,12 @@
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
                      <children>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Primo p">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Exponente">
                            <HBox.margin>
-                              <Insets left="30.0" right="29.0" />
+                              <Insets left="30.0" right="17.0" />
                            </HBox.margin>
                         </Text>
-                        <TextField fx:id="Prime_p" blendMode="DARKEN" editable="false" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="Exponent" editable="false" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="3.0" right="30.0" />
                            </HBox.margin>
@@ -168,15 +90,53 @@
                         <Insets left="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
                      <children>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Primo q">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mensaje M">
                            <HBox.margin>
-                              <Insets left="30.0" right="29.0" />
+                              <Insets left="30.0" right="40.0" />
                            </HBox.margin>
                         </Text>
-                        <TextField fx:id="Prime_q" blendMode="DARKEN" editable="false" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="Message" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets bottom="4.0" right="30.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Separator halignment="RIGHT" orientation="VERTICAL" prefHeight="200.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                     <children>
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cifrados por segundo">
+                           <HBox.margin>
+                              <Insets left="30.0" right="33.0" top="23.0" />
+                           </HBox.margin>
+                        </Text>
+                        <TextField fx:id="CiphersStats" blendMode="DARKEN" editable="false" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets bottom="4.0" right="30.0" top="23.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                     <children>
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Media Cifrados/Seg">
+                           <HBox.margin>
+                              <Insets left="30.0" right="43.0" />
+                           </HBox.margin>
+                        </Text>
+                        <TextField fx:id="AvgCiphersStats" blendMode="DARKEN" editable="false" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="4.0" right="30.0" />
                            </HBox.margin>
@@ -206,26 +166,6 @@
                               <Insets left="1.0" right="4.0" />
                            </VBox.margin>
                         </Separator>
-                        <HBox alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
-                           <children>
-                              <Separator orientation="VERTICAL" HBox.hgrow="NEVER">
-                                 <HBox.margin>
-                                    <Insets right="10.0" />
-                                 </HBox.margin>
-                              </Separator>
-                              <Button fx:id="startBttn" mnemonicParsing="false" onAction="#start" text="Comenzar" HBox.hgrow="NEVER">
-                                 <HBox.margin>
-                                    <Insets bottom="10.0" left="5.0" right="36.0" top="10.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <Button fx:id="continueBttn" mnemonicParsing="false" onAction="#Continue" text="Continuar" HBox.hgrow="NEVER">
-                                 <HBox.margin>
-                                    <Insets bottom="10.0" right="20.0" top="10.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <Separator halignment="RIGHT" orientation="VERTICAL" HBox.hgrow="ALWAYS" />
-                           </children>
-                        </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="5.0">
                            <children>
                               <Separator orientation="VERTICAL" HBox.hgrow="NEVER">
@@ -233,17 +173,25 @@
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </Separator>
+                              <Button mnemonicParsing="false" onAction="#start" text="Comenzar" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="5.0" right="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </Button>
                               <Button mnemonicParsing="false" onAction="#info" text="Información">
                                  <HBox.margin>
-                                    <Insets bottom="10.0" right="20.0" />
+                                    <Insets bottom="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </Button>
                               <Button mnemonicParsing="false" onAction="#clean" text="Limpiar Datos">
                                  <HBox.margin>
-                                    <Insets bottom="10.0" right="10.0" />
+                                    <Insets bottom="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </Button>
-                              <Separator orientation="VERTICAL" />
+                              <Separator orientation="VERTICAL">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin></Separator>
                            </children>
                         </HBox>
                         <Separator>
@@ -261,7 +209,7 @@
                   </VBox>
                </children>
                <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
+                  <Insets bottom="10.0" left="10.0" top="30.0" />
                </VBox.margin>
             </HBox>
          </children>
@@ -270,10 +218,10 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="30.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Resultados Parciales" wrappingWidth="106.716796875" HBox.hgrow="NEVER" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Resultados " wrappingWidth="64.716796875" HBox.hgrow="NEVER" />
                   <Separator prefWidth="200.0" HBox.hgrow="ALWAYS">
                      <HBox.margin>
-                        <Insets left="5.0" />
+                        <Insets left="3.0" />
                      </HBox.margin>
                   </Separator>
                   <Separator orientation="VERTICAL" prefHeight="200.0" HBox.hgrow="NEVER">
@@ -303,6 +251,30 @@
                <VBox.margin>
                   <Insets />
                </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefWidth="200.0">
+               <children>
+                  <Separator orientation="VERTICAL">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Separator>
+                  <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Clave Privada">
+                           <HBox.margin>
+                              <Insets left="10.0" right="8.0" />
+                           </HBox.margin>
+                        </Text>
+                        <TextField fx:id="PrivateKey" blendMode="DARKEN" editable="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="114.0" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets bottom="10.0" right="8.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <Separator halignment="RIGHT" orientation="VERTICAL" HBox.hgrow="ALWAYS" />
+               </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefWidth="200.0">
                <children>

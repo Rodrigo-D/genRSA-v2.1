@@ -213,7 +213,10 @@ public class GenerarClaves {
             
             //Imprime           
             this.print.numClavesParejas(this.RSA.getNumCKP());
-            this.print.clavePareja(cpp, this.radix);
+            this.print.borrarClavesParejas();
+            if (cpp.compareTo(this.RSA.getD()) != 0){
+                this.print.addClavePareja(cpp, this.radix);
+            }
             
             //para controlar el while, dado que si el numero es mayor que el max_value de los integer
             //podria llegar a ser un numero negativo y no se calcularian las CKP

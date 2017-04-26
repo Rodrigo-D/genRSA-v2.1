@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.53" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="413.0" prefWidth="662.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Cyclic.CyclicController">
+<SplitPane dividerPositions="0.4842105263157895" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="952.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Paradox.ParadoxController">
    <items>
       <VBox alignment="TOP_CENTER">
          <children>
@@ -32,7 +32,7 @@
                <children>
                   <HBox alignment="CENTER_LEFT" VBox.vgrow="NEVER">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Datos Ataque Cíclico">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Datos Ataque">
                            <HBox.margin>
                               <Insets bottom="5.0" right="5.0" />
                            </HBox.margin>
@@ -63,7 +63,7 @@
                               <Insets left="30.0" right="20.0" />
                            </HBox.margin>
                         </Text>
-                        <TextField fx:id="Module" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="Modulus" onKeyTyped="#warningModify" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="3.0" right="30.0" />
                            </HBox.margin>
@@ -79,7 +79,7 @@
                               <Insets left="30.0" right="17.0" />
                            </HBox.margin>
                         </Text>
-                        <TextField fx:id="Exponent" editable="false" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="Exponent" onKeyReleased="#warningModify" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="3.0" right="30.0" />
                            </HBox.margin>
@@ -98,7 +98,7 @@
                               <Insets left="30.0" right="40.0" />
                            </HBox.margin>
                         </Text>
-                        <TextField fx:id="Message" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="Message" onKeyPressed="#processStart" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="4.0" right="30.0" />
                            </HBox.margin>
@@ -159,7 +159,7 @@
             </VBox>
             <HBox alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
                <children>
-                  <VBox alignment="TOP_CENTER" HBox.hgrow="NEVER">
+                  <VBox alignment="TOP_CENTER" minWidth="300.0" HBox.hgrow="NEVER">
                      <children>
                         <Separator valignment="BOTTOM" VBox.vgrow="NEVER">
                            <VBox.margin>

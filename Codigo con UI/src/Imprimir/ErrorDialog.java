@@ -226,7 +226,7 @@ public class ErrorDialog {
         alertError.showAndWait();  
     }
 
-    public void bigCyclicMessage(int radix) {
+    public void bigMessage(int radix) {
         alertError.setHeaderText("Error el mensaje introducido es mayor que el módulo");        
        
         if (radix==10){
@@ -255,6 +255,48 @@ public class ErrorDialog {
         alertError.setContentText("Por favor, introduzca un número decimal mayor que cero. \n"
                 + "Otros caracteres permitidos son: espacios, puntos y comas.");       
         
+        alertError.showAndWait();  
+    }
+    
+    public void paradoxMessage(int radix) {
+        alertError.setHeaderText("Error al introducir el mensaje.");        
+       
+        if (radix==10){
+            alertError.setContentText("Por favor, introduzca un número decimal mayor que uno. \n"
+                + "Otros caracteres permitidos son: espacios, puntos y comas.");
+        } else {
+            alertError.setContentText("Por favor, introduzca un número hexadecimal mayor que uno. \n"
+                + "Otros caracteres permitidos son: espacios, puntos y comas.");
+        }
+               
+        alertError.showAndWait();  
+    }
+    
+    public void paradoxModule(int radix) {
+        alertError.setHeaderText("Error al introducir el módulo.");        
+       
+        if (radix==10){
+            alertError.setContentText("Por favor, introduzca un número decimal mayor que uno. \n"
+                + "Otros caracteres permitidos son: espacios, puntos y comas.");
+        } else {
+            alertError.setContentText("Por favor, introduzca un número hexadecimal mayor que uno. \n"
+                + "Otros caracteres permitidos son: espacios, puntos y comas.");
+        }
+               
+        alertError.showAndWait();  
+    }
+    
+    public void paradoxExponent(int radix) {
+        alertError.setHeaderText("Error al introducir el exponente.");        
+       
+        if (radix==10){
+            alertError.setContentText("Por favor, introduzca un número decimal mayor que uno. \n"
+                + "Otros caracteres permitidos son: espacios, puntos y comas.");
+        } else {
+            alertError.setContentText("Por favor, introduzca un número hexadecimal mayor que uno. \n"
+                + "Otros caracteres permitidos son: espacios, puntos y comas.");
+        }
+               
         alertError.showAndWait();  
     }
     

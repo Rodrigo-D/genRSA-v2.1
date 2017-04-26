@@ -65,7 +65,6 @@ public class CyclicPrint {
         this.scene.getStartBttn().setDisable(true);
     }
     
-    //de momento no usado
     public void enableStart() {
         this.scene.getMessage().setEditable(true);
         this.scene.getComplete().setDisable(false);

@@ -79,7 +79,7 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Ataques">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Paradoja del Cumpleaños">
+                  <MenuItem mnemonicParsing="false" onAction="#Paradox" text="Paradoja del Cumpleaños">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="DIGIT1" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
@@ -133,7 +133,11 @@
                <tooltip>
                   <Tooltip text="Pulsar tras haber introducido la clave pública y los primos p y q" />
                </tooltip></Button>
-            <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#exitApplication" text="Salir de la aplicación" />
+            <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#delete" prefWidth="120.0" text="Limpiar Datos">
+               <tooltip>
+                  <Tooltip text="Pulsar para borrar los datos de la clave" />
+               </tooltip></Button>
+            <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#exitApplication" prefWidth="120.0" text="Salir de genRSA" />
          </children>
          <opaqueInsets>
             <Insets />
@@ -215,7 +219,7 @@
                                        <children>
                                           <Separator orientation="VERTICAL" prefHeight="200.0" />
                                           <Label minWidth="-Infinity" prefHeight="25.0" text="Numero primo p" HBox.hgrow="NEVER" />
-                                          <TextField fx:id="primo_P" minWidth="100.0" onKeyReleased="#bitsP" prefHeight="25.0" prefWidth="340.0" HBox.hgrow="ALWAYS">
+                                          <TextField fx:id="primo_P" minWidth="100.0" onKeyPressed="#processManualGeneration2" onKeyReleased="#bitsP" prefHeight="25.0" prefWidth="340.0" HBox.hgrow="ALWAYS">
                                              <tooltip>
                                                 <Tooltip text="Introduce el primo p" />
                                              </tooltip></TextField>
@@ -238,7 +242,7 @@
                                        <children>
                                           <Separator orientation="VERTICAL" prefHeight="200.0" />
                                           <Label minWidth="-Infinity" prefHeight="25.0" text="Numero primo q" HBox.hgrow="NEVER" />
-                                          <TextField fx:id="primo_Q" minWidth="100.0" onKeyReleased="#bitsQ" prefHeight="25.0" prefWidth="340.0" HBox.hgrow="ALWAYS">
+                                          <TextField fx:id="primo_Q" minWidth="100.0" onKeyPressed="#processManualGeneration2" onKeyReleased="#bitsQ" prefHeight="25.0" prefWidth="340.0" HBox.hgrow="ALWAYS">
                                              <tooltip>
                                                 <Tooltip text="Introduce el primo q" />
                                              </tooltip></TextField>
@@ -342,7 +346,7 @@
                                        <children>
                                           <Separator orientation="VERTICAL" prefHeight="200.0" />
                                           <Label minWidth="-Infinity" prefHeight="25.0" prefWidth="89.0" text="Clave pública e" HBox.hgrow="NEVER" />
-                                          <TextField fx:id="clave_Publica" minWidth="100.0" onKeyReleased="#bitsPublicKey" prefHeight="25.0" prefWidth="340.0" HBox.hgrow="ALWAYS">
+                                          <TextField fx:id="clave_Publica" minWidth="100.0" onKeyPressed="#processManualGeneration2" onKeyReleased="#bitsPublicKey" prefHeight="25.0" prefWidth="340.0" HBox.hgrow="ALWAYS">
                                              <tooltip>
                                                 <Tooltip text="Introduce la clave pública" />
                                              </tooltip></TextField>
@@ -757,12 +761,12 @@
                               <Insets left="1.0" right="14.0" />
                            </VBox.margin>
                         </Separator>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#delete" prefHeight="25.0" prefWidth="82.0" text="Borrar">
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#delete" prefHeight="25.0" text="Limpiar Datos">
                            <VBox.margin>
                               <Insets bottom="13.0" left="85.0" top="51.0" />
                            </VBox.margin>
                            <tooltip>
-                              <Tooltip text="Pulsar para borrar el contenido " />
+                              <Tooltip text="Pulsar para borrar los datos de la clave" />
                            </tooltip></Button>
                      </children>
                   </VBox>

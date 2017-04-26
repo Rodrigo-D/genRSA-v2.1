@@ -12,6 +12,7 @@ import Metodos.CheckPrimes;
 import Metodos.GenerarClaves;
 import Metodos.ManageKey;
 import Model.ComponentesRSA;
+import Paradox.ParadoxController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -214,6 +215,17 @@ public class SceneController {
         this.RSA = this.generate.manualRSAkeys(primeP, primeQ, publicKey);
     }
     
+    /**
+     * Método usado cuando se pulsa enter al meter los primos p y q o la clave pública   
+     * @param keyEvent
+     */
+    public void processManualGeneration2(KeyEvent keyEvent) {    
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            
+            this.processManualGeneration(new ActionEvent());
+        }
+               
+    }
     
     
     /**
@@ -419,6 +431,45 @@ public class SceneController {
         }
                 
     }
+    
+    /**
+     * 
+     * @param event 
+     */
+    public void Paradox (ActionEvent event) {          
+        Stage stage;
+        FXMLLoader fxmlLoader;
+        Parent root;
+        
+        try{              
+            stage= new Stage();
+            fxmlLoader = new FXMLLoader(getClass().getResource("/Paradox/Paradox.fxml"));
+            root = fxmlLoader.load();
+        
+            ParadoxController paradoxController = fxmlLoader.<ParadoxController>getController();
+            paradoxController.setRadix(this.radix);
+            
+            
+            if (this.RSA != null){
+                 paradoxController.getModulus().setText(this.RSA.getN().toString(this.radix).toUpperCase());
+                 paradoxController.getExponent().setText(this.RSA.getE().toString(this.radix).toUpperCase());
+            }          
+            
+            
+            Scene scene = new Scene(root);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(estado.getScene().getWindow());
+            stage.setScene(scene);
+            stage.show();            
+        
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+            //poner mensaje de error;
+        }
+                
+    }
+    
+    
     
     
     

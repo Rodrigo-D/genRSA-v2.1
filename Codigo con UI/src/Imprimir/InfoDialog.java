@@ -72,4 +72,32 @@ public class InfoDialog {
                  info.showAndWait();
     }
 
+    public void paradox() {
+        info.setContentText("Pasos del ataque por la paraoja del cumpleaños:\n\n" 
+                 + "El atacante elige un número cualquiera N.\n"
+                 + "Se toma i=1 y j=módulo/2. \n"                
+                 + "Para i=i+1 se calcula N^i mod n. \n"
+                 + "Para j se calcula N^j mod n. \n"
+                 + "Cuando se encuentra un resultado en i  igual al \n"
+                 + "al resultado en j se calcula la clave privada d.\n"
+                 + "Se lee el valor del contador de i y de j, se calcula\n"
+                 + " w = (i - j) / mcd (e, |i - j|).\n" 
+                 + "Deberán existir dos valores (s, t) de forma que se\n" 
+                 + "cumpla lo siguiente: w*s + e*t = 1 (en mod e y en mod w).\n"
+                 + "Se calcula s = inv (w, e)\n"
+                 + "Se calcula t = inv (e, w)\n"
+                 + "Se comprueba que w*s + e*t = 1.\n\n"        
+                 + "El valor t será la clave privada, una clave privada pareja\n"
+                 + "o bien un falso positivo.\n");
+                 
+                 
+                 info.showAndWait();
+    }
+
+    public void warningParadox() {
+        info.setContentText("Si se modifica el módulo o el exponente no se"
+                + " garantiza la correcta finalización del ataque. ");
+        info.showAndWait();
+    }
+
 }

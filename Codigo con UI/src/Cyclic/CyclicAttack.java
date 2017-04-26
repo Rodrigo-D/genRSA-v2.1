@@ -77,7 +77,7 @@ public class CyclicAttack {
         }
         
         if (messageBI.compareTo(module) > -1){
-            this.errorDialog.bigCyclicMessage(radix);
+            this.errorDialog.bigMessage(radix);
             return false;
         }
         
@@ -91,7 +91,7 @@ public class CyclicAttack {
     }
     
     
-    //ataque ciclico
+    //ataque ciclico, no para hasta que prospera
     public void complete (){
         BigInteger lap, message, next;            
         long startTime;

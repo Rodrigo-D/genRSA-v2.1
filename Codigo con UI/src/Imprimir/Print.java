@@ -51,15 +51,15 @@ public class Print {
     }
 
     
-    public void clavePareja(BigInteger claveP, int radix) {
+    public void borrarClavesParejas() {
         
-        this.scene.getClaves_parejas().setText(claveP.toString(radix).toUpperCase());
+        this.scene.getClaves_parejas().clear();
     }
     
     public void addClavePareja(BigInteger claveP, int radix) {
         
-        this.scene.getClaves_parejas().appendText("\n");
         this.scene.getClaves_parejas().appendText(claveP.toString(radix).toUpperCase());
+        this.scene.getClaves_parejas().appendText("\n");
     }
 
     public void numClavesParejas(BigInteger numCKP) {

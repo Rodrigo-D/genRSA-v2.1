@@ -1,12 +1,14 @@
 VA EN JAVA  
 
+cambiar todos los module por modulus
+
 //deshabilitar boton de ataque ciclico en pantalla principal siempre que rsa==null
-//habilitar q se pueda modificar n y e en ataque ciclico?
+//habilitar q se pueda modificar n y e en ataque ciclico? si
 
 poner mensaje al final de CKP diciendo que solo se calculan 30 en el caso de que el num de ckp sea mayor que 30
 //ojo al calcular CKP y NNC con claves muy altas (creo q con CKP no pasa nada) //si se hace posible cambiar el num max de nnc a calcular cambiar el mensaje de alerta error.(lo mismo con keySize)
 
-cambiar el borrar por "limpiar clave" y añadir boton arriba
+
 
 Mejorar el html de los logNNC y de saveKEY: https://html-online.com/editor/
 //no se han hecho logs.html de los ataques

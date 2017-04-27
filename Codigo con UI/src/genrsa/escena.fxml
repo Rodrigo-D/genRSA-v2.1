@@ -421,11 +421,12 @@
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
                               <AnchorPane prefHeight="177.0" prefWidth="50.0">
                                  <children>
-                                    <Label alignment="TOP_LEFT" layoutX="12.0" layoutY="90.0" text="Nº Claves" />
+                                    <Label alignment="TOP_LEFT" layoutX="14.0" layoutY="74.0" text="Cantidad" />
                                     <TextField fx:id="num_claves_parejas" editable="false" layoutX="7.0" layoutY="119.0" minWidth="-Infinity" prefHeight="29.0" prefWidth="60.0">
                                        <tooltip>
                                           <Tooltip text="Número de claves parejas" />
                                        </tooltip></TextField>
+                                    <Label alignment="TOP_LEFT" layoutX="13.0" layoutY="91.0" text="de Claves" />
                                  </children>
                                  <HBox.margin>
                                     <Insets bottom="10.0" right="17.0" />
@@ -776,7 +777,10 @@
       </HBox>
       <HBox prefHeight="53.0" prefWidth="1094.0">
          <children>
-            <Label fx:id="estado" alignment="BOTTOM_LEFT" prefHeight="17.0" prefWidth="316.0" text="Preparado" />
+            <Label fx:id="estado" alignment="BOTTOM_LEFT" prefHeight="17.0" prefWidth="316.0" text="Preparado">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin></Label>
             <Label prefHeight="17.0" prefWidth="316.0" text="Generación RSA" />
             <Label prefHeight="17.0" prefWidth="316.0" text="Versión 2.1" />
          </children>

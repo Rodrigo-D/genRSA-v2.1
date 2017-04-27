@@ -173,7 +173,7 @@
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mensaje Original">
                            <HBox.margin>
-                              <Insets left="30.0" right="29.0" />
+                              <Insets bottom="3.0" left="30.0" right="29.0" />
                            </HBox.margin>
                         </Text>
                         <TextField fx:id="Message" HBox.hgrow="ALWAYS">
@@ -192,7 +192,7 @@
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mensaje Cifrado">
                            <HBox.margin>
-                              <Insets left="30.0" right="33.0" />
+                              <Insets bottom="3.0" left="30.0" right="33.0" />
                            </HBox.margin>
                         </Text>
                         <TextField fx:id="CypherMessage" blendMode="DARKEN" editable="false" HBox.hgrow="ALWAYS">
@@ -334,7 +334,7 @@
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="M. Original Recuperado">
                            <HBox.margin>
-                              <Insets right="8.0" />
+                              <Insets bottom="8.0" right="8.0" />
                            </HBox.margin>
                         </Text>
                         <TextField fx:id="mRecovered" blendMode="DARKEN" editable="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="56.0">
@@ -358,7 +358,7 @@
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tiempo Total">
                            <HBox.margin>
-                              <Insets right="8.0" />
+                              <Insets bottom="8.0" right="8.0" />
                            </HBox.margin>
                         </Text>
                         <TextField fx:id="Time" editable="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="56.0" promptText="0.000">
@@ -366,7 +366,10 @@
                               <Insets bottom="10.0" right="8.0" />
                            </HBox.margin>
                         </TextField>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Seg" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Seg">
+                           <HBox.margin>
+                              <Insets bottom="8.0" />
+                           </HBox.margin></Text>
                      </children>
                   </HBox>
                   <Separator halignment="RIGHT" orientation="VERTICAL" HBox.hgrow="ALWAYS" />

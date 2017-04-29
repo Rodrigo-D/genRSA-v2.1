@@ -35,8 +35,8 @@ public class CyclicController {
     @FXML // fx:id="Complete"
     private CheckBox Complete; // Value injected by FXMLLoader   
     
-    @FXML // fx:id="Module"
-    private TextField Module; // Value injected by FXMLLoader
+    @FXML // fx:id="Modulus"
+    private TextField Modulus; // Value injected by FXMLLoader
     
     @FXML // fx:id="Exponent"
     private TextField Exponent; // Value injected by FXMLLoader
@@ -69,7 +69,7 @@ public class CyclicController {
            
     private int radix;
     
-    private BigInteger moduleBI;
+    private BigInteger modulusBI;
     
     private BigInteger exponentBI;
     
@@ -79,7 +79,7 @@ public class CyclicController {
         assert NumCiphers != null : "fx:id=\"NumCiphers\" was not injected: check your FXML file 'Cyclic.fxml'.";
         assert Complete != null : "fx:id=\"Complete\" was not injected: check your FXML file 'Cyclic.fxml'.";
         assert Message != null : "fx:id=\"Message\" was not injected: check your FXML file 'Cyclic.fxml'.";
-        assert Module != null : "fx:id=\"Module\" was not injected: check your FXML file 'Cyclic.fxml'.";
+        assert Modulus != null : "fx:id=\"Modulus\" was not injected: check your FXML file 'Cyclic.fxml'.";
         assert Exponent != null : "fx:id=\"Exponent\" was not injected: check your FXML file 'Cyclic.fxml'.";
         assert CypherMessage != null : "fx:id=\"CypherMessage\" was not injected: check your FXML file 'Cyclic.fxml'.";        
         assert startBttn != null : "fx:id=\"startBttn\" was not injected: check your FXML file 'Cyclic.fxml'.";
@@ -99,7 +99,7 @@ public class CyclicController {
         
         String message = this.Message.getText();
         
-        if (this.cyclic.init(message, this.moduleBI, this.exponentBI)){
+        if (this.cyclic.init(message, this.modulusBI, this.exponentBI)){
         
             if(this.Complete.isSelected()){
                 this.cyclic.complete();
@@ -167,8 +167,8 @@ public class CyclicController {
         this.radix = radix;
     }
     
-    public void setModuleBI(BigInteger module) {
-        this.moduleBI = module;
+    public void setModulusBI(BigInteger modulus) {
+        this.modulusBI = modulus;
     }
   
     public void setExponentBI(BigInteger exponent) {
@@ -178,8 +178,8 @@ public class CyclicController {
     
     
     //parte gráfica -----------------------------------------------------------
-    public TextField getModule() {
-        return this.Module;
+    public TextField getModulus() {
+        return this.Modulus;
     }
     
     public TextField getExponent() {

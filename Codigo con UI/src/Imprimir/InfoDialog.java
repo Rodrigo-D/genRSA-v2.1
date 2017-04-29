@@ -100,4 +100,11 @@ public class InfoDialog {
         info.showAndWait();
     }
 
+    public void warningDeCipher() {
+        info.setHeaderText("Atención, no se han introducido de forma correcta los datos.");
+        info.setContentText("Para que se garantize el cifrado de todos los números, \n"
+                + "introduzca un número menor al valor del módulo en cada línea.");
+        info.showAndWait();
+    }
+
 }

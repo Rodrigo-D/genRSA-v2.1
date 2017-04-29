@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="930.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="930.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DeCipher.DeCipherController">
    <items>
       <VBox alignment="TOP_CENTER">
          <children>
@@ -31,7 +31,7 @@
                   </Label>
                </children>
             </HBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+            <VBox prefHeight="237.0" prefWidth="431.0" VBox.vgrow="ALWAYS">
                <children>
                   <HBox alignment="CENTER_LEFT" VBox.vgrow="NEVER">
                      <children>
@@ -50,6 +50,28 @@
                               <Insets top="10.0" />
                            </HBox.margin>
                         </Separator>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="343.0" VBox.vgrow="NEVER">
+                     <children>
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Módulo">
+                           <HBox.margin>
+                              <Insets bottom="7.0" left="20.0" right="62.0" />
+                           </HBox.margin>
+                        </Text>
+                        <TextField fx:id="Modulus" blendMode="DARKEN" editable="false" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets bottom="7.0" right="30.0" />
+                           </HBox.margin>
+                           <tooltip>
+                              <Tooltip text="Exponente/Clave pública de destinatario" />
+                           </tooltip>
+                        </TextField>
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
                      </children>
                      <VBox.margin>
                         <Insets left="10.0" />
@@ -90,7 +112,7 @@
                               <Insets bottom="3.0" right="30.0" />
                            </HBox.margin>
                            <tooltip>
-                              <Tooltip text="Datos a cifrar con la clave pública del destinatario" />
+                              <Tooltip text="Datos a cifrar con la clave pública del destinatario. Un dato por línea." />
                            </tooltip>
                         </TextArea>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
@@ -102,7 +124,7 @@
                   <HBox alignment="CENTER_LEFT" prefHeight="47.0" prefWidth="343.0" VBox.vgrow="NEVER">
                      <children>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <CheckBox fx:id="textOriginal" mnemonicParsing="false">
+                        <CheckBox fx:id="isTextOriginal" mnemonicParsing="false">
                            <HBox.margin>
                               <Insets bottom="7.0" left="45.0" />
                            </HBox.margin>
@@ -219,7 +241,7 @@
                                     <Tooltip text="Pulsar para obtener información acerca del cifrado" />
                                  </tooltip>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#cleanCipher" text="Limpiar Datos">
+                              <Button mnemonicParsing="false" onAction="#clearCipher" text="Limpiar Datos">
                                  <HBox.margin>
                                     <Insets bottom="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
@@ -268,7 +290,7 @@
                   </Label>
                </children>
             </HBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+            <VBox prefHeight="237.0" prefWidth="431.0" VBox.vgrow="ALWAYS">
                <children>
                   <HBox alignment="CENTER_LEFT" VBox.vgrow="NEVER">
                      <children>
@@ -292,6 +314,28 @@
                         <Insets left="10.0" />
                      </VBox.margin>
                   </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="343.0">
+                     <children>
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Módulo">
+                           <HBox.margin>
+                              <Insets bottom="7.0" left="20.0" right="53.0" />
+                           </HBox.margin>
+                        </Text>
+                        <TextField fx:id="Modulus1" blendMode="DARKEN" editable="false" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets bottom="7.0" right="30.0" />
+                           </HBox.margin>
+                           <tooltip>
+                              <Tooltip text="Exponente/Clave pública de destinatario" />
+                           </tooltip>
+                        </TextField>
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin>
+                  </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="343.0" VBox.vgrow="NEVER">
                      <VBox.margin>
                         <Insets left="10.0" />
@@ -303,15 +347,7 @@
                               <Insets bottom="7.0" left="20.0" right="24.0" />
                            </HBox.margin>
                         </Text>
-                        <TextField fx:id="privKey" blendMode="DARKEN" editable="false" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets bottom="7.0" />
-                           </HBox.margin>
-                           <tooltip>
-                              <Tooltip text="Clave Privada ó Clave Privada Pareja" />
-                           </tooltip>
-                        </TextField>
-                        <ComboBox prefWidth="30.0" HBox.hgrow="NEVER">
+                        <ComboBox fx:id="privKeyCombo" prefWidth="3000.0" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="7.0" right="30.0" />
                            </HBox.margin>
@@ -329,13 +365,35 @@
                         </Text>
                         <TextArea fx:id="cipherData2" HBox.hgrow="ALWAYS">
                            <HBox.margin>
-                              <Insets bottom="10.0" right="30.0" />
+                              <Insets bottom="3.0" right="30.0" />
                            </HBox.margin>
                            <tooltip>
-                              <Tooltip text="Datos a descifrar con la clave privada del destinatario" />
+                              <Tooltip text="Datos a descifrar con la clave privada del destinatario. Un dato por línea." />
                            </tooltip>
                         </TextArea>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="47.0" prefWidth="343.0" VBox.vgrow="NEVER">
+                     <children>
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <CheckBox fx:id="isTextCiphered" mnemonicParsing="false">
+                           <HBox.margin>
+                              <Insets bottom="7.0" left="45.0" />
+                           </HBox.margin>
+                           <tooltip>
+                              <Tooltip text="Marcar si los datos cuando se cifraron tenían texto (ASCII)" />
+                           </tooltip>
+                        </CheckBox>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tienen texto los Datos Originales" HBox.hgrow="NEVER">
+                           <HBox.margin>
+                              <Insets bottom="7.0" left="15.0" right="29.0" />
+                           </HBox.margin>
+                        </Text>
+                        <Separator halignment="RIGHT" orientation="VERTICAL" prefHeight="200.0" prefWidth="3000.0" HBox.hgrow="ALWAYS" />
                      </children>
                      <VBox.margin>
                         <Insets left="10.0" />
@@ -397,28 +455,6 @@
                         <Insets left="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="47.0" prefWidth="343.0" VBox.vgrow="NEVER">
-                     <children>
-                        <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <CheckBox fx:id="textCiphered" mnemonicParsing="false">
-                           <HBox.margin>
-                              <Insets bottom="7.0" left="45.0" />
-                           </HBox.margin>
-                           <tooltip>
-                              <Tooltip text="Marcar si los datos cuando se cifraron tenían texto (ASCII)" />
-                           </tooltip>
-                        </CheckBox>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tienen texto los Datos Originales" HBox.hgrow="NEVER">
-                           <HBox.margin>
-                              <Insets bottom="7.0" left="15.0" right="29.0" />
-                           </HBox.margin>
-                        </Text>
-                        <Separator halignment="RIGHT" orientation="VERTICAL" prefHeight="200.0" prefWidth="3000.0" HBox.hgrow="ALWAYS" />
-                     </children>
-                     <VBox.margin>
-                        <Insets left="10.0" />
-                     </VBox.margin>
-                  </HBox>
                   <Separator prefWidth="200.0" VBox.vgrow="NEVER">
                      <padding>
                         <Insets left="11.0" right="4.0" />
@@ -461,7 +497,7 @@
                                     <Tooltip text="Pulsar para obtener información acerca del descifrado" />
                                  </tooltip>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#cleanDecipher" text="Limpiar Datos">
+                              <Button mnemonicParsing="false" onAction="#clearDecipher" text="Limpiar Datos">
                                  <HBox.margin>
                                     <Insets bottom="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>

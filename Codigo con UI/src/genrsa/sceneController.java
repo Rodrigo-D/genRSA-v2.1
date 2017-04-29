@@ -6,6 +6,7 @@
 package genrsa;
 
 import Cyclic.CyclicController;
+import DeCipher.DeCipherController;
 import Factorize.FactorizeController;
 import Imprimir.MainWindow;
 import Metodos.CheckPrimes;
@@ -22,6 +23,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -415,9 +417,9 @@ public class SceneController {
             CyclicController cyclicController = fxmlLoader.<CyclicController>getController();
             cyclicController.setRadix(this.radix);
             cyclicController.setExponentBI(this.RSA.getE());
-            cyclicController.setModuleBI(this.RSA.getN());
+            cyclicController.setModulusBI(this.RSA.getN());
             
-            cyclicController.getModule().setText(this.RSA.getN().toString(this.radix).toUpperCase());            
+            cyclicController.getModulus().setText(this.RSA.getN().toString(this.radix).toUpperCase());            
             cyclicController.getExponent().setText(this.RSA.getE().toString(this.radix).toUpperCase());
             
             Scene scene = new Scene(root);
@@ -469,6 +471,61 @@ public class SceneController {
                 
     }
     
+    
+    /**
+     * 
+     * @param event 
+     */
+    public void DeCipher (ActionEvent event) {          
+        Stage stage;
+        FXMLLoader fxmlLoader;
+        Parent root;
+        int iterator;
+        
+        try{      
+            if (this.RSA != null){ //quitar esto y deshabilitar el boton
+            stage= new Stage();
+            fxmlLoader = new FXMLLoader(getClass().getResource("/DeCipher/DeCipher.fxml"));
+            root = fxmlLoader.load();
+        
+            DeCipherController DeCipherCtr = fxmlLoader.<DeCipherController>getController();
+            
+            DeCipherCtr.setPubKeyBI(this.RSA.getE());
+            DeCipherCtr.setModulusBI(this.RSA.getN());
+            DeCipherCtr.setRadix(this.radix);
+            
+            //parte gráfica
+            DeCipherCtr.getModulus().setText(this.RSA.getN().toString(this.radix).toUpperCase());
+            DeCipherCtr.getPubKey().setText(this.RSA.getE().toString(this.radix).toUpperCase());
+            
+            DeCipherCtr.getModulus1().setText(this.RSA.getN().toString(this.radix).toUpperCase());
+            //obtengo todas las claves privadas parejas
+            String[] PPK = this.claves_parejas.getText().split("\n");
+                        
+            //las meto en el comboBox
+            ComboBox comboBox = DeCipherCtr.getPrivKeys();
+            comboBox.getItems().add("Clave Privada");
+            comboBox.getItems().add(this.RSA.getD().toString(this.radix).toUpperCase());
+            comboBox.getItems().add("Claves Privadas Parejas");
+            for (iterator=0; iterator< PPK.length; iterator++){
+                comboBox.getItems().add( PPK[iterator]);
+            }            
+            comboBox.setValue(this.RSA.getD().toString(this.radix).toUpperCase());
+            comboBox.setVisibleRowCount(7);
+            
+            Scene scene = new Scene(root);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(estado.getScene().getWindow());
+            stage.setScene(scene);
+            stage.show();       
+            }
+        
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+            //poner mensaje de error;
+        }
+                
+    }
     
     
     

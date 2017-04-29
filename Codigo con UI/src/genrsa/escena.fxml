@@ -59,10 +59,15 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Operaciones">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Cifrar_Descifrar">
+                  <MenuItem mnemonicParsing="false" onAction="#DeCipher" text="Cifrar_Descifrar">
                      <accelerator>
-                        <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                        <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                      </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" text="Frimar_Validar">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="F" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Test Primalidad">
@@ -393,7 +398,7 @@
                                     <Insets top="8.0" />
                                  </HBox.margin>
                               </Separator>
-                              <Label id="Claves Parejas" alignment="TOP_LEFT" minWidth="-Infinity" text="Claves Parejas" HBox.hgrow="NEVER">
+                              <Label id="Claves Parejas" alignment="TOP_LEFT" minWidth="-Infinity" text="Claves Privadas Parejas" HBox.hgrow="NEVER">
                                  <HBox.margin>
                                     <Insets left="2.0" right="4.0" />
                                  </HBox.margin>

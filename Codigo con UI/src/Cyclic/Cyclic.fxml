@@ -141,7 +141,7 @@
                               <Insets left="30.0" right="20.0" />
                            </HBox.margin>
                         </Text>
-                        <TextField fx:id="Module" blendMode="DARKEN" editable="false" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="Modulus" blendMode="DARKEN" editable="false" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="3.0" right="30.0" />
                            </HBox.margin>

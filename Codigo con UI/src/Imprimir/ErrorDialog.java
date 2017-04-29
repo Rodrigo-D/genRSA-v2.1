@@ -32,7 +32,7 @@ public class ErrorDialog {
         } else {
             alertError.setContentText("Por favor, compruebe que se han introducido correctamente"
                 + " la clave pública y los primos p y q. \n\n"
-                + "Solo se permiten letras, números, guiones, puntos y espacios");
+                + "Solo se permiten números hexadecimales, guiones, puntos y espacios");
         }
         
         alertError.showAndWait();
@@ -48,7 +48,7 @@ public class ErrorDialog {
         } else {
             alertError.setContentText("Por favor, compruebe que se han introducido correctamente"
                 + " los primos p y q. \n\n"
-                + "Solo se permiten letras, números, guiones, puntos y espacios");
+                + "Solo se permiten números hexadecimales, guiones, puntos y espacios");
         }
         
         alertError.showAndWait();
@@ -187,7 +187,7 @@ public class ErrorDialog {
                 + "Solo se permiten números, guiones, puntos y espacios");
         } else {
             alertError.setContentText("Por favor, compruebe que se ha introducido correctamente el módulo.\n\n"
-                + "Solo se permiten letras, números, guiones, puntos y espacios");
+                + "Solo se permiten números hexadecimales, guiones, puntos y espacios");
         }
         
         alertError.showAndWait();
@@ -298,6 +298,44 @@ public class ErrorDialog {
         }
                
         alertError.showAndWait();  
+    }
+
+    public void toMuchData() {
+        
+        alertError.setHeaderText("Por favor, introduzca menos datos.");        
+              
+        alertError.setContentText("Tenga en cuenta que genRSA es una aplicación educativa, \n"
+                + "no una aplicación de cifrado.");        
+               
+        alertError.showAndWait();  
+    }
+
+    public void DeCipherData(int radix) {
+        alertError.setHeaderText("Error al introducir los datos.");        
+       
+        if (radix==10){
+            alertError.setContentText("Por favor, introduzca cada número decimal positivo en una línea. \n"
+                + "Otros caracteres permitidos son: espacios, puntos y comas.");
+        } else {
+            alertError.setContentText("Por favor, introduzca cada número hexadecimal positivo en una línea. \n"
+                + "Otros caracteres permitidos son: espacios, puntos y comas.");
+        }
+               
+        alertError.showAndWait();  
+    }
+
+    public void blankLines() {
+        alertError.setHeaderText("Error al introducir los datos.");        
+              
+        alertError.setContentText("Por favor, no deje líneas en blanco entre los datos.");
+                      
+        alertError.showAndWait();  
+    }
+
+    public void selectCombo() {              
+        alertError.setContentText("Por favor, elija un número como clave privada.");
+                      
+        alertError.showAndWait();
     }
     
 }

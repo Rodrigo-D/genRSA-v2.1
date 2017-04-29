@@ -1,6 +1,7 @@
 VA EN JAVA  
 
-cambiar todos los module por modulus
+falta la logica de cuando es texto
+cambiar todos los module por modulus, los clean por clear
 
 //deshabilitar boton de ataque ciclico en pantalla principal siempre que rsa==null
 //habilitar q se pueda modificar n y e en ataque ciclico? si

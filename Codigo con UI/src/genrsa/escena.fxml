@@ -25,7 +25,7 @@
          <menus>
             <Menu mnemonicParsing="false" text="Archivo">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#saveKey" text="Guardar Clave">
+                  <MenuItem fx:id="saveKeyMenuI" mnemonicParsing="false" onAction="#saveKey" text="Guardar Clave">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="G" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
@@ -59,11 +59,11 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Operaciones">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#DeCipher" text="Cifrar_Descifrar">
+                  <MenuItem fx:id="DeCipherMenuI" mnemonicParsing="false" onAction="#DeCipher" text="Cifrar_Descifrar">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Frimar_Validar">
+                  <MenuItem fx:id="SingMenuI" mnemonicParsing="false" onAction="#Sign" text="Frimar_Validar">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="F" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                      </accelerator>
@@ -131,18 +131,18 @@
       </MenuBar>
       <HBox id="Genera. manual y salir de la app" alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="660.0" spacing="30.0" VBox.vgrow="ALWAYS">
          <children>
-            <Button alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#processManualGeneration" text="Generación Manual">
+            <Button fx:id="genManBttn" alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#processManualGeneration" text="Generación Manual">
                <HBox.margin>
                   <Insets left="20.0" />
                </HBox.margin>
                <tooltip>
                   <Tooltip text="Pulsar tras haber introducido la clave pública y los primos p y q" />
                </tooltip></Button>
-            <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#delete" prefWidth="120.0" text="Limpiar Datos">
+            <Button alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#delete" prefWidth="120.0" text="Limpiar Datos">
                <tooltip>
                   <Tooltip text="Pulsar para borrar los datos de la clave" />
                </tooltip></Button>
-            <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#exitApplication" prefWidth="120.0" text="Salir de genRSA" />
+            <Button alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#exitApplication" prefWidth="120.0" text="Salir de genRSA" />
          </children>
          <opaqueInsets>
             <Insets />
@@ -699,7 +699,7 @@
                                     <Insets top="8.0" />
                                  </HBox.margin>
                               </Separator>
-                              <Label minWidth="-Infinity" text="Números No Cifrables NNC" HBox.hgrow="NEVER">
+                              <Label minWidth="-Infinity" text="Números No Cifrables - NNC" HBox.hgrow="NEVER">
                                  <HBox.margin>
                                     <Insets left="2.0" right="4.0" />
                                  </HBox.margin>
@@ -723,17 +723,17 @@
                            <children>
                               <Separator orientation="VERTICAL" HBox.hgrow="NEVER">
                                  <HBox.margin>
-                                    <Insets right="20.0" />
+                                    <Insets right="13.0" />
                                  </HBox.margin>
                               </Separator>
-                              <Label minWidth="-Infinity" prefHeight="25.0" text="Nº de NNC">
+                              <Label minWidth="-Infinity" prefHeight="25.0" text="Cantidad de NNC">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Label>
                               <TextField fx:id="num_mensajes_noCifrables" blendMode="DARKEN" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="76.0">
                                  <HBox.margin>
-                                    <Insets bottom="5.0" right="40.0" />
+                                    <Insets bottom="5.0" right="14.0" />
                                  </HBox.margin>
                                  <tooltip>
                                     <Tooltip text="Número de NNC" />
@@ -751,7 +751,7 @@
                                     <Insets right="80.0" />
                                  </HBox.margin>
                               </Separator>
-                              <Button alignment="TOP_LEFT" minWidth="-Infinity" mnemonicParsing="false" onAction="#generateNNC" text="Generar Log">
+                              <Button fx:id="logNNCbttn" alignment="TOP_LEFT" minWidth="-Infinity" mnemonicParsing="false" onAction="#generateNNC" text="Generar Log">
                                  <HBox.margin>
                                     <Insets bottom="5.0" right="58.0" />
                                  </HBox.margin>
@@ -782,12 +782,14 @@
       </HBox>
       <HBox prefHeight="53.0" prefWidth="1094.0">
          <children>
-            <Label fx:id="estado" alignment="BOTTOM_LEFT" prefHeight="17.0" prefWidth="316.0" text="Preparado">
+            <Label alignment="BOTTOM_LEFT" prefHeight="17.0" prefWidth="1001.0" text="Universidad Politécnica de Madrid" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin></Label>
-            <Label prefHeight="17.0" prefWidth="316.0" text="Generación RSA" />
-            <Label prefHeight="17.0" prefWidth="316.0" text="Versión 2.1" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="500.0" text="Generación RSA v2.1" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin></Label>
          </children>
       </HBox>
    </children>

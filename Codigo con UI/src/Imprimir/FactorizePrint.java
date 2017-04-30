@@ -25,13 +25,13 @@ public class FactorizePrint {
     }
     
     //para controlar que no se modifique mientras se esta calculando algo
-    public void moduleEditable(boolean editable) {
+    public void modulusEditable(boolean editable) {
         if (editable){
-            this.scene.getModule().setBlendMode(BlendMode.SRC_OVER);
+            this.scene.getModulus().setBlendMode(BlendMode.SRC_OVER);
         } else {
-            this.scene.getModule().setBlendMode(BlendMode.DARKEN);
+            this.scene.getModulus().setBlendMode(BlendMode.DARKEN);
         }
-        this.scene.getModule().setEditable(editable);
+        this.scene.getModulus().setEditable(editable);
     }
     
     public void clear(){
@@ -51,8 +51,8 @@ public class FactorizePrint {
     }
     
     
-    public void module(String module) {
-        this.scene.getModule().setText(module.toUpperCase());
+    public void modulus(String modulus) {
+        this.scene.getModulus().setText(modulus.toUpperCase());
     }
     
     

@@ -24,9 +24,11 @@ public class CyclicPrint {
         this.scene = cyclicScene;
     }
    
-    public void messages(String cypherMessage, String message) {
+    public void messages(String cypherMessage, String message, String modulus, String exponent) {
         this.scene.getMessage().setText(message);
         this.scene.getCypherMessage().setText(cypherMessage);
+        this.scene.getExponent().setText(exponent);
+        this.scene.getModulus().setText(modulus);
     }
 
     public void time(String Time) {

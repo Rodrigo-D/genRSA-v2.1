@@ -14,17 +14,21 @@ import Metodos.GenerarClaves;
 import Metodos.ManageKey;
 import Model.ComponentesRSA;
 import Paradox.ParadoxController;
+import Sign.SignController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -45,6 +49,9 @@ public class SceneController {
 
     @FXML // URL location of the FXML file that was given to the FXMLLoader
     private URL location;
+    
+    @FXML // fx:id="genManBttn"
+    private Button genManBttn; // Value injected by FXMLLoader
 
     @FXML // fx:id="primo_P"
     private TextField primo_P; // Value injected by FXMLLoader
@@ -81,9 +88,6 @@ public class SceneController {
 
     @FXML // fx:id="claves_parejas"
     private TextArea claves_parejas; // Value injected by FXMLLoader
-
-    @FXML // fx:id="estado"
-    private Label estado; // Value injected by FXMLLoader
 
     @FXML // fx:id="iteraciones_primalidad"
     private TextField iteraciones_primalidad; // Value injected by FXMLLoader
@@ -122,7 +126,19 @@ public class SceneController {
     private Label unitsN; // Value injected by FXMLLoader
     
     @FXML // fx:id="unitsE"
-    private Label unitsE; // Value injected by FXMLLoader
+    private Label unitsE; // Value injected by FXMLLoader    
+    
+    @FXML // fx:id="logNNCbttn"
+    private Button logNNCbttn; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="saveKeyMenuI"
+    private MenuItem saveKeyMenuI; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="DeCipherMenuI"
+    private MenuItem DeCipherMenuI; // Value injected by FXMLLoader
+        
+    @FXML // fx:id="SingMenuI"
+    private MenuItem SingMenuI; // Value injected by FXMLLoader
          
     private int radix;
         
@@ -146,6 +162,7 @@ public class SceneController {
     void initialize() {
         //algo asi para controlar que no haya errores
                 
+        assert genManBttn != null : "fx:id=\"genManBttn\" was not injected: check your FXML file 'scene.fxml'.";
         assert primo_P != null : "fx:id=\"primo_P\" was not injected: check your FXML file 'scene.fxml'.";
         assert bits_primo_P != null : "fx:id=\"bits_primo_P\" was not injected: check your FXML file 'scene.fxml'.";
         assert primo_Q != null : "fx:id=\"primo_Q\" was not injected: check your FXML file 'scene.fxml'.";
@@ -158,7 +175,6 @@ public class SceneController {
         assert bits_clave_Publica != null : "fx:id=\"bits_clave_Publica\" was not injected: check your FXML file 'scene.fxml'.";
         assert num_claves_parejas != null : "fx:id=\"num_claves_parejas\" was not injected: check your FXML file 'scene.fxml'.";
         assert claves_parejas != null : "fx:id=\"claves_parejas\" was not injected: check your FXML file 'scene.fxml'.";
-        assert estado != null : "fx:id=\"estado\" was not injected: check your FXML file 'scene.fxml'.";
         assert iteraciones_primalidad != null : "fx:id=\"iteraciones_primalidad\" was not injected: check your FXML file 'scene.fxml'.";
         assert esPrimo_P != null : "fx:id=\"esPrimo_P\" was not injected: check your FXML file 'scene.fxml'.";
         assert esPrimo_Q != null : "fx:id=\"esPrimo_Q\" was not injected: check your FXML file 'scene.fxml'.";
@@ -172,6 +188,11 @@ public class SceneController {
         assert unitsD != null : "fx:id=\"unitsD\" was not injected: check your FXML file 'scene.fxml'.";
         assert unitsN != null : "fx:id=\"unitsN\" was not injected: check your FXML file 'scene.fxml'.";
         assert unitsE != null : "fx:id=\"unitsE\" was not injected: check your FXML file 'scene.fxml'.";
+        assert logNNCbttn != null : "fx:id=\"logNNCbttn\" was not injected: check your FXML file 'escena.fxml'.";        
+        assert saveKeyMenuI != null : "fx:id=\"saveKeyMenuI\" was not injected: check your FXML file 'escena.fxml'.";
+        assert DeCipherMenuI != null : "fx:id=\"DeCipherMenuI\" was not injected: check your FXML file 'escena.fxml'.";
+        assert SingMenuI != null : "fx:id=\"SingMenuI\" was not injected: check your FXML file 'escena.fxml'.";
+
         
         radix = 10;
         
@@ -180,6 +201,10 @@ public class SceneController {
         checkPrimes = new CheckPrimes(this);
         manageKey = new ManageKey();
         
+        this.disableButtons();      
+        this.configureFocus();
+        //para poner el foco en originalData
+        Platform.runLater(primo_P::requestFocus);
     }    
     
     /**
@@ -190,7 +215,9 @@ public class SceneController {
         String keySize = this.bits_clave_automatica.getText(); 
         boolean isSameSize = this.sameSizePrimes.isSelected();
          
-        this.RSA = this.generate.autoRSAkeys(keySize, isSameSize);        
+        this.RSA = this.generate.autoRSAkeys(keySize, isSameSize);     
+        this.disableButtons();
+        
     }
     
     /**
@@ -198,8 +225,7 @@ public class SceneController {
      * @param keyEvent
      */
     public void processAutomaticGeneration2(KeyEvent keyEvent) {    
-        if (keyEvent.getCode() == KeyCode.ENTER) {
-            
+        if (keyEvent.getCode() == KeyCode.ENTER) {            
             processAutomaticGeneration(new ActionEvent());
         }
                
@@ -215,6 +241,7 @@ public class SceneController {
         String publicKey = this.clave_Publica.getText(); 
         
         this.RSA = this.generate.manualRSAkeys(primeP, primeQ, publicKey);
+        this.disableButtons();
     }
     
     /**
@@ -222,8 +249,7 @@ public class SceneController {
      * @param keyEvent
      */
     public void processManualGeneration2(KeyEvent keyEvent) {    
-        if (keyEvent.getCode() == KeyCode.ENTER) {
-            
+        if (keyEvent.getCode() == KeyCode.ENTER) {            
             this.processManualGeneration(new ActionEvent());
         }
                
@@ -245,6 +271,7 @@ public class SceneController {
     public void delete(ActionEvent event) {
         this.mainWindow.delete();
         this.RSA = null;
+        this.disableButtons();
     }   
     
     /**
@@ -265,7 +292,9 @@ public class SceneController {
             }
             
             this.RSA = this.generate.manualRSAkeys(keys[0], keys[1], keys[2]);
-        }//el else ya se ha tenido en cuenta en el interior de manageKey.open         
+        }//el else ya se ha tenido en cuenta en el interior de manageKey.open   
+        
+        this.disableButtons();
     }
     
     /**
@@ -289,7 +318,8 @@ public class SceneController {
         
         this.mainWindow.changeUnits("dec");
         this.mainWindow.delete();
-        this.RSA = null;
+        this.RSA = null;        
+        this.disableButtons();
     }
     
     /**
@@ -304,6 +334,7 @@ public class SceneController {
         this.mainWindow.changeUnits("hex");
         this.mainWindow.delete();
         this.RSA = null;
+        this.disableButtons();
     }
      
      
@@ -328,38 +359,7 @@ public class SceneController {
     }
      
     
-   /**
-     * Método usado cuando se introduce el primo P de forma manual,
-     * para mostrar su numero de bits
-     * @param keyEvent
-     */
-    public void bitsP(KeyEvent keyEvent) {    
-        String primeP = this.primo_P.getText(); 
-        
-        this.generate.numberToBits(primeP, this.bits_primo_P);
-    }
-    
-    /**
-     * Método usado cuando se introduce el primo Q de forma manual,
-     * para mostrar su numero de bits
-     * @param keyEvent
-     */
-    public void bitsQ(KeyEvent keyEvent) {    
-        String primeQ = this.primo_Q.getText(); 
-        
-        this.generate.numberToBits(primeQ, this.bits_primo_Q);
-    }
-    
-    /**
-     * Método usado cuando se introduce la clave publica de forma manual,
-     * para mostrar su numero de bits
-     * @param keyEvent
-     */
-    public void bitsPublicKey(KeyEvent keyEvent) {  
-        String publicKey = this.clave_Publica.getText(); 
-        
-        this.generate.numberToBits(publicKey, this.bits_clave_Publica);
-    }
+ 
     
     /**
      * 
@@ -372,20 +372,20 @@ public class SceneController {
         
         try{              
             stage= new Stage();
-            fxmlLoader = new FXMLLoader(getClass().getResource("/Factorize/Factorizacion.fxml"));
+            fxmlLoader = new FXMLLoader(getClass().getResource("/Factorize/Factorize.fxml"));
             root = fxmlLoader.load();
         
             FactorizeController factorController = fxmlLoader.<FactorizeController>getController();
             factorController.setRadix(this.radix);
             
             if (this.RSA != null){
-                 factorController.getModule().setText(this.RSA.getN().toString(this.radix).toUpperCase());
+                 factorController.getModulus().setText(this.RSA.getN().toString(this.radix).toUpperCase());
             }          
             
             
             Scene scene = new Scene(root);
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(estado.getScene().getWindow());
+            stage.initOwner(this.unitsD.getScene().getWindow());
             stage.setScene(scene);
             stage.show();            
         
@@ -404,11 +404,6 @@ public class SceneController {
         FXMLLoader fxmlLoader;
         Parent root;
         
-        if (this.RSA == null){
-            //errorDialog
-            return;
-        }            
-        
         try{              
             stage= new Stage();
             fxmlLoader = new FXMLLoader(getClass().getResource("/Cyclic/Cyclic.fxml"));
@@ -416,15 +411,18 @@ public class SceneController {
         
             CyclicController cyclicController = fxmlLoader.<CyclicController>getController();
             cyclicController.setRadix(this.radix);
-            cyclicController.setExponentBI(this.RSA.getE());
-            cyclicController.setModulusBI(this.RSA.getN());
             
-            cyclicController.getModulus().setText(this.RSA.getN().toString(this.radix).toUpperCase());            
-            cyclicController.getExponent().setText(this.RSA.getE().toString(this.radix).toUpperCase());
-            
+            if (this.RSA != null){
+                            
+                cyclicController.getModulus().setText(this.RSA.getN().toString(this.radix).toUpperCase());            
+                cyclicController.getExponent().setText(this.RSA.getE().toString(this.radix).toUpperCase());
+            } else {
+                cyclicController.setFirstTime(false);
+            }
+           
             Scene scene = new Scene(root);
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(estado.getScene().getWindow());
+            stage.initOwner(this.unitsD.getScene().getWindow());
             stage.setScene(scene);
             stage.show();            
         
@@ -453,14 +451,16 @@ public class SceneController {
             
             
             if (this.RSA != null){
-                 paradoxController.getModulus().setText(this.RSA.getN().toString(this.radix).toUpperCase());
-                 paradoxController.getExponent().setText(this.RSA.getE().toString(this.radix).toUpperCase());
-            }          
+                paradoxController.getModulus().setText(this.RSA.getN().toString(this.radix).toUpperCase());
+                paradoxController.getExponent().setText(this.RSA.getE().toString(this.radix).toUpperCase());
+            } else {
+                paradoxController.setFirstTime(false);
+            }      
             
             
             Scene scene = new Scene(root);
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(estado.getScene().getWindow());
+            stage.initOwner(this.unitsD.getScene().getWindow());
             stage.setScene(scene);
             stage.show();            
         
@@ -511,11 +511,10 @@ public class SceneController {
                 comboBox.getItems().add( PPK[iterator]);
             }            
             comboBox.setValue(this.RSA.getD().toString(this.radix).toUpperCase());
-            comboBox.setVisibleRowCount(7);
-            
-            Scene scene = new Scene(root);
+                                    
+            Scene scene = new Scene(root);            
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(estado.getScene().getWindow());
+            stage.initOwner(this.unitsD.getScene().getWindow());
             stage.setScene(scene);
             stage.show();       
             }
@@ -528,8 +527,60 @@ public class SceneController {
     }
     
     
-    
-    
+    /**
+     * 
+     * @param event 
+     */
+    public void Sign (ActionEvent event) {          
+        Stage stage;
+        FXMLLoader fxmlLoader;
+        Parent root;
+        int iterator;
+        
+        try{      
+            if (this.RSA != null){ //quitar esto y deshabilitar el boton
+            stage= new Stage();
+            fxmlLoader = new FXMLLoader(getClass().getResource("/Sign/Sign.fxml"));
+            root = fxmlLoader.load();
+        
+            SignController SignCtr = fxmlLoader.<SignController>getController();
+            
+            SignCtr.setPubKeyBI(this.RSA.getE());
+            SignCtr.setModulusBI(this.RSA.getN());
+            SignCtr.setRadix(this.radix);
+            
+            //parte gráfica
+            SignCtr.getModulus().setText(this.RSA.getN().toString(this.radix).toUpperCase());
+            SignCtr.getPubKey().setText(this.RSA.getE().toString(this.radix).toUpperCase());
+            
+            SignCtr.getModulus1().setText(this.RSA.getN().toString(this.radix).toUpperCase());
+            //obtengo todas las claves privadas parejas
+            String[] PPK = this.claves_parejas.getText().split("\n");
+                        
+            //las meto en el comboBox
+            ComboBox comboBox = SignCtr.getPrivKeys();
+            comboBox.getItems().add("Clave Privada");
+            comboBox.getItems().add(this.RSA.getD().toString(this.radix).toUpperCase());
+            comboBox.getItems().add("Claves Privadas Parejas");
+            for (iterator=0; iterator< PPK.length; iterator++){
+                comboBox.getItems().add( PPK[iterator]);
+            }            
+            comboBox.setValue(this.RSA.getD().toString(this.radix).toUpperCase());
+            
+            Scene scene = new Scene(root);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(this.unitsD.getScene().getWindow());
+            stage.setScene(scene);
+            stage.show();       
+            }
+        
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+            //poner mensaje de error;
+        }
+                
+    }
+        
     /**
      * Cierra todo el programa
      * @param event 
@@ -538,6 +589,81 @@ public class SceneController {
         System.exit(0);
     }
     
+    
+    /**
+     * Método usado para deshabilitar ciertos botones cuando
+     * no hay una clave RSA generada
+     */
+    public void disableButtons() {   
+        if (this.RSA == null) {
+            this.logNNCbttn.setDisable(true);
+            this.saveKeyMenuI.setDisable(true);
+            this.DeCipherMenuI.setDisable(true);
+            this.SingMenuI.setDisable(true);
+        } else {
+             this.logNNCbttn.setDisable(false);
+             this.saveKeyMenuI.setDisable(false);
+             this.DeCipherMenuI.setDisable(false);
+             this.SingMenuI.setDisable(false);
+        }
+        
+    }
+    
+    /**
+     * Método usado para evitar que se puedan focalizar
+     * ciertos nodos de la ventana principal
+     */
+    private void configureFocus() {
+        this.bits_primo_P.setFocusTraversable(false);
+        this.bits_primo_Q.setFocusTraversable(false);
+        this.clave_Privada.setFocusTraversable(false);
+        this.bits_clave_Privada.setFocusTraversable(false);
+        this.modulo_N.setFocusTraversable(false);
+        this.bits_modulo_N.setFocusTraversable(false);
+        this.bits_clave_Publica.setFocusTraversable(false);
+        this.num_claves_parejas.setFocusTraversable(false);
+        this.claves_parejas.setFocusTraversable(false);
+        this.esPrimo_P.setFocusTraversable(false);
+        this.esPrimo_Q.setFocusTraversable(false);
+        this.tiempo_primalidad.setFocusTraversable(false);
+        this.tiempo_clave_automatica.setFocusTraversable(false);
+        this.num_mensajes_noCifrables.setFocusTraversable(false);
+    }
+    
+    
+    
+    /**
+     * Método usado cuando se introduce el primo P de forma manual,
+     * para mostrar su numero de bits
+     * @param keyEvent
+     */
+    public void bitsP(KeyEvent keyEvent) {    
+        String primeP = this.primo_P.getText(); 
+        
+        this.generate.numberToBits(primeP, this.bits_primo_P);                
+    }
+    
+    /**
+     * Método usado cuando se introduce el primo Q de forma manual,
+     * para mostrar su numero de bits
+     * @param keyEvent
+     */
+    public void bitsQ(KeyEvent keyEvent) {    
+        String primeQ = this.primo_Q.getText(); 
+        
+        this.generate.numberToBits(primeQ, this.bits_primo_Q);
+    }
+    
+    /**
+     * Método usado cuando se introduce la clave publica de forma manual,
+     * para mostrar su numero de bits
+     * @param keyEvent
+     */
+    public void bitsPublicKey(KeyEvent keyEvent) {  
+        String publicKey = this.clave_Publica.getText(); 
+        
+        this.generate.numberToBits(publicKey, this.bits_clave_Publica);
+    }
     
     
     
@@ -591,10 +717,6 @@ public class SceneController {
         return claves_parejas;
     }
 
-    public Label getEstado() {
-        return estado;
-    }
-
     public TextField getIteraciones_primalidad() {
         return iteraciones_primalidad;
     }
@@ -645,7 +767,7 @@ public class SceneController {
 
     public Label getUnitsE() {
         return unitsE;
-    }     
+    }
      
 }
 /*

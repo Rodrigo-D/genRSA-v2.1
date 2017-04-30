@@ -1,6 +1,28 @@
 cosas que he ido haciendo:
+30 - 04 -2017
 
-29 -07 - 2017
+cambiar todos los module por modulus, los clean por clear
+
+hecha la parte de firma y modificaciones menores a la parte de cifrado
+
+deshabilitar boton de log, guardar clave, cifrar-descifrar, firmar-validar en pantalla principal siempre que rsa==null
+
+quitar el estado
+
+mejorar ciclico -habilitar q se pueda modificar n y e en ataque ciclico? si
+
+mejorado un mensaje de paradoja del cumpleaños
+
+poner mensaje al final de CKP diciendo que solo se calculan 30 en el caso de que el num de ckp sea mayor que 30
+
+Mejorar el html de los logNNC y de saveKEY: https://html-online.com/editor/
+
+Poner los focos tanto en DeCipher, Sign y pantalla principal
+
+//buscar como hacer para que cuando se de a la tecla tabulador vaya al campo que quiero
+
+
+29 - 04 - 2017
 
 parte de cifrado y firma (mucha logica e impresiones)
 

@@ -213,9 +213,9 @@ public class GenerarClaves {
             
             //Imprime           
             this.print.numClavesParejas(this.RSA.getNumCKP());
-            this.print.borrarClavesParejas();
+            this.print.clearPrivPairKey();
             if (cpp.compareTo(this.RSA.getD()) != 0){
-                this.print.addClavePareja(cpp, this.radix);
+                this.print.addPrivPairKey(cpp, this.radix);
             }
             
             //para controlar el while, dado que si el numero es mayor que el max_value de los integer
@@ -225,9 +225,13 @@ public class GenerarClaves {
             while (CKP_int >= iterador && iterador <= 30){
                     cpp=cpp.add(this.RSA.getGamma());
                     if (cpp.compareTo(this.RSA.getD()) != 0){
-                            this.print.addClavePareja(cpp, this.radix);
+                            this.print.addPrivPairKey(cpp, this.radix);
                     }
                     iterador++;
+            }
+            
+            if (iterador > 30){
+                this.print.limitPrivPairKey();
             }
     }
     /**

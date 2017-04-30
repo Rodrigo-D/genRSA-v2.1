@@ -15,7 +15,7 @@ public class Utilidades {
     
     public String formatNumber (String number){
         
-        number = number.replaceAll("[,. ]","");
+        number = number.replaceAll("[,. \t]","");
         
         return number;
     }

@@ -38,7 +38,7 @@ public class FactorizeAttack {
     
     private BigInteger lapsNum;
     
-    private BigInteger module;
+    private BigInteger modulus;
     
     private BigInteger lapsNumTotal;
     
@@ -56,7 +56,7 @@ public class FactorizeAttack {
     
     
     //comenzar a factorizar n	
-    public void start (String moduleStr, String lapsNumStr){
+    public void start (String modulusStr, String lapsNumStr){
             BigInteger xPrime, x2Prime, s, antesDeS, laps; 
             String time;
             long startTime;
@@ -64,17 +64,17 @@ public class FactorizeAttack {
             startTime = System.currentTimeMillis();
             
             this.print.clear();
-            this.print.moduleEditable(false);
+            this.print.modulusEditable(false);
             
             //comprobación de errores
             lapsNumStr  = this.utilidades.formatNumber(lapsNumStr);
-            moduleStr   = this.utilidades.formatNumber(moduleStr);
+            modulusStr   = this.utilidades.formatNumber(modulusStr);
 
             
             try{
-              this.module = new BigInteger(moduleStr, this.radix);
+              this.modulus = new BigInteger(modulusStr, this.radix);
             } catch (NumberFormatException n){            
-                this.errorDialog.module(this.radix);
+                this.errorDialog.modulus(this.radix);
                 return;
             }
             
@@ -91,8 +91,8 @@ public class FactorizeAttack {
             }
 
             //comprobar que no sea primo antes
-            if (this.module.isProbablePrime(100)){
-                this.errorDialog.modulePrime();
+            if (this.modulus.isProbablePrime(100)){
+                this.errorDialog.modulusPrime();
                 return;
             }
             
@@ -103,18 +103,18 @@ public class FactorizeAttack {
 
             do{
                     xPrime = (this.x.pow(2)).add(BigInteger.ONE);
-                    x2Prime = (((this.x2.modPow(Constantes.TWO,this.module)).add(Constantes.ONE)).
-                                            modPow(Constantes.TWO,this.module)).add(Constantes.ONE);
+                    x2Prime = (((this.x2.modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE)).
+                                            modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE);
 
-                    this.x = xPrime.mod(this.module);
-                    this.x2 = x2Prime.mod(this.module);
+                    this.x = xPrime.mod(this.modulus);
+                    this.x2 = x2Prime.mod(this.modulus);
                     antesDeS=(this.x.subtract(this.x2));
-                    s = antesDeS.gcd(this.module);
+                    s = antesDeS.gcd(this.modulus);
 
                     laps = laps.add(Constantes.ONE);
                     print.functionValues(this.x.toString(radix), this.x2.toString(radix), s.toString(radix));
                     
-                    if (!(s.equals(Constantes.ONE)) && !(s.equals(this.module)) ){
+                    if (!(s.equals(Constantes.ONE)) && !(s.equals(this.modulus)) ){
                         this.find = true;
                         break;
                     }
@@ -128,7 +128,7 @@ public class FactorizeAttack {
 
         if (this.find){
             this.print.primeP(s.toString(radix));
-            this.print.primeQ(this.module.divide(s).toString(radix));
+            this.print.primeQ(this.modulus.divide(s).toString(radix));
             this.print.find(laps.toString());
         } else {
              this.print.dissableStart();
@@ -138,8 +138,8 @@ public class FactorizeAttack {
         this.totalTime = System.currentTimeMillis() - startTime;
         time = this.utilidades.millisToSeconds(this.totalTime);
        
-        this.print.moduleEditable(true);
-        this.print.module(this.module.toString(this.radix));
+        this.print.modulusEditable(true);
+        this.print.modulus(this.modulus.toString(this.radix));
         this.print.lapsNum(this.lapsNum.toString());
         this.print.time(time);
     }
@@ -152,24 +152,24 @@ public class FactorizeAttack {
 
         startTime = System.currentTimeMillis();
 
-        this.print.moduleEditable(false);
+        this.print.modulusEditable(false);
         //lógica del metodo
         laps = Constantes.ZERO; 
 
         do{
             xPrime = (this.x.pow(2)).add(BigInteger.ONE);
-            x2Prime = (((this.x2.modPow(Constantes.TWO,this.module)).add(Constantes.ONE)).
-                                    modPow(Constantes.TWO,this.module)).add(Constantes.ONE);
+            x2Prime = (((this.x2.modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE)).
+                                    modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE);
 
-            this.x = xPrime.mod(this.module);
-            this.x2 = x2Prime.mod(this.module);
+            this.x = xPrime.mod(this.modulus);
+            this.x2 = x2Prime.mod(this.modulus);
             antesDeS=(this.x.subtract(this.x2));
-            s = antesDeS.gcd(this.module);
+            s = antesDeS.gcd(this.modulus);
 
             laps = laps.add(Constantes.ONE);
             this.print.functionValues(this.x.toString(radix), this.x2.toString(this.radix), s.toString(this.radix));
 
-            if (!(s.equals(Constantes.ONE)) && !(s.equals(this.module)) ){
+            if (!(s.equals(Constantes.ONE)) && !(s.equals(this.modulus)) ){
                 this.find = true;
                 break;
             }
@@ -187,20 +187,20 @@ public class FactorizeAttack {
         if (this.find){
             this.lapsNumTotal = this.lapsNumTotal.add(laps);
             this.print.primeP(s.toString(this.radix));
-            this.print.primeQ(this.module.divide(s).toString(this.radix));            
+            this.print.primeQ(this.modulus.divide(s).toString(this.radix));            
             this.print.find(this.lapsNumTotal.toString());
             this.print.EnableStart();
         } else {
             this.lapsNumTotal = this.lapsNumTotal.add(this.lapsNum);
         }       
-        this.print.moduleEditable(true);
+        this.print.modulusEditable(true);
         this.print.time(time);
 
     }
 
 
     //factorizar n hasta encontrar los primos P y Q
-    public void obtainPQ (String moduleStr){
+    public void obtainPQ (String modulusStr){
         BigInteger xPrime, x2Prime, s, antesDeS, laps;  
         String time;
         long startTime;
@@ -208,23 +208,23 @@ public class FactorizeAttack {
         startTime = System.currentTimeMillis();
 
         this.print.clear();
-        this.print.moduleEditable(false);
+        this.print.modulusEditable(false);
         this.print.disableLapsNum();
         this.print.disableBttns();
 
         //comprobación de errores
-        moduleStr   = this.utilidades.formatNumber(moduleStr);
+        modulusStr   = this.utilidades.formatNumber(modulusStr);
 
         try{
-          this.module = new BigInteger(moduleStr, radix);
+          this.modulus = new BigInteger(modulusStr, radix);
         } catch (NumberFormatException n){            
-            this.errorDialog.module(radix);
+            this.errorDialog.modulus(radix);
             return;
         }
 
         //comprobar que no sea primo antes
-        if (this.module.isProbablePrime(100)){
-            this.errorDialog.modulePrime();
+        if (this.modulus.isProbablePrime(100)){
+            this.errorDialog.modulusPrime();
             return;
         }
 
@@ -238,27 +238,27 @@ public class FactorizeAttack {
 
         do{
             xPrime = (this.x.pow(2)).add(BigInteger.ONE);
-            x2Prime = (((this.x2.modPow(Constantes.TWO,this.module)).add(Constantes.ONE)).
-                                    modPow(Constantes.TWO,this.module)).add(Constantes.ONE);
+            x2Prime = (((this.x2.modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE)).
+                                    modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE);
 
-            this.x = xPrime.mod(this.module);
-            this.x2 = x2Prime.mod(this.module);
+            this.x = xPrime.mod(this.modulus);
+            this.x2 = x2Prime.mod(this.modulus);
             antesDeS=(this.x.subtract(this.x2));
-            s = antesDeS.gcd(this.module);
+            s = antesDeS.gcd(this.modulus);
 
             laps = laps.add(Constantes.ONE);
             print.functionValues(this.x.toString(radix), this.x2.toString(radix), s.toString(radix));
 
-        } while (s.equals(Constantes.ONE) || s.equals(this.module));
+        } while (s.equals(Constantes.ONE) || s.equals(this.modulus));
 
             
         time = this.utilidades.millisToSeconds(System.currentTimeMillis() - startTime);
         
         this.print.primeP(s.toString(radix));
-        this.print.primeQ(this.module.divide(s).toString(radix));
+        this.print.primeQ(this.modulus.divide(s).toString(radix));
         this.print.find(laps.toString());       
-        this.print.moduleEditable(true);
-        this.print.module(this.module.toString(this.radix));
+        this.print.modulusEditable(true);
+        this.print.modulus(this.modulus.toString(this.radix));
         
         this.print.enableLapsNum();
         this.print.enableBttns();

@@ -31,7 +31,7 @@ public class SavedParadoxAttack {
         
     private int radix;
     
-    private BigInteger module;
+    private BigInteger modulus;
     
     private BigInteger exponent;
     
@@ -54,15 +54,15 @@ public class SavedParadoxAttack {
         
     }
     
-    public boolean init(String message, String module, String exponent) {
+    public boolean init(String message, String modulus, String exponent) {
        
         //MODULE------------  
-        module = this.utilidades.formatNumber(module);
+        modulus = this.utilidades.formatNumber(modulus);
         
         try{
-            this.module = new BigInteger(module, this.radix);
+            this.modulus = new BigInteger(modulus, this.radix);
         } catch (NumberFormatException n){            
-            this.errorDialog.paradoxModule(this.radix);
+            this.errorDialog.Modulus(this.radix);
             return false;
         }
         
@@ -72,7 +72,7 @@ public class SavedParadoxAttack {
         try{
             this.exponent = new BigInteger(exponent, this.radix);
         } catch (NumberFormatException n){            
-            this.errorDialog.paradoxExponent(this.radix);
+            this.errorDialog.Exponent(this.radix);
             return false;
         }
         
@@ -94,12 +94,12 @@ public class SavedParadoxAttack {
             return false;
         }
         
-        if (this.message.compareTo(this.module) > -1){
+        if (this.message.compareTo(this.modulus) > -1){
             this.errorDialog.bigMessage(radix);
             return false;
         }
         
-       this.Pprint.numbers(this.module.toString(this.radix).toUpperCase(),
+       this.Pprint.numbers(this.modulus.toString(this.radix).toUpperCase(),
                             this.exponent.toString(this.radix).toUpperCase(),
                             this.message.toString(this.radix).toUpperCase());
         
@@ -118,19 +118,19 @@ public class SavedParadoxAttack {
         BigInteger IMinusJ, w, s, t;
 				
 		i = new BigInteger("1");
-		j = this.module.divide(Constantes.TWO);
+		j = this.modulus.divide(Constantes.TWO);
 		
-		initialCipherI = this.message.modPow(i, this.module);
-		initialCipherJ = this.message.modPow(j, this.module);
+		initialCipherI = this.message.modPow(i, this.modulus);
+		initialCipherJ = this.message.modPow(j, this.modulus);
 		do{
 			i = i.add(Constantes.ONE);
 			j = j.add(Constantes.ONE);
-			cipherI = this.message.modPow(i, this.module);
-			cipherJ = this.message.modPow(j, this.module);
+			cipherI = this.message.modPow(i, this.modulus);
+			cipherJ = this.message.modPow(j, this.modulus);
 		} while (!(cipherI.equals(initialCipherI) || cipherJ.equals(initialCipherJ)));
 		
 		if (cipherI.equals(initialCipherJ)){
-			j = this.module.divide(Constantes.TWO);
+			j = this.modulus.divide(Constantes.TWO);
 		} else {
 			i = Constantes.ONE;
 		}

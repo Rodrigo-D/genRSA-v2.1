@@ -107,7 +107,7 @@
                               <Insets left="20.0" right="17.0" />
                            </HBox.margin>
                         </Text>
-                        <TextArea fx:id="originalData" HBox.hgrow="ALWAYS">
+                        <TextArea fx:id="originalData" onKeyPressed="#tabOrigData" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="3.0" right="30.0" />
                            </HBox.margin>
@@ -185,7 +185,7 @@
                               <Insets left="20.0" right="27.0" />
                            </HBox.margin>
                         </Text>
-                        <TextArea fx:id="cipherData1" blendMode="DARKEN" editable="false" HBox.hgrow="ALWAYS">
+                        <TextArea fx:id="cipheredData1" blendMode="DARKEN" editable="false" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="10.0" right="30.0" />
                            </HBox.margin>
@@ -347,7 +347,7 @@
                               <Insets bottom="7.0" left="20.0" right="24.0" />
                            </HBox.margin>
                         </Text>
-                        <ComboBox fx:id="privKeyCombo" prefWidth="3000.0" HBox.hgrow="ALWAYS">
+                        <ComboBox fx:id="privKeyCombo" prefWidth="3000.0" visibleRowCount="7" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="7.0" right="30.0" />
                            </HBox.margin>
@@ -363,7 +363,7 @@
                               <Insets left="20.0" right="17.0" />
                            </HBox.margin>
                         </Text>
-                        <TextArea fx:id="cipherData2" HBox.hgrow="ALWAYS">
+                        <TextArea fx:id="cipheredData2" onKeyPressed="#tabCiphData" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="3.0" right="30.0" />
                            </HBox.margin>
@@ -441,7 +441,7 @@
                               <Insets left="20.0" right="27.0" />
                            </HBox.margin>
                         </Text>
-                        <TextArea fx:id="decipherData" blendMode="DARKEN" editable="false" HBox.hgrow="ALWAYS">
+                        <TextArea fx:id="decipheredData" blendMode="DARKEN" editable="false" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="10.0" right="30.0" />
                            </HBox.margin>

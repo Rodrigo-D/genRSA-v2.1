@@ -51,15 +51,19 @@ public class Print {
     }
 
     
-    public void borrarClavesParejas() {
+    public void clearPrivPairKey() {
         
         this.scene.getClaves_parejas().clear();
     }
     
-    public void addClavePareja(BigInteger claveP, int radix) {
+    public void addPrivPairKey(BigInteger claveP, int radix) {
         
         this.scene.getClaves_parejas().appendText(claveP.toString(radix).toUpperCase());
         this.scene.getClaves_parejas().appendText("\n");
+    }
+    
+    public void limitPrivPairKey() {
+        this.scene.getClaves_parejas().appendText("Se ha alcanzado número máximo de claves privadas parejas: 30");
     }
 
     public void numClavesParejas(BigInteger numCKP) {
@@ -103,5 +107,7 @@ public class Print {
         this.scene.getNum_claves_parejas().clear();
         this.scene.getNum_mensajes_noCifrables().clear();
     }
+
+   
     
 }

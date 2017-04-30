@@ -118,10 +118,9 @@ public class ParadoxController {
     
     
     @FXML
-    public void clean(ActionEvent event) {
-        this.paradoxAttack.clean();
-    }
-    
+    public void clear(ActionEvent event) {
+        this.paradoxAttack.clear();
+    } 
     
 
     @FXML
@@ -129,12 +128,20 @@ public class ParadoxController {
         this.paradoxAttack.putInfo();
     }
     
+    
+    
+    
+    
+    
     public void setRadix(int radix) {
         this.radix = radix;
     }
+   
+    public void setFirstTime(boolean firstTime){
+        this.firstTime = firstTime;
+    }
     
-    
-    
+    //PARTE GRÁFICA
     public TextField getModulus() {
         return this.Modulus;
     }

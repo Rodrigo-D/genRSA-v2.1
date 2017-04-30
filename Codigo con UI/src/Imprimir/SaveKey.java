@@ -44,8 +44,8 @@ public class SaveKey {
         print.println("<body>");
         print.println("<PRE>");
         
-        print.println("<center><h1><font color=\"navy\"> CLAVE GENERADA </font></h1></center>");
-        print.println("<center><h1><font color=\"grey\"> ( " + fechaStr + " ) </font></h1></center>");
+        print.println("<center><h2><font color=\"navy\"> CLAVE GENERADA </font></h2></center>");
+        print.println("<center><h3><font color=\"grey\"> ( " + fechaStr + " ) </font></h3></center>");
         
         if(radix==10){
              print.println("<B><font color=\"Black\">Unidades: Decimal</font></B>");

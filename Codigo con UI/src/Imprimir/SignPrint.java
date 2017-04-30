@@ -5,25 +5,27 @@
  */
 package Imprimir;
 
-import DeCipher.DeCipherController;
+import Sign.SignController;
 import javafx.scene.control.TextArea;
 
 /**
  *
  * @author rdiazarr
  */
-public class DeCipherPrint {
-     
-    private final DeCipherController DCscene;
+public class SignPrint {
+    
+    private final SignController SignScene;
+    
+    
     
     /**
      * Constructor de la clase
-     * @param DCscene 
+     * @param SignScene 
      */
-    public DeCipherPrint (DeCipherController DCscene){
-        this.DCscene = DCscene;
-    }
-
+    public SignPrint (SignController SignScene){
+        this.SignScene = SignScene;
+    }    
+    
     
     
     
@@ -33,9 +35,9 @@ public class DeCipherPrint {
         TextArea data;
         
         if(isOriginal){
-           data = this.DCscene.getOriginalData();
+           data = this.SignScene.getOriginalData();
         } else {
-            data = this.DCscene.getCipheredData2();
+            data = this.SignScene.getSignedData2();
         }
         
         
@@ -48,22 +50,22 @@ public class DeCipherPrint {
             }            
         }
     }
-
-    public void clearCipheredData() {
-        this.DCscene.getCipheredData1().clear();
+    
+    
+    public void clearValidatedData() {
+        this.SignScene.getValidatedData().clear();
     }
 
-    public void addCipheredData(String cipheredNum) {
-        this.DCscene.getCipheredData1().appendText(cipheredNum + "\n");
+    public void addValidatedData(String validatedNum) {
+        this.SignScene.getValidatedData().appendText(validatedNum + "\n");
     }
 
-    public void clearDecipheredData() {
-        this.DCscene.getDecipheredData().clear();
+    public void clearSignedData() {
+        this.SignScene.getSignedData1().clear();
     }
     
-    public void addDecipheredData(String decipheredNum) {
-        this.DCscene.getDecipheredData().appendText(decipheredNum + "\n");
+    public void addSignedData(String signedNum) {
+        this.SignScene.getSignedData1().appendText(signedNum + "\n");
     }
     
-   
 }

@@ -47,8 +47,8 @@ public class LogNNC {
         print.println("<body>");
         print.println("<PRE>");
         
-        print.println("<center><h1><font color=\"navy\"> CLAVE GENERADA </font></h1></center>");
-        print.println("<center><h1><font color=\"grey\"> ( " + fechaStr + " ) </font></h1></center>");
+        print.println("<center><h2><font color=\"navy\"> CLAVE GENERADA </font></h2></center>");
+        print.println("<center><h3><font color=\"grey\"> ( " + fechaStr + " ) </font></h3></center>");
         
         if(radix==10){
              print.println("<B><font color=\"Black\">Unidades: Decimal</font></B>");
@@ -65,9 +65,9 @@ public class LogNNC {
         print.println("<B><font color=\"IndianRed\">Clave Publica e generada:</font></B>");
         print.println("<B>" + RSA.getE().toString(radix).toUpperCase() + "</B>");
         print.println("<B><font color=\"IndianRed\">Clave Privada d generada:</font></B>");
-        print.println("<B>" + RSA.getD().toString(radix).toUpperCase() + "</B>");
+        print.println("<B>" + RSA.getD().toString(radix).toUpperCase() + "<br /><br /></B>");
         
-        print.println("<H3><B>NUMEROS NO CIFRABLES</B></H3>");
+        print.println("<H4><B>NUMEROS NO CIFRABLES</B></H4>");
         print.println("<B>El numero de Numeros No Cifrables es:" + RSA.getNumNNC() + "</B>");
     }
     

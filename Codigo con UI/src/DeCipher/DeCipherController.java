@@ -9,12 +9,15 @@ import Imprimir.DeCipherPrint;
 import java.math.BigInteger;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 /**
  *
@@ -40,8 +43,8 @@ public class DeCipherController {
     @FXML // fx:id="isTextOriginal"
     private CheckBox isTextOriginal; // Value injected by FXMLLoader
 
-    @FXML // fx:id="cipherData1"
-    private TextArea cipherData1; // Value injected by FXMLLoader
+    @FXML // fx:id="cipheredData1"
+    private TextArea cipheredData1; // Value injected by FXMLLoader
 
     @FXML // fx:id="privKeyCombo"
     private ComboBox privKeyCombo; // Value injected by FXMLLoader
@@ -49,11 +52,11 @@ public class DeCipherController {
     @FXML // fx:id="Modulus1"
     private TextField Modulus1; // Value injected by FXMLLoader
 
-    @FXML // fx:id="cipherData2"
-    private TextArea cipherData2; // Value injected by FXMLLoader
+    @FXML // fx:id="cipheredData2"
+    private TextArea cipheredData2; // Value injected by FXMLLoader
 
-    @FXML // fx:id="decipherData"
-    private TextArea decipherData; // Value injected by FXMLLoader
+    @FXML // fx:id="decipheredData"
+    private TextArea decipheredData; // Value injected by FXMLLoader
 
     @FXML // fx:id="isTextCiphered"
     private CheckBox isTextCiphered; // Value injected by FXMLLoader
@@ -76,15 +79,17 @@ public class DeCipherController {
         assert Modulus != null : "fx:id=\"Modulus\" was not injected: check your FXML file 'DeCipher.fxml'.";
         assert originalData != null : "fx:id=\"originalData\" was not injected: check your FXML file 'DeCipher.fxml'.";
         assert isTextOriginal != null : "fx:id=\"isTextOriginal\" was not injected: check your FXML file 'DeCipher.fxml'.";
-        assert cipherData1 != null : "fx:id=\"cipherData1\" was not injected: check your FXML file 'DeCipher.fxml'.";
+        assert cipheredData1 != null : "fx:id=\"cipheredData1\" was not injected: check your FXML file 'DeCipher.fxml'.";
         assert privKeyCombo != null : "fx:id=\"privKeyCombo\" was not injected: check your FXML file 'DeCipher.fxml'.";
         assert Modulus1 != null : "fx:id=\"Modulus1\" was not injected: check your FXML file 'DeCipher.fxml'.";
-        assert cipherData2 != null : "fx:id=\"cipherData2\" was not injected: check your FXML file 'DeCipher.fxml'.";
-        assert decipherData != null : "fx:id=\"decipherData\" was not injected: check your FXML file 'DeCipher.fxml'.";
+        assert cipheredData2 != null : "fx:id=\"cipheredData2\" was not injected: check your FXML file 'DeCipher.fxml'.";
+        assert decipheredData != null : "fx:id=\"decipheredData\" was not injected: check your FXML file 'DeCipher.fxml'.";
         assert isTextCiphered != null : "fx:id=\"isTextCiphered\" was not injected: check your FXML file 'DeCipher.fxml'.";
 
-        DeCipher = new DeCipherLogic (new DeCipherPrint(this));
+        DeCipher = new DeCipherLogic (new DeCipherPrint(this));    
         
+        //para poner el foco en originalData
+        Platform.runLater(originalData::requestFocus);
     }
     
     
@@ -104,11 +109,14 @@ public class DeCipherController {
 
     @FXML
     void cipherInfo(ActionEvent event) {
-
+        this.DeCipher.putCipherInfo();
     }
 
     @FXML
     void clearCipher(ActionEvent event) {
+        this.originalData.clear();
+        this.cipheredData1.clear();
+        this.isTextOriginal.setSelected(false);
 
     }
 
@@ -119,7 +127,7 @@ public class DeCipherController {
         this.DeCipher.setRadix(this.radix);
         
         if (this.DeCipher.initDecipher(this.modulusBI, this.privKeyCombo.getValue().toString())
-                && this.DeCipher.processData(this.cipherData2, isText, false)){
+                && this.DeCipher.processData(this.cipheredData2, isText, false)){
             this.DeCipher.decrypt();
         }
 
@@ -127,13 +135,37 @@ public class DeCipherController {
 
     @FXML
     void decipherInfo(ActionEvent event) {
-
+        this.DeCipher.putDecipherInfo();
     }
 
     @FXML
     void clearDecipher(ActionEvent event) {
-
+        this.cipheredData2.clear();
+        this.decipheredData.clear();
+        this.isTextCiphered.setSelected(false);
     }    
+    
+    /**
+     * Método usado para pasar el foco a isTextCiphered   
+     * @param keyEvent
+     */
+    public void tabCiphData(KeyEvent keyEvent) {    
+        if (keyEvent.getCode() == KeyCode.TAB) {
+            this.isTextCiphered.requestFocus();
+        }
+               
+    }
+    
+    /**
+     * Método usado para pasar el foco a isTextOriginal
+     * @param keyEvent
+     */
+    public void tabOrigData(KeyEvent keyEvent) {    
+        if (keyEvent.getCode() == KeyCode.TAB) {
+            this.isTextOriginal.requestFocus();
+        }
+               
+    }
     
     
     
@@ -151,9 +183,7 @@ public class DeCipherController {
         this.pubKeyBI = pubKey;
     }
     
-  
-    
-    
+      
     //parte gráfica
     
     public TextField getPubKey() {
@@ -176,16 +206,16 @@ public class DeCipherController {
         return this.originalData;
     }
             
-    public TextArea getCipherData1() {
-        return this.cipherData1;
+    public TextArea getCipheredData1() {
+        return this.cipheredData1;
     }
     
-    public TextArea getCipherData2() {
-        return this.cipherData2;
+    public TextArea getCipheredData2() {
+        return this.cipheredData2;
     }
             
-    public TextArea getDecipherData() {
-        return this.decipherData;
+    public TextArea getDecipheredData() {
+        return this.decipheredData;
     }
 }
 

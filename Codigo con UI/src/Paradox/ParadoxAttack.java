@@ -61,7 +61,7 @@ public class ParadoxAttack {
         try{
             this.modulus = new BigInteger(modulus, this.radix);
         } catch (NumberFormatException n){            
-            this.errorDialog.paradoxModule(this.radix);
+            this.errorDialog.Modulus(this.radix);
             return false;
         }
         
@@ -71,9 +71,14 @@ public class ParadoxAttack {
         try{
             this.exponent = new BigInteger(exponent, this.radix);
         } catch (NumberFormatException n){            
-            this.errorDialog.paradoxExponent(this.radix);
+            this.errorDialog.Exponent(this.radix);
             return false;
         }
+        
+        if (this.exponent.compareTo(this.modulus)>-1){
+            this.errorDialog.bigExponent();
+            return false;
+        }     
         
         
         //pregunta en doc de preguntas
@@ -208,7 +213,7 @@ public class ParadoxAttack {
     }
     
     
-    public void  clean(){
+    public void  clear(){
         this.Pprint.partialDelete();
     }
     
@@ -219,8 +224,8 @@ public class ParadoxAttack {
     }
      
      
-    void warning() {
-        this.infoDialog.warningParadox();
+    public void warning() {
+        this.infoDialog.warningAttack();
     }
      
     

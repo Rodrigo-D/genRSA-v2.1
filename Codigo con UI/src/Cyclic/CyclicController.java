@@ -16,6 +16,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.BlendMode;
+import javafx.scene.input.KeyEvent;
 
 /**
  *
@@ -61,17 +62,13 @@ public class CyclicController {
 
     @FXML // fx:id="Time"
     private TextField Time; // Value injected by FXMLLoader
+      
     
-    
-    
-    
-    private CyclicAttack cyclic;    
+    private CyclicAttack cyclicAttack;    
            
-    private int radix;
+    private int radix;    
     
-    private BigInteger modulusBI;
-    
-    private BigInteger exponentBI;
+    private boolean firstTime;
     
     
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -89,23 +86,26 @@ public class CyclicController {
         assert Time != null : "fx:id=\"Time\" was not injected: check your FXML file 'Cyclic.fxml'.";
 
         
-        cyclic = new CyclicAttack(new CyclicPrint(this));
+        firstTime = true;
+        cyclicAttack = new CyclicAttack(new CyclicPrint(this));
         continueBttn.setDisable(true);      
     }
     
     @FXML
     public void start(ActionEvent event) {
-        this.cyclic.setRadix(this.radix); 
+        String modulus = this.Modulus.getText();
+        String exponent = this.Exponent.getText();
+        this.cyclicAttack.setRadix(this.radix); 
         
         String message = this.Message.getText();
         
-        if (this.cyclic.init(message, this.modulusBI, this.exponentBI)){
+        if (this.cyclicAttack.init(message, modulus, exponent)){
         
             if(this.Complete.isSelected()){
-                this.cyclic.complete();
+                this.cyclicAttack.complete();
             } else {
                 String numOfCyphers = this.NumCiphers.getText();            
-                this.cyclic.start(numOfCyphers);
+                this.cyclicAttack.start(numOfCyphers);
             }
         } 
     }
@@ -113,18 +113,18 @@ public class CyclicController {
     @FXML
     public void Continue(ActionEvent event) {
         String numOfCyphers = this.NumCiphers.getText();         
-        this.cyclic.Continue(numOfCyphers);
+        this.cyclicAttack.Continue(numOfCyphers);
     }
     
 
     @FXML
     void info(ActionEvent event) {
-        this.cyclic.putInfo();
+        this.cyclicAttack.putInfo();
     }
     
     
     @FXML
-    void clean(ActionEvent event) {
+    void clear(ActionEvent event) {
         
         this.Complete.setDisable(false);
         this.NumCiphers.setDisable(false);
@@ -141,11 +141,24 @@ public class CyclicController {
 
     }
 
-    
+    @FXML
+    /**
+     * Para prevenir que se modifique tanto el módulo como el exponente
+     */
+    public void warningModify (KeyEvent keyEvent){
+        if (this.firstTime){
+            this.firstTime = false;
+            this.cyclicAttack.warning();   
+        }  
+        
+    }
 
     
     
     @FXML
+    /**
+     * Metodo que activará o desactivará el numero de cifrados
+     */
     public void checkSelected(ActionEvent event){
         if (this.Complete.isSelected()){
             this.NumCiphers.clear();
@@ -167,15 +180,11 @@ public class CyclicController {
         this.radix = radix;
     }
     
-    public void setModulusBI(BigInteger modulus) {
-        this.modulusBI = modulus;
-    }
-  
-    public void setExponentBI(BigInteger exponent) {
-        this.exponentBI = exponent;
+    public void setFirstTime(boolean firstTime){
+        this.firstTime = firstTime;
     }
     
-    
+      
     
     //parte gráfica -----------------------------------------------------------
     public TextField getModulus() {

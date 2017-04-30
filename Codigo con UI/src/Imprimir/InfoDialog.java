@@ -69,7 +69,7 @@ public class InfoDialog {
                  + "sean lo suficientemente altos.\n");
                  
                  
-                 info.showAndWait();
+        info.showAndWait();
     }
 
     public void paradox() {
@@ -91,10 +91,10 @@ public class InfoDialog {
                  + "o bien un falso positivo.\n");
                  
                  
-                 info.showAndWait();
+        info.showAndWait();
     }
 
-    public void warningParadox() {
+    public void warningAttack() {
         info.setContentText("Si se modifica el módulo o el exponente no se"
                 + " garantiza la correcta finalización del ataque. ");
         info.showAndWait();
@@ -102,9 +102,72 @@ public class InfoDialog {
 
     public void warningDeCipher() {
         info.setHeaderText("Atención, no se han introducido de forma correcta los datos.");
-        info.setContentText("Para que se garantize el cifrado de todos los números, \n"
+        info.setContentText("Para que se garantize el cifrado/descifrado de todos los números, \n"
                 + "introduzca un número menor al valor del módulo en cada línea.");
         info.showAndWait();
+    }
+    
+    public void warningSign() {
+        info.setHeaderText("Atención, no se han introducido de forma correcta los datos.");
+        info.setContentText("Para que se garantize la firma/validación de todos los números, \n"
+                + "introduzca un número menor al valor del módulo en cada línea.");
+        info.showAndWait();
+    }
+
+    public void putCipherInfo() {
+        info.setContentText("El proceso de cifrado siempre se realiza con la clave\n" 
+                 + "pública del destinatario. De este modo, solo el  destinatario \n"
+                 + "podrá, con su clave privada, descifrar los datos.\n"
+                 + "Se garantiza la Confidencialidad.\n\n"                
+                 + "Si los datos introducidos no son texto, se introducirá un\n"
+                 + "número por línea. Si el número introducido es mayor que el\n"
+                 + "módulo se dividirá en números de menor o igual valor que el módulo.\n\n"
+                 + "Si los datos introducidos son texto,...");
+                 
+                 
+        info.showAndWait();
+    }
+
+    public void putDecipherInfo() {
+        info.setContentText("El proceso de descifrado siempre se realiza con la clave\n" 
+                 + "privada del destinatario. De este modo, solo el  destinatario \n"
+                 + "podrá descifrar los datos.\n\n"                
+                 + "Si los datos introducidos no son texto, se introducirá un\n"
+                 + "número por línea. Si el número introducido es mayor que el\n"
+                 + "módulo se dividirá en números de menor o igual valor que el módulo.\n\n"
+                 + "Si los datos introducidos son texto,...");
+                 
+                 
+        info.showAndWait();
+    }
+
+    public void putSignInfo() {
+        info.setContentText("El proceso de firma siempre se realiza con la clave privada\n" 
+                 + "del emisor. De este modo, se garantiza el no repudio de los datos.\n"
+                 + "La firma se suele realizar a un hash de un documento para\n"
+                 + "garantizar la Integridad.\n\n"                
+                 + "Si los datos introducidos no son texto, se introducirá un\n"
+                 + "número por línea. Si el número introducido es mayor que el\n"
+                 + "módulo se dividirá en números de menor o igual valor que el módulo.\n\n"
+                 + "Si los datos introducidos son texto,...");
+                 
+                 
+        info.showAndWait();
+    }
+
+    public void putValidateSignInfo() {
+        info.setContentText("El proceso de comprobación de la firma siempre se realiza\n" 
+                 + "con la clave pública del emisor. Para comprobar una firma, se realiza\n"
+                 + "el hash del documento recibido y se compara con el hash recibido (que esta firmado)\n"
+                 + "una vez lo hemos obtenido aplicandole la clave pública del emisor\n\n"
+                 + "Si los datos introducidos no son texto, se introducirá un\n"
+                 + "número por línea. Si el número introducido es mayor que el\n"
+                 + "módulo se dividirá en números de menor o igual valor que el módulo.\n\n"
+                 + "Si los datos introducidos son texto,...");
+                 
+                 
+        info.showAndWait();
+        
     }
 
 }

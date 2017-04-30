@@ -1,28 +1,16 @@
 VA EN JAVA  
 
-falta la logica de cuando es texto
-cambiar todos los module por modulus, los clean por clear
+RAMIO - falta la logica de cuando es texto y añadir la info de cuando es texto
+ramio - no se han hecho logs.html de los ataques
+ramio - solucionar bug creacion de claves con primos p y q 5,5 clave 9 y que de tantas claves parejas.
 
-//deshabilitar boton de ataque ciclico en pantalla principal siempre que rsa==null
-//habilitar q se pueda modificar n y e en ataque ciclico? si
-
-poner mensaje al final de CKP diciendo que solo se calculan 30 en el caso de que el num de ckp sea mayor que 30
 //ojo al calcular CKP y NNC con claves muy altas (creo q con CKP no pasa nada) //si se hace posible cambiar el num max de nnc a calcular cambiar el mensaje de alerta error.(lo mismo con keySize)
 
-
-
-Mejorar el html de los logNNC y de saveKEY: https://html-online.com/editor/
-//no se han hecho logs.html de los ataques
-
-//buscar como hacer para que cuando se de a la tecla tabulador vaya al campo que quiero
 
 THREADS:
 poner siempre que este en estado calculando cuando empiece cualquier operación, si no pondrá preparado.
 http://code.makery.ch/blog/javafx-dialogs-official/ para poner icono a la aplicación
 http://code.makery.ch/blog/javafx-8-dialogs/ progress dialog 
-
-
-solucionar bug creacion de claves con primos p y q 5,5 clave 9 y que de tantas claves parejas.
 	
 	
 quiza añadir un boton con un dibujito a la derecha de los primos o claves para que cuando se pulse se copie al portapapeles. http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/text-field.htm 
@@ -30,7 +18,6 @@ quiza añadir un boton con un dibujito a la derecha de los primos o claves para 
 	selectAll() - selects all text in the text input.
 	Si hago esto poner un information nada mas abrir indicando que se puede copiar el texto sin puntos pulsando el boton ese.
 	
-
 
 Poner un hiperlink en donde las preferencias para que te lleve a la pagina de github.
 Mirar si se pueden cambiar los shortcuts de ayuda en el propio fxml para quitar los control.

@@ -35,8 +35,8 @@ public class FactorizeController {
     @FXML // fx:id="ObtainPQ"
     private CheckBox ObtainPQ; // Value injected by FXMLLoader
 
-    @FXML // fx:id="Module"
-    private TextField Module; // Value injected by FXMLLoader
+    @FXML // fx:id="Modulus"
+    private TextField Modulus; // Value injected by FXMLLoader
 
     @FXML // fx:id="Prime_p"
     private TextField Prime_p; // Value injected by FXMLLoader
@@ -68,7 +68,7 @@ public class FactorizeController {
     void initialize() {
         assert NumLaps != null : "fx:id=\"NumLaps\" was not injected: check your FXML file 'Factorizacion.fxml'.";
         assert ObtainPQ != null : "fx:id=\"ObtainPQ\" was not injected: check your FXML file 'Factorizacion.fxml'.";
-        assert Module != null : "fx:id=\"Module\" was not injected: check your FXML file 'Factorizacion.fxml'.";
+        assert Modulus != null : "fx:id=\"Modulus\" was not injected: check your FXML file 'Factorizacion.fxml'.";
         assert Prime_p != null : "fx:id=\"Prime_p\" was not injected: check your FXML file 'Factorizacion.fxml'.";
         assert Prime_q != null : "fx:id=\"Prime_q\" was not injected: check your FXML file 'Factorizacion.fxml'.";
         assert Time != null : "fx:id=\"Time\" was not injected: check your FXML file 'Factorizacion.fxml'.";
@@ -86,15 +86,15 @@ public class FactorizeController {
         
     
     public void start(ActionEvent event) {
-        String moduleStr = this.Module.getText();
+        String modulusStr = this.Modulus.getText();
         this.factorize.setRadix(this.radix);
             
         
         if(this.ObtainPQ.isSelected()){
-            this.factorize.obtainPQ(moduleStr);
+            this.factorize.obtainPQ(modulusStr);
         } else {
             String lapsNumStr = this.NumLaps.getText();
-            this.factorize.start(moduleStr, lapsNumStr);
+            this.factorize.start(modulusStr, lapsNumStr);
         }
         
     } 
@@ -108,16 +108,9 @@ public class FactorizeController {
         this.factorize.putInfo();
         
     } 
-      
-    //creo que esto sobra
-   /* public void obtainPQ(ActionEvent event) {
-        String moduleStr = this.Module.getText();
-        this.factorize.setRadix(this.radix);
-        this.factorize.obtainPQ(moduleStr);
-        
-    }*/
+
     
-    public void clearWhileEditModule(KeyEvent keyEvent){
+    public void clearWhileEditModulus(KeyEvent keyEvent){
         this.ObtainPQ.setDisable(false);
         this.NumLaps.setDisable(false);
         this.NumLaps.setBlendMode(BlendMode.SRC_OVER);
@@ -131,7 +124,7 @@ public class FactorizeController {
        
     }
     
-     public void clean(ActionEvent eventx){
+     public void clear(ActionEvent eventx){
         this.ObtainPQ.setDisable(false);
         this.NumLaps.setDisable(false);
         this.NumLaps.setBlendMode(BlendMode.SRC_OVER);
@@ -168,8 +161,8 @@ public class FactorizeController {
     
     
     
-    public TextField getModule() {
-        return Module;
+    public TextField getModulus() {
+        return Modulus;
     }
 
     public TextField getPrimeP() {

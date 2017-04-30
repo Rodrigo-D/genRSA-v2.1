@@ -183,7 +183,7 @@
                                     <Insets bottom="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#clean" text="Limpiar Datos">
+                              <Button mnemonicParsing="false" onAction="#clear" text="Limpiar Datos">
                                  <HBox.margin>
                                     <Insets bottom="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>

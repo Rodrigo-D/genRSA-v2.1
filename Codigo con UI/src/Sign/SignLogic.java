@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DeCipher;
+package Sign;
 
-import Imprimir.DeCipherPrint;
 import Imprimir.ErrorDialog;
 import Imprimir.InfoDialog;
+import Imprimir.SignPrint;
 import Metodos.Utilidades;
 import Model.Constantes;
 import java.math.BigInteger;
@@ -17,7 +17,7 @@ import javafx.scene.control.TextArea;
  *
  * @author rdiazarr
  */
-public class DeCipherLogic {
+public class SignLogic {
     
     private final ErrorDialog errorDialog;
     
@@ -25,7 +25,7 @@ public class DeCipherLogic {
        
     private final Utilidades utilidades;
     
-    private final DeCipherPrint DCprint;
+    private final SignPrint Sprint;
     
     
     private int radix;
@@ -38,25 +38,29 @@ public class DeCipherLogic {
     
     private BigInteger[] DataBI;
     
-    
-    
-    
-    public DeCipherLogic(DeCipherPrint DCprint){
+    /**
+     * Constructor de la clase
+     * @param Sprint 
+     */
+    public SignLogic (SignPrint Sprint){
         this.errorDialog = new ErrorDialog();
         this.infoDialog = new InfoDialog();
         this.utilidades = new Utilidades();
-        this.DCprint = DCprint;
+        this.Sprint = Sprint;
     }
     
     
-    
-    
-    public void initCipher (BigInteger modulus, BigInteger pubKey){         
+    /**
+     * 
+     * @param modulus
+     * @param pubKey 
+     */
+    public void initValidateSign (BigInteger modulus, BigInteger pubKey){         
         this.modulus = modulus;
         this.pubKey = pubKey;
     }
     
-    public boolean initDecipher (BigInteger modulus, String privKey){
+    public boolean initSign (BigInteger modulus, String privKey){
         this.modulus = modulus;
         
         try{
@@ -91,54 +95,53 @@ public class DeCipherLogic {
        
         return result;        
     }
-    
-    public void encrypt() {
-        BigInteger originalNum;
-        String cipheredNum;
+     
+    public void validateSign() {
+        BigInteger signedNum;
+        String originalNum;
         int iterator, size = this.DataBI.length;
         
-        this.DCprint.clearCipheredData();
+        this.Sprint.clearValidatedData();
         
         for(iterator=0; iterator<size; iterator++){
-            originalNum = this.DataBI[iterator];
+            signedNum = this.DataBI[iterator];
             
-            if (originalNum!=null){
-                cipheredNum = originalNum.modPow(this.pubKey, this.modulus).toString(this.radix).toUpperCase();                
-                this.DCprint.addCipheredData(cipheredNum);
+            if (signedNum != null){
+                originalNum = signedNum.modPow(this.pubKey, this.modulus).toString(this.radix).toUpperCase();                
+                this.Sprint.addValidatedData(originalNum);
             }            
         }        
     }
 
-    public void decrypt() {
-        BigInteger cipheredNum;
-        String decipheredNum;
+    public void sign() {
+        BigInteger originalNum;
+        String signedNum;
         int iterator, size = this.DataBI.length;
         
-        this.DCprint.clearDecipheredData();
+        this.Sprint.clearSignedData();
         
         for(iterator=0; iterator<size; iterator++){
-            cipheredNum = this.DataBI[iterator];
+            originalNum = this.DataBI[iterator];
             
-            if (cipheredNum != null){
-                decipheredNum = cipheredNum.modPow(this.privKey, this.modulus).toString(this.radix).toUpperCase();                
-                this.DCprint.addDecipheredData(decipheredNum);
+            if (originalNum != null){
+                signedNum = originalNum.modPow(this.privKey, this.modulus).toString(this.radix).toUpperCase();                
+                this.Sprint.addSignedData(signedNum);
             }            
         }
-    }
+    } 
     
-    public void putDecipherInfo() {
-        this.infoDialog.putDecipherInfo();        
+    public void putSignInfo() {
+        this.infoDialog.putSignInfo();        
     }
 
-    public void putCipherInfo() {
-        this.infoDialog.putCipherInfo();        
+    public void putValidateSignInfo() {
+        this.infoDialog.putValidateSignInfo();        
     }
     
-        
-        
-        
-        
-    private boolean processNumbers(String lines[], boolean isOriginal){
+    
+    
+    
+      private boolean processNumbers(String lines[], boolean isOriginal){
         //arrays donde se guardaran los numeros preprocesados y procesados respectivamente
         String numbers[], processedNumbers[];
         //iteradores que llevaran la cuenta de las lineas y los numeros procesados
@@ -193,8 +196,8 @@ public class DeCipherLogic {
             } 
             //creo varios numeros si es un numero mayor que el modulo
             //ATENCIÓN SI SE HAN INTRODUCIDO DE FORMA INCORRECTA LOS NÚMEROS NO SE GARANTIZA
-            //QUE SE CIFREN/DESCIFREN TODOS, PARA UN CORRECTO CIFRADO/DESCIFRADO INTRODUCIR
-            //UN NUMERO MENOR AL MODULO EN CADA LINEA
+            //QUE SE FIRMEN/valides TODOS, PARA UN CORRECTO FIRMADO/VALIDADO INTRODUCIR UN
+            //NUMERO MENOR AL MODULO EN CADA LINEA
             else {
                 modified=true;
                 //obtengo el número de dígitos de n(módulo)                
@@ -236,21 +239,21 @@ public class DeCipherLogic {
         }//while de fuera
 
        
-       this.DCprint.inputData(processedNumbers, isOriginal);
+       this.Sprint.inputData(processedNumbers, isOriginal);
                
         
         if(modified){
-            this.infoDialog.warningDeCipher();
+            this.infoDialog.warningSign();
         }
         
         return true;
-    }
+    }    
     
     
     
-   public void setRadix (int radix){
+    
+    public void setRadix (int radix){
          this.radix = radix;
     }
-
-  
+    
 }

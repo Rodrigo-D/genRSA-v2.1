@@ -170,7 +170,7 @@ public class ErrorDialog {
         alertError.showAndWait(); 
     }
 
-    public void modulePrime() {
+    public void modulusPrime() {
          alertError.setHeaderText("Error, el módulo n no puede ser un número primo");        
        
         alertError.setContentText("Por favor, introduzca un número compuesto "
@@ -179,7 +179,7 @@ public class ErrorDialog {
         alertError.showAndWait(); 
     }
 
-    public void module(int radix) {
+    public void modulus(int radix) {
         alertError.setHeaderText("Error al introducir el módulo a factorizar");
         
         if (radix==10){
@@ -272,7 +272,7 @@ public class ErrorDialog {
         alertError.showAndWait();  
     }
     
-    public void paradoxModule(int radix) {
+    public void Modulus(int radix) {
         alertError.setHeaderText("Error al introducir el módulo.");        
        
         if (radix==10){
@@ -286,7 +286,7 @@ public class ErrorDialog {
         alertError.showAndWait();  
     }
     
-    public void paradoxExponent(int radix) {
+    public void Exponent(int radix) {
         alertError.setHeaderText("Error al introducir el exponente.");        
        
         if (radix==10){
@@ -299,6 +299,15 @@ public class ErrorDialog {
                
         alertError.showAndWait();  
     }
+    
+    public void bigExponent() {
+        alertError.setHeaderText("Error al introducir el exponente.");        
+       
+        alertError.setContentText("Por favor, introduzca un exponente menor que el módulo. \n"
+                + "Otros caracteres permitidos son: espacios, puntos y comas.");
+               
+        alertError.showAndWait();
+    }
 
     public void toMuchData() {
         
@@ -310,7 +319,7 @@ public class ErrorDialog {
         alertError.showAndWait();  
     }
 
-    public void DeCipherData(int radix) {
+    public void formatData(int radix) {
         alertError.setHeaderText("Error al introducir los datos.");        
        
         if (radix==10){
@@ -318,6 +327,20 @@ public class ErrorDialog {
                 + "Otros caracteres permitidos son: espacios, puntos y comas.");
         } else {
             alertError.setContentText("Por favor, introduzca cada número hexadecimal positivo en una línea. \n"
+                + "Otros caracteres permitidos son: espacios, puntos y comas.");
+        }
+               
+        alertError.showAndWait();  
+    }
+    
+    public void numberData(int radix) {
+        alertError.setHeaderText("Error al introducir los datos.");        
+       
+        if (radix==10){
+            alertError.setContentText("Por favor, compruebe que cada número introducido es un número decimal positivo. \n"
+                + "Otros caracteres permitidos son: espacios, puntos y comas.");
+        } else {
+            alertError.setContentText("Por favor, compruebe que cada número introducido es un número hexadecimal positivo. \n"
                 + "Otros caracteres permitidos son: espacios, puntos y comas.");
         }
                
@@ -337,5 +360,7 @@ public class ErrorDialog {
                       
         alertError.showAndWait();
     }
+
+ 
     
 }

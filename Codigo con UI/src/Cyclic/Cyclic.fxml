@@ -176,7 +176,7 @@
                               <Insets bottom="3.0" left="30.0" right="29.0" />
                            </HBox.margin>
                         </Text>
-                        <TextField fx:id="Message" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="Message" onKeyPressed="#processStart" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="4.0" right="30.0" />
                            </HBox.margin>
@@ -257,7 +257,7 @@
                                     <Insets bottom="10.0" right="20.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#clear" text="Limpiar Datos">
+                              <Button fx:id="clearBttn" mnemonicParsing="false" onAction="#clear" text="Limpiar Datos">
                                  <HBox.margin>
                                     <Insets bottom="10.0" right="10.0" />
                                  </HBox.margin>

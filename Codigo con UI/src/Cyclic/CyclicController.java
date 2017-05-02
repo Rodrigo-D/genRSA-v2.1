@@ -6,9 +6,10 @@
 package Cyclic;
 
 import Imprimir.CyclicPrint;
-import java.math.BigInteger;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,6 +17,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.BlendMode;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 /**
@@ -54,6 +56,9 @@ public class CyclicController {
     @FXML // fx:id="continueBttn"
     private Button continueBttn; // Value injected by FXMLLoader
 
+    @FXML // fx:id="clearBttn"
+    private Button clearBttn; // Value injected by FXMLLoader
+    
     @FXML // fx:id="Results"
     private TextArea Results; // Value injected by FXMLLoader
 
@@ -70,7 +75,7 @@ public class CyclicController {
     
     private boolean firstTime;
     
-    
+        
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert NumCiphers != null : "fx:id=\"NumCiphers\" was not injected: check your FXML file 'Cyclic.fxml'.";
@@ -81,6 +86,7 @@ public class CyclicController {
         assert CypherMessage != null : "fx:id=\"CypherMessage\" was not injected: check your FXML file 'Cyclic.fxml'.";        
         assert startBttn != null : "fx:id=\"startBttn\" was not injected: check your FXML file 'Cyclic.fxml'.";
         assert continueBttn != null : "fx:id=\"continueBttn\" was not injected: check your FXML file 'Cyclic.fxml'.";
+        assert clearBttn != null : "fx:id=\"clearBttn\" was not injected: check your FXML file 'Cyclic.fxml'.";
         assert Results != null : "fx:id=\"Results\" was not injected: check your FXML file 'Cyclic.fxml'.";
         assert mRecovered != null : "fx:id=\"mRecovered\" was not injected: check your FXML file 'Cyclic.fxml'.";
         assert Time != null : "fx:id=\"Time\" was not injected: check your FXML file 'Cyclic.fxml'.";
@@ -88,32 +94,51 @@ public class CyclicController {
         
         firstTime = true;
         cyclicAttack = new CyclicAttack(new CyclicPrint(this));
-        continueBttn.setDisable(true);      
+        continueBttn.setDisable(true);  
+        
+        Platform.runLater(Message::requestFocus);
     }
     
     @FXML
     public void start(ActionEvent event) {
-        String modulus = this.Modulus.getText();
-        String exponent = this.Exponent.getText();
-        this.cyclicAttack.setRadix(this.radix); 
         
-        String message = this.Message.getText();
-        
-        if (this.cyclicAttack.init(message, modulus, exponent)){
-        
-            if(this.Complete.isSelected()){
-                this.cyclicAttack.complete();
-            } else {
-                String numOfCyphers = this.NumCiphers.getText();            
-                this.cyclicAttack.start(numOfCyphers);
+        Task CAstart= new Task() {
+            @Override
+            protected Object call() throws Exception {
+                String modulus = Modulus.getText();
+                String exponent = Exponent.getText();
+                cyclicAttack.setRadix(radix); 
+
+                String message = Message.getText();
+
+                if (cyclicAttack.init(message, modulus, exponent)){
+
+                    if(Complete.isSelected()){
+                        cyclicAttack.complete();
+                    } else {
+                        String numOfCyphers = NumCiphers.getText();            
+                        cyclicAttack.start(numOfCyphers);
+                    }
+                } 
+                return null;
             }
-        } 
+        };
+        
+        new Thread(CAstart).start();        
     }
 
     @FXML
     public void Continue(ActionEvent event) {
-        String numOfCyphers = this.NumCiphers.getText();         
-        this.cyclicAttack.Continue(numOfCyphers);
+        Task CAcontinue = new Task() {
+            @Override
+            protected Object call() throws Exception {
+                String numOfCyphers = NumCiphers.getText();         
+                cyclicAttack.Continue(numOfCyphers);
+                return null;
+            }
+        };
+        
+        new Thread(CAcontinue).start();        
     }
     
 
@@ -133,8 +158,11 @@ public class CyclicController {
         this.NumCiphers.setText("10");
         this.Message.setEditable(true);
         this.Message.clear();
+        this.Modulus.setEditable(true);
+        this.Exponent.setEditable(true);
         this.CypherMessage.clear();
-        this.Results.clear();        
+        this.Results.clear();     
+        this.mRecovered.clear();
         this.Time.clear();
         this.startBttn.setDisable(false);
         this.continueBttn.setDisable(true);
@@ -151,6 +179,16 @@ public class CyclicController {
             this.cyclicAttack.warning();   
         }  
         
+    }
+    
+    @FXML
+    /**
+     * Una vez introducido el mensaje si se pulsa enter se lanza el metodo start (igual q pulsar comenzar)
+     */
+    public void processStart(KeyEvent keyEvent) {
+         if (keyEvent.getCode() == KeyCode.ENTER) {            
+            this.start(new ActionEvent());
+        }
     }
 
     
@@ -229,6 +267,10 @@ public class CyclicController {
      
     public Button getStartBttn() {
         return this.startBttn;
+    }
+            
+    public Button getClearBttn() {
+        return this.clearBttn;
     }
 
 

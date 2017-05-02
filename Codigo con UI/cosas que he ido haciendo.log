@@ -21,6 +21,12 @@ Poner los focos tanto en DeCipher, Sign y pantalla principal
 
 //buscar como hacer para que cuando se de a la tecla tabulador vaya al campo que quiero
 
+30 - 04 -> 02 - 05
+
+Toda la concurrencia de los ataques.
+
+THREADS:
+https://www.youtube.com/watch?v=wOtGPJBUAVs
 
 29 - 04 - 2017
 
@@ -53,6 +59,8 @@ hecho todo lo de ciclico (logica e impresiones por pantalla)
 //factorizacion cuando se pulse obtener p y q que se deshabilite el num de vueltas.
 
 hecha la escena del ataque por la paradoja del cumpleaños y empezada la estructura de la controller class
+
+DEFECTOS SOLVENTADOS, QUE ANTES SE PULSABA EL BOTON DE LOS PRIMOS O FACTORIZAR Y TE SALTABA MENSAJE DE ERROR DICIENDOTE QUE NO HABIAS PUESTO UN VALOR, AHORA SE DA UN VALOR POR DEFECTO.
 
 23 - 04 - 2017
 

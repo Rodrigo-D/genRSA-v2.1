@@ -11,6 +11,7 @@ import Imprimir.InfoDialog;
 import Metodos.Utilidades;
 import Model.Constantes;
 import java.math.BigInteger;
+import javafx.application.Platform;
 
 /**
  *
@@ -44,6 +45,10 @@ public class FactorizeAttack {
     
     private long totalTime;
     
+    private String result;
+    
+    private String xplResult;
+    
     
     
     public FactorizeAttack(FactorizePrint print) {
@@ -55,106 +60,278 @@ public class FactorizeAttack {
     }
     
     
-    //comenzar a factorizar n	
-    public void start (String modulusStr, String lapsNumStr){
-            BigInteger xPrime, x2Prime, s, antesDeS, laps; 
-            String time;
-            long startTime;
-            
-            startTime = System.currentTimeMillis();
-            
-            this.print.clear();
-            this.print.modulusEditable(false);
-            
-            //comprobación de errores
-            lapsNumStr  = this.utilidades.formatNumber(lapsNumStr);
-            modulusStr   = this.utilidades.formatNumber(modulusStr);
-
-            
-            try{
-              this.modulus = new BigInteger(modulusStr, this.radix);
-            } catch (NumberFormatException n){            
-                this.errorDialog.modulus(this.radix);
-                return;
-            }
-            
-            try{
-                this.lapsNum =  new BigInteger(lapsNumStr);
-            } catch (NumberFormatException n){            
-                this.errorDialog.laps();
-                return;
-            }
-            
-            if (this.lapsNum.compareTo(Constantes.ONE) == -1){
-                this.errorDialog.littleNumLaps();
-                return;
-            }
-
-            //comprobar que no sea primo antes
-            if (this.modulus.isProbablePrime(100)){
-                this.errorDialog.modulusPrime();
-                return;
-            }
-            
-            //lógica del metodo
-            laps = Constantes.ZERO; 
-            this.x = Constantes.TWO;
-            this.x2 = Constantes.TWO;
-
-            do{
-                    xPrime = (this.x.pow(2)).add(BigInteger.ONE);
-                    x2Prime = (((this.x2.modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE)).
-                                            modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE);
-
-                    this.x = xPrime.mod(this.modulus);
-                    this.x2 = x2Prime.mod(this.modulus);
-                    antesDeS=(this.x.subtract(this.x2));
-                    s = antesDeS.gcd(this.modulus);
-
-                    laps = laps.add(Constantes.ONE);
-                    print.functionValues(this.x.toString(radix), this.x2.toString(radix), s.toString(radix));
-                    
-                    if (!(s.equals(Constantes.ONE)) && !(s.equals(this.modulus)) ){
-                        this.find = true;
-                        break;
-                    }
-                    
-                    if ( laps.equals(this.lapsNum)){
-                        this.find = false;
-                        break;
-                    }
-                    
-            } while (true);
-
-        if (this.find){
-            this.print.primeP(s.toString(radix));
-            this.print.primeQ(this.modulus.divide(s).toString(radix));
-            this.print.find(laps.toString());
-        } else {
-             this.print.dissableStart();
-             this.lapsNumTotal = this.lapsNum;
+    public boolean init(final String modulus){
+        final String modulusStr;
+        //comprobación de errores
+        modulusStr = this.utilidades.formatNumber(modulus);
+        
+        try{
+            this.modulus = new BigInteger(modulusStr, this.radix);
+        } catch (NumberFormatException n){            
+            Platform.runLater(() -> this.errorDialog.modulus(this.radix));
+            return false;
         }
+        
+        //comprobar que no sea primo antes
+        if (this.modulus.isProbablePrime(100)){
+            Platform.runLater(() -> this.errorDialog.modulusPrime());
+            return false;
+        }
+            
+        
+        Platform.runLater(() -> {
+            this.print.modulus(this.modulus.toString(this.radix));
+            this.print.clear();
+            this.print.disableBttns();
+            this.print.editableModulus(false);
+        });
+        
+        return true;
+    }
+    
+    public void start (String lapsNumStr){
+        //comprobación de errores
+        lapsNumStr  = this.utilidades.formatNumber(lapsNumStr);            
+
+        try{
+            this.lapsNum =  new BigInteger(lapsNumStr);
+        } catch (NumberFormatException n){            
+            Platform.runLater(() -> this.errorDialog.laps());
+            return;
+        }
+
+        if (this.lapsNum.compareTo(Constantes.ONE) == -1){
+            Platform.runLater(() -> this.errorDialog.littleNumLaps());
+            return;
+        }        
+        
+        Platform.runLater(() -> this.print.lapsNum(this.lapsNum.toString()));
+        this.lapsNumTotal = this.lapsNum;
+        
+        if(this.lapsNum.compareTo(Constantes.MAX_LAPS_FACTORIZE) > 0){
+            this.BLNstart();
+        } else {
+            this.LLNstart();
+        }
+        
+    }
+    
+    public void Continue (String lapsNumStr){
+        //comprobación de errores
+        lapsNumStr  = this.utilidades.formatNumber(lapsNumStr);            
+
+        try{
+            this.lapsNum =  new BigInteger(lapsNumStr);
+        } catch (NumberFormatException n){            
+            Platform.runLater(() -> this.errorDialog.laps());
+            return;
+        }
+
+        if (this.lapsNum.compareTo(Constantes.ONE) == -1){
+            Platform.runLater(() -> this.errorDialog.littleNumLaps());
+            return;
+        }        
+        
+        Platform.runLater(() -> {
+            this.print.lapsNum(this.lapsNum.toString());
+            this.print.disableBttns();
+        });
+        
+        if((this.lapsNumTotal.add(this.lapsNum)).compareTo(Constantes.MAX_LAPS_FACTORIZE) > 0){
+            this.BLNcontinue();
+        } else {
+            this.LLNcontinue();
+        }
+        
+    }
+    
+     public void obtainPQ (){
+                
+        if(this.modulus.bitLength() > 50){
+            this.BMobtainPQ();
+        } else {
+            this.LMobtainPQ();
+        }
+        
+    }
+    
+    
+    //comenzar a factorizar n, imprimiendo todos los valores del ataque
+    public void LLNstart (){
+        BigInteger xPrime, x2Prime, s, antesDeS, laps; 
+        final String time;
+        long startTime;
+
+        startTime = System.currentTimeMillis();   
+
+        //lógica del metodo
+        laps = Constantes.ZERO; 
+        this.x = Constantes.TWO;
+        this.x2 = Constantes.TWO;
+        
+        this.result = "Vuelta= " + laps.toString() +
+                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
+                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() + "\n";
+        Platform.runLater(() -> this.print.functionValues(this.result));
+        this.xplResult = "";
+        
+        do{
+            xPrime = (this.x.pow(2)).add(BigInteger.ONE);
+            x2Prime = (((this.x2.modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE)).
+                                    modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE);
+
+            this.x = xPrime.mod(this.modulus);
+            this.x2 = x2Prime.mod(this.modulus);
+            antesDeS=(this.x.subtract(this.x2));
+            s = antesDeS.gcd(this.modulus);
+
+            laps = laps.add(Constantes.ONE);
+
+            this.xplResult = this.xplResult + "Vuelta= " + laps.toString() +
+                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
+                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() +
+                    "\n    --> s=" + s.toString(this.radix).toUpperCase() + "\n";
+
+            if (laps.mod(Constantes.L_REFRESH).equals(Constantes.ZERO)){
+                this.result = this.xplResult;
+                Platform.runLater(() -> this.print.functionValues(this.result));
+                this.xplResult="";
+            }               
+
+            if (!(s.equals(Constantes.ONE)) && !(s.equals(this.modulus)) ){
+                this.find = true;
+                break;
+            }
+
+            if (laps.equals(this.lapsNum)){
+                this.find = false;
+                break;
+            }
+        } while (true);
+               
         
         this.totalTime = System.currentTimeMillis() - startTime;
         time = this.utilidades.millisToSeconds(this.totalTime);
        
-        this.print.modulusEditable(true);
-        this.print.modulus(this.modulus.toString(this.radix));
-        this.print.lapsNum(this.lapsNum.toString());
-        this.print.time(time);
+        Platform.runLater(() -> { 
+            this.print.time(time);  
+            this.print.functionValues(this.xplResult);
+        });
+       
+        
+        if (this.find){
+            final String strPrimeP = s.toString(this.radix);
+            final String strPrimeQ = this.modulus.divide(s).toString(this.radix);
+            final String strLaps = laps.toString();
+            
+            Platform.runLater(() -> {
+                this.print.primeP(strPrimeP);
+                this.print.primeQ(strPrimeQ);
+                this.print.find(strLaps);
+                this.print.EnableStartBttns();
+                this.print.editableModulus(true);
+            });
+        } else {
+            Platform.runLater(() ->this.print.dissableStartBttns());             
+        }        
     }
     
-    //Continuar factorizar n, en caso de que no se haya terminado en el start.	
-    public void Continue(){
+    //comenzar a factorizar n, sin imprimir todos los valores del ataque
+    public void BLNstart (){
+        BigInteger xPrime, x2Prime, s, antesDeS, laps; 
+        final String time;
+        long startTime;
+        boolean write = false;
+        
+        startTime = System.currentTimeMillis();   
+
+        //lógica del metodo
+        laps = Constantes.ZERO; 
+        this.x = Constantes.TWO;
+        this.x2 = Constantes.TWO;
+        
+        this.xplResult = "Vuelta= " + laps.toString() +
+                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
+                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() + "\n";
+        Platform.runLater(() -> this.print.functionValues(this.xplResult));
+                
+        do{
+            xPrime = (this.x.pow(2)).add(BigInteger.ONE);
+            x2Prime = (((this.x2.modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE)).
+                                    modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE);
+
+            this.x = xPrime.mod(this.modulus);
+            this.x2 = x2Prime.mod(this.modulus);
+            antesDeS=(this.x.subtract(this.x2));
+            s = antesDeS.gcd(this.modulus);
+
+            laps = laps.add(Constantes.ONE);
+            write=false;
+                       
+            if (laps.mod(Constantes.BLN_REFRESH).equals(Constantes.ZERO)){
+                this.result = "Vuelta= " + laps.toString() +
+                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
+                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() +
+                    "\n    --> s=" + s.toString(this.radix).toUpperCase() + "\n";
+                Platform.runLater(() -> this.print.functionValues(this.result));
+                write = true;
+            }     
+
+            if (!(s.equals(Constantes.ONE)) && !(s.equals(this.modulus)) ){
+                this.find = true;
+                break;
+            }
+
+            if ( laps.equals(this.lapsNum)){
+                this.find = false;
+                break;
+            }
+        } while (true);
+        
+        
+        if (!write){
+                final String lastResult = "Vuelta= " + laps.toString() +
+                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
+                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() +
+                    "\n    --> s=" + s.toString(this.radix).toUpperCase() + "\n";
+                Platform.runLater(() -> this.print.functionValues(lastResult));
+            }     
+        
+        this.totalTime = System.currentTimeMillis() - startTime;
+        time = this.utilidades.millisToSeconds(this.totalTime);
+        
+        Platform.runLater(() ->this.print.time(time));
+
+        if (this.find){
+            final String strPrimeP = s.toString(this.radix);
+            final String strPrimeQ = this.modulus.divide(s).toString(this.radix);
+            final String strLaps = laps.toString();
+            
+            Platform.runLater(() -> {
+                this.print.primeP(strPrimeP);
+                this.print.primeQ(strPrimeQ);
+                this.print.find(strLaps);
+                this.print.EnableStartBttns();
+                this.print.editableModulus(true);
+            });
+        } else {
+            Platform.runLater(() ->this.print.dissableStartBttns());             
+        }
+    }
+    
+    
+    //Continuar factorizar n, en caso de que no se haya terminado en el start.
+    //imprimiendo todos  los valores del ataque
+    public void LLNcontinue(){
         BigInteger xPrime, x2Prime, s, antesDeS, laps;  
-        String time;
+        final String time;
         long startTime;
 
         startTime = System.currentTimeMillis();
 
-        this.print.modulusEditable(false);
         //lógica del metodo
         laps = Constantes.ZERO; 
+        this.xplResult = "";
 
         do{
             xPrime = (this.x.pow(2)).add(BigInteger.ONE);
@@ -167,8 +344,19 @@ public class FactorizeAttack {
             s = antesDeS.gcd(this.modulus);
 
             laps = laps.add(Constantes.ONE);
-            this.print.functionValues(this.x.toString(radix), this.x2.toString(this.radix), s.toString(this.radix));
+            this.lapsNumTotal = this.lapsNumTotal.add(Constantes.ONE);
+            
+            this.xplResult = this.xplResult + "Vuelta= " + this.lapsNumTotal.toString() +
+                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
+                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() +
+                    "\n    --> s=" + s.toString(this.radix).toUpperCase() + "\n";
 
+            if (this.lapsNumTotal.mod(Constantes.L_REFRESH).equals(Constantes.ZERO)){
+                this.result = this.xplResult;
+                Platform.runLater(() -> this.print.functionValues(this.result));
+                this.xplResult="";
+            }     
+            
             if (!(s.equals(Constantes.ONE)) && !(s.equals(this.modulus)) ){
                 this.find = true;
                 break;
@@ -181,60 +369,45 @@ public class FactorizeAttack {
 
         } while (true);
         
+        
         this.totalTime = (System.currentTimeMillis() - startTime) + this.totalTime;
-        time = this.utilidades.millisToSeconds(this.totalTime);
+        time = this.utilidades.millisToSeconds(this.totalTime);        
+        
+        Platform.runLater(() -> { 
+            this.print.time(time);  
+            this.print.functionValues(this.xplResult);
+        });       
+        
 
         if (this.find){
-            this.lapsNumTotal = this.lapsNumTotal.add(laps);
-            this.print.primeP(s.toString(this.radix));
-            this.print.primeQ(this.modulus.divide(s).toString(this.radix));            
-            this.print.find(this.lapsNumTotal.toString());
-            this.print.EnableStart();
+            final String strPrimeP = s.toString(this.radix);
+            final String strPrimeQ = this.modulus.divide(s).toString(this.radix);
+            final String strLaps = this.lapsNumTotal.toString();
+            
+            Platform.runLater(() -> {
+                this.print.primeP(strPrimeP);
+                this.print.primeQ(strPrimeQ);
+                this.print.find(strLaps);
+                this.print.EnableStartBttns();
+                this.print.editableModulus(true);
+            });            
         } else {
-            this.lapsNumTotal = this.lapsNumTotal.add(this.lapsNum);
-        }       
-        this.print.modulusEditable(true);
-        this.print.time(time);
-
+             Platform.runLater(() ->this.print.dissableStartBttns());
+        }  
     }
-
-
-    //factorizar n hasta encontrar los primos P y Q
-    public void obtainPQ (String modulusStr){
+    
+    //Continuar factorizar n, en caso de que no se haya terminado en el start.
+    //sin imprimir todos  los valores del ataque
+    public void BLNcontinue(){
         BigInteger xPrime, x2Prime, s, antesDeS, laps;  
-        String time;
+        final String time;
         long startTime;
-        
+        boolean write = false;
+
         startTime = System.currentTimeMillis();
-
-        this.print.clear();
-        this.print.modulusEditable(false);
-        this.print.disableLapsNum();
-        this.print.disableBttns();
-
-        //comprobación de errores
-        modulusStr   = this.utilidades.formatNumber(modulusStr);
-
-        try{
-          this.modulus = new BigInteger(modulusStr, radix);
-        } catch (NumberFormatException n){            
-            this.errorDialog.modulus(radix);
-            return;
-        }
-
-        //comprobar que no sea primo antes
-        if (this.modulus.isProbablePrime(100)){
-            this.errorDialog.modulusPrime();
-            return;
-        }
-
-        //COMPROBAR QUE EL NUMERO DE BITS DEL MODULO NO SEA MAYOR QUE Z CIERTO NUMERO
-        //SI ES MAYOR IMPRIMIR DIALOGO POR PANTALLA PREGUNTANDO SI SE QUIERE ABORTAR
 
         //lógica del metodo
         laps = Constantes.ZERO; 
-        this.x = Constantes.TWO;
-        this.x2 = Constantes.TWO;
 
         do{
             xPrime = (this.x.pow(2)).add(BigInteger.ONE);
@@ -247,22 +420,195 @@ public class FactorizeAttack {
             s = antesDeS.gcd(this.modulus);
 
             laps = laps.add(Constantes.ONE);
-            print.functionValues(this.x.toString(radix), this.x2.toString(radix), s.toString(radix));
+            this.lapsNumTotal = this.lapsNumTotal.add(Constantes.ONE);
+            write = false;
+            
+            if (this.lapsNumTotal.mod(Constantes.BLN_REFRESH).equals(Constantes.ZERO)){
+                this.result = "Vuelta= " + this.lapsNumTotal.toString() +
+                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
+                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() +
+                    "\n    --> s=" + s.toString(this.radix).toUpperCase() + "\n";
+                Platform.runLater(() -> this.print.functionValues(this.result));
+                write = true;
+            }    
+
+            if (!(s.equals(Constantes.ONE)) && !(s.equals(this.modulus)) ){
+                this.find = true;
+                break;
+            }
+
+            if ( laps.equals(this.lapsNum)){
+                this.find = false;
+                break;
+            }
+        } while (true);
+        
+        
+        if (!write){
+            this.xplResult = "Vuelta= " + this.lapsNumTotal.toString() +
+                "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
+                "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() +
+                "\n    --> s=" + s.toString(this.radix).toUpperCase() + "\n";
+            Platform.runLater(() -> this.print.functionValues(this.xplResult));
+        }            
+        
+        this.totalTime = (System.currentTimeMillis() - startTime) + this.totalTime;
+        time = this.utilidades.millisToSeconds(this.totalTime);
+
+        Platform.runLater(() -> this.print.time(time));       
+        
+
+        if (this.find){
+            final String strPrimeP = s.toString(this.radix);
+            final String strPrimeQ = this.modulus.divide(s).toString(this.radix);
+            final String strLaps = this.lapsNumTotal.toString();
+            
+            Platform.runLater(() -> {
+                this.print.primeP(strPrimeP);
+                this.print.primeQ(strPrimeQ);
+                this.print.find(strLaps);
+                this.print.EnableStartBttns();
+                this.print.editableModulus(true);
+            });            
+        } else {
+             Platform.runLater(() ->this.print.dissableStartBttns());
+        }      
+    }
+
+
+    //factorizar n hasta encontrar los primos P y Q
+    public void LMobtainPQ (){
+        BigInteger xPrime, x2Prime, s, antesDeS, laps;  
+        final String time;
+        long startTime;
+        
+        startTime = System.currentTimeMillis(); 
+        //lógica del metodo
+        laps = Constantes.ZERO; 
+        this.x = Constantes.TWO;
+        this.x2 = Constantes.TWO;
+        
+        this.result = "Vuelta= " + laps.toString() +
+                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
+                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() + "\n";
+        Platform.runLater(() -> this.print.functionValues(this.result));
+        this.xplResult = "";
+        
+
+        do{
+            xPrime = (this.x.pow(2)).add(BigInteger.ONE);
+            x2Prime = (((this.x2.modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE)).
+                                    modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE);
+
+            this.x = xPrime.mod(this.modulus);
+            this.x2 = x2Prime.mod(this.modulus);
+            antesDeS=(this.x.subtract(this.x2));
+            s = antesDeS.gcd(this.modulus);
+
+            laps = laps.add(Constantes.ONE);
+            
+            this.xplResult = this.xplResult + "Vuelta= " + laps.toString() +
+                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
+                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() +
+                    "\n    --> s=" + s.toString(this.radix).toUpperCase() + "\n";
+
+            if (laps.mod(Constantes.L_REFRESH).equals(Constantes.ZERO)){
+                this.result = this.xplResult;
+                Platform.runLater(() -> this.print.functionValues(this.result));
+                this.xplResult="";
+            }               
 
         } while (s.equals(Constantes.ONE) || s.equals(this.modulus));
 
             
         time = this.utilidades.millisToSeconds(System.currentTimeMillis() - startTime);
+        final String strPrimeP = s.toString(this.radix);
+        final String strPrimeQ = this.modulus.divide(s).toString(this.radix);
+        final String strLaps = laps.toString();
+
+        Platform.runLater(() -> {
+            this.print.time(time);  
+            this.print.functionValues(this.xplResult);
+            this.print.primeP(strPrimeP);
+            this.print.primeQ(strPrimeQ);
+            this.print.find(strLaps);
+            this.print.EnableStartBttns();
+            this.print.editableModulus(true);
+            this.print.lapsNum("10");
+        });           
         
-        this.print.primeP(s.toString(radix));
-        this.print.primeQ(this.modulus.divide(s).toString(radix));
-        this.print.find(laps.toString());       
-        this.print.modulusEditable(true);
-        this.print.modulus(this.modulus.toString(this.radix));
+    }
+
+    //factorizar n hasta encontrar los primos P y Q
+    public void BMobtainPQ (){
+        BigInteger xPrime, x2Prime, s, antesDeS, laps;  
+        final String time;
+        long startTime;
+        boolean write;
         
-        this.print.enableLapsNum();
-        this.print.enableBttns();
-        this.print.time(time);
+        startTime = System.currentTimeMillis(); 
+        //lógica del metodo
+        laps = Constantes.ZERO; 
+        this.x = Constantes.TWO;
+        this.x2 = Constantes.TWO;
+        
+        this.result = "Vuelta= " + laps.toString() +
+                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
+                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() + "\n";
+        Platform.runLater(() -> this.print.functionValues(this.result));
+                
+
+        do{
+            xPrime = (this.x.pow(2)).add(BigInteger.ONE);
+            x2Prime = (((this.x2.modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE)).
+                                    modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE);
+
+            this.x = xPrime.mod(this.modulus);
+            this.x2 = x2Prime.mod(this.modulus);
+            antesDeS=(this.x.subtract(this.x2));
+            s = antesDeS.gcd(this.modulus);
+
+            laps = laps.add(Constantes.ONE);
+            write=false;
+            
+            if (laps.mod(Constantes.BM_REFRESH).equals(Constantes.ZERO)){
+                this.xplResult = "Vuelta= " + laps.toString() +
+                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
+                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() +
+                    "\n    --> s=" + s.toString(this.radix).toUpperCase() + "\n";
+               
+                Platform.runLater(() -> this.print.functionValues(this.xplResult));
+                write = true;
+            }         
+
+        } while (s.equals(Constantes.ONE) || s.equals(this.modulus));
+
+            
+        if (!write){
+            final String lastResult = "Vuelta= " + laps.toString() +
+                "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
+                "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() +
+                "\n    --> s=" + s.toString(this.radix).toUpperCase() + "\n";
+
+            Platform.runLater(() -> this.print.functionValues(lastResult));
+        }         
+        
+        
+        
+        time = this.utilidades.millisToSeconds(System.currentTimeMillis() - startTime);
+        final String strPrimeP = s.toString(this.radix);
+        final String strPrimeQ = this.modulus.divide(s).toString(this.radix);
+        final String strLaps = laps.toString();
+
+        Platform.runLater(() -> {
+            this.print.time(time);  
+            this.print.primeP(strPrimeP);
+            this.print.primeQ(strPrimeQ);
+            this.print.find(strLaps);
+            this.print.EnableStartBttns();
+            this.print.editableModulus(true);
+            this.print.lapsNum("10");
+        });           
     }
 
         

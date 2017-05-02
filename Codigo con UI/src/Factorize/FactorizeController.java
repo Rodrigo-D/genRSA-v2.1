@@ -8,14 +8,13 @@ package Factorize;
 import Imprimir.FactorizePrint;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.BlendMode;
-import javafx.scene.input.KeyEvent;
 
 /**
  *
@@ -56,6 +55,9 @@ public class FactorizeController {
     @FXML // fx:id="continueBttn"
     private Button continueBttn; // Value injected by FXMLLoader
     
+    @FXML // fx:id="clearBttn"
+    private Button clearBttn; // Value injected by FXMLLoader
+    
     
     
     private FactorizeAttack factorize;
@@ -75,6 +77,7 @@ public class FactorizeController {
         assert Results != null : "fx:id=\"Results\" was not injected: check your FXML file 'Factorizacion.fxml'.";
         assert startBttn != null : "fx:id=\"startBttn\" was not injected: check your FXML file 'Factorizacion.fxml'.";
         assert continueBttn != null : "fx:id=\"continueBttn\" was not injected: check your FXML file 'Factorizacion.fxml'.";
+        assert clearBttn != null : "fx:id=\"clearBttn\" was not injected: check your FXML file 'Factorizacion.fxml'.";
         
         
         
@@ -86,21 +89,40 @@ public class FactorizeController {
         
     
     public void start(ActionEvent event) {
-        String modulusStr = this.Modulus.getText();
-        this.factorize.setRadix(this.radix);
-            
+        Task PAstart= new Task() {
+            @Override
+            protected Object call() throws Exception {
+                String modulusStr = Modulus.getText();
+                factorize.setRadix(radix);
+
+                if (factorize.init(modulusStr)){
+                    if(ObtainPQ.isSelected()){
+                        factorize.obtainPQ();
+                    } else {
+                        String lapsNumStr = NumLaps.getText();
+                        factorize.start(lapsNumStr);
+                    }
+                }
+                return null;
+            }
+        };
         
-        if(this.ObtainPQ.isSelected()){
-            this.factorize.obtainPQ(modulusStr);
-        } else {
-            String lapsNumStr = this.NumLaps.getText();
-            this.factorize.start(modulusStr, lapsNumStr);
-        }
+        new Thread(PAstart).start();   
         
     } 
     
     public void Continue(ActionEvent event) {
-        this.factorize.Continue();
+        
+        Task PAcontinue= new Task() {
+            @Override
+            protected Object call() throws Exception {
+                String lapsNumStr = NumLaps.getText();
+                factorize.Continue(lapsNumStr);
+                return null;
+            }
+        };
+        
+        new Thread(PAcontinue).start(); 
         
     } 
     
@@ -110,24 +132,9 @@ public class FactorizeController {
     } 
 
     
-    public void clearWhileEditModulus(KeyEvent keyEvent){
+    public void clear(ActionEvent eventx){
         this.ObtainPQ.setDisable(false);
         this.NumLaps.setDisable(false);
-        this.NumLaps.setBlendMode(BlendMode.SRC_OVER);
-        this.NumLaps.setEditable(true);
-        this.Prime_p.clear();
-        this.Prime_q.clear();
-        this.Results.clear();
-        this.Time.clear();
-        this.startBttn.setDisable(false);
-        this.continueBttn.setDisable(true);
-       
-    }
-    
-     public void clear(ActionEvent eventx){
-        this.ObtainPQ.setDisable(false);
-        this.NumLaps.setDisable(false);
-        this.NumLaps.setBlendMode(BlendMode.SRC_OVER);
         this.NumLaps.setEditable(true);
         this.NumLaps.setText("10");
         this.Prime_p.clear();
@@ -144,13 +151,11 @@ public class FactorizeController {
         if (this.ObtainPQ.isSelected()){
             this.NumLaps.clear();
             this.NumLaps.setDisable(true);
-            this.NumLaps.setBlendMode(BlendMode.DARKEN);
         }
         
         if (!this.ObtainPQ.isSelected()){
             this.NumLaps.setText("10");
             this.NumLaps.setDisable(false);
-            this.NumLaps.setBlendMode(BlendMode.SRC_OVER);
         }
     }   
     
@@ -190,6 +195,10 @@ public class FactorizeController {
     
     public Button getContinueBttn() {
         return continueBttn;
+    }
+            
+    public Button getClearBttn() {
+        return clearBttn;
     }
     
     public CheckBox getObtainPQ() {

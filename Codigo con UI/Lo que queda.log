@@ -3,15 +3,22 @@ VA EN JAVA
 RAMIO - falta la logica de cuando es texto y añadir la info de cuando es texto
 ramio - no se han hecho logs.html de los ataques
 ramio - solucionar bug creacion de claves con primos p y q 5,5 clave 9 y que de tantas claves parejas.
+ramio - ataques siempre imprimir todos los resultados. Por ejemplo ciclico si es muy grande el num de bits(40) puede que llene el buffer de memoria del textArea
+702136613538677073862961839 buen modulo para factorizar
+
+
+http://code.makery.ch/blog/javafx-dialogs-official/ para poner icono a la aplicación
+http://code.makery.ch/blog/javafx-8-dialogs/ progress dialog 
+::::
+http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/progress.htm para hacer el control de progreso y cargando.
+
+Quiza añadir scrollpane para cuando hacen la pantalla pequeña, O MEJOR HACER QUE NO SE PUEDA HACER MAS PEQUEÑA DE UN CIERTO TAMAÑO: http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/scrollpane.htm
+Quiza usar un choiceBox o ListView o ComboBox (esta última es la mejor) para dar a elegir algun primo p o q?
+
 
 //ojo al calcular CKP y NNC con claves muy altas (creo q con CKP no pasa nada) //si se hace posible cambiar el num max de nnc a calcular cambiar el mensaje de alerta error.(lo mismo con keySize)
 
-
-THREADS:
-poner siempre que este en estado calculando cuando empiece cualquier operación, si no pondrá preparado.
-http://code.makery.ch/blog/javafx-dialogs-official/ para poner icono a la aplicación
-http://code.makery.ch/blog/javafx-8-dialogs/ progress dialog 
-	
+ANTES SIEMPRE TE SALIA UN MENSAJITO CUANDO TERMINABA , AHORA  SOLO CUANDO TERMINA ACCIONES LARGAS.
 	
 quiza añadir un boton con un dibujito a la derecha de los primos o claves para que cuando se pulse se copie al portapapeles. http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/text-field.htm 
 	copy()– transfers the currently selected range in the text to the clipboard, leaving the current selection.
@@ -25,8 +32,8 @@ Mirar que se haya implementado toda la logica que programe y tengo en RSAmethodN
 Intenar que  quede alineado en el print functionValues xi y x2i
 http://docs.oracle.com/javase/8/javafx/interoperability-tutorial/concurrency.htm#JFXIP546 Para hacer threads en caso de proceso muy pesado. (logNNC)
 
+
 CSS:
-poner en el mismo color que el fondo los campos que no son editables.
 http://docs.oracle.com/javase/8/javafx/layout-tutorial/style_css.htm
 http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/css_tutorial.htm
 http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/custom.htm para realizar el css para customizarlo.
@@ -35,11 +42,7 @@ http://docs.oracle.com/javase/8/javafx/api/javafx/scene/doc-files/cssref.html
 
 Ojito con todos los comentarios del codigo.
 http://code.makery.ch/library/javafx-8-tutorial/part7/ deployment - packaging the app
-
-
-::::
-http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/progress.htm para hacer el control de progreso y cargando.
-Quiza añadir scrollpane para cuando hacen la pantalla pequeña, O MEJOR HACER QUE NO SE PUEDA HACER MAS PEQUEÑA DE UN CIERTO TAMAÑO: http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/scrollpane.htm
-Quiza usar un choiceBox o ListView o ComboBox (esta última es la mejor) para dar a elegir algun primo p o q?
-
 MEJORAR: el contenido de los tooltips.
+
+
+

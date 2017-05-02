@@ -11,15 +11,15 @@ import Imprimir.ParadoxPrint;
 import Metodos.Utilidades;
 import Model.Constantes;
 import java.math.BigInteger;
+import javafx.application.Platform;
 
 /**
  *
  * @author rdiazarr
  */
-public class ParadoxAttack {
+public class ParadoxAttack {    
     
-    
-     private final ErrorDialog errorDialog;
+    private final ErrorDialog errorDialog;
     
     private final InfoDialog infoDialog;
     
@@ -37,12 +37,13 @@ public class ParadoxAttack {
     
     private BigInteger message;
     
-    private long avgCipherStats;
+    private BigInteger i, j;
+           
+    private String result;
     
-    
-    private BigInteger totalLapsNum;
+    private String partialResult;
             
-    
+    private BigInteger avgStats;
 
     public ParadoxAttack(ParadoxPrint paradoxPrint) {
         this.errorDialog = new ErrorDialog();
@@ -53,15 +54,14 @@ public class ParadoxAttack {
         
     }
     
-    public boolean init(String message, String modulus, String exponent) {
-       
+    public boolean init(String message, String modulus, String exponent) {       
         //MODULUS------------  
         modulus = this.utilidades.formatNumber(modulus);
         
         try{
             this.modulus = new BigInteger(modulus, this.radix);
         } catch (NumberFormatException n){            
-            this.errorDialog.Modulus(this.radix);
+            Platform.runLater(() -> this.errorDialog.Modulus(this.radix));
             return false;
         }
         
@@ -71,12 +71,12 @@ public class ParadoxAttack {
         try{
             this.exponent = new BigInteger(exponent, this.radix);
         } catch (NumberFormatException n){            
-            this.errorDialog.Exponent(this.radix);
+            Platform.runLater(() -> this.errorDialog.Exponent(this.radix));
             return false;
         }
         
         if (this.exponent.compareTo(this.modulus)>-1){
-            this.errorDialog.bigExponent();
+            Platform.runLater(() -> this.errorDialog.bigExponent());
             return false;
         }     
         
@@ -89,102 +89,264 @@ public class ParadoxAttack {
         try{
             this.message = new BigInteger(message, this.radix);
         } catch (NumberFormatException n){            
-            this.errorDialog.paradoxMessage(this.radix);
+            Platform.runLater(() -> this.errorDialog.paradoxMessage(this.radix));
             return false;
         }
         
         if (this.message.compareTo(Constantes.ONE) == -1){
-            this.errorDialog.paradoxMessage(radix);
+            Platform.runLater(() -> this.errorDialog.paradoxMessage(radix));
             return false;
         }
         
         if (this.message.compareTo(this.modulus) > -1){
-            this.errorDialog.bigMessage(radix);
+            Platform.runLater(() -> this.errorDialog.bigMessage(radix));
             return false;
         }
         
-       this.Pprint.numbers(this.modulus.toString(this.radix).toUpperCase(),
-                            this.exponent.toString(this.radix).toUpperCase(),
-                            this.message.toString(this.radix).toUpperCase());
+       Platform.runLater(() ->{
+           this.Pprint.numbers(this.modulus.toString(this.radix).toUpperCase(),
+                                                    this.exponent.toString(this.radix).toUpperCase(),
+                                                    this.message.toString(this.radix).toUpperCase());
+           this.Pprint.dissableStart();
+           this.Pprint.partialClear();
+       });
         
         return true;        
     }
     
     
     
-    
+    public void start() {
+        if (this.modulus.bitLength() < 30){
+            this.LMstart();
+        } else if (this.modulus.bitLength() < 40){
+            this.BMstart(Constantes.MIDDLE_REFRESH);
+        } else if (this.modulus.bitLength() < 50){
+            this.BMstart(Constantes.BM_REFRESH);
+        } else {
+            this.BMstart(Constantes.MAX_REFRESH);
+        }
+        
+    }
     
     
     //ataque por la paradoja del cumpleaños, no para hasta que prospera
-    public void start(){
-        BigInteger i, cipherI;
-        BigInteger j, CipherJ;
+    //imprime todos los resultados del ataque LM = little modulus
+    public void LMstart(){
+       
+        BigInteger cipherI, cipherJ;
         BigInteger IMinusJ, w, s, t;
         long startTime, totalTime;
-        String time;
+        final String time, cipherIstr, cipherJstr;        
+        long statsTime;
+        boolean write = false;
         
         startTime = System.currentTimeMillis();
 				
-        i = new BigInteger("1");
-        j = this.modulus.divide(Constantes.TWO);
+        this.i = new BigInteger("1");
+        this.j = this.modulus.divide(Constantes.TWO);
 
         cipherI = this.message;
-        CipherJ = this.message.modPow(j, this.modulus);
+        cipherJ = this.message.modPow(j, this.modulus);
 
-        this.Pprint.initialResults(cipherI.toString(this.radix).toUpperCase(),
-                                    CipherJ.toString(this.radix).toUpperCase(),
-                                    j.toString(this.radix).toUpperCase(),
-                                    this.modulus.toString(this.radix).toUpperCase());
-
-        while (!(cipherI.equals(CipherJ)) && i.compareTo(j) == -1){
-                i = i.add(Constantes.ONE);
-                cipherI = this.message.multiply(cipherI).mod(this.modulus);
-
-                this.Pprint.partialResults(this.message.toString(this.radix).toUpperCase(),
-                                    i.toString(this.radix).toUpperCase(),
-                                    this.modulus.toString(this.radix).toUpperCase(),
-                                    cipherI.toString(this.radix).toUpperCase());
-
-                //cuando se haga concurrente ir imprimiendo los cifrados por segundo
+        
+        cipherIstr = cipherI.toString(this.radix).toUpperCase();
+        cipherJstr = cipherJ.toString(this.radix).toUpperCase();
+        
+        
+        Platform.runLater(() -> this.Pprint.initialResults(cipherIstr, cipherJstr,
+                                                        this.j.toString(this.radix).toUpperCase(),
+                                                        this.modulus.toString(this.radix).toUpperCase()));
+        this.result = "";        
+        
+        while (!(cipherI.equals(cipherJ)) && this.i.compareTo(this.j) == -1){
+            this.i = this.i.add(Constantes.ONE);
+            cipherI = this.message.multiply(cipherI).mod(this.modulus);
+            
+            write = false;
+            this.result = this.result + this.message.toString(this.radix).toUpperCase() + "^" +
+                          this.i.toString(this.radix).toUpperCase() + " mod " +
+                          this.modulus.toString(this.radix).toUpperCase() + " = " + 
+                          cipherI.toString(this.radix).toUpperCase() + "\n";
+            
+            if (i.mod(Constantes.MIN_REFRESH).equals(Constantes.ZERO)){
+                this.partialResult = this.result;
+                write = true;
+                this.avgStats = this.i;
+                statsTime = (System.currentTimeMillis() - startTime)/1000;
+                if (statsTime > 1){
+                    this.avgStats = this.i.divide(new BigInteger(String.valueOf(statsTime)));
+                }                 
+                Platform.runLater(() -> {
+                   this.Pprint.partialResults(this.partialResult);
+                   this.Pprint.Stats(this.avgStats.toString());
+                });
+                this.result="";
+            }               
         } 
-
-        if (cipherI.equals(CipherJ)){
-                j = this.modulus.divide(Constantes.TWO);
-        } else {
+        
+        
+        
+        if (!write){
+            Platform.runLater(() -> this.Pprint.partialResults(this.result));
+        }       
+        
+        if (!cipherI.equals(cipherJ)){               
+            Platform.runLater(() -> {
                 this.Pprint.partialDelete();
-                return;
+                this.Pprint.enableStart();                
+            });
+            return;
                 //error ¿Realmente se puede dar el caso?
         }
-
-        IMinusJ = i.subtract(j).abs();
-
-        w = (IMinusJ).divide(this.exponent.gcd(IMinusJ));
-
-        this.Pprint.wValue(i.toString(this.radix).toUpperCase(), 
-                            j.toString(this.radix).toUpperCase(),
-                            this.exponent.toString(this.radix).toUpperCase(),
-                            w.toString(this.radix).toUpperCase());
+        
+        //CALCULOS PARA OBTENER LA POSIBLE CLAVE
+        IMinusJ = this.i.subtract(this.j).abs();
+        w = (IMinusJ).divide(this.exponent.gcd(IMinusJ));        
+        
+        Platform.runLater(() -> this.Pprint.wValue(this.i.toString(this.radix).toUpperCase(), 
+                                                this.j.toString(this.radix).toUpperCase(),
+                                                this.exponent.toString(this.radix).toUpperCase(),
+                                                w.toString(this.radix).toUpperCase()));
 
         s = w.modInverse(this.exponent);
         //t es la clave privada o una clave privada pareja o un falso positivo
-        t = this.exponent.modInverse(w);
-        
-        // comprobar, pero no sirve para nada((w.multiply(s)).add(publica.multiply(t))).equals(BigInteger.ONE));
-        
+        t = this.exponent.modInverse(w);        
+        //comprobar, pero no sirve para nada((w.multiply(s)).add(publica.multiply(t))).equals(BigInteger.ONE)); 
+        //si no sirve borrar la s
         
         totalTime = System.currentTimeMillis() - startTime;
         time = this.utilidades.millisToSeconds(totalTime);
         
+        totalTime = (totalTime/1000);
+        this.avgStats = this.i;
+        if (totalTime > 1){
+            this.avgStats = this.i.divide(new BigInteger(String.valueOf(totalTime)));
+        }     
         
-        this.Pprint.tValue(t.toString(this.radix).toUpperCase());
-        this.Pprint.privateKey(t.toString(this.radix).toUpperCase());
-        this.Pprint.time(time);
+        Platform.runLater(() -> {
+            this.Pprint.Stats(this.avgStats.toString());
+            this.Pprint.tValue(t.toString(this.radix).toUpperCase());
+            this.Pprint.privateKey(t.toString(this.radix).toUpperCase());
+            this.Pprint.time(time);
+            this.Pprint.enableStart();
+        });
+        
         //imprimir media de claves cifradas por segundo
        // this.Pprint.avgStats();
 
         this.checkObtainedKey(t);
     }
     
+    
+    //ataque por la paradoja del cumpleaños, no para hasta que prospera
+    //no imprime todos los resultados del ataque BM = big modulus
+    public void BMstart(BigInteger MAX_REFRESH){
+       
+        BigInteger cipherI, cipherJ;
+        BigInteger IMinusJ, w, s, t;
+        long startTime, totalTime;
+        final String time, cipherIstr, cipherJstr;
+        long statsTime;
+        boolean write = false;
+        
+        startTime = System.currentTimeMillis();
+				
+        this.i = new BigInteger("1");
+        this.j = this.modulus.divide(Constantes.TWO);
+
+        cipherI = this.message;
+        cipherJ = this.message.modPow(j, this.modulus);
+
+        
+        cipherIstr = cipherI.toString(this.radix).toUpperCase();
+        cipherJstr = cipherJ.toString(this.radix).toUpperCase();
+        
+        
+        Platform.runLater(() -> this.Pprint.initialResults(cipherIstr, cipherJstr,
+                                                        this.j.toString(this.radix).toUpperCase(),
+                                                        this.modulus.toString(this.radix).toUpperCase()));
+
+        while (!(cipherI.equals(cipherJ)) && this.i.compareTo(this.j) == -1){
+            this.i = this.i.add(Constantes.ONE);
+            cipherI = this.message.multiply(cipherI).mod(this.modulus);
+            write = false;
+
+            if (i.mod(MAX_REFRESH).equals(Constantes.ZERO)){
+                this.result = this.message.toString(this.radix).toUpperCase() + "^" +
+                          this.i.toString(this.radix).toUpperCase() + " mod " +
+                          this.modulus.toString(this.radix).toUpperCase() + " = " + 
+                          cipherI.toString(this.radix).toUpperCase() + "\n";
+                
+                write = true;
+                
+                this.avgStats = this.i;
+                statsTime = (System.currentTimeMillis() - startTime)/1000;
+                if (statsTime > 1){
+                    this.avgStats = this.i.divide(new BigInteger(String.valueOf(statsTime)));
+                }                 
+                Platform.runLater(() -> {
+                   this.Pprint.partialResults(this.result);
+                   this.Pprint.Stats(this.avgStats.toString());
+                });
+            }             
+        } 
+        
+        
+        if (!write){
+            this.partialResult = this.message.toString(this.radix).toUpperCase() + "^" +
+                          this.i.toString(this.radix).toUpperCase() + " mod " +
+                          this.modulus.toString(this.radix).toUpperCase() + " = " + 
+                          cipherI.toString(this.radix).toUpperCase() + "\n";
+            
+            Platform.runLater(() -> this.Pprint.partialResults(this.partialResult));
+        }  
+
+        if (!cipherI.equals(cipherJ)){               
+            Platform.runLater(() -> {
+                this.Pprint.partialDelete();
+                this.Pprint.enableStart();                
+            });
+            return;
+                //error ¿Realmente se puede dar el caso?
+        }
+
+        IMinusJ = this.i.subtract(this.j).abs();
+        w = (IMinusJ).divide(this.exponent.gcd(IMinusJ));        
+        
+        Platform.runLater(() -> this.Pprint.wValue(this.i.toString(this.radix).toUpperCase(), 
+                                                this.j.toString(this.radix).toUpperCase(),
+                                                this.exponent.toString(this.radix).toUpperCase(),
+                                                w.toString(this.radix).toUpperCase()));
+
+        s = w.modInverse(this.exponent);
+        //t es la clave privada o una clave privada pareja o un falso positivo
+        t = this.exponent.modInverse(w);        
+        //comprobar, pero no sirve para nada((w.multiply(s)).add(publica.multiply(t))).equals(BigInteger.ONE)); 
+        //si no sirve borrar la s
+        
+        totalTime = System.currentTimeMillis() - startTime;
+        time = this.utilidades.millisToSeconds(totalTime);
+        
+        totalTime = totalTime / 1000;
+        this.avgStats = this.i;
+        if (totalTime > 1){
+            this.avgStats = this.i.divide(new BigInteger(String.valueOf(totalTime)));
+        }     
+        
+        Platform.runLater(() -> {
+            this.Pprint.Stats(this.avgStats.toString());
+            this.Pprint.tValue(t.toString(this.radix).toUpperCase());
+            this.Pprint.privateKey(t.toString(this.radix).toUpperCase());
+            this.Pprint.time(time);
+            this.Pprint.enableStart();
+        });
+        
+        //imprimir media de claves cifradas por segundo
+       // this.Pprint.avgStats();
+
+        this.checkObtainedKey(t);
+    }
     
     private void checkObtainedKey(BigInteger key) {
         BigInteger numberEncrypt, numberDecrypt;
@@ -204,9 +366,9 @@ public class ParadoxAttack {
         numberDecrypt = numberEncrypt.modPow(key, this.modulus);
         
         if (numberDecrypt.equals(number)){
-            this.Pprint.goodResult();
+            Platform.runLater(() -> this.Pprint.goodResult());
         } else{
-            this.Pprint.badResult();
+            Platform.runLater(() -> this.Pprint.badResult());
         }
         
 

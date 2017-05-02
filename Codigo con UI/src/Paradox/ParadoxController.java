@@ -8,8 +8,11 @@ package Paradox;
 import Imprimir.ParadoxPrint;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -38,9 +41,6 @@ public class ParadoxController {
     @FXML // fx:id="Message"
     private TextField Message; // Value injected by FXMLLoader
 
-    @FXML // fx:id="CiphersStats"
-    private TextField CiphersStats; // Value injected by FXMLLoader
-
     @FXML // fx:id="AvgCiphersStats"
     private TextField AvgCiphersStats; // Value injected by FXMLLoader
 
@@ -52,7 +52,12 @@ public class ParadoxController {
 
     @FXML // fx:id="Time"
     private TextField Time; // Value injected by FXMLLoader
-
+    
+    @FXML // fx:id="clearBttn"
+    private Button clearBttn; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="startBttn"
+    private Button startBttn; // Value injected by FXMLLoader
 
     
     private ParadoxAttack paradoxAttack;
@@ -68,30 +73,54 @@ public class ParadoxController {
         assert Modulus != null : "fx:id=\"Modulus\" was not injected: check your FXML file 'Paradox.fxml'.";
         assert Exponent != null : "fx:id=\"Exponent\" was not injected: check your FXML file 'Paradox.fxml'.";
         assert Message != null : "fx:id=\"Message\" was not injected: check your FXML file 'Paradox.fxml'.";
-        assert CiphersStats != null : "fx:id=\"CiphersStats\" was not injected: check your FXML file 'Paradox.fxml'.";
         assert AvgCiphersStats != null : "fx:id=\"AvgCiphersStats\" was not injected: check your FXML file 'Paradox.fxml'.";
         assert Results != null : "fx:id=\"Results\" was not injected: check your FXML file 'Paradox.fxml'.";
         assert PrivateKey != null : "fx:id=\"PrivateKey\" was not injected: check your FXML file 'Paradox.fxml'.";
-        assert Time != null : "fx:id=\"Time\" was not injected: check your FXML file 'Paradox.fxml'.";
+        assert Time != null : "fx:id=\"Time\" was not injected: check your FXML file 'Paradox.fxml'.";        
+        assert startBttn != null : "fx:id=\"startBttn\" was not injected: check your FXML file 'Paradox.fxml'.";
+        assert clearBttn != null : "fx:id=\"clearBttn\" was not injected: check your FXML file 'Paradox.fxml'.";
 
+        
         firstTime=true;
         paradoxAttack = new ParadoxAttack(new ParadoxPrint(this));
+        
+        Platform.runLater(Message::requestFocus);
     }
 
 
     @FXML
     public void start(ActionEvent event) {
-        String message = this.Message.getText();
-        String modulus = this.Modulus.getText();
-        String exponent = this.Exponent.getText();
         
-        this.paradoxAttack.setRadix(this.radix);
+        Task CAstart= new Task() {
+            @Override
+            protected Object call() throws Exception {
+                String message = Message.getText();
+                String modulus = Modulus.getText();
+                String exponent = Exponent.getText();
+
+                paradoxAttack.setRadix(radix);
+
+                if (paradoxAttack.init(message, modulus, exponent)){
+                    paradoxAttack.start();
+                }
+                return null;
+            }
+        };
         
-        if (this.paradoxAttack.init(message, modulus, exponent)){
-            this.paradoxAttack.start();
-        }
-        
+        new Thread(CAstart).start();             
     }  
+    
+    
+        
+    @FXML
+    public void clear(ActionEvent event) {
+        this.paradoxAttack.clear();
+    } 
+    
+    @FXML
+    public void info(ActionEvent event) {
+        this.paradoxAttack.putInfo();
+    }
     
     @FXML
     /**
@@ -102,8 +131,7 @@ public class ParadoxController {
             this.start(new ActionEvent());
         }
     }
-    
-    
+        
     @FXML
     /**
      * Para prevenir que se modifique tanto el modulo como el exponente
@@ -114,21 +142,7 @@ public class ParadoxController {
             this.paradoxAttack.warning();   
         }  
         
-    }
-    
-    
-    @FXML
-    public void clear(ActionEvent event) {
-        this.paradoxAttack.clear();
-    } 
-    
-
-    @FXML
-    public void info(ActionEvent event) {
-        this.paradoxAttack.putInfo();
-    }
-    
-    
+    }  
     
     
     
@@ -154,10 +168,6 @@ public class ParadoxController {
         return this.Message;
     }
 
-    public TextField getCiphersStats() {
-        return this.CiphersStats;
-    }
-
     public TextField getAvgCiphersStats() {
         return this.AvgCiphersStats;
     }
@@ -174,7 +184,13 @@ public class ParadoxController {
         return this.Time;
     }
     
-    
+    public Button getStartBttn() {
+        return this.startBttn;
+    }
+
+    public Button getClearBttn() {
+        return this.clearBttn;
+    }
     
      
 }

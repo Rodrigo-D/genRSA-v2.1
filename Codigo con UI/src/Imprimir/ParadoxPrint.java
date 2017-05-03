@@ -43,9 +43,14 @@ public class ParadoxPrint {
         this.scene.getClearBttn().setDisable(true);
     }
     
-     public void enableStart() {
+    public void enableStart() {
         this.scene.getStartBttn().setDisable(false);
         this.scene.getClearBttn().setDisable(false);
+    }
+     
+    public void editableModExp(boolean editable) {
+        this.scene.getExponent().setEditable(editable);
+        this.scene.getModulus().setEditable(editable);
     }
 
     //IMPRESION DE RESULTADOS

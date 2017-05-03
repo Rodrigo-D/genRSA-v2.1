@@ -12,6 +12,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -40,7 +41,8 @@ public class GenRSA extends Application {
             primaryStage.setMinHeight(MINIMUM_WINDOW_HEIGHT);
 
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Aplicacion pantalla principal");            
+            primaryStage.setTitle("genRSA - Generación de claves RSA");   
+            primaryStage.getIcons().add(new Image("file:resources/icono/genRSA.png"));
             primaryStage.show();
             
         } catch (IOException ex) {

@@ -108,6 +108,7 @@ public class ParadoxAttack {
                                                     this.exponent.toString(this.radix).toUpperCase(),
                                                     this.message.toString(this.radix).toUpperCase());
            this.Pprint.dissableStart();
+           this.Pprint.editableModExp(false);
            this.Pprint.partialClear();
        });
         
@@ -229,7 +230,8 @@ public class ParadoxAttack {
             this.Pprint.tValue(t.toString(this.radix).toUpperCase());
             this.Pprint.privateKey(t.toString(this.radix).toUpperCase());
             this.Pprint.time(time);
-            this.Pprint.enableStart();
+            this.Pprint.enableStart();            
+            this.Pprint.editableModExp(true);
         });
         
         //imprimir media de claves cifradas por segundo
@@ -340,6 +342,7 @@ public class ParadoxAttack {
             this.Pprint.privateKey(t.toString(this.radix).toUpperCase());
             this.Pprint.time(time);
             this.Pprint.enableStart();
+            this.Pprint.editableModExp(true);
         });
         
         //imprimir media de claves cifradas por segundo

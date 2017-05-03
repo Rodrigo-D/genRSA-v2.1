@@ -137,8 +137,8 @@ public class SceneController {
     @FXML // fx:id="DeCipherMenuI"
     private MenuItem DeCipherMenuI; // Value injected by FXMLLoader
         
-    @FXML // fx:id="SingMenuI"
-    private MenuItem SingMenuI; // Value injected by FXMLLoader
+    @FXML // fx:id="SignMenuI"
+    private MenuItem SignMenuI; // Value injected by FXMLLoader
          
     private int radix;
         
@@ -191,7 +191,7 @@ public class SceneController {
         assert logNNCbttn != null : "fx:id=\"logNNCbttn\" was not injected: check your FXML file 'escena.fxml'.";        
         assert saveKeyMenuI != null : "fx:id=\"saveKeyMenuI\" was not injected: check your FXML file 'escena.fxml'.";
         assert DeCipherMenuI != null : "fx:id=\"DeCipherMenuI\" was not injected: check your FXML file 'escena.fxml'.";
-        assert SingMenuI != null : "fx:id=\"SingMenuI\" was not injected: check your FXML file 'escena.fxml'.";
+        assert SignMenuI != null : "fx:id=\"SignMenuI\" was not injected: check your FXML file 'escena.fxml'.";
 
         
         radix = 10;
@@ -204,7 +204,7 @@ public class SceneController {
         this.disableButtons();      
         this.configureFocus();
         //para poner el foco en originalData
-        Platform.runLater(primo_P::requestFocus);
+        Platform.runLater(bits_clave_automatica::requestFocus);
     }    
     
     /**
@@ -599,12 +599,12 @@ public class SceneController {
             this.logNNCbttn.setDisable(true);
             this.saveKeyMenuI.setDisable(true);
             this.DeCipherMenuI.setDisable(true);
-            this.SingMenuI.setDisable(true);
+            this.SignMenuI.setDisable(true);
         } else {
              this.logNNCbttn.setDisable(false);
              this.saveKeyMenuI.setDisable(false);
              this.DeCipherMenuI.setDisable(false);
-             this.SingMenuI.setDisable(false);
+             this.SignMenuI.setDisable(false);
         }
         
     }

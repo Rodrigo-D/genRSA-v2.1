@@ -9,6 +9,7 @@ import Metodos.Utilidades;
 import Model.ComponentesRSA;
 import genrsa.SceneController;
 import java.math.BigInteger;
+import java.util.List;
 
 /**
  *
@@ -56,14 +57,16 @@ public class Print {
         this.scene.getClaves_parejas().clear();
     }
     
-    public void addPrivPairKey(BigInteger claveP, int radix) {
+    public void privPairKey(List<String> listCPP) {
         
-        this.scene.getClaves_parejas().appendText(claveP.toString(radix).toUpperCase());
-        this.scene.getClaves_parejas().appendText("\n");
+        listCPP.forEach((cpp) -> {
+            this.scene.getClaves_parejas().appendText(cpp + "\n");
+        });
+       
     }
     
     public void limitPrivPairKey() {
-        this.scene.getClaves_parejas().appendText("Se ha alcanzado número máximo de claves privadas parejas: 30");
+        this.scene.getClaves_parejas().appendText("Se ha alcanzado número máximo de claves privadas parejas: 60");
     }
 
     public void numClavesParejas(BigInteger numCKP) {
@@ -71,7 +74,7 @@ public class Print {
     }
 
     public void numNNC(BigInteger numMNC) {
-        this.scene.getNum_mensajes_noCifrables().setText(numMNC.toString());
+        this.scene.getCantidadNNC().setText(numMNC.toString());
     }
 
     //hacer que parpadee el cuadrito cuando de el resultado
@@ -105,7 +108,7 @@ public class Print {
         this.scene.getBits_clave_Privada().clear();
         this.scene.getClaves_parejas().clear();
         this.scene.getNum_claves_parejas().clear();
-        this.scene.getNum_mensajes_noCifrables().clear();
+        this.scene.getCantidadNNC().clear();
     }
 
    

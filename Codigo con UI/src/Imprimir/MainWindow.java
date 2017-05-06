@@ -50,8 +50,9 @@ public class MainWindow {
         
         this.scene.getTiempo_clave_automatica().clear();
         this.scene.getBits_clave_automatica().clear();
+        this.scene.getTipicalPubKey().setSelected(false);
     
-        this.scene.getNum_mensajes_noCifrables().clear();
+        this.scene.getCantidadNNC().clear();
         
         this.scene.getNum_claves_parejas().clear();
         this.scene.getClaves_parejas().clear();

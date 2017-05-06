@@ -28,7 +28,7 @@ public class GenRSA extends Application {
     public void start(Stage primaryStage) throws Exception {
         try {
             
-            Parent root = FXMLLoader.load(getClass().getResource("escena.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("scene.fxml"));
             
             //FXMLLoader loader = new FXMLLoader(getClass().getResource("escena.fxml"));
             //Parent root = (Parent)loader.load();

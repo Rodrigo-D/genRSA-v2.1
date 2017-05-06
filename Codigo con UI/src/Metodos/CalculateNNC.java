@@ -39,11 +39,12 @@ public class CalculateNNC {
         BigInteger inv_pq,inv_qp, p_invpq, q_invqp;
         //numNp y numNq llevan el valor de la posicion del array
         int numNp, numNq, iteradorP, iteradorQ; // ojo si se deja que se puedan calcular logNNC  muy grandes
-                                                //porque esto se iría de rango  --en parte controlado ante de llamar
-                                                //a este metodo
+                                                //porque esto se iría de rango  --en parte controlado antes de llamar
+                                                //a este metodo, pero si la cantidad de nnc de P o de Q es mayor que el max value de 
+                                                // los integer se rompe (no se puede cambiar a bigInteger porque la lista se iria de rango)
         
                                                 
-        //arrays donde se almacenan los num no cifrables  en p y en q. Y los NNC en el cuerpo de cifra
+        //arrays donde se almacenan los num no cifrables en p y en q. Y los NNC en el cuerpo de cifra
         List <BigInteger> listNp = new ArrayList <>();
         List <BigInteger> listNq = new ArrayList <>();
         List <BigInteger> listNNC = new ArrayList <>();                 

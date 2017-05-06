@@ -8,11 +8,13 @@ package Factorize;
 import Imprimir.FactorizePrint;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -49,6 +51,9 @@ public class FactorizeController {
     @FXML // fx:id="Results"
     private TextArea Results; // Value injected by FXMLLoader
     
+    @FXML // fx:id="progress"
+    private ProgressIndicator progress; // Value injected by FXMLLoader
+    
     @FXML // fx:id="startBttn"
     private Button startBttn; // Value injected by FXMLLoader
 
@@ -75,10 +80,10 @@ public class FactorizeController {
         assert Prime_q != null : "fx:id=\"Prime_q\" was not injected: check your FXML file 'Factorizacion.fxml'.";
         assert Time != null : "fx:id=\"Time\" was not injected: check your FXML file 'Factorizacion.fxml'.";
         assert Results != null : "fx:id=\"Results\" was not injected: check your FXML file 'Factorizacion.fxml'.";
+        assert progress != null : "fx:id=\"progress\" was not injected: check your FXML file 'Factorizacion.fxml'.";
         assert startBttn != null : "fx:id=\"startBttn\" was not injected: check your FXML file 'Factorizacion.fxml'.";
         assert continueBttn != null : "fx:id=\"continueBttn\" was not injected: check your FXML file 'Factorizacion.fxml'.";
         assert clearBttn != null : "fx:id=\"clearBttn\" was not injected: check your FXML file 'Factorizacion.fxml'.";
-        
         
         
         factorize = new FactorizeAttack(new FactorizePrint(this));
@@ -94,6 +99,8 @@ public class FactorizeController {
             protected Object call() throws Exception {
                 String modulusStr = Modulus.getText();
                 factorize.setRadix(radix);
+                
+                Platform.runLater(() ->progress.setVisible(true));
 
                 if (factorize.init(modulusStr)){
                     if(ObtainPQ.isSelected()){
@@ -103,6 +110,9 @@ public class FactorizeController {
                         factorize.start(lapsNumStr);
                     }
                 }
+                
+                Platform.runLater(() ->progress.setVisible(false));
+
                 return null;
             }
         };
@@ -117,7 +127,13 @@ public class FactorizeController {
             @Override
             protected Object call() throws Exception {
                 String lapsNumStr = NumLaps.getText();
+                
+                Platform.runLater(() ->progress.setVisible(true));
+
                 factorize.Continue(lapsNumStr);
+                
+                Platform.runLater(() ->progress.setVisible(false));
+
                 return null;
             }
         };

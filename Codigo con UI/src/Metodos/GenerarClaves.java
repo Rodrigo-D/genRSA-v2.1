@@ -12,6 +12,9 @@ import Model.Constantes;
 import genrsa.SceneController;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.application.Platform;
 import javafx.scene.control.TextField;
 
 /**
@@ -34,6 +37,8 @@ public class GenerarClaves {
     private long startTime;
     // atributo que almacena el tiempo empleado 
     private String time;
+    //atributo que almacena las claves privadas parejas
+    private List<String> listCPP;
     
     public GenerarClaves (SceneController scene){
         this.RSA = new ComponentesRSA();
@@ -125,37 +130,52 @@ public class GenerarClaves {
     
     /**
      * automatic generation of RSA KEYS, with the same or different number of bits in prime P and Q
-     * @param keySize
+     * @param KeySize
      * @param sameSizePrimes
+     * @param tipicalPubKey
      * @return 
      */
-    //preguntar al profesor y comprobar cual tiene que ser el keySize minimo 
-    public ComponentesRSA autoRSAkeys(String keySize, boolean sameSizePrimes) {        
+    public ComponentesRSA autoRSAkeys(String KeySize, boolean sameSizePrimes, boolean tipicalPubKey) {        
         this.startTime = System.currentTimeMillis();
         int distanceBits;
+        final String keySize;
         
-        keySize = this.utilidades.formatNumber(keySize);
+        keySize = this.utilidades.formatNumber(KeySize);
         
         //se comprueba que sea un número
         if (!this.utilidades.isNumber(keySize)){
-            this.errorDialog.keySize(); 
+            Platform.runLater(() ->this.errorDialog.keySize()); 
             return null;
         } 
         
         this.RSA.setKeySize(Integer.parseInt(keySize));
             
         if (this.RSA.getKeySize() < 5){ 
-            this.errorDialog.littleKeySize(); 
+            Platform.runLater(() ->this.errorDialog.littleKeySize()); 
             return null;
         }      
         
         distanceBits = this.calculateDistanceBits(sameSizePrimes);
-        this.createRSAKeys(distanceBits);        
+        
+        if (tipicalPubKey){
+            
+            if(this.RSA.getKeySize()>18){
+                this.createRSAKeysWithTipicalPubKey(distanceBits);
+            } else {
+                Platform.runLater(() ->this.errorDialog.keySizeTipicalPubKey(this.radix));
+                return null;
+            }
+            
+        } else {
+            this.createRSAKeys(distanceBits);        
+        }
         
         this.time = this.utilidades.millisToSeconds(System.currentTimeMillis()  - this.startTime);
         
-        this.print.rsaGeneration(this.RSA, this.time, this.radix);          
-        this.print.autoBitsKey(keySize);
+        Platform.runLater(() ->{
+            this.print.rsaGeneration(this.RSA, this.time, this.radix);
+            this.print.autoBitsKey(keySize);
+        });
         
         this.calculateCKP();
         this.calculateNumNNC();
@@ -192,6 +212,46 @@ public class GenerarClaves {
     }
     
     
+    
+    
+    /**
+     * 
+     * @param keySize
+     */
+    private void createRSAKeysWithTipicalPubKey(int distanceBits) {
+        
+        /* Step 1: Set e=65537 */
+        this.RSA.setE(new BigInteger("65537"));
+        
+        /* Step 2: Select the prime numbers (p and q) */
+        this.RSA.setP( BigInteger.probablePrime((this.RSA.getKeySize()/2)+distanceBits, new SecureRandom()));
+        this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-distanceBits, new SecureRandom()));
+
+        /* Step 3: phi N = (p - 1).(q - 1) */
+        this.RSA.setpMinusOne( this.RSA.getP().subtract(Constantes.ONE));
+        this.RSA.setqMinusOne( this.RSA.getQ().subtract(Constantes.ONE));
+        this.RSA.setPhiN( this.RSA.getpMinusOne().multiply(this.RSA.getqMinusOne()));
+
+        /* Step 4: Find q, gcd(e, ø(n)) = 1 ; 1 < e < ø(n) */
+        while ((this.RSA.getE().compareTo(this.RSA.getPhiN()) > -1) || 
+                 (this.RSA.getE().gcd(this.RSA.getPhiN()).compareTo(Constantes.ONE)) != 0){
+            
+            this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-distanceBits, new SecureRandom()));
+
+            this.RSA.setqMinusOne( this.RSA.getQ().subtract(Constantes.ONE));
+            this.RSA.setPhiN( this.RSA.getpMinusOne().multiply(this.RSA.getqMinusOne()));
+        } 
+        
+        /* Step 5:  n = p.q */
+        this.RSA.setN( this.RSA.getP().multiply(this.RSA.getQ()));
+
+        /* Step 6: Calculate d such that e.d = 1 (mod ø(n)) */
+        this.RSA.setD( this.RSA.getE().modInverse(this.RSA.getPhiN()));
+    }
+    
+    
+    
+    
     /**
      * Metodo que calcula las claves privada parejas
      */
@@ -201,6 +261,7 @@ public class GenerarClaves {
             BigInteger cpp;
             int iterador=1;
             int CKP_int;
+            listCPP = new ArrayList<>();
 
             //minimo comun multiplo a través del mcd-gcd
             this.RSA.setGamma(this.RSA.getpMinusOne().multiply
@@ -212,26 +273,30 @@ public class GenerarClaves {
             this.RSA.setNumCKP( ((this.RSA.getN().subtract(cpp)).divide(this.RSA.getGamma())) );
             
             //Imprime           
-            this.print.numClavesParejas(this.RSA.getNumCKP());
-            this.print.clearPrivPairKey();
+            Platform.runLater(() ->{
+                this.print.numClavesParejas(this.RSA.getNumCKP());
+                this.print.clearPrivPairKey();
+            });
+            
             if (cpp.compareTo(this.RSA.getD()) != 0){
-                this.print.addPrivPairKey(cpp, this.radix);
+                listCPP.add(cpp.toString(this.radix));
             }
             
             //para controlar el while, dado que si el numero es mayor que el max_value de los integer
             //podria llegar a ser un numero negativo y no se calcularian las CKP
             CKP_int = this.CKPtoInt();
-            //OJO, he añadido condicion para que pare a las 30
-            while (CKP_int >= iterador && iterador <= 30){
+            //OJO, he añadido condicion para que pare a las 60
+            while (CKP_int >= iterador && iterador <= 60){
                     cpp=cpp.add(this.RSA.getGamma());
                     if (cpp.compareTo(this.RSA.getD()) != 0){
-                            this.print.addPrivPairKey(cpp, this.radix);
+                            listCPP.add(cpp.toString(this.radix));
                     }
                     iterador++;
             }
             
-            if (iterador > 30){
-                this.print.limitPrivPairKey();
+             Platform.runLater(() ->this.print.privPairKey(listCPP));
+            if (iterador > 60){
+                Platform.runLater(() ->this.print.limitPrivPairKey());
             }
     }
     /**
@@ -247,7 +312,7 @@ public class GenerarClaves {
         part2 = (Constantes.ONE.add((eMinusOne.gcd(this.RSA.getqMinusOne()))));
         this.RSA.setNumNNC( part1.multiply(part2));
         
-        this.print.numNNC(this.RSA.getNumNNC());
+        Platform.runLater(() ->this.print.numNNC(this.RSA.getNumNNC()));
     }
 
     

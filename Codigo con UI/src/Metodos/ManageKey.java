@@ -199,11 +199,11 @@ public class ManageKey {
         
         if (RSA != null){
             if (this.nncGreaterThanMAX(RSA.getNumNNC())){ 
-                this.errorDialog.manyNNC();
+                this.errorDialog.muchNNC();
                 return;
             } 
 
-            if (this.keySizeGreaterThanMAX(RSA.getKeySize())){
+            if (this.keySizeGreaterThanMAX(RSA.getD().bitLength())){
                 this.errorDialog.bigKeySize();
                 return;
             }  
@@ -237,9 +237,13 @@ public class ManageKey {
        return (NumNNC.compareTo(Constantes.MAX_NNC)) == 1;        
     }
 
+    
     private boolean keySizeGreaterThanMAX(int KeySize) {
         return (KeySize > Constantes.MAX_KeySize);
     }
+    
+    
+    
     
     
     /**

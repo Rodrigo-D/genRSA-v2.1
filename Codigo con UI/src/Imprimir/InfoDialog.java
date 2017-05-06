@@ -7,6 +7,8 @@ package Imprimir;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 /**
  *
@@ -19,6 +21,8 @@ public class InfoDialog {
     public InfoDialog() {
         info.setTitle("Mensaje de información");
         info.setHeaderText(null);
+        Stage stage = (Stage) this.info.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("file:resources/info/info.png"));
         
     }
     

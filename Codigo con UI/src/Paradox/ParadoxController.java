@@ -13,6 +13,7 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -58,6 +59,9 @@ public class ParadoxController {
     
     @FXML // fx:id="startBttn"
     private Button startBttn; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="progress"
+    private ProgressIndicator progress; // Value injected by FXMLLoader
 
     
     private ParadoxAttack paradoxAttack;
@@ -79,7 +83,7 @@ public class ParadoxController {
         assert Time != null : "fx:id=\"Time\" was not injected: check your FXML file 'Paradox.fxml'.";        
         assert startBttn != null : "fx:id=\"startBttn\" was not injected: check your FXML file 'Paradox.fxml'.";
         assert clearBttn != null : "fx:id=\"clearBttn\" was not injected: check your FXML file 'Paradox.fxml'.";
-
+        assert progress != null : "fx:id=\"progress\" was not injected: check your FXML file 'Paradox.fxml'.";
         
         firstTime=true;
         paradoxAttack = new ParadoxAttack(new ParadoxPrint(this));
@@ -99,10 +103,13 @@ public class ParadoxController {
                 String exponent = Exponent.getText();
 
                 paradoxAttack.setRadix(radix);
+                Platform.runLater(() ->progress.setVisible(true));
 
                 if (paradoxAttack.init(message, modulus, exponent)){
                     paradoxAttack.start();
                 }
+                
+                Platform.runLater(() ->progress.setVisible(false));
                 return null;
             }
         };

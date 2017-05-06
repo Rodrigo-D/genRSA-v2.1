@@ -7,6 +7,8 @@ package Imprimir;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 /**
  *
@@ -18,7 +20,9 @@ public class ErrorDialog {
     
     public ErrorDialog() {
         this.alertError = new Alert(AlertType.ERROR);
-        this.alertError.setTitle("Error");
+        this.alertError.setTitle("Error");        
+        Stage stage = (Stage) this.alertError.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("file:resources/error/error.png"));
     }
     
             
@@ -27,11 +31,11 @@ public class ErrorDialog {
         
         if (radix==10){
              alertError.setContentText("Por favor, compruebe que se han introducido correctamente"
-                + " la clave pública y los primos p y q. \n\n"
+                + " la clave pública y los primos p y q.\n"
                 + "Solo se permiten números, guiones, puntos y espacios");
         } else {
             alertError.setContentText("Por favor, compruebe que se han introducido correctamente"
-                + " la clave pública y los primos p y q. \n\n"
+                + " la clave pública y los primos p y q.\n"
                 + "Solo se permiten números hexadecimales, guiones, puntos y espacios");
         }
         
@@ -100,6 +104,22 @@ public class ErrorDialog {
         
         alertError.showAndWait(); 
     }
+    
+    
+    public void keySizeTipicalPubKey(int radix) {
+        alertError.setHeaderText("Error longitud de clave demasiado pequeña.");        
+       
+        if (radix==10){
+            alertError.setContentText("Por favor, para generar una clave RSA cuya clave pública \n"
+                + "es 65537, introduzca una longitud de clave mayor que 18.");   
+        } else {
+            alertError.setContentText("Por favor, para generar una clave RSA cuya clave pública\n"
+                + "es 10001, introduzca una longitud de clave mayor que 18.");   
+        }
+            
+        
+        alertError.showAndWait(); 
+    }
              
              
     public void iterations() {
@@ -111,7 +131,7 @@ public class ErrorDialog {
         alertError.showAndWait();    
     }
 
-    public void manyNNC() {
+    public void muchNNC() {
         alertError.setHeaderText("Error, demasiados NNC a calcular");        
        
         alertError.setContentText("Por favor, genere una clave con menos Números No Cifrables");       
@@ -138,7 +158,7 @@ public class ErrorDialog {
     public void FileToSave() {
         alertError.setHeaderText("Error, no se ha seleccionado/creado ningún fichero");        
        
-        alertError.setContentText("Por favor, seleccione un fichero válido para"
+        alertError.setContentText("Por favor, seleccione un fichero válido para\n"
                 + " guardar la clave RSA o cree uno nuevo");       
         
         alertError.showAndWait(); 
@@ -360,6 +380,7 @@ public class ErrorDialog {
                       
         alertError.showAndWait();
     }
+
 
  
     

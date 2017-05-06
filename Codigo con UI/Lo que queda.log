@@ -7,30 +7,35 @@ ramio - ataques siempre imprimir todos los resultados. Por ejemplo ciclico si es
 702136613538677073862961839 buen modulo para factorizar
 
 
-http://code.makery.ch/blog/javafx-dialogs-official/ 
-http://code.makery.ch/blog/javafx-8-dialogs/ progress dialog 
-::::
-http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/progress.htm para hacer el control de progreso y cargando.
+poner puntos de miles y millones a todos los numeritos
 
-Quiza añadir scrollpane para cuando hacen la pantalla pequeña, O MEJOR HACER QUE NO SE PUEDA HACER MAS PEQUEÑA DE UN CIERTO TAMAÑO: http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/scrollpane.htm
-Quiza usar un choiceBox o ListView o ComboBox (esta última es la mejor) para dar a elegir algun primo p o q?
+poner un icono para fermat y miller
 
-
-//ojo al calcular CKP y NNC con claves muy altas (creo q con CKP no pasa nada) //si se hace posible cambiar el num max de nnc a calcular cambiar el mensaje de alerta error.(lo mismo con keySize)
-
-ANTES SIEMPRE TE SALIA UN MENSAJITO CUANDO TERMINABA , AHORA  SOLO CUANDO TERMINA ACCIONES LARGAS.
-	
 quiza añadir un boton con un dibujito a la derecha de los primos o claves para que cuando se pulse se copie al portapapeles. http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/text-field.htm 
 	copy()– transfers the currently selected range in the text to the clipboard, leaving the current selection.
 	selectAll() - selects all text in the text input.
 	Si hago esto poner un information nada mas abrir indicando que se puede copiar el texto sin puntos pulsando el boton ese.
-	
 
+
+Ojito con todos los comentarios del codigo.
+
+http://code.makery.ch/library/javafx-8-tutorial/part7/ deployment - packaging the app
+
+
+
+
+Mirar si se pueden cambiar los shortcuts de ayuda en el propio fxml para quitar los control de ayuda.
+MEJORAR: el contenido de los tooltips.
 Poner un hiperlink en donde las preferencias para que te lleve a la pagina de github.
-Mirar si se pueden cambiar los shortcuts de ayuda en el propio fxml para quitar los control.
-Mirar que se haya implementado toda la logica que programe y tengo en RSAmethodNetbeans
-Intenar que  quede alineado en el print functionValues xi y x2i
-http://docs.oracle.com/javase/8/javafx/interoperability-tutorial/concurrency.htm#JFXIP546 Para hacer threads en caso de proceso muy pesado. (logNNC)
+Nose ha hecho la fastExponentiation ni el CRT
+alert/confirmation dialog y exception dialog : http://code.makery.ch/blog/javafx-dialogs-official/  Por si me hace falta
+
+
+
+
+
+
+
 
 
 CSS:
@@ -40,9 +45,6 @@ http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/custom.htm para r
 http://docs.oracle.com/javase/8/javafx/api/javafx/scene/doc-files/cssref.html
 
 
-Ojito con todos los comentarios del codigo.
-http://code.makery.ch/library/javafx-8-tutorial/part7/ deployment - packaging the app
-MEJORAR: el contenido de los tooltips.
 
 
 

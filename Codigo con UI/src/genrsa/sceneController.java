@@ -5,6 +5,7 @@
  */
 package genrsa;
 
+import Metodos.InitCBox;
 import Cyclic.CyclicController;
 import DeCipher.DeCipherController;
 import Factorize.FactorizeController;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,6 +31,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -58,12 +62,18 @@ public class SceneController {
 
     @FXML // fx:id="bits_primo_P"
     private TextField bits_primo_P; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="cBoxP"
+    private ComboBox cBoxP; // Value injected by FXMLLoader
 
     @FXML // fx:id="primo_Q"
     private TextField primo_Q; // Value injected by FXMLLoader
 
     @FXML // fx:id="bits_primo_Q"
     private TextField bits_primo_Q; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="cBoxQ"
+    private ComboBox cBoxQ; // Value injected by FXMLLoader
 
     @FXML // fx:id="clave_Privada"
     private TextField clave_Privada; // Value injected by FXMLLoader
@@ -108,10 +118,19 @@ public class SceneController {
     private TextField tiempo_clave_automatica; // Value injected by FXMLLoader
 
     @FXML // fx:id="sameSizePrimes"
-    private CheckBox sameSizePrimes; // Value injected by FXMLLoader
+    private CheckBox sameSizePrimes; // Value injected by FXMLLoader    
+    
+    @FXML // fx:id="tipicalPubKey"
+    private CheckBox tipicalPubKey; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="labelPubKey"
+    private Label labelPubKey; // Value injected by FXMLLoader
 
-    @FXML // fx:id="num_mensajes_noCifrables"
-    private TextField num_mensajes_noCifrables; // Value injected by FXMLLoader
+    @FXML // fx:id="cantidadNNC"
+    private TextField cantidadNNC; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="progress"
+    private ProgressIndicator progress; // Value injected by FXMLLoader
     
     @FXML // fx:id="unitsP"
     private Label unitsP; // Value injected by FXMLLoader
@@ -139,8 +158,38 @@ public class SceneController {
         
     @FXML // fx:id="SignMenuI"
     private MenuItem SignMenuI; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="openKeyMenuI"
+    private MenuItem openKeyMenuI; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="manualMenuI"
+    private MenuItem manualMenuI; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="millerMenuI"
+    private MenuItem millerMenuI; // Value injected by FXMLLoader
+        
+    @FXML // fx:id="fermatMenuI"
+    private MenuItem fermatMenuI; // Value injected by FXMLLoader
+            
+    @FXML // fx:id="paradoxMenuI"
+    private MenuItem paradoxMenuI; // Value injected by FXMLLoader
+                
+    @FXML // fx:id="cyclicMenuI"
+    private MenuItem cyclicMenuI; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="factorizeMenuI"
+    private MenuItem factorizeMenuI; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="Decimal"
+    private RadioMenuItem Decimal; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="Hexadecimal"
+    private RadioMenuItem Hexadecimal; // Value injected by FXMLLoader
+    
          
     private int radix;
+    
+    private InitCBox initCboxes;
         
     private ComponentesRSA RSA;
     
@@ -165,8 +214,10 @@ public class SceneController {
         assert genManBttn != null : "fx:id=\"genManBttn\" was not injected: check your FXML file 'scene.fxml'.";
         assert primo_P != null : "fx:id=\"primo_P\" was not injected: check your FXML file 'scene.fxml'.";
         assert bits_primo_P != null : "fx:id=\"bits_primo_P\" was not injected: check your FXML file 'scene.fxml'.";
+        assert cBoxP != null : "fx:id=\"cBoxP\" was not injected: check your FXML file 'scene.fxml'.";
         assert primo_Q != null : "fx:id=\"primo_Q\" was not injected: check your FXML file 'scene.fxml'.";
         assert bits_primo_Q != null : "fx:id=\"bits_primo_Q\" was not injected: check your FXML file 'scene.fxml'.";
+        assert cBoxQ != null : "fx:id=\"cBoxQ\" was not injected: check your FXML file 'scene.fxml'.";
         assert clave_Privada != null : "fx:id=\"clave_Privada\" was not injected: check your FXML file 'scene.fxml'.";
         assert bits_clave_Privada != null : "fx:id=\"bits_clave_Privada\" was not injected: check your FXML file 'scene.fxml'.";
         assert modulo_N != null : "fx:id=\"modulo_N\" was not injected: check your FXML file 'scene.fxml'.";
@@ -182,7 +233,9 @@ public class SceneController {
         assert bits_clave_automatica != null : "fx:id=\"bits_clave_automatica\" was not injected: check your FXML file 'scene.fxml'.";
         assert tiempo_clave_automatica != null : "fx:id=\"tiempo_clave_automatica\" was not injected: check your FXML file 'scene.fxml'.";
         assert sameSizePrimes != null : "fx:id=\"sameSizePrimes\" was not injected: check your FXML file 'scene.fxml'.";
-        assert num_mensajes_noCifrables != null : "fx:id=\"num_mensajes_noCifrables\" was not injected: check your FXML file 'scene.fxml'.";
+        assert tipicalPubKey != null : "fx:id=\"tipicalPubKey\" was not injected: check your FXML file 'scene.fxml'.";
+        assert cantidadNNC != null : "fx:id=\"cantidadNNC\" was not injected: check your FXML file 'scene.fxml'.";
+        assert progress != null : "fx:id=\"progress\" was not injected: check your FXML file 'scene.fxml'.";
         assert unitsP != null : "fx:id=\"unitsP\" was not injected: check your FXML file 'scene.fxml'.";
         assert unitsQ != null : "fx:id=\"unitsQ\" was not injected: check your FXML file 'scene.fxml'.";
         assert unitsD != null : "fx:id=\"unitsD\" was not injected: check your FXML file 'scene.fxml'.";
@@ -192,9 +245,23 @@ public class SceneController {
         assert saveKeyMenuI != null : "fx:id=\"saveKeyMenuI\" was not injected: check your FXML file 'escena.fxml'.";
         assert DeCipherMenuI != null : "fx:id=\"DeCipherMenuI\" was not injected: check your FXML file 'escena.fxml'.";
         assert SignMenuI != null : "fx:id=\"SignMenuI\" was not injected: check your FXML file 'escena.fxml'.";
-
+        assert openKeyMenuI != null : "fx:id=\"openKeyMenuI\" was not injected: check your FXML file 'escena.fxml'.";        
+        assert manualMenuI != null : "fx:id=\"manualMenuI\" was not injected: check your FXML file 'escena.fxml'.";
+        assert millerMenuI != null : "fx:id=\"millerMenuI\" was not injected: check your FXML file 'escena.fxml'.";
+        assert fermatMenuI != null : "fx:id=\"fermatMenuI\" was not injected: check your FXML file 'escena.fxml'.";
+        assert paradoxMenuI != null : "fx:id=\"paradoxMenuI\" was not injected: check your FXML file 'escena.fxml'.";
+        assert cyclicMenuI != null : "fx:id=\"cyclicMenuI\" was not injected: check your FXML file 'escena.fxml'.";
+        assert factorizeMenuI != null : "fx:id=\"factorizeMenuI\" was not injected: check your FXML file 'escena.fxml'.";
+        assert Decimal != null : "fx:id=\"Decimal\" was not injected: check your FXML file 'escena.fxml'.";
+        assert Hexadecimal != null : "fx:id=\"Hexadecimal\" was not injected: check your FXML file 'escena.fxml'.";
+        
+        
+        cBoxP.setVisibleRowCount(9);
+        cBoxQ.setVisibleRowCount(9);
         
         radix = 10;
+        initCboxes = new InitCBox();
+        initCboxes.initCboxDec(cBoxP, cBoxQ);
         
         generate = new GenerarClaves(this);
         mainWindow = new MainWindow(this);
@@ -203,6 +270,7 @@ public class SceneController {
         
         this.disableButtons();      
         this.configureFocus();
+        
         //para poner el foco en originalData
         Platform.runLater(bits_clave_automatica::requestFocus);
     }    
@@ -211,12 +279,29 @@ public class SceneController {
      * Método usado cuando se pulsa el boton de generar de manera automática una clave   
      * @param event 
      */
-    public void processAutomaticGeneration(ActionEvent event) {       
-        String keySize = this.bits_clave_automatica.getText(); 
-        boolean isSameSize = this.sameSizePrimes.isSelected();
-         
-        this.RSA = this.generate.autoRSAkeys(keySize, isSameSize);     
-        this.disableButtons();
+    public void processAutomaticGeneration(ActionEvent event) {      
+        
+        Task CAstart= new Task() {
+            @Override
+            protected Object call() throws Exception {
+                String keySize = bits_clave_automatica.getText(); 
+                boolean isSameSize = sameSizePrimes.isSelected();
+                boolean isTipicalPubKey = tipicalPubKey.isSelected();
+
+                progress.setVisible(true);                
+                Platform.runLater(() ->disableOnProgress(true));
+                
+                RSA = generate.autoRSAkeys(keySize, isSameSize, isTipicalPubKey);
+                
+                Platform.runLater(() -> disableOnProgress(false));
+                progress.setVisible(false);
+                
+                disableButtons();                
+                return null;
+            }
+        };
+        
+        new Thread(CAstart).start();    
         
     }
     
@@ -318,7 +403,10 @@ public class SceneController {
         
         this.mainWindow.changeUnits("dec");
         this.mainWindow.delete();
-        this.RSA = null;        
+        this.RSA = null;    
+        this.initCboxes.initCboxDec(this.cBoxP, this.cBoxQ);
+        this.labelPubKey.setText("Clave pública = 65537");        
+        this.tipicalPubKey.setSelected(false);
         this.disableButtons();
     }
     
@@ -334,6 +422,9 @@ public class SceneController {
         this.mainWindow.changeUnits("hex");
         this.mainWindow.delete();
         this.RSA = null;
+        this.initCboxes.initCboxHex(this.cBoxP, this.cBoxQ);
+        this.labelPubKey.setText("Clave pública = 10001");        
+        this.tipicalPubKey.setSelected(false);
         this.disableButtons();
     }
      
@@ -511,6 +602,7 @@ public class SceneController {
                 comboBox.getItems().add( PPK[iterator]);
             }            
             comboBox.setValue(this.RSA.getD().toString(this.radix).toUpperCase());
+            comboBox.setVisibleRowCount(7);
                                     
             Scene scene = new Scene(root);            
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -566,6 +658,7 @@ public class SceneController {
                 comboBox.getItems().add( PPK[iterator]);
             }            
             comboBox.setValue(this.RSA.getD().toString(this.radix).toUpperCase());
+            comboBox.setVisibleRowCount(7);
             
             Scene scene = new Scene(root);
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -610,6 +703,33 @@ public class SceneController {
     }
     
     /**
+     * Método usado para deshabilitar ciertos botones cuando
+     * no hay una clave RSA generada
+     */
+    public void disableOnProgress(final boolean disable) {   
+        
+        this.primo_P.setDisable(disable);
+        this.primo_Q.setDisable(disable);
+        this.clave_Publica.setDisable(disable);
+        this.bits_clave_automatica.setDisable(disable);
+        this.logNNCbttn.setDisable(disable);
+        this.genManBttn.setDisable(disable);
+        this.saveKeyMenuI.setDisable(disable);
+        this.openKeyMenuI.setDisable(disable);
+        this.manualMenuI.setDisable(disable);
+        this.DeCipherMenuI.setDisable(disable);
+        this.SignMenuI.setDisable(disable);        
+        this.millerMenuI.setDisable(disable);
+        this.fermatMenuI.setDisable(disable);
+        this.paradoxMenuI.setDisable(disable);
+        this.cyclicMenuI.setDisable(disable);
+        this.factorizeMenuI.setDisable(disable);
+        this.Decimal.setDisable(disable);        
+        this.Hexadecimal.setDisable(disable);
+        
+    }
+    
+    /**
      * Método usado para evitar que se puedan focalizar
      * ciertos nodos de la ventana principal
      */
@@ -627,7 +747,7 @@ public class SceneController {
         this.esPrimo_Q.setFocusTraversable(false);
         this.tiempo_primalidad.setFocusTraversable(false);
         this.tiempo_clave_automatica.setFocusTraversable(false);
-        this.num_mensajes_noCifrables.setFocusTraversable(false);
+        this.cantidadNNC.setFocusTraversable(false);
     }
     
     
@@ -663,6 +783,38 @@ public class SceneController {
         String publicKey = this.clave_Publica.getText(); 
         
         this.generate.numberToBits(publicKey, this.bits_clave_Publica);
+    }
+    
+    /**
+     * Método usado cuando se selecciona un primo de la CBOX
+     * para que se introduzca en el primo P
+     * @param event
+     */
+    public void cBoxPselected(ActionEvent event) {  
+        //para que no de errores cuando se esta modificando al pasar de dec to hex y viceversa
+        if (!this.cBoxP.isDisable()){
+            String prime = this.cBoxP.getValue().toString();
+        
+            if (!StringUtils.equals(prime, "Primos Seguros")) {
+                this.primo_P.setText(prime);
+            }
+        }              
+    }
+    
+    /**
+     * Método usado cuando se selecciona un primo de la CBOX
+     * para que se introduzca en el primo Q
+     * @param event
+     */
+    public void cBoxQselected(ActionEvent event) {  
+        //para que no de errores cuando se esta modificando al pasar de dec to hex y viceversa
+        if (!this.cBoxQ.isDisable()){
+            String prime = this.cBoxQ.getValue().toString();
+
+            if (!StringUtils.equals(prime, "Primos Seguros")) {
+                this.primo_Q.setText(prime);
+            }
+        }        
     }
     
     
@@ -744,9 +896,13 @@ public class SceneController {
     public CheckBox getSameSizePrimes() {
         return sameSizePrimes;
     }
+            
+    public CheckBox getTipicalPubKey() {
+        return tipicalPubKey;
+    }
 
-    public TextField getNum_mensajes_noCifrables() {
-        return num_mensajes_noCifrables;
+    public TextField getCantidadNNC() {
+        return cantidadNNC;
     }
 
     public Label getUnitsP() {

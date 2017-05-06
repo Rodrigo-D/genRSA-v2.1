@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.BlendMode;
@@ -59,6 +60,9 @@ public class CyclicController {
     @FXML // fx:id="clearBttn"
     private Button clearBttn; // Value injected by FXMLLoader
     
+    @FXML // fx:id="progress"
+    private ProgressIndicator progress; // Value injected by FXMLLoader
+    
     @FXML // fx:id="Results"
     private TextArea Results; // Value injected by FXMLLoader
 
@@ -88,6 +92,7 @@ public class CyclicController {
         assert continueBttn != null : "fx:id=\"continueBttn\" was not injected: check your FXML file 'Cyclic.fxml'.";
         assert clearBttn != null : "fx:id=\"clearBttn\" was not injected: check your FXML file 'Cyclic.fxml'.";
         assert Results != null : "fx:id=\"Results\" was not injected: check your FXML file 'Cyclic.fxml'.";
+        assert progress != null : "fx:id=\"progress\" was not injected: check your FXML file 'Factorizacion.fxml'.";
         assert mRecovered != null : "fx:id=\"mRecovered\" was not injected: check your FXML file 'Cyclic.fxml'.";
         assert Time != null : "fx:id=\"Time\" was not injected: check your FXML file 'Cyclic.fxml'.";
 
@@ -108,6 +113,8 @@ public class CyclicController {
                 String modulus = Modulus.getText();
                 String exponent = Exponent.getText();
                 cyclicAttack.setRadix(radix); 
+                
+                Platform.runLater(() ->progress.setVisible(true));
 
                 String message = Message.getText();
 
@@ -120,6 +127,8 @@ public class CyclicController {
                         cyclicAttack.start(numOfCyphers);
                     }
                 } 
+                
+                Platform.runLater(() ->progress.setVisible(false));
                 return null;
             }
         };
@@ -132,8 +141,10 @@ public class CyclicController {
         Task CAcontinue = new Task() {
             @Override
             protected Object call() throws Exception {
-                String numOfCyphers = NumCiphers.getText();         
+                String numOfCyphers = NumCiphers.getText();    
+                Platform.runLater(() ->progress.setVisible(true));
                 cyclicAttack.Continue(numOfCyphers);
+                Platform.runLater(() ->progress.setVisible(false));
                 return null;
             }
         };

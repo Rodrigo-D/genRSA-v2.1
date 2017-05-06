@@ -6,6 +6,7 @@
 package Imprimir;
 
 import Factorize.FactorizeController;
+import Metodos.Utilidades;
 
 /**
  *
@@ -15,12 +16,15 @@ public class FactorizePrint {
     
     private final FactorizeController scene;
     
+    private final Utilidades utilidades;
+    
     /**
      * Constructor de la clase
      * @param factorizeScene 
      */
     public FactorizePrint (FactorizeController factorizeScene){
         this.scene = factorizeScene;
+        this.utilidades  = new Utilidades();
     }
     
     
@@ -50,23 +54,23 @@ public class FactorizePrint {
     }    
     
     public void primeP(String primeP){
-        this.scene.getPrimeP().setText(primeP.toUpperCase());
+        this.scene.getPrimeP().setText(this.utilidades.putPoints(primeP.toUpperCase()));
     }
 
     public void primeQ(String primeQ){
-        this.scene.getPrimeQ().setText(primeQ.toUpperCase());
+        this.scene.getPrimeQ().setText(this.utilidades.putPoints(primeQ.toUpperCase()));
     }    
     
     public void modulus(String modulus) {
-        this.scene.getModulus().setText(modulus.toUpperCase());
+        this.scene.getModulus().setText(this.utilidades.putPoints(modulus.toUpperCase()));
     }
     
     public void lapsNum(String lapsNum) {
-        this.scene.getNumLaps().setText(lapsNum);
+        this.scene.getNumLaps().setText(this.utilidades.putPoints(lapsNum));
     }
     
     public void find(String vuelta) {
-        String line = "\nMódulo factorizado en la vuelta -> " + vuelta + "\n\n\n";        
+        String line = "\nMódulo factorizado en la vuelta -> " + this.utilidades.putPoints(vuelta) + "\n\n\n";        
         this.scene.getResults().appendText(line);        
     }
     

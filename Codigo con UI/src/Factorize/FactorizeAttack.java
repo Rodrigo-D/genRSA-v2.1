@@ -170,8 +170,8 @@ public class FactorizeAttack {
         this.x2 = Constantes.TWO;
         
         this.result = "Vuelta= " + laps.toString() +
-                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
-                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() + "\n";
+                    "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase()) + 
+                    "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase()) + "\n";
         Platform.runLater(() -> this.print.functionValues(this.result));
         this.xplResult = "";
         
@@ -187,10 +187,10 @@ public class FactorizeAttack {
 
             laps = laps.add(Constantes.ONE);
 
-            this.xplResult = this.xplResult + "Vuelta= " + laps.toString() +
-                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
-                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() +
-                    "\n    --> s=" + s.toString(this.radix).toUpperCase() + "\n";
+            this.xplResult = this.xplResult + "Vuelta= " + this.utilidades.putPoints(laps.toString()) +
+                    "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase()) + 
+                    "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase()) +
+                    "\n    --> s=" + this.utilidades.putPoints(s.toString(this.radix).toUpperCase()) + "\n";
 
             if (laps.mod(Constantes.L_REFRESH).equals(Constantes.ZERO)){
                 this.result = this.xplResult;
@@ -251,8 +251,8 @@ public class FactorizeAttack {
         this.x2 = Constantes.TWO;
         
         this.xplResult = "Vuelta= " + laps.toString() +
-                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
-                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() + "\n";
+                    "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase()) + 
+                    "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase()) + "\n";
         Platform.runLater(() -> this.print.functionValues(this.xplResult));
                 
         do{
@@ -269,10 +269,10 @@ public class FactorizeAttack {
             write=false;
                        
             if (laps.mod(Constantes.BLN_REFRESH).equals(Constantes.ZERO)){
-                this.result = "Vuelta= " + laps.toString() +
-                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
-                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() +
-                    "\n    --> s=" + s.toString(this.radix).toUpperCase() + "\n";
+                this.result = "Vuelta= " + this.utilidades.putPoints(laps.toString()) +
+                    "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase()) + 
+                    "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase()) +
+                    "\n    --> s=" + this.utilidades.putPoints(s.toString(this.radix).toUpperCase()) + "\n";
                 Platform.runLater(() -> this.print.functionValues(this.result));
                 write = true;
             }     
@@ -290,10 +290,10 @@ public class FactorizeAttack {
         
         
         if (!write){
-                final String lastResult = "Vuelta= " + laps.toString() +
-                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
-                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() +
-                    "\n    --> s=" + s.toString(this.radix).toUpperCase() + "\n";
+                final String lastResult = "Vuelta= " + this.utilidades.putPoints(laps.toString()) +
+                    "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase()) + 
+                    "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase()) +
+                    "\n    --> s=" + this.utilidades.putPoints(s.toString(this.radix).toUpperCase()) + "\n";
                 Platform.runLater(() -> this.print.functionValues(lastResult));
             }     
         
@@ -346,10 +346,10 @@ public class FactorizeAttack {
             laps = laps.add(Constantes.ONE);
             this.lapsNumTotal = this.lapsNumTotal.add(Constantes.ONE);
             
-            this.xplResult = this.xplResult + "Vuelta= " + this.lapsNumTotal.toString() +
-                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
-                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() +
-                    "\n    --> s=" + s.toString(this.radix).toUpperCase() + "\n";
+            this.xplResult = this.xplResult + "Vuelta= " + this.utilidades.putPoints(this.lapsNumTotal.toString()) +
+                    "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase()) + 
+                    "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase()) +
+                    "\n    --> s=" + this.utilidades.putPoints(s.toString(this.radix).toUpperCase()) + "\n";
 
             if (this.lapsNumTotal.mod(Constantes.L_REFRESH).equals(Constantes.ZERO)){
                 this.result = this.xplResult;
@@ -424,10 +424,10 @@ public class FactorizeAttack {
             write = false;
             
             if (this.lapsNumTotal.mod(Constantes.BLN_REFRESH).equals(Constantes.ZERO)){
-                this.result = "Vuelta= " + this.lapsNumTotal.toString() +
-                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
-                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() +
-                    "\n    --> s=" + s.toString(this.radix).toUpperCase() + "\n";
+                this.result = "Vuelta= " + this.utilidades.putPoints(this.lapsNumTotal.toString()) +
+                    "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase()) + 
+                    "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase()) +
+                    "\n    --> s=" + this.utilidades.putPoints(s.toString(this.radix).toUpperCase()) + "\n";
                 Platform.runLater(() -> this.print.functionValues(this.result));
                 write = true;
             }    
@@ -445,10 +445,10 @@ public class FactorizeAttack {
         
         
         if (!write){
-            this.xplResult = "Vuelta= " + this.lapsNumTotal.toString() +
-                "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
-                "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() +
-                "\n    --> s=" + s.toString(this.radix).toUpperCase() + "\n";
+            this.xplResult = "Vuelta= " + this.utilidades.putPoints(this.lapsNumTotal.toString()) +
+                "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase()) + 
+                "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase()) +
+                "\n    --> s=" + this.utilidades.putPoints(s.toString(this.radix).toUpperCase()) + "\n";
             Platform.runLater(() -> this.print.functionValues(this.xplResult));
         }            
         
@@ -489,8 +489,8 @@ public class FactorizeAttack {
         this.x2 = Constantes.TWO;
         
         this.result = "Vuelta= " + laps.toString() +
-                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
-                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() + "\n";
+                    "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase()) + 
+                    "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase()) + "\n";
         Platform.runLater(() -> this.print.functionValues(this.result));
         this.xplResult = "";
         
@@ -507,10 +507,10 @@ public class FactorizeAttack {
 
             laps = laps.add(Constantes.ONE);
             
-            this.xplResult = this.xplResult + "Vuelta= " + laps.toString() +
-                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
-                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() +
-                    "\n    --> s=" + s.toString(this.radix).toUpperCase() + "\n";
+            this.xplResult = this.xplResult + "Vuelta= " + this.utilidades.putPoints(laps.toString()) +
+                    "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase()) + 
+                    "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase()) +
+                    "\n    --> s=" + this.utilidades.putPoints(s.toString(this.radix).toUpperCase()) + "\n";
 
             if (laps.mod(Constantes.L_REFRESH).equals(Constantes.ZERO)){
                 this.result = this.xplResult;
@@ -552,9 +552,9 @@ public class FactorizeAttack {
         this.x = Constantes.TWO;
         this.x2 = Constantes.TWO;
         
-        this.result = "Vuelta= " + laps.toString() +
-                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
-                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() + "\n";
+        this.result = "Vuelta= " + this.utilidades.putPoints(laps.toString()) +
+                    "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase()) + 
+                    "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase()) + "\n";
         Platform.runLater(() -> this.print.functionValues(this.result));
                 
 
@@ -572,10 +572,10 @@ public class FactorizeAttack {
             write=false;
             
             if (laps.mod(Constantes.BM_REFRESH).equals(Constantes.ZERO)){
-                this.xplResult = "Vuelta= " + laps.toString() +
-                    "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
-                    "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() +
-                    "\n    --> s=" + s.toString(this.radix).toUpperCase() + "\n";
+                this.xplResult = "Vuelta= " + this.utilidades.putPoints(laps.toString()) +
+                    "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase()) + 
+                    "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase()) +
+                    "\n    --> s=" + this.utilidades.putPoints(s.toString(this.radix).toUpperCase()) + "\n";
                
                 Platform.runLater(() -> this.print.functionValues(this.xplResult));
                 write = true;
@@ -585,10 +585,10 @@ public class FactorizeAttack {
 
             
         if (!write){
-            final String lastResult = "Vuelta= " + laps.toString() +
-                "\n    --> xi=" + this.x.toString(radix).toUpperCase() + 
-                "\n    --> x2i=" +  this.x2.toString(radix).toUpperCase() +
-                "\n    --> s=" + s.toString(this.radix).toUpperCase() + "\n";
+            final String lastResult = "Vuelta= " + this.utilidades.putPoints(laps.toString()) +
+                "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase()) + 
+                "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase()) +
+                "\n    --> s=" + this.utilidades.putPoints(s.toString(this.radix).toUpperCase()) + "\n";
 
             Platform.runLater(() -> this.print.functionValues(lastResult));
         }         

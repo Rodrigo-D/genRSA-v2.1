@@ -35,6 +35,8 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
@@ -102,11 +104,11 @@ public class SceneController {
     @FXML // fx:id="iteraciones_primalidad"
     private TextField iteraciones_primalidad; // Value injected by FXMLLoader
 
-    @FXML // fx:id="esPrimo_P"
-    private TextField esPrimo_P; // Value injected by FXMLLoader
+    @FXML // fx:id="isPrime_P"
+    private ImageView isPrime_P; // Value injected by FXMLLoader
 
-    @FXML // fx:id="esPrimo_Q"
-    private TextField esPrimo_Q; // Value injected by FXMLLoader
+    @FXML // fx:id="isPrime_Q"
+    private ImageView isPrime_Q; // Value injected by FXMLLoader
 
     @FXML // fx:id="tiempo_primalidad"
     private TextField tiempo_primalidad; // Value injected by FXMLLoader
@@ -227,8 +229,8 @@ public class SceneController {
         assert num_claves_parejas != null : "fx:id=\"num_claves_parejas\" was not injected: check your FXML file 'scene.fxml'.";
         assert claves_parejas != null : "fx:id=\"claves_parejas\" was not injected: check your FXML file 'scene.fxml'.";
         assert iteraciones_primalidad != null : "fx:id=\"iteraciones_primalidad\" was not injected: check your FXML file 'scene.fxml'.";
-        assert esPrimo_P != null : "fx:id=\"esPrimo_P\" was not injected: check your FXML file 'scene.fxml'.";
-        assert esPrimo_Q != null : "fx:id=\"esPrimo_Q\" was not injected: check your FXML file 'scene.fxml'.";
+        assert isPrime_P != null : "fx:id=\"esPrimo_P\" was not injected: check your FXML file 'scene.fxml'.";
+        assert isPrime_Q != null : "fx:id=\"esPrimo_Q\" was not injected: check your FXML file 'scene.fxml'.";
         assert tiempo_primalidad != null : "fx:id=\"tiempo_primalidad\" was not injected: check your FXML file 'scene.fxml'.";
         assert bits_clave_automatica != null : "fx:id=\"bits_clave_automatica\" was not injected: check your FXML file 'scene.fxml'.";
         assert tiempo_clave_automatica != null : "fx:id=\"tiempo_clave_automatica\" was not injected: check your FXML file 'scene.fxml'.";
@@ -255,9 +257,8 @@ public class SceneController {
         assert Decimal != null : "fx:id=\"Decimal\" was not injected: check your FXML file 'escena.fxml'.";
         assert Hexadecimal != null : "fx:id=\"Hexadecimal\" was not injected: check your FXML file 'escena.fxml'.";
         
-        
-        cBoxP.setVisibleRowCount(9);
-        cBoxQ.setVisibleRowCount(9);
+        isPrime_P.setImage(new Image("file:resources/primality/interrogation.png"));
+        isPrime_Q.setImage(new Image("file:resources/primality/interrogation.png"));
         
         radix = 10;
         initCboxes = new InitCBox();
@@ -705,6 +706,7 @@ public class SceneController {
     /**
      * Método usado para deshabilitar ciertos botones cuando
      * no hay una clave RSA generada
+     * @param disable
      */
     public void disableOnProgress(final boolean disable) {   
         
@@ -743,8 +745,8 @@ public class SceneController {
         this.bits_clave_Publica.setFocusTraversable(false);
         this.num_claves_parejas.setFocusTraversable(false);
         this.claves_parejas.setFocusTraversable(false);
-        this.esPrimo_P.setFocusTraversable(false);
-        this.esPrimo_Q.setFocusTraversable(false);
+        this.isPrime_P.setFocusTraversable(false);
+        this.isPrime_Q.setFocusTraversable(false);
         this.tiempo_primalidad.setFocusTraversable(false);
         this.tiempo_clave_automatica.setFocusTraversable(false);
         this.cantidadNNC.setFocusTraversable(false);
@@ -873,12 +875,12 @@ public class SceneController {
         return iteraciones_primalidad;
     }
 
-    public TextField getEsPrimo_P() {
-        return esPrimo_P;
+    public ImageView getIsPrime_P() {
+        return isPrime_P;
     }
 
-    public TextField getEsPrimo_Q() {
-        return esPrimo_Q;
+    public ImageView getIsPrime_Q() {
+        return isPrime_Q;
     }
 
     public TextField getTiempo_primalidad() {

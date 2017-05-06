@@ -16,6 +16,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -236,7 +237,7 @@
                                              <tooltip>
                                                 <Tooltip text="Introduce el primo p" />
                                              </tooltip></TextField>
-                                          <ComboBox fx:id="cBoxP" minWidth="-Infinity" onAction="#cBoxPselected" prefWidth="35.0">
+                                          <ComboBox fx:id="cBoxP" minWidth="-Infinity" onAction="#cBoxPselected" prefWidth="35.0" visibleRowCount="9">
                                              <HBox.margin>
                                                 <Insets right="8.0" />
                                              </HBox.margin>
@@ -282,7 +283,7 @@
                                              <tooltip>
                                                 <Tooltip text="Introduce el primo q" />
                                              </tooltip></TextField>
-                                          <ComboBox fx:id="cBoxQ" minWidth="-Infinity" onAction="#cBoxQselected" prefWidth="35.0">
+                                          <ComboBox fx:id="cBoxQ" minWidth="-Infinity" onAction="#cBoxQselected" prefWidth="35.0" visibleRowCount="9">
                                              <HBox.margin>
                                                 <Insets right="8.0" />
                                              </HBox.margin>
@@ -565,11 +566,11 @@
                                     <Insets right="20.0" />
                                  </HBox.margin>
                               </Separator>
-                              <TextField fx:id="esPrimo_P" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="30.0" HBox.hgrow="NEVER">
+                              <ImageView fx:id="isPrime_P" fitHeight="25.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
                                  <HBox.margin>
                                     <Insets bottom="5.0" />
                                  </HBox.margin>
-                              </TextField>
+                              </ImageView>
                               <Label minWidth="-Infinity" prefHeight="25.0" text="Número primo p" HBox.hgrow="NEVER">
                                  <HBox.margin>
                                     <Insets right="52.0" />
@@ -588,7 +589,7 @@
                                     <Insets right="20.0" />
                                  </HBox.margin>
                               </Separator>
-                              <TextField fx:id="esPrimo_Q" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="30.0" HBox.hgrow="NEVER" />
+                              <ImageView fx:id="isPrime_Q" fitHeight="25.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER" />
                               <Label minWidth="-Infinity" prefHeight="25.0" text="Número primo q" HBox.hgrow="NEVER">
                                  <HBox.margin>
                                     <Insets right="52.0" />

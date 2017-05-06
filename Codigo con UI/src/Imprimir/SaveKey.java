@@ -5,6 +5,7 @@
  */
 package Imprimir;
 
+import Metodos.Utilidades;
 import Model.ComponentesRSA;
 import java.io.File;
 import java.io.FileWriter;
@@ -24,10 +25,13 @@ public class SaveKey {
     
     private PrintWriter print;
     
+    private Utilidades utilidades;
+    
     public SaveKey (File keyFile) {
         try {
             file = new FileWriter(keyFile);
             print = new PrintWriter (file);
+            utilidades = new Utilidades();
         } catch (IOException e) {
             //imprimir mensaje de error por pantalla debido a que el nombre no es correcto
         }
@@ -54,15 +58,15 @@ public class SaveKey {
         }
         
         print.println("<B><font color=\"IndianRed\">Numero primo P generado:</font></B>");
-        print.println("<B>" + RSA.getP().toString(radix).toUpperCase() + "</B>");        
+        print.println("<B>" + this.utilidades.putPoints(RSA.getP().toString(radix).toUpperCase()) + "</B>");        
         print.println("<B><font color=\"IndianRed\">Numero primo Q generado:</font></B>");
-        print.println("<B>" + RSA.getQ().toString(radix).toUpperCase() + "</B>");
+        print.println("<B>" + this.utilidades.putPoints(RSA.getQ().toString(radix).toUpperCase()) + "</B>");
         print.println("<b><font color=\"IndianRed\">Modulo N generado:</font></B>");
-        print.println("<B>" + RSA.getN().toString(radix).toUpperCase() + "</B>");        
+        print.println("<B>" + this.utilidades.putPoints(RSA.getN().toString(radix).toUpperCase()) + "</B>");        
         print.println("<B><font color=\"IndianRed\">Clave Publica e generada:</font></B>");
-        print.println("<B>" + RSA.getE().toString(radix).toUpperCase() + "</B>");
+        print.println("<B>" + this.utilidades.putPoints(RSA.getE().toString(radix).toUpperCase()) + "</B>");
         print.println("<B><font color=\"IndianRed\">Clave Privada d generada:</font></B>");
-        print.println("<B>" + RSA.getD().toString(radix).toUpperCase() + "</B>");
+        print.println("<B>" + this.utilidades.putPoints(RSA.getD().toString(radix).toUpperCase()) + "</B>");
         
         
         this.print.println("</PRE>");

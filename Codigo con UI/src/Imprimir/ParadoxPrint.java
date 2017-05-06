@@ -5,6 +5,7 @@
  */
 package Imprimir;
 
+import Metodos.Utilidades;
 import Paradox.ParadoxController;
 
 /**
@@ -15,19 +16,22 @@ public class ParadoxPrint {
     
     private final ParadoxController scene;
     
+    private final Utilidades utilidades;
+    
     /**
      * Constructor de la clase
      * @param paradoxScene 
      */
     public ParadoxPrint (ParadoxController paradoxScene){
         this.scene = paradoxScene;
+        this.utilidades = new Utilidades();
     }
    
     
     public void numbers(String modulus, String exponent, String message) {
-        this.scene.getModulus().setText(modulus);
-        this.scene.getExponent().setText(exponent);
-        this.scene.getMessage().setText(message);    
+        this.scene.getModulus().setText(this.utilidades.putPoints(modulus));
+        this.scene.getExponent().setText(this.utilidades.putPoints(exponent));
+        this.scene.getMessage().setText(this.utilidades.putPoints(message));    
         
     }
     
@@ -61,8 +65,8 @@ public class ParadoxPrint {
                         "mensaje^1 mod Módulo            mensaje^(modulo/2) mod Módulo \n";        
         
         
-        lineas = lineas + cipherI + "^1 mod " + modulus + "=" + cipherI + "         " +
-               cipherI + "^" + j + " mod " + modulus + "=" + cipherJ + "\n\n";
+        lineas = lineas + this.utilidades.putPoints(cipherI) + "^1 mod " + this.utilidades.putPoints(modulus) + "=" + cipherI + "         " +
+               this.utilidades.putPoints(cipherI) + "^" + j + " mod " + this.utilidades.putPoints(modulus) + "=" + cipherJ + "\n\n";
         
         lineas = lineas + "\nCifrados sucesivos columna I\n" 
                         + "--------------------------------\n";
@@ -79,17 +83,19 @@ public class ParadoxPrint {
     public void wValue(String i, String j, String exponent, String w) {
         this.scene.getResults().appendText("\n\n    Cálculo de la Clave Privada, Clave Privada Pareja o Falso Positivo:\n");
         this.scene.getResults().appendText(" --> Se calcula w = (i - j) / mcd (e, |i - j|)."
-                + " \n     Siendo i=" + i + ", j=" + j + " y la clave pública= " + exponent + ".\n"
-                + " --> Resultado w = " + w + "\n");
+                + " \n     Siendo i=" + this.utilidades.putPoints(i) +
+                ",  j=" + this.utilidades.putPoints(j) +
+                "  y la clave pública= " + this.utilidades.putPoints(exponent) + ".\n"
+                + " --> Resultado w = " + this.utilidades.putPoints(w) + "\n");
     }
      
     public void tValue(String t) {
         this.scene.getResults().appendText(" --> Se calcula  t = inv (e, w).\n");
-        this.scene.getResults().appendText(" --> Resultado t = " + t + "\n\n");
+        this.scene.getResults().appendText(" --> Resultado t = " + this.utilidades.putPoints(t) + "\n\n");
     } 
     
     public void privateKey(String privateKey) {
-        this.scene.getPrivateKey().setText(privateKey);        
+        this.scene.getPrivateKey().setText(this.utilidades.putPoints(privateKey));        
     }
 
     public void time(String Time) {
@@ -109,7 +115,7 @@ public class ParadoxPrint {
     }
     
     public void Stats(String stats) {
-        this.scene.getAvgCiphersStats().setText(stats);
+        this.scene.getAvgCiphersStats().setText(this.utilidades.putPoints(stats));
     }
         
     
@@ -122,11 +128,5 @@ public class ParadoxPrint {
         this.scene.getPrivateKey().clear();
         this.scene.getTime().clear();
     }
-
-   
-    
-    
-
-    
     
 }

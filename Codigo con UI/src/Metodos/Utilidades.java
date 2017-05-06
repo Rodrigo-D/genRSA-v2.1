@@ -60,5 +60,17 @@ public class Utilidades {
         return time;
     }
     
+   public String putPoints(String number){       
+       int length = number.length();
+		
+       int processed=length-3;
+       while (processed>0){
+           number = number.substring(0,processed ) + "." + number.substring(processed, length);
+           processed = processed-3;
+           length++;
+       }
+       
+       return number;
+   }    
     
 }

@@ -5,6 +5,7 @@
  */
 package Imprimir;
 
+import Metodos.Utilidades;
 import Model.ComponentesRSA;
 import java.io.File;
 import java.io.FileWriter;
@@ -26,10 +27,13 @@ public class LogNNC {
     
     private PrintWriter print;
     
+    private Utilidades utilidades;
+    
     public LogNNC (File logFile) {
         try {
             file = new FileWriter (logFile); 
             print = new PrintWriter (file);
+            utilidades = new Utilidades();
         } catch (IOException e) {
             //imprimir mensaje de error por pantalla debido a que el nombre no es correcto
         }
@@ -57,18 +61,18 @@ public class LogNNC {
         }
         
         print.println("<B><font color=\"IndianRed\">Numero primo P generado:</font></B>");
-        print.println("<B>" + RSA.getP().toString(radix).toUpperCase() + "</B>");        
+        print.println("<B>" + this.utilidades.putPoints(RSA.getP().toString(radix).toUpperCase()) + "</B>");        
         print.println("<B><font color=\"IndianRed\">Numero primo Q generado:</font></B>");
-        print.println("<B>" + RSA.getQ().toString(radix).toUpperCase() + "</B>");
+        print.println("<B>" + this.utilidades.putPoints(RSA.getQ().toString(radix).toUpperCase()) + "</B>");
         print.println("<b><font color=\"IndianRed\">Modulo N generado:</font></B>");
-        print.println("<B>" + RSA.getN().toString(radix).toUpperCase() + "</B>");        
+        print.println("<B>" + this.utilidades.putPoints(RSA.getN().toString(radix).toUpperCase()) + "</B>");        
         print.println("<B><font color=\"IndianRed\">Clave Publica e generada:</font></B>");
-        print.println("<B>" + RSA.getE().toString(radix).toUpperCase() + "</B>");
+        print.println("<B>" + this.utilidades.putPoints(RSA.getE().toString(radix).toUpperCase()) + "</B>");
         print.println("<B><font color=\"IndianRed\">Clave Privada d generada:</font></B>");
-        print.println("<B>" + RSA.getD().toString(radix).toUpperCase() + "<br /><br /></B>");
+        print.println("<B>" + this.utilidades.putPoints(RSA.getD().toString(radix).toUpperCase()) + "<br /><br /></B>");
         
         print.println("<H4><B>NUMEROS NO CIFRABLES</B></H4>");
-        print.println("<B>El numero de Numeros No Cifrables es:" + RSA.getNumNNC() + "</B>");
+        print.println("<B>El numero de Numeros No Cifrables es:" + this.utilidades.putPoints(RSA.getNumNNC().toString()) + "</B>");
     }
     
      public void closeHTML() {
@@ -82,7 +86,7 @@ public class LogNNC {
     public void WriteList(List<BigInteger> listNNC, int radix) {
         
         for (BigInteger NNC: listNNC){
-            this.print.println(NNC.toString(radix).toUpperCase());
+            this.print.println(this.utilidades.putPoints(NNC.toString(radix).toUpperCase()));
         }
     }
 

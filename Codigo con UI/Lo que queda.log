@@ -7,37 +7,33 @@ ramio - ataques siempre imprimir todos los resultados. Por ejemplo ciclico si es
 702136613538677073862961839 buen modulo para factorizar
 
 
-poner puntos de miles y millones a todos los numeritos
-
-poner un icono para fermat y miller
-
-quiza añadir un boton con un dibujito a la derecha de los primos o claves para que cuando se pulse se copie al portapapeles. http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/text-field.htm 
-	copy()– transfers the currently selected range in the text to the clipboard, leaving the current selection.
-	selectAll() - selects all text in the text input.
-	Si hago esto poner un information nada mas abrir indicando que se puede copiar el texto sin puntos pulsando el boton ese.
-
-
 Ojito con todos los comentarios del codigo.
 
+preloader
+mirar los word
+
 http://code.makery.ch/library/javafx-8-tutorial/part7/ deployment - packaging the app
-
-
 
 
 Mirar si se pueden cambiar los shortcuts de ayuda en el propio fxml para quitar los control de ayuda.
 MEJORAR: el contenido de los tooltips.
 Poner un hiperlink en donde las preferencias para que te lleve a la pagina de github.
+
+
+
+
+
+
+--no me parece muy útil
 Nose ha hecho la fastExponentiation ni el CRT
 alert/confirmation dialog y exception dialog : http://code.makery.ch/blog/javafx-dialogs-official/  Por si me hace falta
+quiza añadir un boton con un dibujito a la derecha de los primos o claves para que cuando se pulse se copie al portapapeles. http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/text-field.htm 
+	copy()– transfers the currently selected range in the text to the clipboard, leaving the current selection.
+	selectAll() - selects all text in the text input.
+	Si hago esto poner un tooltip 
 
-
-
-
-
-
-
-
-
+	
+	
 CSS:
 http://docs.oracle.com/javase/8/javafx/layout-tutorial/style_css.htm
 http://docs.oracle.com/javase/8/javafx/user-interface-tutorial/css_tutorial.htm

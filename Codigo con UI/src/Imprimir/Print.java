@@ -10,6 +10,7 @@ import Model.ComponentesRSA;
 import genrsa.SceneController;
 import java.math.BigInteger;
 import java.util.List;
+import javafx.scene.image.Image;
 
 /**
  *
@@ -23,18 +24,25 @@ public class Print {
     
     private final Utilidades utilidades;
     
+    private final Image cross;
+    private final Image tick;
+    private final Image interrogation;
+    
     public Print (SceneController sceneC){
         this.scene = sceneC;
         utilidades = new Utilidades();
+        cross = new Image("file:resources/primality/cross.png");
+        tick = new Image("file:resources/primality/tick.png");
+        interrogation = new Image("file:resources/primality/interrogation.png");
     }
     
     public void rsaGeneration (ComponentesRSA RSA,  String tiempo, int radix){
         
-        this.scene.getPrimo_P().setText(RSA.getP().toString(radix).toUpperCase());
-        this.scene.getPrimo_Q().setText(RSA.getQ().toString(radix).toUpperCase());
-        this.scene.getClave_Privada().setText(RSA.getD().toString(radix).toUpperCase());
-        this.scene.getClave_Publica().setText(RSA.getE().toString(radix).toUpperCase());
-        this.scene.getModulo_N().setText(RSA.getN().toString(radix).toUpperCase());
+        this.scene.getPrimo_P().setText(this.utilidades.putPoints(RSA.getP().toString(radix).toUpperCase()));
+        this.scene.getPrimo_Q().setText(this.utilidades.putPoints(RSA.getQ().toString(radix).toUpperCase()));
+        this.scene.getClave_Privada().setText(this.utilidades.putPoints(RSA.getD().toString(radix).toUpperCase()));
+        this.scene.getClave_Publica().setText(this.utilidades.putPoints(RSA.getE().toString(radix).toUpperCase()));
+        this.scene.getModulo_N().setText(this.utilidades.putPoints(RSA.getN().toString(radix).toUpperCase()));
         
         this.scene.getBits_primo_P().setText(this.utilidades.countBits(RSA.getP()));
         this.scene.getBits_primo_Q().setText(this.utilidades.countBits(RSA.getQ()));
@@ -48,7 +56,7 @@ public class Print {
     
     public void autoBitsKey (String keySize){
         
-        this.scene.getBits_clave_automatica().setText(keySize);        
+        this.scene.getBits_clave_automatica().setText(this.utilidades.putPoints(keySize));        
     }
 
     
@@ -60,43 +68,43 @@ public class Print {
     public void privPairKey(List<String> listCPP) {
         
         listCPP.forEach((cpp) -> {
-            this.scene.getClaves_parejas().appendText(cpp + "\n");
+            this.scene.getClaves_parejas().appendText(this.utilidades.putPoints(cpp) + "\n");
         });
        
     }
     
     public void limitPrivPairKey() {
-        this.scene.getClaves_parejas().appendText("Se ha alcanzado número máximo de claves privadas parejas: 60");
+        this.scene.getClaves_parejas().appendText("Se ha alcanzado número máximo de claves privadas parejas a imprimir: 60");
     }
 
     public void numClavesParejas(BigInteger numCKP) {
-        this.scene.getNum_claves_parejas().setText(numCKP.toString());
+        this.scene.getNum_claves_parejas().setText(this.utilidades.putPoints(numCKP.toString()));
     }
 
-    public void numNNC(BigInteger numMNC) {
-        this.scene.getCantidadNNC().setText(numMNC.toString());
+    public void numNNC(BigInteger numNNC) {
+        this.scene.getCantidadNNC().setText(this.utilidades.putPoints(numNNC.toString()));
     }
 
     //hacer que parpadee el cuadrito cuando de el resultado
-    public void primalityResults(boolean resultadoP, boolean resultadoQ, String time) {
-        if (resultadoP){
-            this.scene.getEsPrimo_P().setText("SI");
+    public void primalityResults(boolean Ptrue, boolean Qtrue, String time) {
+        if (Ptrue){
+            this.scene.getIsPrime_P().setImage(this.tick);
         } else {
-            this.scene.getEsPrimo_P().setText("NO");
+            this.scene.getIsPrime_P().setImage(this.cross);
         }
         
-        if (resultadoQ){
-            this.scene.getEsPrimo_Q().setText("SI");
+        if (Qtrue){
+            this.scene.getIsPrime_Q().setImage(this.tick);
         } else {
-            this.scene.getEsPrimo_Q().setText("NO");
+            this.scene.getIsPrime_Q().setImage(this.cross);
         }
         
         this.scene.getTiempo_primalidad().setText(time);
     }
     
     public void flushIsPrime() {
-        this.scene.getEsPrimo_P().clear();
-        this.scene.getEsPrimo_Q().clear();
+        this.scene.getIsPrime_P().setImage(this.interrogation);
+        this.scene.getIsPrime_Q().setImage(this.interrogation);
         this.scene.getTiempo_primalidad().clear();
     }
 

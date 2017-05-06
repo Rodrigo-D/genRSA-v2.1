@@ -165,10 +165,10 @@ public class ParadoxAttack {
             cipherI = this.message.multiply(cipherI).mod(this.modulus);
             
             write = false;
-            this.result = this.result + this.message.toString(this.radix).toUpperCase() + "^" +
-                          this.i.toString(this.radix).toUpperCase() + " mod " +
-                          this.modulus.toString(this.radix).toUpperCase() + " = " + 
-                          cipherI.toString(this.radix).toUpperCase() + "\n";
+            this.result = this.result + this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase()) + "^" +
+                          this.utilidades.putPoints(this.i.toString(this.radix).toUpperCase()) + " mod " +
+                          this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase()) + " = " + 
+                          this.utilidades.putPoints(cipherI.toString(this.radix).toUpperCase()) + "\n";
             
             if (i.mod(Constantes.MIN_REFRESH).equals(Constantes.ZERO)){
                 this.partialResult = this.result;
@@ -275,10 +275,10 @@ public class ParadoxAttack {
             write = false;
 
             if (i.mod(MAX_REFRESH).equals(Constantes.ZERO)){
-                this.result = this.message.toString(this.radix).toUpperCase() + "^" +
-                          this.i.toString(this.radix).toUpperCase() + " mod " +
-                          this.modulus.toString(this.radix).toUpperCase() + " = " + 
-                          cipherI.toString(this.radix).toUpperCase() + "\n";
+                this.result = this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase()) + "^" +
+                          this.utilidades.putPoints(this.i.toString(this.radix).toUpperCase()) + " mod " +
+                          this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase()) + " = " + 
+                          this.utilidades.putPoints(cipherI.toString(this.radix).toUpperCase()) + "\n";
                 
                 write = true;
                 
@@ -296,10 +296,10 @@ public class ParadoxAttack {
         
         
         if (!write){
-            this.partialResult = this.message.toString(this.radix).toUpperCase() + "^" +
-                          this.i.toString(this.radix).toUpperCase() + " mod " +
-                          this.modulus.toString(this.radix).toUpperCase() + " = " + 
-                          cipherI.toString(this.radix).toUpperCase() + "\n";
+            this.partialResult = this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase()) + "^" +
+                          this.utilidades.putPoints(this.i.toString(this.radix).toUpperCase()) + " mod " +
+                          this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase()) + " = " + 
+                          this.utilidades.putPoints(cipherI.toString(this.radix).toUpperCase()) + "\n";
             
             Platform.runLater(() -> this.Pprint.partialResults(this.partialResult));
         }  

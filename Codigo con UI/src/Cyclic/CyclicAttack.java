@@ -158,8 +158,10 @@ public class CyclicAttack {
         }
 
         //primera impresion por pantalla
-        Platform.runLater(() -> this.Cprint.numOfCyphers(lapsNum.toString().toUpperCase()));
-        Platform.runLater(() -> this.Cprint.inProgress()); 
+        Platform.runLater(() -> {
+            this.Cprint.numOfCyphers(lapsNum.toString());
+            this.Cprint.inProgress();
+        }); 
         
         if (lapsNum.compareTo(Constantes.MAX_LAPSNUM)>0){
             BLNstart(lapsNum.add(Constantes.MINUS_ONE));            
@@ -190,8 +192,10 @@ public class CyclicAttack {
         }        
         
         //primera impresion por pantalla
-        Platform.runLater(() -> this.Cprint.numOfCyphers(lapsNum.toString().toUpperCase()));
-        Platform.runLater(() -> this.Cprint.inProgress()); 
+        Platform.runLater(() -> {
+            this.Cprint.numOfCyphers(lapsNum.toString());
+            this.Cprint.inProgress();
+        }); 
         
         if ((lapsNum.add(this.totalLapsNum)).compareTo(Constantes.MAX_LAPSNUM)>0){
             BLNcontinue(lapsNum.add(Constantes.MINUS_ONE));            
@@ -221,8 +225,8 @@ public class CyclicAttack {
         next = this.cypherMessage.modPow(this.exponent, this.modulus);
         message = this.cypherMessage;
         
-        this.xplResult="Mensaje a descifrar = " + this.cypherMessage.toString(this.radix).toUpperCase() + "\n" +
-                          "c0 = " + next.toString(this.radix).toUpperCase() + "\n";
+        this.xplResult="Mensaje a descifrar = " + this.utilidades.putPoints(this.cypherMessage.toString(this.radix).toUpperCase()) + "\n" +
+                          "c0 = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase()) + "\n";
        
         while(!next.equals(this.cypherMessage)){
                 message = next;
@@ -237,7 +241,8 @@ public class CyclicAttack {
                      this.xplResult = "";
                      printFinals= false;
                 } else {
-                     this.xplResult = this.xplResult + "c" + lap.toString() + " = " + next.toString(this.radix).toUpperCase() + "\n";
+                     this.xplResult = this.xplResult + "c" + this.utilidades.putPoints(lap.toString()) +
+                             " = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase()) + "\n";
                      printFinals = true;
                 }   
                 
@@ -278,8 +283,8 @@ public class CyclicAttack {
         next = this.cypherMessage.modPow(this.exponent, this.modulus);
         message = this.cypherMessage;
         
-        this.result="Mensaje a descifrar = " + this.cypherMessage.toString(this.radix).toUpperCase() + "\n"
-                +  "c0 = " + next.toString(this.radix).toUpperCase() + "\n";
+        this.result="Mensaje a descifrar = " + this.utilidades.putPoints(this.cypherMessage.toString(this.radix).toUpperCase()) + "\n"
+                +  "c0 = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase()) + "\n";
         Platform.runLater(() -> this.Cprint.partialResults(this.result));
        
         while(!next.equals(this.cypherMessage)){
@@ -288,14 +293,17 @@ public class CyclicAttack {
                 lap = lap.add(Constantes.ONE);                 
                 
                 if ((lap.mod(Constantes.BM_REFRESH)).equals(Constantes.ZERO)){                    
-                    this.result =  "c" + lap.toString() + " = " + next.toString(this.radix).toUpperCase() + "\n";
+                    this.result =  "c" + this.utilidades.putPoints(lap.toString()) +
+                            " = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase()) + "\n";
                     Platform.runLater(() -> this.Cprint.partialResults(this.result));
                 }          
         }
         
         if(!lap.equals(Constantes.ZERO)){
-            this.xplResult = "c" + lap.add(Constantes.MINUS_ONE).toString() + " = " + message.toString(this.radix).toUpperCase() + "\n" +
-                "c" + lap.toString() + " = " + next.toString(this.radix).toUpperCase() + "\n";    
+            this.xplResult = "c" + this.utilidades.putPoints(lap.add(Constantes.MINUS_ONE).toString()) +
+                    " = " + this.utilidades.putPoints(message.toString(this.radix).toUpperCase()) + "\n" +
+                    "c" + this.utilidades.putPoints(lap.toString()) + " = " +
+                    this.utilidades.putPoints(next.toString(this.radix).toUpperCase()) + "\n";    
         
             Platform.runLater(() -> this.Cprint.partialResults(this.xplResult));
         }        
@@ -336,8 +344,8 @@ public class CyclicAttack {
         next = this.cypherMessage.modPow(this.exponent, this.modulus);
         message = this.cypherMessage;
         
-        this.xplResult="Mensaje a descifrar = " + this.cypherMessage.toString(this.radix).toUpperCase() + "\n"
-                    +  "c0 = " + next.toString(this.radix).toUpperCase() + "\n";
+        this.xplResult="Mensaje a descifrar = " + this.utilidades.putPoints(this.cypherMessage.toString(this.radix).toUpperCase()) + "\n"
+                    +  "c0 = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase()) + "\n";
 
         while(!next.equals(this.cypherMessage) && !lapsNum.equals(lap)){
                 message = next;
@@ -350,7 +358,8 @@ public class CyclicAttack {
                      this.xplResult = "";
                      printFinals= false;
                 } else {
-                     this.xplResult = this.xplResult + "c" + lap.toString() + " = " + next.toString(this.radix).toUpperCase() + "\n";
+                     this.xplResult = this.xplResult + "c" + this.utilidades.putPoints(lap.toString()) +
+                             " = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase()) + "\n";
                      printFinals = true;
                 }           
         }
@@ -402,8 +411,8 @@ public class CyclicAttack {
         next = this.cypherMessage.modPow(this.exponent, this.modulus);
         message = this.cypherMessage;
         
-        this.xplResult="Mensaje a descifrar = " + this.cypherMessage.toString(this.radix).toUpperCase() + "\n"
-                    +  "c0 = " + next.toString(this.radix).toUpperCase() + "\n";
+        this.xplResult="Mensaje a descifrar = " + this.utilidades.putPoints(this.cypherMessage.toString(this.radix).toUpperCase()) + "\n"
+                    +  "c0 = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase()) + "\n";
         
         Platform.runLater(() -> this.Cprint.partialResults(this.xplResult));
 
@@ -413,7 +422,8 @@ public class CyclicAttack {
                 lap = lap.add(Constantes.ONE); 
                                 
                 if ((lap.mod(Constantes.BLN_REFRESH)).equals(Constantes.ZERO)){                    
-                    this.xplResult = "c" + lap.toString() + " = " + next.toString(this.radix).toUpperCase() + "\n";
+                    this.xplResult = "c" + this.utilidades.putPoints(lap.toString()) +
+                            " = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase()) + "\n";
                     Platform.runLater(() -> this.Cprint.partialResults(this.xplResult));
                      
                 }        
@@ -429,7 +439,8 @@ public class CyclicAttack {
         
         if (next.equals(this.cypherMessage)){
             if (!lap.equals(Constantes.ZERO)){
-                this.result = "c" + lap.add(Constantes.MINUS_ONE).toString() + " = " + message.toString(this.radix).toUpperCase() + "\n" +
+                this.result = "c" + this.utilidades.putPoints(lap.add(Constantes.MINUS_ONE).toString()) +
+                        " = " + this.utilidades.putPoints(message.toString(this.radix).toUpperCase()) + "\n" +
                     "c" + lap.toString() + " = " + next.toString(this.radix).toUpperCase() + "\n";      
                 
                 Platform.runLater(() -> this.Cprint.partialResults(this.result));
@@ -470,7 +481,8 @@ public class CyclicAttack {
         message = this.nextMessage;
         this.totalLapsNum = this.totalLapsNum.add(Constantes.ONE);
         
-        this.xplResult="c" + this.totalLapsNum.toString() + " = " + next.toString(this.radix).toUpperCase() + "\n";
+        this.xplResult="c" + this.utilidades.putPoints(this.totalLapsNum.toString()) +
+                " = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase()) + "\n";
 
         while(!next.equals(this.cypherMessage) && !lapsNum.equals(lap)){
                 message = next;
@@ -484,7 +496,8 @@ public class CyclicAttack {
                      this.xplResult = "";
                      printFinals= false;
                 } else {
-                     this.xplResult = this.xplResult + "c" + this.totalLapsNum.toString() + " = " + next.toString(this.radix).toUpperCase() + "\n";
+                     this.xplResult = this.xplResult + "c" + this.utilidades.putPoints(this.totalLapsNum.toString()) +
+                             " = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase()) + "\n";
                      printFinals = true;
                 }     
         }
@@ -541,7 +554,8 @@ public class CyclicAttack {
         this.totalLapsNum = this.totalLapsNum.add(Constantes.ONE);
         
         if ((this.totalLapsNum.mod(Constantes.BLN_REFRESH)).equals(Constantes.ZERO)){
-            this.result = "c" + this.totalLapsNum.toString() + " = " + next.toString(this.radix).toUpperCase() + "\n";
+            this.result = "c" + this.utilidades.putPoints(this.totalLapsNum.toString()) +
+                    " = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase()) + "\n";
             Platform.runLater(() -> this.Cprint.partialResults(this.result));
             write = true;
         }         
@@ -553,7 +567,8 @@ public class CyclicAttack {
                 this.totalLapsNum = this.totalLapsNum.add(Constantes.ONE);
                 
                 if ((this.totalLapsNum.mod(Constantes.BLN_REFRESH)).equals(Constantes.ZERO)){                    
-                    this.result = "c" + this.totalLapsNum.toString() + " = " + next.toString(this.radix).toUpperCase() + "\n";
+                    this.result = "c" + this.utilidades.putPoints(this.totalLapsNum.toString()) +
+                            " = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase()) + "\n";
                     Platform.runLater(() -> this.Cprint.partialResults(this.result)); 
                     write = true;
                 } 
@@ -569,8 +584,10 @@ public class CyclicAttack {
         
         if (next.equals(this.cypherMessage)){
                         
-            this.xplResult = "c" + lap.add(Constantes.MINUS_ONE).toString() + " = " + messageStr + "\n" +
-                "c" + lapStr + " = " + next.toString(this.radix).toUpperCase() + "\n";           
+            this.xplResult = "c" + this.utilidades.putPoints(lap.add(Constantes.MINUS_ONE).toString()) +
+                    " = " + this.utilidades.putPoints(messageStr) + "\n" +
+                    "c" + this.utilidades.putPoints(lapStr) +
+                    " = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase()) + "\n";           
             
             Platform.runLater(() -> {
                 this.Cprint.partialResults(this.xplResult);
@@ -582,7 +599,8 @@ public class CyclicAttack {
             
         } else {
             if (!write){
-                this.xplResult = "c" + lapStr + " = " + next.toString(this.radix).toUpperCase() + "\n";    
+                this.xplResult = "c" + this.utilidades.putPoints(lapStr) + " = " +
+                        this.utilidades.putPoints(next.toString(this.radix).toUpperCase()) + "\n";    
                 Platform.runLater(() -> this.Cprint.partialResults(this.xplResult));
             }
             this.nextMessage = next;

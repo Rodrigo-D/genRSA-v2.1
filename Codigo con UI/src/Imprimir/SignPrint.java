@@ -5,6 +5,7 @@
  */
 package Imprimir;
 
+import Metodos.Utilidades;
 import Sign.SignController;
 import javafx.scene.control.TextArea;
 
@@ -16,6 +17,8 @@ public class SignPrint {
     
     private final SignController SignScene;
     
+    private final Utilidades utilidades;
+    
     
     
     /**
@@ -24,6 +27,7 @@ public class SignPrint {
      */
     public SignPrint (SignController SignScene){
         this.SignScene = SignScene;
+        this.utilidades = new Utilidades();
     }    
     
     
@@ -46,7 +50,7 @@ public class SignPrint {
         for (i=0; i<numbers; i++){
             num = processedNumbers[i];
             if (num!=null){
-                data.appendText(num + "\n");
+                data.appendText(this.utilidades.putPoints(num) + "\n");
             }            
         }
     }
@@ -57,7 +61,7 @@ public class SignPrint {
     }
 
     public void addValidatedData(String validatedNum) {
-        this.SignScene.getValidatedData().appendText(validatedNum + "\n");
+        this.SignScene.getValidatedData().appendText(this.utilidades.putPoints(validatedNum) + "\n");
     }
 
     public void clearSignedData() {
@@ -65,7 +69,7 @@ public class SignPrint {
     }
     
     public void addSignedData(String signedNum) {
-        this.SignScene.getSignedData1().appendText(signedNum + "\n");
+        this.SignScene.getSignedData1().appendText(this.utilidades.putPoints(signedNum) + "\n");
     }
     
 }

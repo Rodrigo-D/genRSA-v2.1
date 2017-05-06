@@ -99,8 +99,8 @@ public class InfoDialog {
     }
 
     public void warningAttack() {
-        info.setContentText("Si se modifica el módulo o el exponente no se"
-                + " garantiza la correcta finalización del ataque. ");
+        info.setContentText("Si se modifica el módulo o el exponente no se\n"
+                + "garantiza la correcta finalización del ataque. ");
         info.showAndWait();
     }
 

@@ -6,6 +6,7 @@
 package Imprimir;
 
 import genrsa.SceneController;
+import javafx.scene.image.Image;
 
 
 /**
@@ -16,12 +17,15 @@ public class MainWindow {
     
     private final SceneController scene;
     
+    private final Image interrogation;
+    
     /**
      * Constructor de la clase
      * @param sceneC 
      */
     public MainWindow (SceneController sceneC){
         this.scene = sceneC;
+        this.interrogation = new Image("file:resources/primality/interrogation.png");
     }
     
     
@@ -58,8 +62,8 @@ public class MainWindow {
         this.scene.getClaves_parejas().clear();
         
         this.scene.getIteraciones_primalidad().clear();
-        this.scene.getEsPrimo_P().clear();
-        this.scene.getEsPrimo_Q().clear();
+        this.scene.getIsPrime_P().setImage(this.interrogation);
+        this.scene.getIsPrime_Q().setImage(this.interrogation);
         this.scene.getTiempo_primalidad().clear();
     
     }

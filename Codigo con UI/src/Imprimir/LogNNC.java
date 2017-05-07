@@ -28,14 +28,15 @@ public class LogNNC {
     private PrintWriter print;
     
     private Utilidades utilidades;
-    
+        
     public LogNNC (File logFile) {
         try {
             file = new FileWriter (logFile); 
             print = new PrintWriter (file);
             utilidades = new Utilidades();
         } catch (IOException e) {
-            //imprimir mensaje de error por pantalla debido a que el nombre no es correcto
+            ErrorDialog error = new ErrorDialog();            
+            error.FileToSave();
         }
     }
     
@@ -72,7 +73,7 @@ public class LogNNC {
         print.println("<B>" + this.utilidades.putPoints(RSA.getD().toString(radix).toUpperCase()) + "<br /><br /></B>");
         
         print.println("<H4><B>NUMEROS NO CIFRABLES</B></H4>");
-        print.println("<B>El numero de Numeros No Cifrables es:" + this.utilidades.putPoints(RSA.getNumNNC().toString()) + "</B>");
+        print.println("<B>La cantidad de Números No Cifrables es:" + this.utilidades.putPoints(RSA.getNumNNC().toString()) + "</B>");
     }
     
      public void closeHTML() {

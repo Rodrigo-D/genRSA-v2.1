@@ -211,8 +211,7 @@ public class SceneController {
      */
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-        //algo asi para controlar que no haya errores
-                
+        
         assert genManBttn != null : "fx:id=\"genManBttn\" was not injected: check your FXML file 'scene.fxml'.";
         assert primo_P != null : "fx:id=\"primo_P\" was not injected: check your FXML file 'scene.fxml'.";
         assert bits_primo_P != null : "fx:id=\"bits_primo_P\" was not injected: check your FXML file 'scene.fxml'.";
@@ -339,8 +338,7 @@ public class SceneController {
             this.processManualGeneration(new ActionEvent());
         }
                
-    }
-    
+    }    
     
     /**
      * Método usado cuando se pulsa el boton de generarLog de NNC
@@ -482,7 +480,7 @@ public class SceneController {
             stage.show();            
         
         } catch (IOException ex) {
-            //poner mensaje de error;
+            //no pongo mensaje de error, porque no se puede dar el caso
         }
                 
     }
@@ -519,7 +517,7 @@ public class SceneController {
             stage.show();            
         
         } catch (IOException ex) {
-            //poner mensaje de error;
+            //no pongo mensaje de error, porque no se puede dar el caso
         }
                 
     }
@@ -557,8 +555,7 @@ public class SceneController {
             stage.show();            
         
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-            //poner mensaje de error;
+            //no pongo mensaje de error, porque no se puede dar el caso
         }
                 
     }
@@ -575,7 +572,6 @@ public class SceneController {
         int iterator;
         
         try{      
-            if (this.RSA != null){ //quitar esto y deshabilitar el boton
             stage= new Stage();
             fxmlLoader = new FXMLLoader(getClass().getResource("/DeCipher/DeCipher.fxml"));
             root = fxmlLoader.load();
@@ -610,11 +606,10 @@ public class SceneController {
             stage.initOwner(this.unitsD.getScene().getWindow());
             stage.setScene(scene);
             stage.show();       
-            }
+            
         
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-            //poner mensaje de error;
+            //no pongo mensaje de error, porque no se puede dar el caso
         }
                 
     }
@@ -631,7 +626,6 @@ public class SceneController {
         int iterator;
         
         try{      
-            if (this.RSA != null){ //quitar esto y deshabilitar el boton
             stage= new Stage();
             fxmlLoader = new FXMLLoader(getClass().getResource("/Sign/Sign.fxml"));
             root = fxmlLoader.load();
@@ -666,11 +660,10 @@ public class SceneController {
             stage.initOwner(this.unitsD.getScene().getWindow());
             stage.setScene(scene);
             stage.show();       
-            }
+            
         
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-            //poner mensaje de error;
+            //no pongo mensaje de error, porque no se puede dar el caso
         }
                 
     }
@@ -705,7 +698,7 @@ public class SceneController {
     
     /**
      * Método usado para deshabilitar ciertos botones cuando
-     * no hay una clave RSA generada
+     * se esta creando una clave de manera automática
      * @param disable
      */
     public void disableOnProgress(final boolean disable) {   
@@ -928,41 +921,3 @@ public class SceneController {
     }
      
 }
-/*
-
-
-  fxButton.setDisable(true);
-
-    
-     * Called when the FX Button is fired. T
-     *
-     * @param event the action event
-     
-    @FXML
-    void handleButtonAction(ActionEvent event) {
-        if (enabled) {
-        
-            enabled = false;
-            fxButton.setText("Enable Swing Button");
-            fxButton.getTooltip().setText("Click this button to enable the Swing button");
-        } else {
-     
-            enabled = true;
-            fxButton.setText("Disable Swing Button");
-            fxButton.getTooltip().setText("Click this button to disable the Swing button");
-        }
-    }
-
-
-    @FXML 
-    private Label success;
-
-    private void animateMessage() {
-        FadeTransition ft = new FadeTransition(Duration.millis(3000), success);
-        ft.setFromValue(0.0);
-        ft.setToValue(1);
-        ft.play();
-    }
-
-en el scen builder el tooltip es para cuando dejas el raton encima te sale un texto
-*/

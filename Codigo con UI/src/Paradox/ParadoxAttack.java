@@ -234,9 +234,6 @@ public class ParadoxAttack {
             this.Pprint.editableModExp(true);
         });
         
-        //imprimir media de claves cifradas por segundo
-       // this.Pprint.avgStats();
-
         this.checkObtainedKey(t);
     }
     
@@ -345,9 +342,6 @@ public class ParadoxAttack {
             this.Pprint.editableModExp(true);
         });
         
-        //imprimir media de claves cifradas por segundo
-       // this.Pprint.avgStats();
-
         this.checkObtainedKey(t);
     }
     

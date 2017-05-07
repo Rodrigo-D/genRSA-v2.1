@@ -147,7 +147,7 @@ public class CheckPrimes {
                         x = x.modPow(Constantes.TWO, probPrime);
 
                         if (x.equals(Constantes.ONE)){
-                                //log fallo en ronda tal con random tal
+                                //fallo en ronda tal con random tal
                                 return false;
                         }
                         if (x.equals(probPrimeMinusOne)){
@@ -158,8 +158,7 @@ public class CheckPrimes {
                         iterador++;
                 }
 
-              //  if (iterador.equals(k) && !(x.equals(probPrimeMinusOne))){
-               if (k==iterador && !(x.equals(probPrimeMinusOne))){
+                if (k==iterador && !(x.equals(probPrimeMinusOne))){
                         return false;
                 }
         }

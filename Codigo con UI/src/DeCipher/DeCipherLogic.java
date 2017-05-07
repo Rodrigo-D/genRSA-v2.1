@@ -167,7 +167,7 @@ public class DeCipherLogic {
                 return false;
             }
 
-            //compruebo q la linea sea un numero decima o hexadecimal (segúna la base/radix)
+            //compruebo q la linea sea un numero decima o hexadecimal (según la base/radix)
             try{
                 number = new BigInteger(numbers[lineIterator], this.radix);
             } catch (NumberFormatException n){            
@@ -179,10 +179,7 @@ public class DeCipherLogic {
                 this.errorDialog.formatData(this.radix);
                 return false;
             }
-            
-            
-            
-            
+                        
             
             //compruebo que sea un numero menor que el modulo
             if (number.compareTo(this.modulus) < 1){

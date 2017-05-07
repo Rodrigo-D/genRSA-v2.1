@@ -28,20 +28,14 @@ public class ComponentesRSA {
     private BigInteger pMinusOne;
     
     private BigInteger qMinusOne;    
-    //este viene bien
+    
     private BigInteger numNNC;  
     
-    
-    
-    //este tambien
     private BigInteger phiN;
     
-    
-    
-    
-    
+        
     private BigInteger gamma;
-    //este yo creo que se podría quitar
+    
     private BigInteger numCKP;  
       
 

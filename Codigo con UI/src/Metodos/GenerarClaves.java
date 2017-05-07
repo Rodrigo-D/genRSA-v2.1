@@ -150,7 +150,7 @@ public class GenerarClaves {
         
         this.RSA.setKeySize(Integer.parseInt(keySize));
             
-        if (this.RSA.getKeySize() < 5){ 
+        if (this.RSA.getKeySize() < 6){ 
             Platform.runLater(() ->this.errorDialog.littleKeySize()); 
             return null;
         }      
@@ -255,7 +255,6 @@ public class GenerarClaves {
     /**
      * Metodo que calcula las claves privada parejas
      */
-    //comprobar que no se coge 7 cuando es 6.98, se tiene que coger 6 claves privadas parejas
     public void calculateCKP(){
             //almacena la clave privada pareja
             BigInteger cpp;
@@ -279,7 +278,7 @@ public class GenerarClaves {
             });
             
             if (cpp.compareTo(this.RSA.getD()) != 0){
-                listCPP.add(cpp.toString(this.radix));
+                listCPP.add(this.utilidades.putPoints(cpp.toString(this.radix)) + " -> " + cpp.bitLength() + " bits");
             }
             
             //para controlar el while, dado que si el numero es mayor que el max_value de los integer
@@ -289,7 +288,7 @@ public class GenerarClaves {
             while (CKP_int >= iterador && iterador <= 60){
                     cpp=cpp.add(this.RSA.getGamma());
                     if (cpp.compareTo(this.RSA.getD()) != 0){
-                            listCPP.add(cpp.toString(this.radix));
+                            listCPP.add(this.utilidades.putPoints(cpp.toString(this.radix)) + " -> " + cpp.bitLength() + " bits");
                     }
                     iterador++;
             }
@@ -302,7 +301,6 @@ public class GenerarClaves {
     /**
      * Calcula el numero de numeros no cifrables
      */
-    //ojito, este metodo quiza cambiarlo a otra clase, junto con el de calculateCKP
     private void calculateNumNNC( ){
         BigInteger eMinusOne,part1, part2;
 
@@ -365,8 +363,6 @@ public class GenerarClaves {
         
         BigInteger num;
         
-         //con que uno de los tres no sea valido se termina
-         /* Step 1: Get the prime numbers (p and q) and the public key */
         try {
             num = new BigInteger (number, this.radix);
             bits.setText(this.utilidades.countBits(num));

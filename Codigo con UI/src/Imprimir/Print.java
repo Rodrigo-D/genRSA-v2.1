@@ -68,7 +68,7 @@ public class Print {
     public void privPairKey(List<String> listCPP) {
         
         listCPP.forEach((cpp) -> {
-            this.scene.getClaves_parejas().appendText(this.utilidades.putPoints(cpp) + "\n");
+            this.scene.getClaves_parejas().appendText(cpp + "\n");
         });
        
     }
@@ -85,7 +85,6 @@ public class Print {
         this.scene.getCantidadNNC().setText(this.utilidades.putPoints(numNNC.toString()));
     }
 
-    //hacer que parpadee el cuadrito cuando de el resultado
     public void primalityResults(boolean Ptrue, boolean Qtrue, String time) {
         if (Ptrue){
             this.scene.getIsPrime_P().setImage(this.tick);

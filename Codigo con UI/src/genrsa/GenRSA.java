@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.application.Preloader.ProgressNotification;
+import javafx.application.Preloader.StateChangeNotification;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,17 +26,33 @@ public class GenRSA extends Application {
     private final double MINIMUM_WINDOW_WIDTH = 390.0;
     private final double MINIMUM_WINDOW_HEIGHT = 500.0;
     
+    
+
+    @Override
+    public void init() throws Exception {
+        notifyPreloader(new ProgressNotification(0.15d));
+        Thread.sleep(150);
+        notifyPreloader(new ProgressNotification(0.30d));
+        Thread.sleep(150);
+        notifyPreloader(new ProgressNotification(0.45d));
+        Thread.sleep(150);
+        notifyPreloader(new ProgressNotification(0.60d));
+        Thread.sleep(150);
+        notifyPreloader(new ProgressNotification(0.75d));
+        Thread.sleep(150);
+        notifyPreloader(new ProgressNotification(1.0d));
+        Thread.sleep(100);
+        notifyPreloader(new StateChangeNotification(StateChangeNotification.Type.BEFORE_START));
+    }
+
+
+    
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
             
             Parent root = FXMLLoader.load(getClass().getResource("scene.fxml"));
-            
-            //FXMLLoader loader = new FXMLLoader(getClass().getResource("escena.fxml"));
-            //Parent root = (Parent)loader.load();
-            //SceneController myController = loader.getController();
-            //myController.setStage(primaryStage);
-            
+                        
             Scene scene = new Scene(root);
             
             primaryStage.setMinWidth(MINIMUM_WINDOW_WIDTH);

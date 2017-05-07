@@ -5,19 +5,29 @@ ramio - no se han hecho logs.html de los ataques
 ramio - solucionar bug creacion de claves con primos p y q 5,5 clave 9 y que de tantas claves parejas.
 ramio - ataques siempre imprimir todos los resultados. Por ejemplo ciclico si es muy grande el num de bits(40) puede que llene el buffer de memoria del textArea
 702136613538677073862961839 buen modulo para factorizar
+//Paradox atacks tiene algunos comentarios que despues de hablar se han de quitar
 
 
-Ojito con todos los comentarios del codigo.
-
-preloader
-mirar los word
 
 http://code.makery.ch/library/javafx-8-tutorial/part7/ deployment - packaging the app
+http://docs.oracle.com/javase/8/docs/technotes/guides/deploy/ Estaba antes en Getting Started with JavaFX
+http://docs.oracle.com/javafx/2/overview/jfxpub-overview.htm deploy entre otras
+http://docs.oracle.com/javafx/2/deployment/jfxpub-deployment.htm 
+http://docs.oracle.com/javafx/2/deployment/whatsnew_deployment.htm 
 
 
+
+Texto cifra y firma. Tb CRT.
 Mirar si se pueden cambiar los shortcuts de ayuda en el propio fxml para quitar los control de ayuda.
+	-Ayuda modelo FlujoLab y contextual. http://www.criptored.upm.es/software/sw_m001m.htm
+	-Poner un hiperlink en donde las preferencias para que te lleve a la pagina de github.
+
+Banco de pruebas.
+Ejemplos raros-> cuando esta todo en blanco.
+Ejemplo Práctico-> como ayuda dentro del programa.http://www.criptored.upm.es/software/sw_m001c.htm
+
+
 MEJORAR: el contenido de los tooltips.
-Poner un hiperlink en donde las preferencias para que te lleve a la pagina de github.
 
 
 

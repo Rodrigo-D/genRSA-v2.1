@@ -33,7 +33,8 @@ public class SaveKey {
             print = new PrintWriter (file);
             utilidades = new Utilidades();
         } catch (IOException e) {
-            //imprimir mensaje de error por pantalla debido a que el nombre no es correcto
+           ErrorDialog error = new ErrorDialog();
+           error.writingFile();
         }
     }
     

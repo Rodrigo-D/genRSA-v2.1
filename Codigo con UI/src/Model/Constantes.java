@@ -42,7 +42,6 @@ public class Constantes {
     public static BigInteger MIDDLE_REFRESH = new BigInteger ("50000");
     
     // maximum Key Size to calculate NNC
-    // calcular bien este número
     public static int MAX_KeySize = 40;
  
     public static int MAX_INT = 2147483647;

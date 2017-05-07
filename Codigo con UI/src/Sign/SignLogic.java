@@ -183,10 +183,6 @@ public class SignLogic {
                 return false;
             }
             
-            
-            
-            
-            
             //compruebo que sea un numero menor que el modulo
             if (number.compareTo(this.modulus) < 1){
                 processedNumbers[processedIterator] = numbers[lineIterator];

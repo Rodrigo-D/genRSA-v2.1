@@ -120,8 +120,7 @@ public class CyclicAttack {
     }
     
     
-    //ataque ciclico, no para hasta que prospera
-    
+    //ataque ciclico, no para hasta que prospera    
     public void complete (){
         
         Platform.runLater(() -> this.Cprint.clearResults());   
@@ -141,7 +140,7 @@ public class CyclicAttack {
         
         Platform.runLater(() -> this.Cprint.clearResults());     
             
-         //comprobación que de errores
+        //comprobación de errores
         numOfCyphers = this.utilidades.formatNumber(numOfCyphers);
         
         try{

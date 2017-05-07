@@ -181,6 +181,14 @@ public class ErrorDialog {
         alertError.showAndWait(); 
     }
 
+    public void writingFile() {
+        alertError.setHeaderText("Error, al escribir en el fichero. ");        
+       
+        alertError.setContentText("Ha ocurrido un error al escribir en el fichero.\n"
+                + "Por favor, vuelva a intentarlo");       
+        
+        alertError.showAndWait(); 
+    }
     public void missingComponents() {
         alertError.setHeaderText("Error, el fichero está incompleto ");        
        

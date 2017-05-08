@@ -53,24 +53,24 @@ public class FactorizePrint {
       
     }    
     
-    public void primeP(String primeP){
-        this.scene.getPrimeP().setText(this.utilidades.putPoints(primeP.toUpperCase()));
+    public void primeP(String primeP, int radix){
+        this.scene.getPrimeP().setText(this.utilidades.putPoints(primeP.toUpperCase(), radix));
     }
 
-    public void primeQ(String primeQ){
-        this.scene.getPrimeQ().setText(this.utilidades.putPoints(primeQ.toUpperCase()));
+    public void primeQ(String primeQ, int radix){
+        this.scene.getPrimeQ().setText(this.utilidades.putPoints(primeQ.toUpperCase(), radix));
     }    
     
-    public void modulus(String modulus) {
-        this.scene.getModulus().setText(this.utilidades.putPoints(modulus.toUpperCase()));
+    public void modulus(String modulus, int radix) {
+        this.scene.getModulus().setText(this.utilidades.putPoints(modulus.toUpperCase(), radix));
     }
     
     public void lapsNum(String lapsNum) {
-        this.scene.getNumLaps().setText(this.utilidades.putPoints(lapsNum));
+        this.scene.getNumLaps().setText(this.utilidades.putPoints(lapsNum, 10));
     }
     
     public void find(String vuelta) {
-        String line = "\nMódulo factorizado en la vuelta -> " + this.utilidades.putPoints(vuelta) + "\n\n\n";        
+        String line = "\nMódulo factorizado en la vuelta -> " + this.utilidades.putPoints(vuelta, 10) + "\n\n\n";        
         this.scene.getResults().appendText(line);        
     }
     

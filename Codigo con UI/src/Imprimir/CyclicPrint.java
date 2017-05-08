@@ -28,11 +28,11 @@ public class CyclicPrint {
         this.utilidades = new Utilidades();
     }
    
-    public void messages(String cypherMessage, String message, String modulus, String exponent) {
-        this.scene.getMessage().setText(this.utilidades.putPoints(message));
-        this.scene.getCypherMessage().setText(this.utilidades.putPoints(cypherMessage));
-        this.scene.getExponent().setText(this.utilidades.putPoints(exponent));
-        this.scene.getModulus().setText(this.utilidades.putPoints(modulus));
+    public void messages(String cypherMessage, String message, String modulus, String exponent, int radix) {
+        this.scene.getMessage().setText(this.utilidades.putPoints(message, radix));
+        this.scene.getCypherMessage().setText(this.utilidades.putPoints(cypherMessage, radix));
+        this.scene.getExponent().setText(this.utilidades.putPoints(exponent, radix));
+        this.scene.getModulus().setText(this.utilidades.putPoints(modulus, radix));
     }
 
     public void time(String Time) {
@@ -48,23 +48,23 @@ public class CyclicPrint {
     }
 
     public void find(String lap) {
-        this.scene.getResults().appendText("\n  Mensaje descifrado en la vuelta " + this.utilidades.putPoints(lap));        
+        this.scene.getResults().appendText("\n  Mensaje descifrado en la vuelta " + this.utilidades.putPoints(lap, 10));        
         this.scene.getResults().setScrollTop(Double.MAX_VALUE);
     }
     
     public void notFind(String lap) {
         this.scene.getResults().appendText("\n  Mensaje no recuperado. Vuelta -> " +
-                this.utilidades.putPoints(lap) + "\n\n");
+                this.utilidades.putPoints(lap, 10) + "\n\n");
         this.scene.getResults().setScrollTop(Double.MAX_VALUE);
     }
 
-    public void messageRecovered(String message) {
-        this.scene.getMRecovered().setText(this.utilidades.putPoints(message));
+    public void messageRecovered(String message, int radix) {
+        this.scene.getMRecovered().setText(this.utilidades.putPoints(message, radix));
         this.scene.getContinueBttn().setDisable(true);
     }
 
     public void numOfCyphers(String numOfCyphers) {
-        this.scene.getNumCiphers().setText(this.utilidades.putPoints(numOfCyphers));
+        this.scene.getNumCiphers().setText(this.utilidades.putPoints(numOfCyphers, 10));
     }
     
     //parte de botones

@@ -31,17 +31,17 @@ public class GenRSA extends Application {
     @Override
     public void init() throws Exception {
         notifyPreloader(new ProgressNotification(0.15d));
-        Thread.sleep(150);
+        Thread.sleep(190);
         notifyPreloader(new ProgressNotification(0.30d));
-        Thread.sleep(150);
+        Thread.sleep(190);
         notifyPreloader(new ProgressNotification(0.45d));
-        Thread.sleep(150);
+        Thread.sleep(190);
         notifyPreloader(new ProgressNotification(0.60d));
-        Thread.sleep(150);
+        Thread.sleep(190);
         notifyPreloader(new ProgressNotification(0.75d));
-        Thread.sleep(150);
+        Thread.sleep(190);
         notifyPreloader(new ProgressNotification(1.0d));
-        Thread.sleep(100);
+        Thread.sleep(190);
         notifyPreloader(new StateChangeNotification(StateChangeNotification.Type.BEFORE_START));
     }
 
@@ -60,7 +60,7 @@ public class GenRSA extends Application {
 
             primaryStage.setScene(scene);
             primaryStage.setTitle("genRSA - Generación de claves RSA");   
-            primaryStage.getIcons().add(new Image("file:resources/icono/genRSA.png"));
+            primaryStage.getIcons().add(new Image(GenRSA.class.getResourceAsStream("/allImages/genRSA.png")));
             primaryStage.show();
             
         } catch (IOException ex) {

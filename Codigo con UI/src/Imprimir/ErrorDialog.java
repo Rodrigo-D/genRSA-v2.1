@@ -22,7 +22,7 @@ public class ErrorDialog {
         this.alertError = new Alert(AlertType.ERROR);
         this.alertError.setTitle("Error");        
         Stage stage = (Stage) this.alertError.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image("file:resources/error/error.png"));
+        stage.getIcons().add(new Image(ErrorDialog.class.getResourceAsStream("/allImages/error.png")));
     }
     
             
@@ -374,22 +374,47 @@ public class ErrorDialog {
                
         alertError.showAndWait();  
     }
-
-    public void blankLines() {
+    
+    
+    public void unsupportedASCII() {
         alertError.setHeaderText("Error al introducir los datos.");        
-              
-        alertError.setContentText("Por favor, no deje líneas en blanco entre los datos.");
-                      
+       
+        alertError.setContentText("Por favor, compruebe que el texto introducido tiene\n"
+                + " codigo ASCII.");
+        
+               
         alertError.showAndWait();  
     }
-
+    
+    public void unsupportedASCIIDecipherValidate() {
+        alertError.setHeaderText("Error al introducir los datos.");        
+       
+        alertError.setContentText("Por favor, al descifrar/validar los datos se han encontrado valores\n"
+                + "que no se corresponden con valores ASCII.");
+        
+               
+        alertError.showAndWait();  
+    }
+    
+    public void littleModulus() {
+        alertError.setHeaderText("Error el módulo es demasiado pequeño para cifrar texto.");        
+       
+        alertError.setContentText("Por favor, genere una nueva clave de módulo mayor que 11 bits.");
+        
+               
+        alertError.showAndWait();
+    }
+    
+    
+    
     public void selectCombo() {              
         alertError.setContentText("Por favor, elija un número como clave privada.");
                       
         alertError.showAndWait();
     }
 
+    
 
- 
+    
     
 }

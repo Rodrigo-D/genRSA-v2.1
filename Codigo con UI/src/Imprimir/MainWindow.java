@@ -25,7 +25,7 @@ public class MainWindow {
      */
     public MainWindow (SceneController sceneC){
         this.scene = sceneC;
-        this.interrogation = new Image("file:resources/primality/interrogation.png");
+        this.interrogation = new Image(MainWindow.class.getResourceAsStream("/allImages/interrogation.png"));
     }
     
     

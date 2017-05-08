@@ -10,7 +10,10 @@ import Imprimir.ErrorDialog;
 import Imprimir.InfoDialog;
 import Metodos.Utilidades;
 import Model.Constantes;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import javafx.scene.control.TextArea;
 
 /**
@@ -59,6 +62,13 @@ public class DeCipherLogic {
     public boolean initDecipher (BigInteger modulus, String privKey){
         this.modulus = modulus;
         
+        int position = privKey.indexOf('-');
+        if (position != -1){
+            privKey = privKey.substring(0, position);
+        }
+        
+        privKey = this.utilidades.formatNumber(privKey);
+        
         try{
             this.privKey = new BigInteger(privKey, this.radix);
         } catch (NumberFormatException n){            
@@ -83,8 +93,8 @@ public class DeCipherLogic {
         }
       
         lines = data.split("\n");        
-        if (isText) {
-            result=false;           
+        if (isText && isOriginal) {
+            result = this.processText(lines);           
         } else  {
             result = this.processNumbers(lines, isOriginal);
         } 
@@ -104,14 +114,15 @@ public class DeCipherLogic {
             
             if (originalNum!=null){
                 cipheredNum = originalNum.modPow(this.pubKey, this.modulus).toString(this.radix).toUpperCase();                
-                this.DCprint.addCipheredData(cipheredNum);
+                this.DCprint.addCipheredData(cipheredNum, this.radix);
             }            
         }        
     }
 
-    public void decrypt() {
+    public void decrypt(boolean isText) {
         BigInteger cipheredNum;
-        String decipheredNum;
+        String decipheredNum, decipheredText ;
+        byte[] decipheredByte;
         int iterator, size = this.DataBI.length;
         
         this.DCprint.clearDecipheredData();
@@ -120,8 +131,19 @@ public class DeCipherLogic {
             cipheredNum = this.DataBI[iterator];
             
             if (cipheredNum != null){
-                decipheredNum = cipheredNum.modPow(this.privKey, this.modulus).toString(this.radix).toUpperCase();                
-                this.DCprint.addDecipheredData(decipheredNum);
+                if (isText){
+                    decipheredByte = cipheredNum.modPow(this.privKey, this.modulus).toByteArray();
+                    try {
+                        decipheredText = new String (decipheredByte, "US-ASCII");
+                    } catch (UnsupportedEncodingException ex) {
+                        this.errorDialog.unsupportedASCIIDecipherValidate();
+                        return;
+                    }
+                    this.DCprint.addDecipheredData(decipheredText);   
+                } else {
+                    decipheredNum = cipheredNum.modPow(this.privKey, this.modulus).toString(this.radix).toUpperCase();  
+                    this.DCprint.addDecipheredData(this.utilidades.putPoints(decipheredNum, this.radix));
+                }                
             }            
         }
     }
@@ -163,11 +185,11 @@ public class DeCipherLogic {
 
             //compruebo q no se dejen lineas vacias
             if(numbers[lineIterator].equals("")){
-                this.errorDialog.blankLines();
-                return false;
+                lineIterator++;
+                continue;
             }
 
-            //compruebo q la linea sea un numero decima o hexadecimal (según la base/radix)
+            //compruebo q la linea sea un numero decimal o hexadecimal (según la base/radix)
             try{
                 number = new BigInteger(numbers[lineIterator], this.radix);
             } catch (NumberFormatException n){            
@@ -187,12 +209,13 @@ public class DeCipherLogic {
                 this.DataBI[processedIterator] = number;
 
                 processedIterator++;
-            } 
-            //creo varios numeros si es un numero mayor que el modulo
-            //ATENCIÓN SI SE HAN INTRODUCIDO DE FORMA INCORRECTA LOS NÚMEROS NO SE GARANTIZA
-            //QUE SE CIFREN/DESCIFREN TODOS, PARA UN CORRECTO CIFRADO/DESCIFRADO INTRODUCIR
-            //UN NUMERO MENOR AL MODULO EN CADA LINEA
-            else {
+            } else {
+                //creo varios numeros si es un numero mayor que el modulo
+                //ATENCIÓN SI SE HAN INTRODUCIDO DE FORMA INCORRECTA LOS NÚMEROS NO SE GARANTIZA
+                //QUE SE CIFREN/DESCIFREN TODOS, PARA UN CORRECTO CIFRADO/DESCIFRADO INTRODUCIR
+                //UN NUMERO MENOR AL MODULO EN CADA LINEA
+                
+                
                 modified=true;
                 //obtengo el número de dígitos de n(módulo)                
                 digitsOfModulus = this.modulus.toString(this.radix).length();
@@ -233,7 +256,134 @@ public class DeCipherLogic {
         }//while de fuera
 
        
-       this.DCprint.inputData(processedNumbers, isOriginal);
+       this.DCprint.inputNumbersData(processedNumbers, isOriginal, this.radix);
+               
+        
+        if(modified){
+            this.infoDialog.warningDeCipher();
+        }
+        
+        return true;
+    }
+    
+    
+       
+    private boolean processText(String lines[]){
+        //arrays donde se guardaran los numeros preprocesados y procesados respectivamente
+        String processedText[];
+        //iteradores que llevaran la cuenta de las lineas y los numeros procesados
+        int lineIterator=0, processedIterator=0;
+        BigInteger number;
+        int linesNum;
+        
+        int bytesOfNumber, bytesOfModulus;
+        boolean continuar;
+        BigInteger cutNum;
+        int beginIndex, endIndex;
+        boolean modified = false;
+        
+        //metidos
+        byte[] asciiText;
+        byte[] cutAsciiText;
+        
+        //compruebo que se pueda cifrar texto
+        
+        if(this.modulus.bitLength()<12){
+            this.errorDialog.littleModulus();
+            return false;            
+        }
+        
+        
+        linesNum = lines.length;
+        this.DataBI = new BigInteger[linesNum+10];
+        processedText = new String [linesNum+10];
+        while (lineIterator < linesNum && processedIterator < linesNum+10){
+
+            //compruebo q no se dejen lineas vacias
+            if(lines[lineIterator].equals("") || lines[lineIterator].equals(" ")){
+                lineIterator++;
+                continue;
+            }
+
+            //Transformo el texto a numeros ASCII decimales;
+            asciiText = lines[lineIterator].getBytes(StandardCharsets.US_ASCII);
+            
+            
+            //Transformo el ASCII a bigInteger
+            try{
+                number = new BigInteger(asciiText);
+            } catch (NumberFormatException n){            
+                this.errorDialog.unsupportedASCII();
+                return false;
+            }
+                                    
+           
+            //obtengo el número de bytes de n(módulo)                
+            bytesOfModulus = this.modulus.bitLength()/8;
+            if (this.modulus.bitLength()%8 != 0){
+                bytesOfModulus++;
+            }
+            //obtengo el numero de bytes del texto que hay en la linea
+            bytesOfNumber = asciiText.length;
+            
+            //compruebo que el numero de bytes de la linea es menor que el numero de bytes del modulo
+            if (bytesOfModulus > bytesOfNumber){
+                                 
+                try {
+                    processedText[processedIterator] = new String (asciiText, "US-ASCII");
+                } catch (UnsupportedEncodingException ex) {
+                    this.errorDialog.unsupportedASCII();
+                    return false;
+                }
+                
+                
+                this.DataBI[processedIterator] = number;
+
+                processedIterator++;
+                
+            } else {                
+                //ATENCIÓN SI SE HAN INTRODUCIDO DE FORMA INCORRECTA EL TEXTO NO SE GARANTIZA
+                //QUE SE CIFREN/DESCIFREN TODO EL TEXTO, PARA UN CORRECTO CIFRADO/DESCIFRADO INTRODUCIR
+                //EN CADA LINEA UN TEXTO CUYO ASCII SEA MENOR AL MODULO 
+                
+                modified=true;
+                continuar= true;                
+                
+                beginIndex = 0;
+                endIndex = bytesOfModulus-1;
+                while (continuar){
+                    //corto la linea en un numero de bytes igual a los bytes del modulo - 1
+                    cutAsciiText = Arrays.copyOfRange(asciiText, beginIndex, endIndex);
+                    cutNum =  new BigInteger(cutAsciiText);
+                    
+                    //guardo los datos obtenidos
+                    try {
+                        processedText[processedIterator] = new String (cutAsciiText, "US-ASCII");
+                    } catch (UnsupportedEncodingException ex) {
+                        this.errorDialog.unsupportedASCII();
+                        return false;
+                    }
+                    this.DataBI[processedIterator] = cutNum;
+                    processedIterator++;
+
+                    //Compruebo si continuo
+                    continuar=false;
+                    if (endIndex < bytesOfNumber && processedIterator < linesNum+10){
+                        continuar=true;
+                        //asigno los indices del cortado del string para la siguiente ronda
+                        beginIndex = endIndex;
+                        endIndex = endIndex + (bytesOfModulus-1);
+                        if (endIndex > bytesOfNumber){
+                            endIndex = bytesOfNumber;
+                        }
+                    } 
+                }//while de detro                  
+            }//else de numero mayor q modulo
+            lineIterator++;
+        }//while de fuera
+
+       
+        this.DCprint.inputTextData(processedText);
                
         
         if(modified){

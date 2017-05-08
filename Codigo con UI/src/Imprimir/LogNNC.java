@@ -62,18 +62,18 @@ public class LogNNC {
         }
         
         print.println("<B><font color=\"IndianRed\">Numero primo P generado:</font></B>");
-        print.println("<B>" + this.utilidades.putPoints(RSA.getP().toString(radix).toUpperCase()) + "</B>");        
+        print.println("<B>" + this.utilidades.putPoints(RSA.getP().toString(radix).toUpperCase(), radix) + "</B>");        
         print.println("<B><font color=\"IndianRed\">Numero primo Q generado:</font></B>");
-        print.println("<B>" + this.utilidades.putPoints(RSA.getQ().toString(radix).toUpperCase()) + "</B>");
+        print.println("<B>" + this.utilidades.putPoints(RSA.getQ().toString(radix).toUpperCase(), radix) + "</B>");
         print.println("<b><font color=\"IndianRed\">Modulo N generado:</font></B>");
-        print.println("<B>" + this.utilidades.putPoints(RSA.getN().toString(radix).toUpperCase()) + "</B>");        
+        print.println("<B>" + this.utilidades.putPoints(RSA.getN().toString(radix).toUpperCase(), radix) + "</B>");        
         print.println("<B><font color=\"IndianRed\">Clave Publica e generada:</font></B>");
-        print.println("<B>" + this.utilidades.putPoints(RSA.getE().toString(radix).toUpperCase()) + "</B>");
+        print.println("<B>" + this.utilidades.putPoints(RSA.getE().toString(radix).toUpperCase(), radix) + "</B>");
         print.println("<B><font color=\"IndianRed\">Clave Privada d generada:</font></B>");
-        print.println("<B>" + this.utilidades.putPoints(RSA.getD().toString(radix).toUpperCase()) + "<br /><br /></B>");
+        print.println("<B>" + this.utilidades.putPoints(RSA.getD().toString(radix).toUpperCase(), radix) + "<br /><br /></B>");
         
         print.println("<H4><B>NUMEROS NO CIFRABLES</B></H4>");
-        print.println("<B>La cantidad de Números No Cifrables es:" + this.utilidades.putPoints(RSA.getNumNNC().toString()) + "</B>");
+        print.println("<B>La cantidad de Números No Cifrables es:" + this.utilidades.putPoints(RSA.getNumNNC().toString(), radix) + "</B>");
     }
     
      public void closeHTML() {
@@ -87,7 +87,7 @@ public class LogNNC {
     public void WriteList(List<BigInteger> listNNC, int radix) {
         
         for (BigInteger NNC: listNNC){
-            this.print.println(this.utilidades.putPoints(NNC.toString(radix).toUpperCase()));
+            this.print.println(this.utilidades.putPoints(NNC.toString(radix).toUpperCase(), radix));
         }
     }
 

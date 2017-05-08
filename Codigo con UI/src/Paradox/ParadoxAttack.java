@@ -106,7 +106,8 @@ public class ParadoxAttack {
        Platform.runLater(() ->{
            this.Pprint.numbers(this.modulus.toString(this.radix).toUpperCase(),
                                                     this.exponent.toString(this.radix).toUpperCase(),
-                                                    this.message.toString(this.radix).toUpperCase());
+                                                    this.message.toString(this.radix).toUpperCase(),
+                                                    this.radix);
            this.Pprint.dissableStart();
            this.Pprint.editableModExp(false);
            this.Pprint.partialClear();
@@ -157,7 +158,8 @@ public class ParadoxAttack {
         
         Platform.runLater(() -> this.Pprint.initialResults(cipherIstr, cipherJstr,
                                                         this.j.toString(this.radix).toUpperCase(),
-                                                        this.modulus.toString(this.radix).toUpperCase()));
+                                                        this.modulus.toString(this.radix).toUpperCase(),
+                                                        this.radix));
         this.result = "";        
         
         while (!(cipherI.equals(cipherJ)) && this.i.compareTo(this.j) == -1){
@@ -165,10 +167,10 @@ public class ParadoxAttack {
             cipherI = this.message.multiply(cipherI).mod(this.modulus);
             
             write = false;
-            this.result = this.result + this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase()) + "^" +
-                          this.utilidades.putPoints(this.i.toString(this.radix).toUpperCase()) + " mod " +
-                          this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase()) + " = " + 
-                          this.utilidades.putPoints(cipherI.toString(this.radix).toUpperCase()) + "\n";
+            this.result = this.result + this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase(), this.radix) + "^" +
+                          this.utilidades.putPoints(this.i.toString(this.radix).toUpperCase(), this.radix) + " mod " +
+                          this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase(), this.radix) + " = " + 
+                          this.utilidades.putPoints(cipherI.toString(this.radix).toUpperCase(), this.radix) + "\n";
             
             if (i.mod(Constantes.MIN_REFRESH).equals(Constantes.ZERO)){
                 this.partialResult = this.result;
@@ -208,7 +210,8 @@ public class ParadoxAttack {
         Platform.runLater(() -> this.Pprint.wValue(this.i.toString(this.radix).toUpperCase(), 
                                                 this.j.toString(this.radix).toUpperCase(),
                                                 this.exponent.toString(this.radix).toUpperCase(),
-                                                w.toString(this.radix).toUpperCase()));
+                                                w.toString(this.radix).toUpperCase(),
+                                                this.radix));
 
         s = w.modInverse(this.exponent);
         //t es la clave privada o una clave privada pareja o un falso positivo
@@ -227,8 +230,8 @@ public class ParadoxAttack {
         
         Platform.runLater(() -> {
             this.Pprint.Stats(this.avgStats.toString());
-            this.Pprint.tValue(t.toString(this.radix).toUpperCase());
-            this.Pprint.privateKey(t.toString(this.radix).toUpperCase());
+            this.Pprint.tValue(t.toString(this.radix).toUpperCase(), this.radix);
+            this.Pprint.privateKey(t.toString(this.radix).toUpperCase(), this.radix);
             this.Pprint.time(time);
             this.Pprint.enableStart();            
             this.Pprint.editableModExp(true);
@@ -264,7 +267,8 @@ public class ParadoxAttack {
         
         Platform.runLater(() -> this.Pprint.initialResults(cipherIstr, cipherJstr,
                                                         this.j.toString(this.radix).toUpperCase(),
-                                                        this.modulus.toString(this.radix).toUpperCase()));
+                                                        this.modulus.toString(this.radix).toUpperCase(),
+                                                        this.radix));
 
         while (!(cipherI.equals(cipherJ)) && this.i.compareTo(this.j) == -1){
             this.i = this.i.add(Constantes.ONE);
@@ -272,10 +276,10 @@ public class ParadoxAttack {
             write = false;
 
             if (i.mod(MAX_REFRESH).equals(Constantes.ZERO)){
-                this.result = this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase()) + "^" +
-                          this.utilidades.putPoints(this.i.toString(this.radix).toUpperCase()) + " mod " +
-                          this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase()) + " = " + 
-                          this.utilidades.putPoints(cipherI.toString(this.radix).toUpperCase()) + "\n";
+                this.result = this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase(), this.radix) + "^" +
+                          this.utilidades.putPoints(this.i.toString(this.radix).toUpperCase(), this.radix) + " mod " +
+                          this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase(), this.radix) + " = " + 
+                          this.utilidades.putPoints(cipherI.toString(this.radix).toUpperCase(), this.radix) + "\n";
                 
                 write = true;
                 
@@ -293,10 +297,10 @@ public class ParadoxAttack {
         
         
         if (!write){
-            this.partialResult = this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase()) + "^" +
-                          this.utilidades.putPoints(this.i.toString(this.radix).toUpperCase()) + " mod " +
-                          this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase()) + " = " + 
-                          this.utilidades.putPoints(cipherI.toString(this.radix).toUpperCase()) + "\n";
+            this.partialResult = this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase(), this.radix) + "^" +
+                          this.utilidades.putPoints(this.i.toString(this.radix).toUpperCase(), this.radix) + " mod " +
+                          this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase(), this.radix) + " = " + 
+                          this.utilidades.putPoints(cipherI.toString(this.radix).toUpperCase(), this.radix) + "\n";
             
             Platform.runLater(() -> this.Pprint.partialResults(this.partialResult));
         }  
@@ -316,7 +320,8 @@ public class ParadoxAttack {
         Platform.runLater(() -> this.Pprint.wValue(this.i.toString(this.radix).toUpperCase(), 
                                                 this.j.toString(this.radix).toUpperCase(),
                                                 this.exponent.toString(this.radix).toUpperCase(),
-                                                w.toString(this.radix).toUpperCase()));
+                                                w.toString(this.radix).toUpperCase(),
+                                                this.radix));
 
         s = w.modInverse(this.exponent);
         //t es la clave privada o una clave privada pareja o un falso positivo
@@ -335,8 +340,8 @@ public class ParadoxAttack {
         
         Platform.runLater(() -> {
             this.Pprint.Stats(this.avgStats.toString());
-            this.Pprint.tValue(t.toString(this.radix).toUpperCase());
-            this.Pprint.privateKey(t.toString(this.radix).toUpperCase());
+            this.Pprint.tValue(t.toString(this.radix).toUpperCase(), this.radix);
+            this.Pprint.privateKey(t.toString(this.radix).toUpperCase(), this.radix);
             this.Pprint.time(time);
             this.Pprint.enableStart();
             this.Pprint.editableModExp(true);

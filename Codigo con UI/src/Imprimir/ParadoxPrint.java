@@ -28,10 +28,10 @@ public class ParadoxPrint {
     }
    
     
-    public void numbers(String modulus, String exponent, String message) {
-        this.scene.getModulus().setText(this.utilidades.putPoints(modulus));
-        this.scene.getExponent().setText(this.utilidades.putPoints(exponent));
-        this.scene.getMessage().setText(this.utilidades.putPoints(message));    
+    public void numbers(String modulus, String exponent, String message, int radix) {
+        this.scene.getModulus().setText(this.utilidades.putPoints(modulus, radix));
+        this.scene.getExponent().setText(this.utilidades.putPoints(exponent, radix));
+        this.scene.getMessage().setText(this.utilidades.putPoints(message, radix));    
         
     }
     
@@ -58,15 +58,15 @@ public class ParadoxPrint {
     }
 
     //IMPRESION DE RESULTADOS
-    public void initialResults(String cipherI, String cipherJ, String j, String modulus) {
+    public void initialResults(String cipherI, String cipherJ, String j, String modulus, int radix) {
         //el mensaje/número elegido es igual que el cipherI por estar elevado a 1
         String lineas = "Columna i (valor inicial)            Columna J (valor buscado)\n" +
                         "----------------------------------------------------------------\n" + 
                         "mensaje^1 mod Módulo            mensaje^(modulo/2) mod Módulo \n";        
         
         
-        lineas = lineas + this.utilidades.putPoints(cipherI) + "^1 mod " + this.utilidades.putPoints(modulus) + "=" + cipherI + "         " +
-               this.utilidades.putPoints(cipherI) + "^" + j + " mod " + this.utilidades.putPoints(modulus) + "=" + cipherJ + "\n\n";
+        lineas = lineas + this.utilidades.putPoints(cipherI, radix) + "^1 mod " + this.utilidades.putPoints(modulus, radix) + "=" + cipherI + "         " +
+               this.utilidades.putPoints(cipherI, radix) + "^" + j + " mod " + this.utilidades.putPoints(modulus, radix) + "=" + cipherJ + "\n\n";
         
         lineas = lineas + "\nCifrados sucesivos columna I\n" 
                         + "--------------------------------\n";
@@ -80,22 +80,22 @@ public class ParadoxPrint {
         
     }
 
-    public void wValue(String i, String j, String exponent, String w) {
+    public void wValue(String i, String j, String exponent, String w, int radix) {
         this.scene.getResults().appendText("\n\n    Cálculo de la Clave Privada, Clave Privada Pareja o Falso Positivo:\n");
         this.scene.getResults().appendText(" --> Se calcula w = (i - j) / mcd (e, |i - j|)."
-                + " \n     Siendo i=" + this.utilidades.putPoints(i) +
-                ",  j=" + this.utilidades.putPoints(j) +
-                "  y la clave pública= " + this.utilidades.putPoints(exponent) + ".\n"
-                + " --> Resultado w = " + this.utilidades.putPoints(w) + "\n");
+                + " \n     Siendo i=" + this.utilidades.putPoints(i, radix) +
+                ",  j=" + this.utilidades.putPoints(j, radix) +
+                "  y la clave pública= " + this.utilidades.putPoints(exponent, radix) + ".\n"
+                + " --> Resultado w = " + this.utilidades.putPoints(w, radix) + "\n");
     }
      
-    public void tValue(String t) {
+    public void tValue(String t, int radix) {
         this.scene.getResults().appendText(" --> Se calcula  t = inv (e, w).\n");
-        this.scene.getResults().appendText(" --> Resultado t = " + this.utilidades.putPoints(t) + "\n\n");
+        this.scene.getResults().appendText(" --> Resultado t = " + this.utilidades.putPoints(t, radix) + "\n\n");
     } 
     
-    public void privateKey(String privateKey) {
-        this.scene.getPrivateKey().setText(this.utilidades.putPoints(privateKey));        
+    public void privateKey(String privateKey, int radix) {
+        this.scene.getPrivateKey().setText(this.utilidades.putPoints(privateKey, radix));        
     }
 
     public void time(String Time) {
@@ -115,7 +115,7 @@ public class ParadoxPrint {
     }
     
     public void Stats(String stats) {
-        this.scene.getAvgCiphersStats().setText(this.utilidades.putPoints(stats));
+        this.scene.getAvgCiphersStats().setText(this.utilidades.putPoints(stats, 10));
     }
         
     

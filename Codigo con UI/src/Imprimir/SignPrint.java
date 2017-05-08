@@ -33,7 +33,7 @@ public class SignPrint {
     
     
     
-    public void inputData(String[] processedNumbers, boolean isOriginal) {
+    public void inputNumbersData(String[] processedNumbers, boolean isOriginal, int radix) {
         int i, numbers = processedNumbers.length;
         String num;
         TextArea data;
@@ -50,7 +50,23 @@ public class SignPrint {
         for (i=0; i<numbers; i++){
             num = processedNumbers[i];
             if (num!=null){
-                data.appendText(this.utilidades.putPoints(num) + "\n");
+                data.appendText(this.utilidades.putPoints(num, radix) + "\n");
+            }            
+        }
+    }
+    
+    public void inputTextData(String[] processedText) {
+        int i, numbers = processedText.length;
+        String text;
+        TextArea data;
+        
+        data = this.SignScene.getOriginalData();
+        data.clear();
+        
+        for (i=0; i<numbers; i++){
+            text = processedText[i];
+            if (text!=null){
+                data.appendText(text + "\n");
             }            
         }
     }
@@ -61,15 +77,15 @@ public class SignPrint {
     }
 
     public void addValidatedData(String validatedNum) {
-        this.SignScene.getValidatedData().appendText(this.utilidades.putPoints(validatedNum) + "\n");
+        this.SignScene.getValidatedData().appendText(validatedNum + "\n");
     }
 
     public void clearSignedData() {
         this.SignScene.getSignedData1().clear();
     }
     
-    public void addSignedData(String signedNum) {
-        this.SignScene.getSignedData1().appendText(this.utilidades.putPoints(signedNum) + "\n");
+    public void addSignedData(String signedNum, int radix) {
+        this.SignScene.getSignedData1().appendText(this.utilidades.putPoints(signedNum, radix) + "\n");
     }
     
 }

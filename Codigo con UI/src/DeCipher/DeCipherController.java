@@ -128,7 +128,7 @@ public class DeCipherController {
         
         if (this.DeCipher.initDecipher(this.modulusBI, this.privKeyCombo.getValue().toString())
                 && this.DeCipher.processData(this.cipheredData2, isText, false)){
-            this.DeCipher.decrypt();
+            this.DeCipher.decrypt(isText);
         }
 
     }

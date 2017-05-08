@@ -31,18 +31,18 @@ public class Print {
     public Print (SceneController sceneC){
         this.scene = sceneC;
         utilidades = new Utilidades();
-        cross = new Image("file:resources/primality/cross.png");
-        tick = new Image("file:resources/primality/tick.png");
-        interrogation = new Image("file:resources/primality/interrogation.png");
+        cross = new Image(Print.class.getResourceAsStream("/allImages/cross.png"));
+        tick = new Image(Print.class.getResourceAsStream("/allImages/tick.png"));
+        interrogation = new Image(Print.class.getResourceAsStream("/allImages/interrogation.png"));
     }
     
     public void rsaGeneration (ComponentesRSA RSA,  String tiempo, int radix){
         
-        this.scene.getPrimo_P().setText(this.utilidades.putPoints(RSA.getP().toString(radix).toUpperCase()));
-        this.scene.getPrimo_Q().setText(this.utilidades.putPoints(RSA.getQ().toString(radix).toUpperCase()));
-        this.scene.getClave_Privada().setText(this.utilidades.putPoints(RSA.getD().toString(radix).toUpperCase()));
-        this.scene.getClave_Publica().setText(this.utilidades.putPoints(RSA.getE().toString(radix).toUpperCase()));
-        this.scene.getModulo_N().setText(this.utilidades.putPoints(RSA.getN().toString(radix).toUpperCase()));
+        this.scene.getPrimo_P().setText(this.utilidades.putPoints(RSA.getP().toString(radix).toUpperCase(), radix));
+        this.scene.getPrimo_Q().setText(this.utilidades.putPoints(RSA.getQ().toString(radix).toUpperCase(), radix));
+        this.scene.getClave_Privada().setText(this.utilidades.putPoints(RSA.getD().toString(radix).toUpperCase(), radix));
+        this.scene.getClave_Publica().setText(this.utilidades.putPoints(RSA.getE().toString(radix).toUpperCase(), radix));
+        this.scene.getModulo_N().setText(this.utilidades.putPoints(RSA.getN().toString(radix).toUpperCase(), radix));
         
         this.scene.getBits_primo_P().setText(this.utilidades.countBits(RSA.getP()));
         this.scene.getBits_primo_Q().setText(this.utilidades.countBits(RSA.getQ()));
@@ -56,7 +56,7 @@ public class Print {
     
     public void autoBitsKey (String keySize){
         
-        this.scene.getBits_clave_automatica().setText(this.utilidades.putPoints(keySize));        
+        this.scene.getBits_clave_automatica().setText(this.utilidades.putPoints(keySize,10));        
     }
 
     
@@ -78,11 +78,11 @@ public class Print {
     }
 
     public void numClavesParejas(BigInteger numCKP) {
-        this.scene.getNum_claves_parejas().setText(this.utilidades.putPoints(numCKP.toString()));
+        this.scene.getNum_claves_parejas().setText(this.utilidades.putPoints(numCKP.toString(), 10));
     }
 
     public void numNNC(BigInteger numNNC) {
-        this.scene.getCantidadNNC().setText(this.utilidades.putPoints(numNNC.toString()));
+        this.scene.getCantidadNNC().setText(this.utilidades.putPoints(numNNC.toString(),10));
     }
 
     public void primalityResults(boolean Ptrue, boolean Qtrue, String time) {

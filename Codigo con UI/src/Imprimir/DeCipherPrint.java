@@ -31,7 +31,7 @@ public class DeCipherPrint {
     
     
     
-    public void inputData(String[] processedNumbers, boolean isOriginal) {
+    public void inputNumbersData(String[] processedNumbers, boolean isOriginal, int radix) {
         int i, numbers = processedNumbers.length;
         String num;
         TextArea data;
@@ -48,17 +48,36 @@ public class DeCipherPrint {
         for (i=0; i<numbers; i++){
             num = processedNumbers[i];
             if (num!=null){
-                data.appendText(this.utilidades.putPoints(num) + "\n");
+                data.appendText(this.utilidades.putPoints(num, radix) + "\n");
             }            
         }
     }
+    
+    
+    
+    public void inputTextData(String[] processedText) {
+        int i, numbers = processedText.length;
+        String text;
+        TextArea data;
+        
+        data = this.DCscene.getOriginalData();
+        data.clear();
+        
+        for (i=0; i<numbers; i++){
+            text = processedText[i];
+            if (text!=null){
+                data.appendText(text + "\n");
+            }            
+        }
+    }
+        
 
     public void clearCipheredData() {
         this.DCscene.getCipheredData1().clear();
     }
 
-    public void addCipheredData(String cipheredNum) {
-        this.DCscene.getCipheredData1().appendText(this.utilidades.putPoints(cipheredNum) + "\n");
+    public void addCipheredData(String cipheredNum, int radix) {
+        this.DCscene.getCipheredData1().appendText(this.utilidades.putPoints(cipheredNum, radix) + "\n");
     }
 
     public void clearDecipheredData() {
@@ -66,7 +85,7 @@ public class DeCipherPrint {
     }
     
     public void addDecipheredData(String decipheredNum) {
-        this.DCscene.getDecipheredData().appendText(this.utilidades.putPoints(decipheredNum) + "\n");
+        this.DCscene.getDecipheredData().appendText(decipheredNum + "\n");
     }
     
    

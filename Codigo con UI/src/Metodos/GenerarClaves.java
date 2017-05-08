@@ -278,7 +278,7 @@ public class GenerarClaves {
             });
             
             if (cpp.compareTo(this.RSA.getD()) != 0){
-                listCPP.add(this.utilidades.putPoints(cpp.toString(this.radix)) + " -> " + cpp.bitLength() + " bits");
+                listCPP.add(this.utilidades.putPoints(cpp.toString(this.radix).toUpperCase(), this.radix) + " -> " + cpp.bitLength() + " bits");
             }
             
             //para controlar el while, dado que si el numero es mayor que el max_value de los integer
@@ -288,7 +288,7 @@ public class GenerarClaves {
             while (CKP_int >= iterador && iterador <= 60){
                     cpp=cpp.add(this.RSA.getGamma());
                     if (cpp.compareTo(this.RSA.getD()) != 0){
-                            listCPP.add(this.utilidades.putPoints(cpp.toString(this.radix)) + " -> " + cpp.bitLength() + " bits");
+                            listCPP.add(this.utilidades.putPoints(cpp.toString(this.radix).toUpperCase(), this.radix) + " -> " + cpp.bitLength() + " bits");
                     }
                     iterador++;
             }

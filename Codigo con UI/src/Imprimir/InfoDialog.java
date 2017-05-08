@@ -22,7 +22,7 @@ public class InfoDialog {
         info.setTitle("Mensaje de información");
         info.setHeaderText(null);
         Stage stage = (Stage) this.info.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image("file:resources/info/info.png"));
+        stage.getIcons().add(new Image(InfoDialog.class.getResourceAsStream("/allImages/info.png")));
         
     }
     
@@ -126,7 +126,9 @@ public class InfoDialog {
                  + "Si los datos introducidos no son texto, se introducirá un\n"
                  + "número por línea. Si el número introducido es mayor que el\n"
                  + "módulo se dividirá en números de menor o igual valor que el módulo.\n\n"
-                 + "Si los datos introducidos son texto,...");
+                 + "Si los datos introducidos son texto, se pasarán a formato ASCII\n"
+                 + "y se cifrarán en bloques de bytes. Los bloques serán de \n"
+                 + "tamaño máximo igual al número de bytes del módulo menos uno.");
                  
                  
         info.showAndWait();
@@ -139,7 +141,9 @@ public class InfoDialog {
                  + "Si los datos introducidos no son texto, se introducirá un\n"
                  + "número por línea. Si el número introducido es mayor que el\n"
                  + "módulo se dividirá en números de menor o igual valor que el módulo.\n\n"
-                 + "Si los datos introducidos son texto,...");
+                 + "Si los datos introducidos son texto, se descifrarán y se pasarán a \n"
+                 + "formato ASCII. Es el usuario el que debe asegurarse que los \n"
+                 + "datos introducidos tienen caracteres ASCII legibles.");
                  
                  
         info.showAndWait();
@@ -153,7 +157,9 @@ public class InfoDialog {
                  + "Si los datos introducidos no son texto, se introducirá un\n"
                  + "número por línea. Si el número introducido es mayor que el\n"
                  + "módulo se dividirá en números de menor o igual valor que el módulo.\n\n"
-                 + "Si los datos introducidos son texto,...");
+                 + "Si los datos introducidos son texto, se pasarán a formato ASCII\n"
+                 + "y se firmarán en bloques de bytes. Los bloques serán de tamaño \n"
+                 + "máximo igual al número de bytes del módulo menos uno.");
                  
                  
         info.showAndWait();
@@ -161,13 +167,16 @@ public class InfoDialog {
 
     public void putValidateSignInfo() {
         info.setContentText("El proceso de comprobación de la firma siempre se realiza\n" 
-                 + "con la clave pública del emisor. Para comprobar una firma, se realiza\n"
-                 + "el hash del documento recibido y se compara con el hash recibido (que esta firmado)\n"
-                 + "una vez lo hemos obtenido aplicandole la clave pública del emisor\n\n"
+                 + "con la clave pública del emisor. Para comprobar una firma, se \n"
+                 + "realiza el hash del documento recibido y se compara con el hash\n"
+                 + "recibido (que esta firmado) una vez lo hemos obtenido \n"
+                 + "aplicandole la clave pública del emisor\n\n"
                  + "Si los datos introducidos no son texto, se introducirá un\n"
                  + "número por línea. Si el número introducido es mayor que el\n"
                  + "módulo se dividirá en números de menor o igual valor que el módulo.\n\n"
-                 + "Si los datos introducidos son texto,...");
+                 + "Si los datos introducidos son texto, se validarán y se pasarán a \n"
+                 + "formato ASCII. Es el usuario el que debe asegurarse que los datos \n"
+                 + "introducidos tienen caracteres ASCII legibles.");
                  
                  
         info.showAndWait();

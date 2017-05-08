@@ -125,7 +125,7 @@ public class SignController {
         this.Sign.initValidateSign(this.modulusBI, this.pubKeyBI);
         
         if (this.Sign.processData(this.signedData2, isText, false)){
-            this.Sign.validateSign();
+            this.Sign.validateSign(isText);
         }
 
     }

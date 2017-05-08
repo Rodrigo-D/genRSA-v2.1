@@ -26,6 +26,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -256,8 +257,8 @@ public class SceneController {
         assert Decimal != null : "fx:id=\"Decimal\" was not injected: check your FXML file 'escena.fxml'.";
         assert Hexadecimal != null : "fx:id=\"Hexadecimal\" was not injected: check your FXML file 'escena.fxml'.";
         
-        isPrime_P.setImage(new Image("file:resources/primality/interrogation.png"));
-        isPrime_Q.setImage(new Image("file:resources/primality/interrogation.png"));
+        isPrime_P.setImage(new Image(SceneController.class.getResourceAsStream("/allImages/interrogation.png")));
+        isPrime_Q.setImage(new Image(SceneController.class.getResourceAsStream("/allImages/interrogation.png")));
         
         radix = 10;
         initCboxes = new InitCBox();
@@ -475,7 +476,8 @@ public class SceneController {
             
             Scene scene = new Scene(root);
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(this.unitsD.getScene().getWindow());
+            stage.initOwner(this.unitsD.getScene().getWindow());            
+            stage.getIcons().add(new Image(SceneController.class.getResourceAsStream("/allImages/genRSA.png")));
             stage.setScene(scene);
             stage.show();            
         
@@ -513,6 +515,7 @@ public class SceneController {
             Scene scene = new Scene(root);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(this.unitsD.getScene().getWindow());
+            stage.getIcons().add(new Image(SceneController.class.getResourceAsStream("/allImages/genRSA.png")));
             stage.setScene(scene);
             stage.show();            
         
@@ -551,6 +554,7 @@ public class SceneController {
             Scene scene = new Scene(root);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(this.unitsD.getScene().getWindow());
+            stage.getIcons().add(new Image(SceneController.class.getResourceAsStream("/allImages/genRSA.png")));
             stage.setScene(scene);
             stage.show();            
         
@@ -603,7 +607,8 @@ public class SceneController {
                                     
             Scene scene = new Scene(root);            
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(this.unitsD.getScene().getWindow());
+            stage.initOwner(this.unitsD.getScene().getWindow());            
+            stage.getIcons().add(new Image(SceneController.class.getResourceAsStream("/allImages/genRSA.png")));
             stage.setScene(scene);
             stage.show();       
             
@@ -643,6 +648,7 @@ public class SceneController {
             SignCtr.getModulus1().setText(this.RSA.getN().toString(this.radix).toUpperCase());
             //obtengo todas las claves privadas parejas
             String[] PPK = this.claves_parejas.getText().split("\n");
+            //quito la informacion acerca de los bits "--> XXbits"
                         
             //las meto en el comboBox
             ComboBox comboBox = SignCtr.getPrivKeys();
@@ -657,7 +663,8 @@ public class SceneController {
             
             Scene scene = new Scene(root);
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(this.unitsD.getScene().getWindow());
+            stage.initOwner(this.unitsD.getScene().getWindow());            
+            stage.getIcons().add(new Image(SceneController.class.getResourceAsStream("/allImages/genRSA.png")));
             stage.setScene(scene);
             stage.show();       
             
@@ -668,6 +675,33 @@ public class SceneController {
                 
     }
         
+    
+    
+    /**
+     * Comprueba la primalidad de P y Q por el metodo de Fermat
+     * @param event 
+     */
+    public void aboutGenRSA(ActionEvent event) {
+        Alert info = new Alert(Alert.AlertType.INFORMATION);
+        info.setTitle("Acerca de genRSA");
+        Stage stage = (Stage) info.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image(SceneController.class.getResourceAsStream("/allImages/info.png")));
+        
+        info.setHeaderText("genRSA - Generación de claves RSA v2.1");
+        
+        info.setContentText("GenRSA es un software de laboratorio para la generación \n"
+                + "de claves RSA.\n"
+                + "Este software tiene como fin que el alumno se familiarize con\n"
+                + "el sistema de cifrado asimétrico de clave pública RSA. \n\n\n"
+                + "Proyecto de fin de grado realizado por Rodrigo Díaz.\n"
+                + "Tutor: Jorge Ramió Aguirre\n"
+                + "Año 2017");
+        
+        info.showAndWait();
+    }
+    
+    
+    
     /**
      * Cierra todo el programa
      * @param event 

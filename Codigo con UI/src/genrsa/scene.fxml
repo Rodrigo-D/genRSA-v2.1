@@ -122,11 +122,11 @@
                <items>
                   <MenuItem mnemonicParsing="false" text="Índice de Contenido">
                      <accelerator>
-                        <KeyCodeCombination alt="UP" code="F1" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                        <KeyCodeCombination alt="UP" code="F1" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" text="Acerca de">
+                  <MenuItem mnemonicParsing="false" onAction="#aboutGenRSA" text="Acerca de">
                      <accelerator>
-                        <KeyCodeCombination alt="UP" code="F10" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                        <KeyCodeCombination alt="UP" code="F10" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
                </items>
             </Menu>

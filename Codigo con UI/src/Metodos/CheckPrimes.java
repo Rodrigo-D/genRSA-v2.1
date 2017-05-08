@@ -121,7 +121,7 @@ public class CheckPrimes {
         BigInteger a;
 
         // para comprobar si es compuesto o primo
-        BigInteger x;		        
+        BigInteger x;		    
         
 
         // Calculate: probPrime - 1 = (2^k) * m 

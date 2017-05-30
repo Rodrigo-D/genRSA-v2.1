@@ -42,13 +42,13 @@ public class ParadoxPrint {
         this.scene.getTime().clear();
     }
     
-    public void dissableStart() {
-        this.scene.getStartBttn().setDisable(true);
+    public void enableStop() {
+        this.scene.getStartBttn().setText("Parar");
         this.scene.getClearBttn().setDisable(true);
     }
     
     public void enableStart() {
-        this.scene.getStartBttn().setDisable(false);
+        this.scene.getStartBttn().setText("Comenzar");
         this.scene.getClearBttn().setDisable(false);
     }
      
@@ -115,11 +115,15 @@ public class ParadoxPrint {
     }
     
     public void badResult() {
-         this.scene.getResults().appendText(" El resultado t obtenido es un Falso Positivo, \n" +
+        this.scene.getResults().appendText(" El resultado t obtenido es un Falso Positivo, \n" +
                  " es decir, solo descifra el mensaje introducido."
                  + " Prueba con otro mensaje.");
     }
     
+    public void attackStopped() {
+        this.scene.getResults().appendText("\n\n ******** EL ATAQUE SE HA DETENDIDO ******** ");
+        this.scene.getPrivateKey().clear();
+    }
     public void Stats(String stats) {
         this.scene.getAvgCiphersStats().setText(this.utilidades.putPoints(stats, 10));
     }
@@ -129,10 +133,19 @@ public class ParadoxPrint {
     
     public void partialDelete() {
         this.scene.getAvgCiphersStats().clear();
-        this.scene.getResults().setText("Error al realizar el ataque, la columna I \n"
+        this.scene.getResults().appendText("Error al realizar el ataque, la columna I \n"
                 + "ha sobrepasado el valor de la columna J");
         this.scene.getPrivateKey().clear();
         this.scene.getTime().clear();
     }
+    
+    public void delete() {
+        this.scene.getAvgCiphersStats().clear();
+        this.scene.getResults().clear();
+        this.scene.getPrivateKey().clear();
+        this.scene.getTime().clear();
+    }
+
+    
     
 }

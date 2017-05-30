@@ -70,6 +70,8 @@ public class ParadoxController {
     
     private boolean firstTime;
     
+    private Boolean start;
+    
     
     
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -85,7 +87,8 @@ public class ParadoxController {
         assert clearBttn != null : "fx:id=\"clearBttn\" was not injected: check your FXML file 'Paradox.fxml'.";
         assert progress != null : "fx:id=\"progress\" was not injected: check your FXML file 'Paradox.fxml'.";
         
-        firstTime=true;
+        firstTime = true;
+        start = true;
         paradoxAttack = new ParadoxAttack(new ParadoxPrint(this));
         
         Platform.runLater(Message::requestFocus);
@@ -93,28 +96,34 @@ public class ParadoxController {
 
 
     @FXML
-    public void start(ActionEvent event) {
+    public void startStop(ActionEvent event) {
         
-        Task CAstart= new Task() {
-            @Override
-            protected Object call() throws Exception {
-                String message = Message.getText();
-                String modulus = Modulus.getText();
-                String exponent = Exponent.getText();
+        if (start) {  
+            Task CAstart= new Task() {
+                @Override
+                protected Object call() throws Exception {
+                    start = false;
+                    String message = Message.getText();
+                    String modulus = Modulus.getText();
+                    String exponent = Exponent.getText();
 
-                paradoxAttack.setRadix(radix);
-                Platform.runLater(() ->progress.setVisible(true));
+                    paradoxAttack.setRadix(radix);
+                    Platform.runLater(() ->progress.setVisible(true));
 
-                if (paradoxAttack.init(message, modulus, exponent)){
-                    paradoxAttack.start();
+                    if (paradoxAttack.init(message, modulus, exponent)){
+                        paradoxAttack.start();
+                        start=true;
+                    }
+
+                    Platform.runLater(() ->progress.setVisible(false));
+                    return null;
                 }
-                
-                Platform.runLater(() ->progress.setVisible(false));
-                return null;
-            }
-        };
-        
-        new Thread(CAstart).start();             
+            };
+
+            new Thread(CAstart).start();  
+        } else {
+            paradoxAttack.setIsCancelled(true);
+        }   
     }  
     
     
@@ -135,7 +144,7 @@ public class ParadoxController {
      */
     public void processStart(KeyEvent keyEvent) {
          if (keyEvent.getCode() == KeyCode.ENTER) {            
-            this.start(new ActionEvent());
+            this.startStop(new ActionEvent());
         }
     }
         

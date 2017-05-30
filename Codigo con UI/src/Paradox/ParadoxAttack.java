@@ -44,6 +44,8 @@ public class ParadoxAttack {
     private String partialResult;
             
     private BigInteger avgStats;
+    
+    private boolean isCancelled;
 
     public ParadoxAttack(ParadoxPrint paradoxPrint) {
         this.errorDialog = new ErrorDialog();
@@ -51,6 +53,7 @@ public class ParadoxAttack {
         this.utilidades = new Utilidades();
         this.Pprint = paradoxPrint;
         this.radix = 10;
+        this.isCancelled = false;
         
     }
     
@@ -79,10 +82,7 @@ public class ParadoxAttack {
             Platform.runLater(() -> this.errorDialog.bigExponent());
             return false;
         }     
-        
-        
-        //pregunta en doc de preguntas
-        
+                
         //MESSAGE------------        
         message = this.utilidades.formatNumber(message);
         
@@ -103,21 +103,24 @@ public class ParadoxAttack {
             return false;
         }
         
-       Platform.runLater(() ->{
+        //PARTE GRAFICA-------------
+        Platform.runLater(() ->{
            this.Pprint.numbers(this.modulus.toString(this.radix).toUpperCase(),
                                                     this.exponent.toString(this.radix).toUpperCase(),
                                                     this.message.toString(this.radix).toUpperCase(),
                                                     this.radix);
-           this.Pprint.dissableStart();
+           this.Pprint.enableStop();
            this.Pprint.editableModExp(false);
            this.Pprint.partialClear();
-       });
+        });
         
         return true;        
     }
     
     
-    
+    /**
+     * Método para saber en que rango actua el bucle y por tanto la impresion de resultados.
+     */
     public void start() {
         if (this.modulus.bitLength() < 30){
             this.LMstart();
@@ -127,17 +130,19 @@ public class ParadoxAttack {
             this.BMstart(Constantes.BM_REFRESH);
         } else {
             this.BMstart(Constantes.MAX_REFRESH);
-        }
-        
+        }        
     }
     
     
-    //ataque por la paradoja del cumpleaños, no para hasta que prospera
-    //imprime todos los resultados del ataque LM = little modulus
+    
+    /**
+     * Ataque por la paradoja del cumpleaños. Solo para en el caso de que se pulse "Parar"
+     * imprime todos los resultados del ataque LM = little modulus
+     */
     public void LMstart(){
        
         BigInteger cipherI, cipherJ;
-        BigInteger IMinusJ, w, s, t;
+        BigInteger IMinusJ, w, t;
         long startTime, totalTime;
         final String time, cipherIstr, cipherJstr;        
         long statsTime;
@@ -145,6 +150,7 @@ public class ParadoxAttack {
         
         startTime = System.currentTimeMillis();
 				
+        //Calculo e impresion de primeros resultados
         this.i = new BigInteger("1");
         this.j = this.modulus.divide(Constantes.TWO);
 
@@ -160,9 +166,10 @@ public class ParadoxAttack {
                                                         this.j.toString(this.radix).toUpperCase(),
                                                         this.modulus.toString(this.radix).toUpperCase(),
                                                         this.radix));
-        this.result = "";        
+        this.result = ""; 
         
-        while (!(cipherI.equals(cipherJ)) && this.i.compareTo(this.j) == -1){
+        //Comienza el bucle del ataque
+        while (!(cipherI.equals(cipherJ)) && this.i.compareTo(this.j) == -1 && !(isCancelled)){
             this.i = this.i.add(Constantes.ONE);
             cipherI = this.message.multiply(cipherI).mod(this.modulus);
             
@@ -186,38 +193,47 @@ public class ParadoxAttack {
                 });
                 this.result="";
             }               
-        } 
-        
-        
-        
+        }         
+        //Por si ha encontrado la clave y le faltan valores por escribir
         if (!write){
             Platform.runLater(() -> this.Pprint.partialResults(this.result));
-        }       
+        }             
         
-        if (!cipherI.equals(cipherJ)){               
-            Platform.runLater(() -> {
-                this.Pprint.partialDelete();
-                this.Pprint.enableStart();                
-            });
-            return;
-                //error ¿Realmente se puede dar el caso?
-        }
-        
-        //CALCULOS PARA OBTENER LA POSIBLE CLAVE
-        IMinusJ = this.i.subtract(this.j).abs();
-        w = (IMinusJ).divide(this.exponent.gcd(IMinusJ));        
-        
-        Platform.runLater(() -> this.Pprint.wValue(this.i.toString(this.radix).toUpperCase(), 
-                                                this.j.toString(this.radix).toUpperCase(),
-                                                this.exponent.toString(this.radix).toUpperCase(),
-                                                w.toString(this.radix).toUpperCase(),
-                                                this.radix));
+        if (cipherI.equals(cipherJ)){
+            //CALCULOS PARA OBTENER LA POSIBLE CLAVE
+            IMinusJ = this.i.subtract(this.j).abs();
+            w = (IMinusJ).divide(this.exponent.gcd(IMinusJ));        
 
-        s = w.modInverse(this.exponent);
-        //t es la clave privada o una clave privada pareja o un falso positivo
-        t = this.exponent.modInverse(w);        
-        //comprobar, pero no sirve para nada((w.multiply(s)).add(publica.multiply(t))).equals(BigInteger.ONE)); 
-        //si no sirve borrar la s
+            Platform.runLater(() -> this.Pprint.wValue(this.i.toString(this.radix).toUpperCase(), 
+                                                    this.j.toString(this.radix).toUpperCase(),
+                                                    this.exponent.toString(this.radix).toUpperCase(),
+                                                    w.toString(this.radix).toUpperCase(),
+                                                    this.radix));
+
+
+            //t es la clave privada o una clave privada pareja o un falso positivo
+            t = this.exponent.modInverse(w);  
+            Platform.runLater(() -> {
+                this.Pprint.privateKey(t.toString(this.radix).toUpperCase(), this.radix);
+                this.Pprint.tValue(t.toString(this.radix).toUpperCase(), this.radix);
+            });
+            
+            this.checkObtainedKey(t);
+            
+        //Si se ha  pulsado el boton de parar el ataque y no se ha encontrado la clave privada    
+        } else if (isCancelled){
+            
+            Platform.runLater(() -> {
+                this.Pprint.attackStopped();   
+            });
+            
+        //Si el ataque no hubiera funcionado --> fallido
+        }else {
+            Platform.runLater(() -> {
+                this.Pprint.partialDelete();  
+            });
+            
+        }        
         
         totalTime = System.currentTimeMillis() - startTime;
         time = this.utilidades.millisToSeconds(totalTime);
@@ -229,31 +245,30 @@ public class ParadoxAttack {
         }     
         
         Platform.runLater(() -> {
-            this.Pprint.Stats(this.avgStats.toString());
-            this.Pprint.tValue(t.toString(this.radix).toUpperCase(), this.radix);
-            this.Pprint.privateKey(t.toString(this.radix).toUpperCase(), this.radix);
+            this.Pprint.Stats(this.avgStats.toString());            
             this.Pprint.time(time);
             this.Pprint.enableStart();            
             this.Pprint.editableModExp(true);
         });
         
-        this.checkObtainedKey(t);
+        this.setIsCancelled(false);
     }
     
     
-    //ataque por la paradoja del cumpleaños, no para hasta que prospera
+    //ataque por la paradoja del cumpleaños. Solo para en el caso de que se pulse "Parar"
     //no imprime todos los resultados del ataque BM = big modulus
     public void BMstart(BigInteger MAX_REFRESH){
        
         BigInteger cipherI, cipherJ;
-        BigInteger IMinusJ, w, s, t;
+        BigInteger IMinusJ, w, t;
         long startTime, totalTime;
         final String time, cipherIstr, cipherJstr;
         long statsTime;
         boolean write = false;
         
         startTime = System.currentTimeMillis();
-				
+        
+	//Calculo e impresion de primeros resultados			
         this.i = new BigInteger("1");
         this.j = this.modulus.divide(Constantes.TWO);
 
@@ -269,8 +284,9 @@ public class ParadoxAttack {
                                                         this.j.toString(this.radix).toUpperCase(),
                                                         this.modulus.toString(this.radix).toUpperCase(),
                                                         this.radix));
-
-        while (!(cipherI.equals(cipherJ)) && this.i.compareTo(this.j) == -1){
+        
+        //Comienza el bucle del ataque
+        while (!(cipherI.equals(cipherJ)) && this.i.compareTo(this.j) == -1 && !(isCancelled)){
             this.i = this.i.add(Constantes.ONE);
             cipherI = this.message.multiply(cipherI).mod(this.modulus);
             write = false;
@@ -295,7 +311,7 @@ public class ParadoxAttack {
             }             
         } 
         
-        
+        //Por si ha encontrado la clave y le faltan valores por escribir
         if (!write){
             this.partialResult = this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase(), this.radix) + "^" +
                           this.utilidades.putPoints(this.i.toString(this.radix).toUpperCase(), this.radix) + " mod " +
@@ -305,30 +321,40 @@ public class ParadoxAttack {
             Platform.runLater(() -> this.Pprint.partialResults(this.partialResult));
         }  
 
-        if (!cipherI.equals(cipherJ)){               
+        
+        if (cipherI.equals(cipherJ)){
+            //CALCULOS PARA OBTENER LA POSIBLE CLAVE           
+            IMinusJ = this.i.subtract(this.j).abs();
+            w = (IMinusJ).divide(this.exponent.gcd(IMinusJ));        
+
+            Platform.runLater(() -> this.Pprint.wValue(this.i.toString(this.radix).toUpperCase(), 
+                                                    this.j.toString(this.radix).toUpperCase(),
+                                                    this.exponent.toString(this.radix).toUpperCase(),
+                                                    w.toString(this.radix).toUpperCase(),
+                                                    this.radix));
+
+           //t es la clave privada o una clave privada pareja o un falso positivo
+            t = this.exponent.modInverse(w); 
+            
             Platform.runLater(() -> {
-                this.Pprint.partialDelete();
-                this.Pprint.enableStart();                
+                this.Pprint.tValue(t.toString(this.radix).toUpperCase(), this.radix);
+                this.Pprint.privateKey(t.toString(this.radix).toUpperCase(), this.radix);
             });
-            return;
-                //error ¿Realmente se puede dar el caso?
+            this.checkObtainedKey(t);
+            
+         //Si se ha  pulsado el boton de parar el ataque y no se ha encontrado la clave privada    
+        } else if (isCancelled){
+             Platform.runLater(() -> {
+                this.Pprint.attackStopped();   
+            });
+             
+        //Si el ataque no hubiera funcionado --> fallido
+        } else {               
+            Platform.runLater(() -> {
+                this.Pprint.partialDelete();        
+            });
         }
-
-        IMinusJ = this.i.subtract(this.j).abs();
-        w = (IMinusJ).divide(this.exponent.gcd(IMinusJ));        
-        
-        Platform.runLater(() -> this.Pprint.wValue(this.i.toString(this.radix).toUpperCase(), 
-                                                this.j.toString(this.radix).toUpperCase(),
-                                                this.exponent.toString(this.radix).toUpperCase(),
-                                                w.toString(this.radix).toUpperCase(),
-                                                this.radix));
-
-        s = w.modInverse(this.exponent);
-        //t es la clave privada o una clave privada pareja o un falso positivo
-        t = this.exponent.modInverse(w);        
-        //comprobar, pero no sirve para nada((w.multiply(s)).add(publica.multiply(t))).equals(BigInteger.ONE)); 
-        //si no sirve borrar la s
-        
+                
         totalTime = System.currentTimeMillis() - startTime;
         time = this.utilidades.millisToSeconds(totalTime);
         
@@ -340,16 +366,19 @@ public class ParadoxAttack {
         
         Platform.runLater(() -> {
             this.Pprint.Stats(this.avgStats.toString());
-            this.Pprint.tValue(t.toString(this.radix).toUpperCase(), this.radix);
-            this.Pprint.privateKey(t.toString(this.radix).toUpperCase(), this.radix);
+            
             this.Pprint.time(time);
             this.Pprint.enableStart();
             this.Pprint.editableModExp(true);
         });
         
-        this.checkObtainedKey(t);
+        this.setIsCancelled(false);
     }
     
+    /**
+     * Metodo que comprueba que la clave obtenida no sea un falso positivo
+     * @param key 
+     */
     private void checkObtainedKey(BigInteger key) {
         BigInteger numberEncrypt, numberDecrypt;
         BigInteger modulusMinusOne = this.modulus.subtract(Constantes.ONE);
@@ -372,13 +401,11 @@ public class ParadoxAttack {
         } else{
             Platform.runLater(() -> this.Pprint.badResult());
         }
-        
-
     }
     
     
     public void  clear(){
-        this.Pprint.partialDelete();
+        this.Pprint.delete();
     }
     
     
@@ -397,11 +424,12 @@ public class ParadoxAttack {
     
     
     public void setRadix (int radix){
-         this.radix = radix;
+        this.radix = radix;
     }
 
-   
-
-   
+    
+    public void setIsCancelled (boolean value){
+        this.isCancelled = value;
+    }  
     
 }

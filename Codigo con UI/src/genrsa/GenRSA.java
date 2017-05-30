@@ -30,16 +30,13 @@ public class GenRSA extends Application {
 
     @Override
     public void init() throws Exception {
-        notifyPreloader(new ProgressNotification(0.15d));
-        Thread.sleep(190);
-        notifyPreloader(new ProgressNotification(0.30d));
-        Thread.sleep(190);
-        notifyPreloader(new ProgressNotification(0.45d));
-        Thread.sleep(190);
-        notifyPreloader(new ProgressNotification(0.60d));
-        Thread.sleep(190);
-        notifyPreloader(new ProgressNotification(0.75d));
-        Thread.sleep(190);
+        double progress =0.0d;
+        
+        while (progress<0.98){
+            progress=progress+0.015d;
+            notifyPreloader(new ProgressNotification(progress));
+            Thread.sleep(50);
+        }
         notifyPreloader(new ProgressNotification(1.0d));
         Thread.sleep(190);
         notifyPreloader(new StateChangeNotification(StateChangeNotification.Type.BEFORE_START));

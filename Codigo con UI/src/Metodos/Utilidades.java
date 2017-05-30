@@ -60,21 +60,17 @@ public class Utilidades {
         return time;
     }
     
-   public String putPoints(String number, int radix){  
-       int num=5;
+    public String putPoints(String number, int radix){  
        int length = number.length();
-       
        if (radix == 10) {
-           num = 3;
-       }    
-		
-       int processed=length-num;
-       while (processed>0){
-           number = number.substring(0,processed ) + "." + number.substring(processed, length);
-           processed = processed-num;
-           length++;
-       }
-       
+           int processed= number.length()-3;
+    
+           while (processed>0){
+                number = number.substring(0,processed ) + "." + number.substring(processed, length);
+                processed = processed-3;
+                length++;
+            }
+       }           
        return number;
    }    
    

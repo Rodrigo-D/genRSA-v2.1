@@ -108,61 +108,9 @@ public class CheckPrimes {
     }
     
 
-    //Miller Rabin
+    //Test de primalidad, algoritmos usados: Miller Rabin y Lucas-Lehmer
     private boolean testPrimalityMillerRabin(BigInteger probPrime) {        
-        //probPrime - 1 = (2^k) * m 
-        int k = 0;
-        BigInteger m;		
-        BigInteger probPrimeMinusOne = probPrime.subtract(Constantes.ONE);
-
-        int iterador;
-        // aleatorio  tal que 2 >= a <= n-2
-        //usado para comprobar si es primo o compuesto el numero a evaluar
-        BigInteger a;
-
-        // para comprobar si es compuesto o primo
-        BigInteger x;		    
-        
-
-        // Calculate: probPrime - 1 = (2^k) * m 
-        m = probPrimeMinusOne;
-        do{
-                k++;
-                m = m.divide(Constantes.TWO);
-
-        }while (m.mod(Constantes.TWO).equals(Constantes.ZERO));
-
-        //Check primality
-        for (int i = 0; i < this.vueltas; i++) {
-                //2 >= a <= n-2
-                a = uniformRandom(Constantes.TWO, probPrime.subtract(Constantes.TWO)); 
-
-                //Step 1
-                x = a.modPow(m, probPrime);
-                if (x.equals(Constantes.ONE) || x.equals(probPrimeMinusOne)){
-                        // primera ronda (iteracion del for) PASADA con exito
-                        continue;
-                }		
-                for (iterador=1; iterador<k; iterador ++) {
-                        x = x.modPow(Constantes.TWO, probPrime);
-
-                        if (x.equals(Constantes.ONE)){
-                                //fallo en ronda tal con random tal
-                                return false;
-                        }
-                        if (x.equals(probPrimeMinusOne)){
-                                //pasado con exito
-                                break;
-                        }
-
-                        iterador++;
-                }
-
-                if (k==iterador && !(x.equals(probPrimeMinusOne))){
-                        return false;
-                }
-        }
-        return true;
+        return probPrime.isProbablePrime(vueltas);
     }
 
 

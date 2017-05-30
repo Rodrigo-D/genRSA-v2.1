@@ -13,7 +13,6 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -28,7 +27,7 @@ public class PreloaderGenRSA extends Preloader {
     
     private Scene createPreloaderScene() {
               
-        ImageView genRSAIcon = new ImageView(new Image("file:resources/preloader/genRSA.png"));
+        ImageView genRSAIcon = new ImageView(new Image(PreloaderGenRSA.class.getResourceAsStream("/allImages/genRSA.png")));
      
         genRSAIcon.setFitHeight(150.0);
         genRSAIcon.setFitWidth(200.0);
@@ -37,7 +36,7 @@ public class PreloaderGenRSA extends Preloader {
         genRSAIcon.setPreserveRatio(true);
         
         
-        ImageView description = new ImageView(new Image("file:resources/preloader/softwareGenRSA.PNG"));
+        ImageView description = new ImageView(new Image(PreloaderGenRSA.class.getResourceAsStream("/allImages/description.PNG")));
         
         description.setFitHeight(35.0);
         description.setFitWidth(378.0);
@@ -68,8 +67,8 @@ public class PreloaderGenRSA extends Preloader {
     public void start(Stage stage) throws Exception {
         this.stage = stage;
         stage.setScene(createPreloaderScene());    
-        stage.setTitle("Cagando genRSA");   
-        stage.getIcons().add(new Image("file:resources/icono/genRSA.png"));
+        stage.setTitle("Cargando genRSA");   
+        stage.getIcons().add(new Image(PreloaderGenRSA.class.getResourceAsStream("/allImages/genRSA.png")));
         stage.show();
     }
     

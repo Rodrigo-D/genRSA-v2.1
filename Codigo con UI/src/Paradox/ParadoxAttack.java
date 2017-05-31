@@ -419,8 +419,7 @@ public class ParadoxAttack {
         this.infoDialog.warningAttack();
     }
      
-    
-    
+        
     
     
     public void setRadix (int radix){

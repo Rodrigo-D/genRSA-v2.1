@@ -5,9 +5,9 @@
  */
 package Cyclic;
 
-import Imprimir.CyclicPrint;
 import Imprimir.ErrorDialog;
 import Imprimir.InfoDialog;
+import Imprimir.CyclicPrint;
 import Metodos.Utilidades;
 import Model.Constantes;
 import java.math.BigInteger;
@@ -43,10 +43,12 @@ public class CyclicAttack {
             
     private long totalTime;
     
-    //prueba
+    
     private String  result;
     
     private String xplResult;
+    
+    private boolean isCancelled;
 
     public CyclicAttack(CyclicPrint cyclicPrint) {
         this.errorDialog = new ErrorDialog();
@@ -54,6 +56,7 @@ public class CyclicAttack {
         this.utilidades = new Utilidades();
         this.Cprint = cyclicPrint;
         this.radix = 10;
+        this.isCancelled = false;
         
     }
     
@@ -64,6 +67,7 @@ public class CyclicAttack {
        BigInteger messageBI;
        final String processedMessage;
        
+       //MODULUS------------  
         modulus = this.utilidades.formatNumber(modulus);
         
         try{
@@ -73,7 +77,7 @@ public class CyclicAttack {
             return false;
         }
        
-       
+       //EXPONENT------------  
        exponent = this.utilidades.formatNumber(exponent);
         
         try{
@@ -88,18 +92,18 @@ public class CyclicAttack {
             return false;
         }       
         
-        
+        //MESSAGE------------ 
         processedMessage = this.utilidades.formatNumber(message);
         
         try{
             messageBI = new BigInteger(processedMessage, this.radix);
         } catch (NumberFormatException n){  
-            Platform.runLater(() -> errorDialog.cyclicMessage(radix));
+            Platform.runLater(() -> this.errorDialog.cyclicMessage(this.radix));
             return false;
         }
         
         if (messageBI.compareTo(Constantes.ONE) == -1){
-            Platform.runLater(() -> errorDialog.cyclicMessage(radix));
+            Platform.runLater(() -> this.errorDialog.cyclicMessage(radix));
             return false;
         }
         
@@ -107,41 +111,49 @@ public class CyclicAttack {
             Platform.runLater(() -> errorDialog.bigMessage(radix));
             return false;
         }
-        
+        //MESSAGE CIPHERED-------------
         this.cypherMessage = messageBI.modPow(this.exponent, this.modulus);
         
-        
-        Platform.runLater(() -> Cprint.messages(this.cypherMessage.toString(this.radix).toUpperCase(),
+        //PARTE GRAFICA-------------
+        Platform.runLater(() ->{ 
+            this.Cprint.messages(this.cypherMessage.toString(this.radix).toUpperCase(),
                             processedMessage.toUpperCase(),
                             this.modulus.toString(this.radix).toUpperCase(),
                             this.exponent.toString(this.radix).toUpperCase(),
-                            this.radix));
+                            this.radix);
+            this.Cprint.enableStop();
+        });
         
         return true;        
     }
     
     
-    //ataque ciclico, no para hasta que prospera    
+    //ataque ciclico, no para hasta que prospera o se pulsa el boton de parar.
     public void complete (){
         
-        Platform.runLater(() -> this.Cprint.clearResults());   
-        Platform.runLater(() -> this.Cprint.inProgress());   
+        Platform.runLater(() ->{ 
+            this.Cprint.clearResults();
+            this.Cprint.inProgress();
+        });   
          
-        if (this.modulus.bitLength()>23){
-            BMcomplete();
-        } else {
+        if (this.modulus.bitLength() < 24){
             LMcomplete();
-        }
-        
+        } else if (this.modulus.bitLength() < 32){
+            BMcomplete(Constantes.BLN_REFRESH);
+        } else if (this.modulus.bitLength() < 40){
+            BMcomplete(Constantes.BM_REFRESH);
+        } else {
+            BMcomplete(Constantes.MAX_REFRESH);
+        }        
     }
     
-    
+    //ataque ciclico, realiza el ataque para un número de vueltas determinado.
     public void start(String numOfCyphers) {
         final BigInteger lapsNum;
         
         Platform.runLater(() -> this.Cprint.clearResults());     
             
-        //comprobación de errores
+        //Num.Vueltas -->comprobación de errores
         numOfCyphers = this.utilidades.formatNumber(numOfCyphers);
         
         try{
@@ -195,6 +207,7 @@ public class CyclicAttack {
         Platform.runLater(() -> {
             this.Cprint.numOfCyphers(lapsNum.toString());
             this.Cprint.inProgress();
+            this.Cprint.enableStop();
         }); 
         
         if ((lapsNum.add(this.totalLapsNum)).compareTo(Constantes.MAX_LAPSNUM)>0){
@@ -209,7 +222,7 @@ public class CyclicAttack {
 
     
     /**
-     * Método para imprimir todos los valores 
+     * Método para imprimir todos los valores, no para hasta que termina o se pulsa el boton de parar.
      * LM= little modulus
      */
     public void LMcomplete (){    
@@ -220,7 +233,7 @@ public class CyclicAttack {
         boolean printFinals = true;
 
         startTime = System.currentTimeMillis();
-
+        //Preparación de valores iniciales del ataque
         lap = Constantes.ZERO;            
         next = this.cypherMessage.modPow(this.exponent, this.modulus);
         message = this.cypherMessage;
@@ -228,7 +241,8 @@ public class CyclicAttack {
         this.xplResult="Mensaje a descifrar = " + this.utilidades.putPoints(this.cypherMessage.toString(this.radix).toUpperCase(), this.radix) + "\n" +
                           "c0 = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase(), this.radix) + "\n";
        
-        while(!next.equals(this.cypherMessage)){
+        //Comienza el bucle del ataque
+        while(!next.equals(this.cypherMessage) && !(isCancelled)){
                 message = next;
                 next = message.modPow(this.exponent, this.modulus);
                 lap = lap.add(Constantes.ONE);
@@ -244,41 +258,53 @@ public class CyclicAttack {
                      this.xplResult = this.xplResult + "c" + this.utilidades.putPoints(lap.toString(), 10) +
                              " = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase(), this.radix) + "\n";
                      printFinals = true;
-                }   
-                
+                }                  
         }
         
+         //Por si ha encontrado el mensaje en claro o se ha parado y le faltan valores por escribir
         if (printFinals){            
             Platform.runLater(() -> this.Cprint.partialResults(this.xplResult));
         }
-
         
         Time = this.utilidades.millisToSeconds(System.currentTimeMillis() - startTime);
-        messageStr = message.toString(this.radix).toUpperCase();
-        lapStr = lap.toString();
+        
+        
+        if (next.equals(this.cypherMessage)){
+            messageStr = message.toString(this.radix).toUpperCase();
+            lapStr = lap.toString();
+            Platform.runLater(() -> {
+                this.Cprint.messageRecovered(messageStr, this.radix);
+                this.Cprint.find(lapStr);
+             });
+        } else {
+            Platform.runLater(() -> {
+                this.Cprint.attackStopped();
+            });
+        }
+        
         
         Platform.runLater(() -> {
+            this.Cprint.enableStart();
             this.Cprint.endProgress(); 
-            this.Cprint.enableLapsNum();
-            this.Cprint.messageRecovered(messageStr, this.radix);
-            this.Cprint.time(Time);
-            this.Cprint.find(lapStr);
+            this.Cprint.enableLapsNum();            
+            this.Cprint.time(Time);            
         });
-            
+                
     }
     
      /**
-     * Método para imprimir solo 1 de cada 100.000 valores 
+     * Método para imprimir solo 1 de cada 100.000 valores, no para hasta que termina o se pulsa el boton de parar.
      * BM= big modulus
+     * @param REFRESH
      */
-    public void BMcomplete (){    
+    public void BMcomplete (BigInteger REFRESH){    
     
         BigInteger lap, message, next;            
         long startTime;
         final String Time, messageStr, lapStr;
 
         startTime = System.currentTimeMillis();
-
+        //Preparación de valores iniciales del ataque
         lap = Constantes.ZERO;            
         next = this.cypherMessage.modPow(this.exponent, this.modulus);
         message = this.cypherMessage;
@@ -287,18 +313,21 @@ public class CyclicAttack {
                 +  "c0 = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase(), this.radix) + "\n";
         Platform.runLater(() -> this.Cprint.partialResults(this.result));
        
-        while(!next.equals(this.cypherMessage)){
+        //Comienza el bucle del ataque
+        while(!next.equals(this.cypherMessage) && !(isCancelled)){
                 message = next;
                 next = message.modPow(this.exponent, this.modulus);
                 lap = lap.add(Constantes.ONE);                 
                 
-                if ((lap.mod(Constantes.BM_REFRESH)).equals(Constantes.ZERO)){                    
+                //para imprimir por pantalla cada XXX vueltas
+                if ((lap.mod(REFRESH)).equals(Constantes.ZERO)){                    
                     this.result =  "c" + this.utilidades.putPoints(lap.toString(), 10) +
                             " = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase(), this.radix) + "\n";
                     Platform.runLater(() -> this.Cprint.partialResults(this.result));
                 }          
         }
         
+        //Por si ha encontrado el mensaje en claro o se ha parado y le faltan valores por escribir
         if(!lap.equals(Constantes.ZERO)){
             this.xplResult = "c" + this.utilidades.putPoints(lap.add(Constantes.MINUS_ONE).toString(), 10) +
                     " = " + this.utilidades.putPoints(message.toString(this.radix).toUpperCase(), this.radix) + "\n" +
@@ -310,23 +339,33 @@ public class CyclicAttack {
 
         
         Time = this.utilidades.millisToSeconds(System.currentTimeMillis() - startTime);
-        messageStr = message.toString(this.radix).toUpperCase();
-        lapStr = lap.toString();
+        
+        if (next.equals(this.cypherMessage)){
+            messageStr = message.toString(this.radix).toUpperCase();
+            lapStr = lap.toString();
+            Platform.runLater(() -> {
+               this.Cprint.messageRecovered(messageStr, this.radix);
+               this.Cprint.find(lapStr);
+            });
+        } else {
+            Platform.runLater(() -> {
+                this.Cprint.attackStopped();
+            });
+        }
         
         Platform.runLater(() -> {
+            this.Cprint.enableStart();
             this.Cprint.endProgress();
             this.Cprint.enableLapsNum();
-            this.Cprint.messageRecovered(messageStr, this.radix);
             this.Cprint.time(Time);
-            this.Cprint.find(lapStr);
         });
-            
+                 
     }
     
        
     
     /**
-     * Metodo para comenzar a imprimir todos los valores del ataque
+     * Metodo para comenzar a imprimir todos los valores del ataque.
      * LLN=little laps num
      * @param lapsNum 
      */
@@ -338,7 +377,7 @@ public class CyclicAttack {
 
         startTime = System.currentTimeMillis();             
                        
-        //lógica del metodo
+        //Preparación de valores iniciales del ataque
         this.totalLapsNum = lapsNum;        
         lap = Constantes.ZERO;
         next = this.cypherMessage.modPow(this.exponent, this.modulus);
@@ -347,29 +386,31 @@ public class CyclicAttack {
         this.xplResult="Mensaje a descifrar = " + this.utilidades.putPoints(this.cypherMessage.toString(this.radix).toUpperCase(), this.radix) + "\n"
                     +  "c0 = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase(), this.radix) + "\n";
 
-        while(!next.equals(this.cypherMessage) && !lapsNum.equals(lap)){
-                message = next;
-                next = message.modPow(this.exponent, this.modulus);
-                lap = lap.add(Constantes.ONE); 
-                                
-                if ((lap.mod(Constantes.L_REFRESH)).equals(Constantes.ZERO)){                    
-                    this.result = xplResult;
-                    Platform.runLater(() -> this.Cprint.partialResults(this.result));
-                     this.xplResult = "";
-                     printFinals= false;
-                } else {
-                     this.xplResult = this.xplResult + "c" + this.utilidades.putPoints(lap.toString(), 10) +
-                             " = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase(), this.radix) + "\n";
-                     printFinals = true;
-                }           
+        while(!next.equals(this.cypherMessage) && !lapsNum.equals(lap) && !(isCancelled)){
+            
+            message = next;
+            next = message.modPow(this.exponent, this.modulus);
+            lap = lap.add(Constantes.ONE); 
+
+            if ((lap.mod(Constantes.L_REFRESH)).equals(Constantes.ZERO)){                    
+                this.result = xplResult;
+                Platform.runLater(() -> this.Cprint.partialResults(this.result));
+                 this.xplResult = "";
+                 printFinals= false;
+            } else {
+                 this.xplResult = this.xplResult + "c" + this.utilidades.putPoints(lap.toString(), 10) +
+                         " = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase(), this.radix) + "\n";
+                 printFinals = true;
+            }           
         }
-        
+        //Por si ha encontrado el mensaje en claro o se ha parado y le faltan valores por escribir
         if (printFinals){            
             Platform.runLater(() -> this.Cprint.partialResults(this.xplResult));
         }
         
         this.totalTime = System.currentTimeMillis() - startTime;
         Time = this.utilidades.millisToSeconds(this.totalTime);
+        
         messageStr = message.toString(this.radix).toUpperCase();
         lapStr = lap.toString();        
         
@@ -380,14 +421,24 @@ public class CyclicAttack {
                 this.Cprint.time(Time);
                 this.Cprint.find(lapStr);
                 this.Cprint.messageRecovered(messageStr, this.radix);
+                this.Cprint.enableStart();
             });
             
-        } else {
+        } else if(this.isCancelled) {
+            Platform.runLater(() -> {
+                this.Cprint.time(Time);
+                this.Cprint.attackStopped();
+                this.Cprint.enableStart();
+            });
+            
+        } else {            
+            
             this.nextMessage = next;
             Platform.runLater(() -> {
                 this.Cprint.time(Time);
                 this.Cprint.dissableStart();
-                this.Cprint.notFind(lapStr); 
+                this.Cprint.notFind(lapStr);
+                this.Cprint.enableContinue();
             });
         }        
     }
@@ -405,7 +456,7 @@ public class CyclicAttack {
 
         startTime = System.currentTimeMillis();
                                
-        //lógica del metodo
+        //Preparación de valores iniciales del ataque
         this.totalLapsNum = lapsNum;                   
         lap = Constantes.ZERO;
         next = this.cypherMessage.modPow(this.exponent, this.modulus);
@@ -416,7 +467,7 @@ public class CyclicAttack {
         
         Platform.runLater(() -> this.Cprint.partialResults(this.xplResult));
 
-        while(!next.equals(this.cypherMessage) && !lapsNum.equals(lap)){
+        while(!next.equals(this.cypherMessage) && !lapsNum.equals(lap) && !(isCancelled)){
                 message = next;
                 next = message.modPow(this.exponent, this.modulus);
                 lap = lap.add(Constantes.ONE); 
@@ -424,9 +475,18 @@ public class CyclicAttack {
                 if ((lap.mod(Constantes.BLN_REFRESH)).equals(Constantes.ZERO)){                    
                     this.xplResult = "c" + this.utilidades.putPoints(lap.toString(), 10) +
                             " = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase(), this.radix) + "\n";
-                    Platform.runLater(() -> this.Cprint.partialResults(this.xplResult));
-                     
+                    Platform.runLater(() -> this.Cprint.partialResults(this.xplResult));                     
                 }        
+        }
+        
+         //Por si ha encontrado el mensaje en claro o se ha parado y le faltan valores por escribir
+        if (!lap.equals(Constantes.ZERO)){
+            this.result = "c" + this.utilidades.putPoints(lap.add(Constantes.MINUS_ONE).toString(), 10) +
+                    " = " + this.utilidades.putPoints(message.toString(this.radix).toUpperCase(), this.radix) + "\n" +
+                "c" + this.utilidades.putPoints(lap.toString(), 10) + " = " + next.toString(this.radix).toUpperCase() + "\n";      
+
+            Platform.runLater(() -> this.Cprint.partialResults(this.result));
+                
         }
         
               
@@ -438,32 +498,35 @@ public class CyclicAttack {
         Platform.runLater(() -> this.Cprint.endProgress());
         
         if (next.equals(this.cypherMessage)){
-            if (!lap.equals(Constantes.ZERO)){
-                this.result = "c" + this.utilidades.putPoints(lap.add(Constantes.MINUS_ONE).toString(), 10) +
-                        " = " + this.utilidades.putPoints(message.toString(this.radix).toUpperCase(), this.radix) + "\n" +
-                    "c" + lap.toString() + " = " + next.toString(this.radix).toUpperCase() + "\n";      
-                
-                Platform.runLater(() -> this.Cprint.partialResults(this.result));
-                
-            }
+            
             Platform.runLater(() -> {
                 this.Cprint.time(Time);
                 this.Cprint.find(lapStr);
                 this.Cprint.messageRecovered(messageStr, this.radix);
+                this.Cprint.enableStart();
             });
+            
+        } else if(this.isCancelled) {
+            Platform.runLater(() -> {
+                this.Cprint.time(Time);
+                this.Cprint.attackStopped();
+                this.Cprint.enableStart();
+            });    
             
         } else {
             this.nextMessage = next;
             Platform.runLater(() -> {
                 this.Cprint.time(Time);
                 this.Cprint.dissableStart();
-                this.Cprint.notFind(lapStr); 
+                this.Cprint.notFind(lapStr);                 
+                this.Cprint.enableContinue();
             });
         }        
+        
     }
     
     /**
-     * Metodo para continuar imprimiendo todos los valores del ataque
+     * Metodo para continuar imprimiendo todos los valores del ataque a no ser que se pare el ataque
      * @param lapsNum 
      */
     public void LLNcontinue(BigInteger lapsNum) {
@@ -475,7 +538,7 @@ public class CyclicAttack {
         startTime = System.currentTimeMillis();        
         
                
-        //lógica del metodo        
+        //Preparación de valores iniciales del ataque         
         lap = Constantes.ZERO;
         next = this.nextMessage.modPow(this.exponent, this.modulus);
         message = this.nextMessage;
@@ -484,7 +547,7 @@ public class CyclicAttack {
         this.xplResult="c" + this.utilidades.putPoints(this.totalLapsNum.toString(), 10) +
                 " = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase(), this.radix) + "\n";
 
-        while(!next.equals(this.cypherMessage) && !lapsNum.equals(lap)){
+        while(!next.equals(this.cypherMessage) && !lapsNum.equals(lap) && !(isCancelled)){
                 message = next;
                 next = message.modPow(this.exponent, this.modulus);
                 lap = lap.add(Constantes.ONE);   
@@ -502,6 +565,7 @@ public class CyclicAttack {
                 }     
         }
         
+        //Por si ha encontrado el mensaje en claro o se ha parado y le faltan valores por escribir
         if (printFinals){            
             Platform.runLater(() -> this.Cprint.partialResults(this.xplResult));
         }        
@@ -515,27 +579,32 @@ public class CyclicAttack {
         
         if (next.equals(this.cypherMessage)){
             Platform.runLater(() -> {
+                this.Cprint.time(Time);
                 this.Cprint.find(lapStr);
                 this.Cprint.messageRecovered(messageStr, this.radix);
-                this.Cprint.enableStart();
-                this.Cprint.time(Time);
+                this.Cprint.enableStart();                
             });
             
-        } else {
-            this.nextMessage = next;
+        } else if(this.isCancelled) {
             Platform.runLater(() -> {
+                this.Cprint.time(Time);
+                this.Cprint.attackStopped();
+                this.Cprint.enableStart();
+            });
+        }else {
+            this.nextMessage = next;
+            Platform.runLater(() -> {                
+                this.Cprint.time(Time); 
                 this.Cprint.notFind(lapStr);  
                 this.Cprint.dissableStart();
-                this.Cprint.time(Time); 
             });
-        }       
-        
+        }               
     }
     
     
     
     /**
-     * Método para continuar imprimiendo, pero esta vez 1 de 100.000 valores del ataque
+     * Método para continuar imprimiendo, pero esta vez 1 de 100.000 valores del ataque a no ser que se pare el ataque
      * @param lapsNum 
      */
     public void BLNcontinue(BigInteger lapsNum) {
@@ -547,7 +616,7 @@ public class CyclicAttack {
         startTime = System.currentTimeMillis();        
         
                
-        //lógica del metodo        
+        //Preparación de valores iniciales del ataque       
         lap = Constantes.ZERO;
         next = this.nextMessage.modPow(this.exponent, this.modulus);
         message = this.nextMessage;
@@ -560,7 +629,7 @@ public class CyclicAttack {
             write = true;
         }         
        
-        while(!next.equals(this.cypherMessage) && !lapsNum.equals(lap)){
+        while(!next.equals(this.cypherMessage) && !lapsNum.equals(lap) && !(isCancelled)){
                 message = next;
                 next = message.modPow(this.exponent, this.modulus);
                 lap = lap.add(Constantes.ONE);   
@@ -574,6 +643,7 @@ public class CyclicAttack {
                 } 
         }
         
+                
         
         this.totalTime = (System.currentTimeMillis() - startTime)  + this.totalTime;
         Time = this.utilidades.millisToSeconds(this.totalTime);       
@@ -583,7 +653,7 @@ public class CyclicAttack {
         Platform.runLater(() -> this.Cprint.endProgress());
         
         if (next.equals(this.cypherMessage)){
-                        
+            //ha encontrado el mensaje en claro y lo escribe          
             this.xplResult = "c" + this.utilidades.putPoints(lap.add(Constantes.MINUS_ONE).toString(), 10) +
                     " = " + this.utilidades.putPoints(messageStr, this.radix) + "\n" +
                     "c" + this.utilidades.putPoints(lapStr, 10) +
@@ -598,19 +668,29 @@ public class CyclicAttack {
             });
             
         } else {
+            //Si le quedan cifrados por escribir los escribe
             if (!write){
                 this.xplResult = "c" + this.utilidades.putPoints(lapStr, 10) + " = " +
                         this.utilidades.putPoints(next.toString(this.radix).toUpperCase(), this.radix) + "\n";    
                 Platform.runLater(() -> this.Cprint.partialResults(this.xplResult));
             }
-            this.nextMessage = next;
-            Platform.runLater(() -> {
-                this.Cprint.notFind(lapStr);  
-                this.Cprint.dissableStart();
-                this.Cprint.time(Time); 
-            });
-        }       
-        
+            
+            if(this.isCancelled) {
+                Platform.runLater(() -> {
+                    this.Cprint.time(Time);
+                    this.Cprint.attackStopped();
+                    this.Cprint.enableStart();
+                });
+            
+            }else {            
+                this.nextMessage = next;
+                Platform.runLater(() -> {
+                    this.Cprint.notFind(lapStr);  
+                    this.Cprint.dissableStart();
+                    this.Cprint.time(Time); 
+                });
+            }
+        }     
     }
         
     public void putInfo() {
@@ -628,4 +708,9 @@ public class CyclicAttack {
     public void setRadix (int radix){
         this.radix = radix;
     }
+    
+    
+    public void setIsCancelled (boolean value){
+        this.isCancelled = value;
+    }  
 }

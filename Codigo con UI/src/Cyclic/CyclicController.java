@@ -79,6 +79,8 @@ public class CyclicController {
     
     private boolean firstTime;
     
+    private Boolean start;
+    
         
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
@@ -98,6 +100,7 @@ public class CyclicController {
 
         
         firstTime = true;
+        start = true;
         cyclicAttack = new CyclicAttack(new CyclicPrint(this));
         continueBttn.setDisable(true);  
         
@@ -105,46 +108,59 @@ public class CyclicController {
     }
     
     @FXML
-    public void start(ActionEvent event) {
+    public void startStop(ActionEvent event) {
         
-        Task CAstart= new Task() {
-            @Override
-            protected Object call() throws Exception {
-                String modulus = Modulus.getText();
-                String exponent = Exponent.getText();
-                cyclicAttack.setRadix(radix); 
-                
-                Platform.runLater(() ->progress.setVisible(true));
+        if (start){
+            Task CAstart= new Task() {
+                @Override
+                protected Object call() throws Exception {
+                    start = false;
+                    String message = Message.getText();
+                    String modulus = Modulus.getText();
+                    String exponent = Exponent.getText();
+                                        
+                    cyclicAttack.setRadix(radix); 
+                    Platform.runLater(() ->progress.setVisible(true));                    
 
-                String message = Message.getText();
+                    if (cyclicAttack.init(message, modulus, exponent)){
 
-                if (cyclicAttack.init(message, modulus, exponent)){
+                        if(Complete.isSelected()){
+                            cyclicAttack.complete();
+                            
+                        } else {
+                            String numOfCyphers = NumCiphers.getText();            
+                            cyclicAttack.start(numOfCyphers);                            
+                        }                        
+                    } 
+                    
+                    start=true;
+                    cyclicAttack.setIsCancelled(false);
 
-                    if(Complete.isSelected()){
-                        cyclicAttack.complete();
-                    } else {
-                        String numOfCyphers = NumCiphers.getText();            
-                        cyclicAttack.start(numOfCyphers);
-                    }
-                } 
-                
-                Platform.runLater(() ->progress.setVisible(false));
-                return null;
-            }
-        };
-        
-        new Thread(CAstart).start();        
+                    Platform.runLater(() ->progress.setVisible(false));
+                    return null;
+                }
+            };
+            
+            new Thread(CAstart).start(); 
+            
+        }else {
+            cyclicAttack.setIsCancelled(true);
+        }              
     }
 
     @FXML
     public void Continue(ActionEvent event) {
+                
         Task CAcontinue = new Task() {
             @Override
             protected Object call() throws Exception {
+                start = false;
                 String numOfCyphers = NumCiphers.getText();    
                 Platform.runLater(() ->progress.setVisible(true));
                 cyclicAttack.Continue(numOfCyphers);
                 Platform.runLater(() ->progress.setVisible(false));
+                start = true;
+                cyclicAttack.setIsCancelled(false);
                 return null;
             }
         };
@@ -176,6 +192,7 @@ public class CyclicController {
         this.mRecovered.clear();
         this.Time.clear();
         this.startBttn.setDisable(false);
+        this.startBttn.setText("Comenzar");
         this.continueBttn.setDisable(true);
 
     }
@@ -198,7 +215,7 @@ public class CyclicController {
      */
     public void processStart(KeyEvent keyEvent) {
          if (keyEvent.getCode() == KeyCode.ENTER) {            
-            this.start(new ActionEvent());
+            this.startStop(new ActionEvent());
         }
     }
 

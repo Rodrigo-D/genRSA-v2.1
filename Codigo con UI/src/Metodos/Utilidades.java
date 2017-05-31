@@ -13,6 +13,11 @@ import java.math.BigInteger;
  */
 public class Utilidades {
     
+    /**
+     * Metodo para quitar puntos, comas, espacios y tabuladores.
+     * @param number
+     * @return 
+     */
     public String formatNumber (String number){
         
         number = number.replaceAll("[,. \t]","");

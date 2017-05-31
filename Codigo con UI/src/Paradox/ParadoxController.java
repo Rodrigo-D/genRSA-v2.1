@@ -121,6 +121,7 @@ public class ParadoxController {
             };
 
             new Thread(CAstart).start();  
+            
         } else {
             paradoxAttack.setIsCancelled(true);
         }   

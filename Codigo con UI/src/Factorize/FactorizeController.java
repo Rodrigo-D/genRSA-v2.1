@@ -69,6 +69,8 @@ public class FactorizeController {
         
     private int radix;
     
+    private Boolean start;
+    
     
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -88,37 +90,47 @@ public class FactorizeController {
         
         factorize = new FactorizeAttack(new FactorizePrint(this));
         continueBttn.setDisable(true);
+        start = true;
         
     }
     
         
     
-    public void start(ActionEvent event) {
-        Task PAstart= new Task() {
-            @Override
-            protected Object call() throws Exception {
-                String modulusStr = Modulus.getText();
-                factorize.setRadix(radix);
-                
-                Platform.runLater(() ->progress.setVisible(true));
+    public void startStop(ActionEvent event) {
+        
+        if (start){
+            Task PAstart= new Task() {
+                @Override
+                protected Object call() throws Exception {
+                    start = false;
+                    String modulusStr = Modulus.getText();
+                    factorize.setRadix(radix);
 
-                if (factorize.init(modulusStr)){
-                    if(ObtainPQ.isSelected()){
-                        factorize.obtainPQ();
-                    } else {
-                        String lapsNumStr = NumLaps.getText();
-                        factorize.start(lapsNumStr);
+                    Platform.runLater(() ->progress.setVisible(true));
+
+                    if (factorize.init(modulusStr)){
+                        
+                        if(ObtainPQ.isSelected()){
+                            factorize.obtainPQ();
+                            
+                        } else {
+                            String lapsNumStr = NumLaps.getText();
+                            factorize.start(lapsNumStr);
+                        }
                     }
+                    start=true;
+                    factorize.setIsCancelled(false);
+                    
+                    Platform.runLater(() ->progress.setVisible(false));
+                    return null;
                 }
-                
-                Platform.runLater(() ->progress.setVisible(false));
-
-                return null;
-            }
-        };
-        
-        new Thread(PAstart).start();   
-        
+            };
+            
+            new Thread(PAstart).start(); 
+            
+        }else {
+            factorize.setIsCancelled(true);
+        }        
     } 
     
     public void Continue(ActionEvent event) {
@@ -126,6 +138,7 @@ public class FactorizeController {
         Task PAcontinue= new Task() {
             @Override
             protected Object call() throws Exception {
+                start = false;
                 String lapsNumStr = NumLaps.getText();
                 
                 Platform.runLater(() ->progress.setVisible(true));
@@ -133,7 +146,8 @@ public class FactorizeController {
                 factorize.Continue(lapsNumStr);
                 
                 Platform.runLater(() ->progress.setVisible(false));
-
+                start = true;
+                factorize.setIsCancelled(false);
                 return null;
             }
         };
@@ -158,6 +172,7 @@ public class FactorizeController {
         this.Results.clear();        
         this.Time.clear();
         this.startBttn.setDisable(false);
+        this.startBttn.setText("Comenzar");
         this.continueBttn.setDisable(true);
        
     }

@@ -241,7 +241,7 @@
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </Separator>
-                              <Button fx:id="startBttn" mnemonicParsing="false" onAction="#start" text="Comenzar" HBox.hgrow="NEVER">
+                              <Button fx:id="startBttn" mnemonicParsing="false" onAction="#startStop" text="Comenzar" HBox.hgrow="NEVER">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="5.0" right="36.0" top="10.0" />
                                  </HBox.margin>

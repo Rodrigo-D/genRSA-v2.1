@@ -49,6 +49,8 @@ public class FactorizeAttack {
     
     private String xplResult;
     
+    private boolean isCancelled;
+    
     
     
     public FactorizeAttack(FactorizePrint print) {
@@ -57,6 +59,7 @@ public class FactorizeAttack {
         this.utilidades = new Utilidades();
         this.print = print;
         this.radix = 10;
+        this.isCancelled = false;
     }
     
     
@@ -623,5 +626,8 @@ public class FactorizeAttack {
     public void setRadix (int radix){
          this.radix = radix;
     }
-   
+    
+    public void setIsCancelled (boolean value){
+        this.isCancelled = value;
+    }     
 }

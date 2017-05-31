@@ -43,7 +43,7 @@ public class ParadoxPrint {
     }
     
     public void enableStop() {
-        this.scene.getStartBttn().setText("Parar");
+        this.scene.getStartBttn().setText("   Parar   ");
         this.scene.getClearBttn().setDisable(true);
     }
     

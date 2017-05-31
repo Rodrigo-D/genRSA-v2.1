@@ -57,6 +57,12 @@ public class CyclicPrint {
                 this.utilidades.putPoints(lap, 10) + "\n\n");
         this.scene.getResults().setScrollTop(Double.MAX_VALUE);
     }
+    
+    public void attackStopped() {
+        this.scene.getResults().appendText("\n\n ******** EL ATAQUE SE HA DETENDIDO ******** ");
+        this.scene.getMRecovered().clear();
+    }
+
 
     public void messageRecovered(String message, int radix) {
         this.scene.getMRecovered().setText(this.utilidades.putPoints(message, radix));
@@ -77,21 +83,23 @@ public class CyclicPrint {
         this.scene.getStartBttn().setDisable(true);
     }
     
-    public void enableStart() {
-        this.scene.getMessage().setEditable(true);
-        this.scene.getComplete().setDisable(false);
-        this.scene.getModulus().setEditable(true);
-        this.scene.getExponent().setEditable(true);
-        this.scene.getContinueBttn().setDisable(true);
+    public void enableStop() {
+        this.scene.getStartBttn().setText("    Parar    ");
         this.scene.getStartBttn().setDisable(false);
+        this.scene.getClearBttn().setDisable(true);
     }
-
+    public void enableStart() {
+        this.scene.getStartBttn().setText("Comenzar");
+        this.scene.getStartBttn().setDisable(false);
+        this.scene.getClearBttn().setDisable(false);        
+        this.scene.getContinueBttn().setDisable(true);
+    }
+   
     public void enableLapsNum() {
         this.scene.getNumCiphers().setDisable(false);
         this.scene.getNumCiphers().setBlendMode(BlendMode.SRC_OVER);
         this.scene.getNumCiphers().setText("10");
         this.scene.getComplete().setSelected(false);
-        this.scene.getContinueBttn().setDisable(true);
     }
     
     public void inProgress(){
@@ -101,7 +109,6 @@ public class CyclicPrint {
         this.scene.getExponent().setEditable(false);                
         this.scene.getMessage().setEditable(false);
         
-        this.scene.getStartBttn().setDisable(true);
         this.scene.getContinueBttn().setDisable(true);                
         this.scene.getClearBttn().setDisable(true);
     }
@@ -111,12 +118,14 @@ public class CyclicPrint {
         this.scene.getComplete().setDisable(false);        
         this.scene.getModulus().setEditable(true);        
         this.scene.getExponent().setEditable(true);                
-        this.scene.getMessage().setEditable(true);
-        
-        this.scene.getStartBttn().setDisable(false);
-        this.scene.getContinueBttn().setDisable(false);                
+        this.scene.getMessage().setEditable(true);           
         this.scene.getClearBttn().setDisable(false);
     }
+
+    public void enableContinue() {
+        this.scene.getContinueBttn().setDisable(false);
+    }
+
 
    
 

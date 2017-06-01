@@ -90,7 +90,7 @@ public class CyclicAttack {
         if (this.exponent.compareTo(this.modulus)>-1){
             Platform.runLater(() -> errorDialog.bigExponent());
             return false;
-        }       
+        }
         
         //MESSAGE------------ 
         processedMessage = this.utilidades.formatNumber(message);
@@ -153,7 +153,7 @@ public class CyclicAttack {
         
         Platform.runLater(() -> this.Cprint.clearResults());     
             
-        //Num.Vueltas -->comprobación de errores
+        //Num.Vueltas --> comprobación de errores
         numOfCyphers = this.utilidades.formatNumber(numOfCyphers);
         
         try{

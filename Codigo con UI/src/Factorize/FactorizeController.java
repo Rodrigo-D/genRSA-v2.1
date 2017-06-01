@@ -111,7 +111,7 @@ public class FactorizeController {
                     if (factorize.init(modulusStr)){
                         
                         if(ObtainPQ.isSelected()){
-                            factorize.obtainPQ();
+                            factorize.complete();
                             
                         } else {
                             String lapsNumStr = NumLaps.getText();
@@ -128,7 +128,7 @@ public class FactorizeController {
             
             new Thread(PAstart).start(); 
             
-        }else {
+        } else {
             factorize.setIsCancelled(true);
         }        
     } 

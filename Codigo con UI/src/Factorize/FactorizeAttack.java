@@ -65,7 +65,9 @@ public class FactorizeAttack {
     
     public boolean init(final String modulus){
         final String modulusStr;
-        //comprobación de errores
+        
+        //comprobación de errores        
+        //MODULUS------------  
         modulusStr = this.utilidades.formatNumber(modulus);
         
         try{
@@ -93,7 +95,7 @@ public class FactorizeAttack {
     }
     
     public void start (String lapsNumStr){
-        //comprobación de errores
+        //Num.Vueltas --> comprobación de errores
         lapsNumStr  = this.utilidades.formatNumber(lapsNumStr);            
 
         try{
@@ -148,18 +150,24 @@ public class FactorizeAttack {
         
     }
     
-     public void obtainPQ (){
+    public void complete (){
                 
-        if(this.modulus.bitLength() > 50){
-            this.BMobtainPQ();
+        if(this.modulus.bitLength() < 50){
+            this.LMComplete();
+            
+        } else if(this.modulus.bitLength() < 100){
+            this.BMComplete(Constantes.BM_REFRESH);
+            
         } else {
-            this.LMobtainPQ();
+            this.BMComplete(Constantes.MAX_REFRESH);
         }
         
     }
     
     
-    //comenzar a factorizar n, imprimiendo todos los valores del ataque
+    /**
+     * Metodo para comenzar a factorizar n, imprimiendo todos los valores del ataque. Se puede parar
+     */
     public void LLNstart (){
         BigInteger xPrime, x2Prime, s, antesDeS, laps; 
         final String time;
@@ -167,17 +175,18 @@ public class FactorizeAttack {
 
         startTime = System.currentTimeMillis();   
 
-        //lógica del metodo
+        //Preparación de valores iniciales del ataque
         laps = Constantes.ZERO; 
         this.x = Constantes.TWO;
         this.x2 = Constantes.TWO;
         
-        this.result = "Vuelta= " + this.utilidades.putPoints(laps.toString(),10) +
+        this.result = "Vuelta = " + this.utilidades.putPoints(laps.toString(),10) +
                     "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase(), this.radix) + 
                     "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase(), this.radix) + "\n";
         Platform.runLater(() -> this.print.functionValues(this.result));
         this.xplResult = "";
         
+        //Comienza el bucle del ataque
         do{
             xPrime = (this.x.pow(2)).add(BigInteger.ONE);
             x2Prime = (((this.x2.modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE)).
@@ -190,7 +199,7 @@ public class FactorizeAttack {
 
             laps = laps.add(Constantes.ONE);
 
-            this.xplResult = this.xplResult + "Vuelta= " + this.utilidades.putPoints(laps.toString(), 10) +
+            this.xplResult = this.xplResult + "Vuelta = " + this.utilidades.putPoints(laps.toString(), 10) +
                     "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase(), this.radix) + 
                     "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase(), this.radix) +
                     "\n    --> s=" + this.utilidades.putPoints(s.toString(this.radix).toUpperCase(), this.radix) + "\n";
@@ -210,12 +219,12 @@ public class FactorizeAttack {
                 this.find = false;
                 break;
             }
-        } while (true);
+        } while (!this.isCancelled);
                
         
         this.totalTime = System.currentTimeMillis() - startTime;
         time = this.utilidades.millisToSeconds(this.totalTime);
-       
+        //Siempre se imprimen los valores porque si no tocase habria un string vacio
         Platform.runLater(() -> { 
             this.print.time(time);  
             this.print.functionValues(this.xplResult);
@@ -234,12 +243,22 @@ public class FactorizeAttack {
                 this.print.EnableStartBttns();
                 this.print.editableModulus(true);
             });
-        } else {
+            
+        } else if (isCancelled){
+            Platform.runLater(() -> {
+                this.print.EnableStartBttns();
+                this.print.editableModulus(true);
+                this.print.attackStopped();
+            });
+        
+        } else {            
             Platform.runLater(() ->this.print.dissableStartBttns());             
         }        
     }
     
-    //comenzar a factorizar n, sin imprimir todos los valores del ataque
+    /**
+     * Metodo para comenzar a factorizar n, sin imprimir todos los valores del ataque. Se puede parar
+     */
     public void BLNstart (){
         BigInteger xPrime, x2Prime, s, antesDeS, laps; 
         final String time;
@@ -248,16 +267,17 @@ public class FactorizeAttack {
         
         startTime = System.currentTimeMillis();   
 
-        //lógica del metodo
+        //Preparación de valores iniciales del ataque
         laps = Constantes.ZERO; 
         this.x = Constantes.TWO;
         this.x2 = Constantes.TWO;
         
-        this.xplResult = "Vuelta= " + this.utilidades.putPoints(laps.toString(),10) +
+        this.xplResult = "Vuelta = " + this.utilidades.putPoints(laps.toString(),10) +
                     "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase(), this.radix) + 
                     "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase(), this.radix) + "\n";
         Platform.runLater(() -> this.print.functionValues(this.xplResult));
-                
+         
+        //Comienza el bucle del ataque
         do{
             xPrime = (this.x.pow(2)).add(BigInteger.ONE);
             x2Prime = (((this.x2.modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE)).
@@ -272,7 +292,7 @@ public class FactorizeAttack {
             write=false;
                        
             if (laps.mod(Constantes.BLN_REFRESH).equals(Constantes.ZERO)){
-                this.result = "Vuelta= " + this.utilidades.putPoints(laps.toString(), 10) +
+                this.result = "Vuelta = " + this.utilidades.putPoints(laps.toString(), 10) +
                     "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase(), this.radix) + 
                     "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase(), this.radix) +
                     "\n    --> s=" + this.utilidades.putPoints(s.toString(this.radix).toUpperCase(), this.radix) + "\n";
@@ -289,11 +309,12 @@ public class FactorizeAttack {
                 this.find = false;
                 break;
             }
-        } while (true);
+        } while (!this.isCancelled);
         
-        
+        //Por si ha factorizado el modulo o se ha pulsado el boton de "parar" o ha terminado las vueltas
+        //y le faltan valores por escribir
         if (!write){
-                final String lastResult = "Vuelta= " + this.utilidades.putPoints(laps.toString(), 10) +
+                final String lastResult = "Vuelta = " + this.utilidades.putPoints(laps.toString(), 10) +
                     "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase(), this.radix) + 
                     "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase(), this.radix) +
                     "\n    --> s=" + this.utilidades.putPoints(s.toString(this.radix).toUpperCase(), this.radix) + "\n";
@@ -317,14 +338,23 @@ public class FactorizeAttack {
                 this.print.EnableStartBttns();
                 this.print.editableModulus(true);
             });
-        } else {
+            
+        } else if (isCancelled){
+            Platform.runLater(() -> {
+                this.print.EnableStartBttns();
+                this.print.editableModulus(true);
+                this.print.attackStopped();
+            });
+        
+        } else {            
             Platform.runLater(() ->this.print.dissableStartBttns());             
-        }
+        }        
     }
     
-    
-    //Continuar factorizar n, en caso de que no se haya terminado en el start.
-    //imprimiendo todos  los valores del ataque
+    /**
+     * Metodo para continuar factorizando n, en caso de que no se haya terminado en el start.
+     * Imprime todos los valores del ataque, se puede parar.
+     */
     public void LLNcontinue(){
         BigInteger xPrime, x2Prime, s, antesDeS, laps;  
         final String time;
@@ -332,10 +362,11 @@ public class FactorizeAttack {
 
         startTime = System.currentTimeMillis();
 
-        //lógica del metodo
+        //Preparación de valores iniciales del ataque
         laps = Constantes.ZERO; 
         this.xplResult = "";
 
+        //Comienza el bucle del ataque
         do{
             xPrime = (this.x.pow(2)).add(BigInteger.ONE);
             x2Prime = (((this.x2.modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE)).
@@ -349,7 +380,7 @@ public class FactorizeAttack {
             laps = laps.add(Constantes.ONE);
             this.lapsNumTotal = this.lapsNumTotal.add(Constantes.ONE);
             
-            this.xplResult = this.xplResult + "Vuelta= " + this.utilidades.putPoints(this.lapsNumTotal.toString(), 10) +
+            this.xplResult = this.xplResult + "Vuelta = " + this.utilidades.putPoints(this.lapsNumTotal.toString(), 10) +
                     "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase(), this.radix) + 
                     "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase(), this.radix) +
                     "\n    --> s=" + this.utilidades.putPoints(s.toString(this.radix).toUpperCase(), this.radix) + "\n";
@@ -370,12 +401,13 @@ public class FactorizeAttack {
                 break;
             }
 
-        } while (true);
+        } while (!this.isCancelled);
         
         
         this.totalTime = (System.currentTimeMillis() - startTime) + this.totalTime;
         time = this.utilidades.millisToSeconds(this.totalTime);        
         
+        //Siempre se imprimen los valores porque si no tocase imprimir habria un string vacio
         Platform.runLater(() -> { 
             this.print.time(time);  
             this.print.functionValues(this.xplResult);
@@ -394,13 +426,22 @@ public class FactorizeAttack {
                 this.print.EnableStartBttns();
                 this.print.editableModulus(true);
             });            
-        } else {
-             Platform.runLater(() ->this.print.dissableStartBttns());
-        }  
+        } else if (isCancelled){
+            Platform.runLater(() -> {
+                this.print.EnableStartBttns();
+                this.print.editableModulus(true);
+                this.print.attackStopped();
+            });
+        
+        } else {            
+            Platform.runLater(() ->this.print.dissableStartBttns());             
+        }        
     }
     
-    //Continuar factorizar n, en caso de que no se haya terminado en el start.
-    //sin imprimir todos  los valores del ataque
+    /**
+     * Metodo para continuar factorizando n, en caso de que no se haya terminado en el start.
+     * No imprime todos los valores del ataque, se puede parar.
+     */
     public void BLNcontinue(){
         BigInteger xPrime, x2Prime, s, antesDeS, laps;  
         final String time;
@@ -409,9 +450,10 @@ public class FactorizeAttack {
 
         startTime = System.currentTimeMillis();
 
-        //lógica del metodo
+        //Preparación de valores iniciales del ataque
         laps = Constantes.ZERO; 
 
+        //Comienza el bucle del ataque
         do{
             xPrime = (this.x.pow(2)).add(BigInteger.ONE);
             x2Prime = (((this.x2.modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE)).
@@ -427,7 +469,7 @@ public class FactorizeAttack {
             write = false;
             
             if (this.lapsNumTotal.mod(Constantes.BLN_REFRESH).equals(Constantes.ZERO)){
-                this.result = "Vuelta= " + this.utilidades.putPoints(this.lapsNumTotal.toString(), 10) +
+                this.result = "Vuelta = " + this.utilidades.putPoints(this.lapsNumTotal.toString(), 10) +
                     "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase(), this.radix) + 
                     "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase(), this.radix) +
                     "\n    --> s=" + this.utilidades.putPoints(s.toString(this.radix).toUpperCase(), this.radix) + "\n";
@@ -444,11 +486,12 @@ public class FactorizeAttack {
                 this.find = false;
                 break;
             }
-        } while (true);
+        } while (!this.isCancelled);
         
-        
-        if (!write){
-            this.xplResult = "Vuelta= " + this.utilidades.putPoints(this.lapsNumTotal.toString(), 10) +
+        //Por si ha factorizado el modulo o se ha pulsado el boton de "parar" o ha terminado las vueltas
+        //y le faltan valores por escribir
+        if(!write){
+            this.xplResult = "Vuelta = " + this.utilidades.putPoints(this.lapsNumTotal.toString(), 10) +
                 "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase(), this.radix) + 
                 "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase(), this.radix) +
                 "\n    --> s=" + this.utilidades.putPoints(s.toString(this.radix).toUpperCase(), this.radix) + "\n";
@@ -457,7 +500,7 @@ public class FactorizeAttack {
         
         this.totalTime = (System.currentTimeMillis() - startTime) + this.totalTime;
         time = this.utilidades.millisToSeconds(this.totalTime);
-
+        
         Platform.runLater(() -> this.print.time(time));       
         
 
@@ -473,31 +516,41 @@ public class FactorizeAttack {
                 this.print.EnableStartBttns();
                 this.print.editableModulus(true);
             });            
-        } else {
-             Platform.runLater(() ->this.print.dissableStartBttns());
-        }      
+        } else if (isCancelled){
+            Platform.runLater(() -> {
+                this.print.EnableStartBttns();
+                this.print.editableModulus(true);
+                this.print.attackStopped();
+            });
+        
+        } else {            
+            Platform.runLater(() ->this.print.dissableStartBttns());             
+        }          
     }
 
 
-    //factorizar n hasta encontrar los primos P y Q
-    public void LMobtainPQ (){
+    /**
+     * Metodo para factorizar n hasta encontrar los primos P y Q o hasta que se pulse el boton de parar.
+     */
+    public void LMComplete (){
         BigInteger xPrime, x2Prime, s, antesDeS, laps;  
         final String time;
         long startTime;
         
         startTime = System.currentTimeMillis(); 
-        //lógica del metodo
+        
+        //Preparación de valores iniciales del ataque
         laps = Constantes.ZERO; 
         this.x = Constantes.TWO;
         this.x2 = Constantes.TWO;
         
-        this.result = "Vuelta= " + this.utilidades.putPoints(laps.toString(),10) +
+        this.result = "Vuelta = " + this.utilidades.putPoints(laps.toString(),10) +
                     "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase(), this.radix) + 
                     "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase(), this.radix) + "\n";
         Platform.runLater(() -> this.print.functionValues(this.result));
         this.xplResult = "";
         
-
+        //Comienza el bucle del ataque
         do{
             xPrime = (this.x.pow(2)).add(BigInteger.ONE);
             x2Prime = (((this.x2.modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE)).
@@ -507,10 +560,10 @@ public class FactorizeAttack {
             this.x2 = x2Prime.mod(this.modulus);
             antesDeS=(this.x.subtract(this.x2));
             s = antesDeS.gcd(this.modulus);
-
+            
             laps = laps.add(Constantes.ONE);
             
-            this.xplResult = this.xplResult + "Vuelta= " + this.utilidades.putPoints(laps.toString(), 10) +
+            this.xplResult = this.xplResult + "Vuelta = " + this.utilidades.putPoints(laps.toString(), 10) +
                     "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase(), this.radix) + 
                     "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase(), this.radix) +
                     "\n    --> s=" + this.utilidades.putPoints(s.toString(this.radix).toUpperCase(), this.radix) + "\n";
@@ -521,20 +574,30 @@ public class FactorizeAttack {
                 this.xplResult="";
             }               
 
-        } while (s.equals(Constantes.ONE) || s.equals(this.modulus));
+        } while ((s.equals(Constantes.ONE) || s.equals(this.modulus)) && !(this.isCancelled));
 
+        //Por si ha factorizado el modulo o se ha pulsado el boton de "parar" y le faltan valores por escribir
+        Platform.runLater(() -> this.print.functionValues(this.xplResult));
+        
+        if (this.isCancelled){
+            Platform.runLater(() -> this.print.attackStopped());
             
+        } else {
+            final String strPrimeP = s.toString(this.radix);
+            final String strPrimeQ = this.modulus.divide(s).toString(this.radix);
+            final String strLaps = laps.toString();
+            
+            Platform.runLater(() -> {
+                this.print.primeP(strPrimeP, this.radix);
+                this.print.primeQ(strPrimeQ, this.radix);
+                this.print.find(strLaps);
+            });
+        }
         time = this.utilidades.millisToSeconds(System.currentTimeMillis() - startTime);
-        final String strPrimeP = s.toString(this.radix);
-        final String strPrimeQ = this.modulus.divide(s).toString(this.radix);
-        final String strLaps = laps.toString();
+       
 
         Platform.runLater(() -> {
             this.print.time(time);  
-            this.print.functionValues(this.xplResult);
-            this.print.primeP(strPrimeP, this.radix);
-            this.print.primeQ(strPrimeQ, this.radix);
-            this.print.find(strLaps);
             this.print.EnableStartBttns();
             this.print.editableModulus(true);
             this.print.lapsNum("10");
@@ -542,25 +605,30 @@ public class FactorizeAttack {
         
     }
 
-    //factorizar n hasta encontrar los primos P y Q
-    public void BMobtainPQ (){
+     /**
+     * Metodo para factorizar n hasta encontrar los primos P y Q o hasta que se pulse el boton de parar.
+     * Imprime cada REFRESH veces los valores del ataque.
+     * @param REFRESH
+     */
+    public void BMComplete (BigInteger REFRESH){
         BigInteger xPrime, x2Prime, s, antesDeS, laps;  
         final String time;
         long startTime;
         boolean write;
         
-        startTime = System.currentTimeMillis(); 
-        //lógica del metodo
+        startTime = System.currentTimeMillis();
+
+        //Preparación de valores iniciales del ataque
         laps = Constantes.ZERO; 
         this.x = Constantes.TWO;
         this.x2 = Constantes.TWO;
         
-        this.result = "Vuelta= " + this.utilidades.putPoints(laps.toString(), 10) +
+        this.result = "Vuelta = " + this.utilidades.putPoints(laps.toString(), 10) +
                     "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase(), this.radix) + 
                     "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase(), this.radix) + "\n";
         Platform.runLater(() -> this.print.functionValues(this.result));
                 
-
+        //Comienza el bucle del ataque
         do{
             xPrime = (this.x.pow(2)).add(BigInteger.ONE);
             x2Prime = (((this.x2.modPow(Constantes.TWO,this.modulus)).add(Constantes.ONE)).
@@ -574,40 +642,46 @@ public class FactorizeAttack {
             laps = laps.add(Constantes.ONE);
             write=false;
             
-            if (laps.mod(Constantes.BM_REFRESH).equals(Constantes.ZERO)){
-                this.xplResult = "Vuelta= " + this.utilidades.putPoints(laps.toString(), 10) +
+            if (laps.mod(REFRESH).equals(Constantes.ZERO)){
+                this.xplResult = "Vuelta = " + this.utilidades.putPoints(laps.toString(), 10) +
                     "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase(), this.radix) + 
                     "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase(), this.radix) +
                     "\n    --> s=" + this.utilidades.putPoints(s.toString(this.radix).toUpperCase(), this.radix) + "\n";
                
                 Platform.runLater(() -> this.print.functionValues(this.xplResult));
                 write = true;
-            }         
+            }      
+        } while ((s.equals(Constantes.ONE) || s.equals(this.modulus)) && !(this.isCancelled));
 
-        } while (s.equals(Constantes.ONE) || s.equals(this.modulus));
-
-            
+        //Por si ha factorizado el modulo o se ha pulsado el boton de "parar" y le faltan valores por escribir
         if (!write){
-            final String lastResult = "Vuelta= " + this.utilidades.putPoints(laps.toString(), 10) +
+            final String lastResult = "Vuelta = " + this.utilidades.putPoints(laps.toString(), 10) +
                 "\n    --> xi=" + this.utilidades.putPoints(this.x.toString(radix).toUpperCase(), this.radix) + 
                 "\n    --> x2i=" +  this.utilidades.putPoints(this.x2.toString(radix).toUpperCase(), this.radix) +
                 "\n    --> s=" + this.utilidades.putPoints(s.toString(this.radix).toUpperCase(), this.radix) + "\n";
 
             Platform.runLater(() -> this.print.functionValues(lastResult));
-        }         
+        }             
         
-        
-        
-        time = this.utilidades.millisToSeconds(System.currentTimeMillis() - startTime);
-        final String strPrimeP = s.toString(this.radix);
-        final String strPrimeQ = this.modulus.divide(s).toString(this.radix);
-        final String strLaps = laps.toString();
+          
+        if (this.isCancelled){
+            Platform.runLater(() -> this.print.attackStopped());
+            
+        } else {
+            final String strPrimeP = s.toString(this.radix);
+            final String strPrimeQ = this.modulus.divide(s).toString(this.radix);
+            final String strLaps = laps.toString();
+            
+            Platform.runLater(() -> {
+                this.print.primeP(strPrimeP, this.radix);
+                this.print.primeQ(strPrimeQ, this.radix);
+                this.print.find(strLaps);
+            });
+        }
 
+        time = this.utilidades.millisToSeconds(System.currentTimeMillis() - startTime);
         Platform.runLater(() -> {
             this.print.time(time);  
-            this.print.primeP(strPrimeP, this.radix);
-            this.print.primeQ(strPrimeQ, this.radix);
-            this.print.find(strLaps);
             this.print.EnableStartBttns();
             this.print.editableModulus(true);
             this.print.lapsNum("10");

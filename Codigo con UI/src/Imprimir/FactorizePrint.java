@@ -25,8 +25,7 @@ public class FactorizePrint {
     public FactorizePrint (FactorizeController factorizeScene){
         this.scene = factorizeScene;
         this.utilidades  = new Utilidades();
-    }
-    
+    } 
     
     
     
@@ -37,13 +36,14 @@ public class FactorizePrint {
         this.scene.getTime().clear();
     }    
     
-    public void editableModulus(boolean disable) {
-       this.scene.getModulus().setEditable(disable);
+    public void editableModulus(boolean value) {
+       this.scene.getModulus().setEditable(value);
     }
     
     public void disableBttns() {
         this.scene.getContinueBttn().setDisable(true);
-        this.scene.getStartBttn().setDisable(true);
+        this.scene.getStartBttn().setText("    Parar    ");        
+        this.scene.getStartBttn().setDisable(false);
         this.scene.getClearBttn().setDisable(true);
         this.scene.getObtainPQ().setDisable(true);
     }
@@ -74,9 +74,14 @@ public class FactorizePrint {
         this.scene.getResults().appendText(line);        
     }
     
+    public void attackStopped() {
+        this.scene.getResults().appendText("\n\n ******** EL ATAQUE SE HA DETENDIDO ******** ");
+    }
+    
     public void EnableStartBttns() {
         this.scene.getContinueBttn().setDisable(true);
         this.scene.getStartBttn().setDisable(false);  
+        this.scene.getStartBttn().setText("Comenzar");
         this.scene.getClearBttn().setDisable(false);
         this.scene.getObtainPQ().setDisable(false);
         this.scene.getObtainPQ().setSelected(false);

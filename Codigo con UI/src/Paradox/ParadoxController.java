@@ -172,6 +172,10 @@ public class ParadoxController {
         this.firstTime = firstTime;
     }
     
+    public ParadoxAttack getParadoxAttack() {
+        return this.paradoxAttack;
+    }
+    
     //PARTE GRÁFICA
     public TextField getModulus() {
         return this.Modulus;

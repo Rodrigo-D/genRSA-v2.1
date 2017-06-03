@@ -10,12 +10,14 @@ import Cyclic.CyclicController;
 import DeCipher.DeCipherController;
 import Factorize.FactorizeController;
 import Imprimir.MainWindow;
+import Metodos.CalculateNNC;
 import Metodos.CheckPrimes;
 import Metodos.GenerarClaves;
 import Metodos.ManageKey;
 import Model.ComponentesRSA;
 import Paradox.ParadoxController;
 import Sign.SignController;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -40,6 +42,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
@@ -189,6 +192,22 @@ public class SceneController {
     @FXML // fx:id="Hexadecimal"
     private RadioMenuItem Hexadecimal; // Value injected by FXMLLoader
     
+    @FXML // fx:id="limpiarDatosBttn"
+    private Button limpiarDatosBttn; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="limpiarDatos1Bttn"
+    private Button limpiarDatos1Bttn; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="autoGenerarBttn"
+    private Button autoGenerarBttn; // Value injected by FXMLLoader    
+    
+    @FXML // fx:id="deleteKeyMenu"
+    private MenuItem deleteKeyMenu; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="autoGenerarMenu"
+    private MenuItem autoGenerarMenu; // Value injected by FXMLLoader
+    
+    
          
     private int radix;
     
@@ -203,6 +222,8 @@ public class SceneController {
     private CheckPrimes checkPrimes;
     
     private ManageKey manageKey;
+    
+    private boolean startLogNNC;
 
     
     
@@ -256,6 +277,11 @@ public class SceneController {
         assert factorizeMenuI != null : "fx:id=\"factorizeMenuI\" was not injected: check your FXML file 'escena.fxml'.";
         assert Decimal != null : "fx:id=\"Decimal\" was not injected: check your FXML file 'escena.fxml'.";
         assert Hexadecimal != null : "fx:id=\"Hexadecimal\" was not injected: check your FXML file 'escena.fxml'.";
+        assert limpiarDatosBttn != null : "fx:id=\"limpiarDatosBttn\" was not injected: check your FXML file 'escena.fxml'.";
+        assert limpiarDatos1Bttn != null : "fx:id=\"limpiarDatos1Bttn\" was not injected: check your FXML file 'escena.fxml'.";
+        assert autoGenerarBttn != null : "fx:id=\"autoGenerarBttn\" was not injected: check your FXML file 'escena.fxml'.";
+        assert deleteKeyMenu != null : "fx:id=\"deleteKeyMenu\" was not injected: check your FXML file 'escena.fxml'.";
+        assert autoGenerarMenu != null : "fx:id=\"autoGenerarMenu\" was not injected: check your FXML file 'escena.fxml'.";
         
         isPrime_P.setImage(new Image(SceneController.class.getResourceAsStream("/allImages/interrogation.png")));
         isPrime_Q.setImage(new Image(SceneController.class.getResourceAsStream("/allImages/interrogation.png")));
@@ -268,6 +294,8 @@ public class SceneController {
         mainWindow = new MainWindow(this);
         checkPrimes = new CheckPrimes(this);
         manageKey = new ManageKey();
+        
+        startLogNNC = true;
         
         this.disableButtons();      
         this.configureFocus();
@@ -346,7 +374,51 @@ public class SceneController {
      * @param event 
      */
     public void generateNNC(ActionEvent event) {
-       this.manageKey.saveLogNNC(this.unitsP, this.RSA);
+        
+        if (this.startLogNNC) {
+            
+            //todo se hace antes del thread porque si no nose podria manejar la ventana
+            //para que se decidiera donde se guarda el archivo.
+            FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("HTML files", "*.html");    
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialDirectory( new File(System.getProperty("user.home")));
+            fileChooser.getExtensionFilters().add(extensionFilter);
+            fileChooser.setTitle("Seleccionar directorio donde guardar el log");        
+            fileChooser.setInitialFileName("LogNNC genRSA");
+            File logNNCFile = fileChooser.showSaveDialog(labelPubKey.getScene().getWindow());
+            
+            
+            
+            
+            Task CAstart= new Task() {
+                @Override
+                protected Object call() throws Exception {
+                    startLogNNC = false;
+                    progress.setVisible(true);                
+                    Platform.runLater(() ->{
+                        disableOnProgress(true);
+                        configureLogStop(true);
+                    });
+
+
+                    manageKey.saveLogNNC(unitsP, RSA, logNNCFile);
+
+                    Platform.runLater(() ->{
+                        disableOnProgress(false);
+                        configureLogStop(false);
+                    });
+                    progress.setVisible(false);
+                    startLogNNC = true;
+                    return null;
+                }
+            };
+
+            new Thread(CAstart).start();  
+            
+        } else {
+            this.manageKey.setLogCancelled();
+            this.startLogNNC = true;
+        }
     }
     
     /**
@@ -479,7 +551,11 @@ public class SceneController {
             stage.initOwner(this.unitsD.getScene().getWindow());            
             stage.getIcons().add(new Image(SceneController.class.getResourceAsStream("/allImages/genRSA.png")));
             stage.setScene(scene);
-            stage.show();            
+            stage.show();        
+            
+            stage.setOnCloseRequest(closeEvent -> {
+                factorController.getFactorizeAttack().setIsCancelled(true);
+            });
         
         } catch (IOException ex) {
             //no pongo mensaje de error, porque no se puede dar el caso
@@ -517,7 +593,11 @@ public class SceneController {
             stage.initOwner(this.unitsD.getScene().getWindow());
             stage.getIcons().add(new Image(SceneController.class.getResourceAsStream("/allImages/genRSA.png")));
             stage.setScene(scene);
-            stage.show();            
+            stage.show(); 
+            
+            stage.setOnCloseRequest(closeEvent -> {
+                cyclicController.getCyclicAtack().setIsCancelled(true);
+            });
         
         } catch (IOException ex) {
             //no pongo mensaje de error, porque no se puede dar el caso
@@ -556,7 +636,11 @@ public class SceneController {
             stage.initOwner(this.unitsD.getScene().getWindow());
             stage.getIcons().add(new Image(SceneController.class.getResourceAsStream("/allImages/genRSA.png")));
             stage.setScene(scene);
-            stage.show();            
+            stage.show();  
+            
+            stage.setOnCloseRequest(closeEvent -> {
+                paradoxController.getParadoxAttack().setIsCancelled(true);
+            });
         
         } catch (IOException ex) {
             //no pongo mensaje de error, porque no se puede dar el caso
@@ -707,6 +791,8 @@ public class SceneController {
      * @param event 
      */
     public void exitApplication(ActionEvent event) {
+        //para pararlo en caso de que no haya terminado
+        CalculateNNC.isCancelled=true;
         System.exit(0);
     }
     
@@ -726,8 +812,7 @@ public class SceneController {
              this.saveKeyMenuI.setDisable(false);
              this.DeCipherMenuI.setDisable(false);
              this.SignMenuI.setDisable(false);
-        }
-        
+        }        
     }
     
     /**
@@ -755,8 +840,32 @@ public class SceneController {
         this.factorizeMenuI.setDisable(disable);
         this.Decimal.setDisable(disable);        
         this.Hexadecimal.setDisable(disable);
+        this.limpiarDatosBttn.setDisable(disable);        
+        this.limpiarDatos1Bttn.setDisable(disable);
+        this.autoGenerarBttn.setDisable(disable);
+        this.autoGenerarMenu.setDisable(disable);
+        this.deleteKeyMenu.setDisable(disable);
         
     }
+    
+    
+    /**
+     * Método usado para cambiar el boton de pausa/generacion del log de NNC
+     * 
+     * @param stop
+     */
+    public void configureLogStop(final boolean stop) {   
+        
+        if (stop) {            
+            this.logNNCbttn.setDisable(false);
+            this.logNNCbttn.setText("  Parar  Log  ");
+        } else {
+            this.logNNCbttn.setText("Generar Log");
+        }        
+    }
+    
+    
+    
     
     /**
      * Método usado para evitar que se puedan focalizar

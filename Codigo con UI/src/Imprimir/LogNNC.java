@@ -73,10 +73,17 @@ public class LogNNC {
         print.println("<B>" + this.utilidades.putPoints(RSA.getD().toString(radix).toUpperCase(), radix) + "<br /><br /></B>");
         
         print.println("<H4><B>NUMEROS NO CIFRABLES</B></H4>");
-        print.println("<B>La cantidad de Números No Cifrables es:" + this.utilidades.putPoints(RSA.getNumNNC().toString(), radix) + "</B>");
+        print.println("<B>La cantidad de Numeros No Cifrables es:" + this.utilidades.putPoints(RSA.getNumNNC().toString(), radix) + "</B>");
     }
     
-     public void closeHTML() {
+    
+    public void cancelledHTML() {
+        print.println("<B> </B>");
+        print.println("<B><font color=\"IndianRed\"> SE HA CANCELADO EL LOG, POR LO TANTO PUEDE NO ESTAR COMPLETO.</font></B>");
+
+    }
+    
+    public void closeHTML() {
         
         this.print.println("</PRE>");
         this.print.println("</body>");

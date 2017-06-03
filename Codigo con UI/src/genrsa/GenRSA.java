@@ -5,6 +5,8 @@
  */
 package genrsa;
 
+import Imprimir.LogNNC;
+import Metodos.CalculateNNC;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,6 +65,12 @@ public class GenRSA extends Application {
         } catch (IOException ex) {
             Logger.getLogger(GenRSA.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    @Override
+    public void stop(){
+        //para poder parar el thread si se ha cerrado la aplicacion dando a la X roja 
+        CalculateNNC.isCancelled=true;
     }
 
     /**

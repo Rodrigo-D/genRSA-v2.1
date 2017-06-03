@@ -23,8 +23,6 @@ public class Constantes {
     
     public static  BigInteger THREE = new BigInteger("3");
     
-    public static BigInteger MAX_NNC = new BigInteger ("600");
-    
     public static BigInteger L_REFRESH = new BigInteger ("2000");    
     
     public static BigInteger BM_REFRESH = new BigInteger ("100000");

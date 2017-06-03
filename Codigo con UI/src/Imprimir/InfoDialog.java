@@ -28,16 +28,25 @@ public class InfoDialog {
     
 
     public void KeySaved() {
+        info.setHeaderText(null);
         info.setContentText("Clave RSA guardada correctamente");
         info.showAndWait();
     }
 
     public void LogNNCSaved() {
+        info.setHeaderText(null);
         info.setContentText("Log de NNNC creado correctamente");
+        info.showAndWait();
+    }
+    
+    public void LogNNCStopped() {
+        info.setHeaderText(null);
+        info.setContentText("Log de NNNC parado correctamente");
         info.showAndWait();
     }
 
     public void factorization() {
+        info.setHeaderText(null);
         info.setContentText("La función pollard Rho(N) se calcula según la siguiente función: \n\n" +
                             "  # Valores Iniciales x(i) y x(2*i) for i = 0. \n" +
                             "  xi  := 2 \n" +
@@ -60,6 +69,7 @@ public class InfoDialog {
     }
 
     public void cyclic() {
+        info.setHeaderText(null);
          info.setContentText("El ataque por cifrado cíclico se basa en lo siguiente:\n\n" 
                  + "Como C = N^e mod n, siendo N un valor secreto. \n"
                  + "Se realizan cifrados sucesivos de los criptogramas Ci \n"
@@ -77,6 +87,7 @@ public class InfoDialog {
     }
 
     public void paradox() {
+        info.setHeaderText(null);
         info.setContentText("Pasos del ataque por la paraoja del cumpleaños:\n\n" 
                  + "El atacante elige un número cualquiera N.\n"
                  + "Se toma i=1 y j=módulo/2. \n"                
@@ -99,6 +110,7 @@ public class InfoDialog {
     }
 
     public void warningAttack() {
+        info.setHeaderText(null);
         info.setContentText("Si se modifica el módulo o el exponente no se\n"
                 + "garantiza la correcta finalización del ataque. ");
         info.showAndWait();
@@ -119,6 +131,7 @@ public class InfoDialog {
     }
 
     public void putCipherInfo() {
+        info.setHeaderText(null);
         info.setContentText("El proceso de cifrado siempre se realiza con la clave\n" 
                  + "pública del destinatario. De este modo, solo el  destinatario \n"
                  + "podrá, con su clave privada, descifrar los datos.\n"
@@ -150,6 +163,7 @@ public class InfoDialog {
     }
 
     public void putSignInfo() {
+        info.setHeaderText(null);
         info.setContentText("El proceso de firma siempre se realiza con la clave privada\n" 
                  + "del emisor. De este modo, se garantiza el no repudio de los datos.\n"
                  + "La firma se suele realizar a un hash de un documento para\n"
@@ -166,6 +180,7 @@ public class InfoDialog {
     }
 
     public void putValidateSignInfo() {
+        info.setHeaderText(null);
         info.setContentText("El proceso de comprobación de la firma siempre se realiza\n" 
                  + "con la clave pública del emisor. Para comprobar una firma, se \n"
                  + "realiza el hash del documento recibido y se compara con el hash\n"
@@ -182,5 +197,16 @@ public class InfoDialog {
         info.showAndWait();
         
     }
+
+    public void bigKeySize() {
+        info.setHeaderText("Atención, calcular los números no cifrables para un valor de\n"
+                + "clave demasiado grande puede resultar un proceso lento.");        
+       
+        info.setContentText("En cualquier caso, puede parar el proceso cuando lo desee.");       
+        
+        info.showAndWait();   
+    }
+
+    
 
 }

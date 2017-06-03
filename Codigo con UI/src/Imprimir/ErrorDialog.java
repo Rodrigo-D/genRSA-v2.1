@@ -137,15 +137,7 @@ public class ErrorDialog {
         alertError.setContentText("Por favor, genere una clave con menos Números No Cifrables");       
         
         alertError.showAndWait(); 
-    }
-
-    public void bigKeySize() {
-        alertError.setHeaderText("Error, longitud de clave demasiado grande como para calcular los NNC");        
-       
-        alertError.setContentText("Por favor, genere una clave con una longitud de clave menor");       
-        
-        alertError.showAndWait();   
-    }
+    } 
 
     public void RSAnotGenerated() {
         alertError.setHeaderText("Error, clave RSA no generada");        
@@ -407,7 +399,8 @@ public class ErrorDialog {
     
     
     
-    public void selectCombo() {              
+    public void selectCombo() {  
+        alertError.setHeaderText(null);
         alertError.setContentText("Por favor, elija un número como clave privada.");
                       
         alertError.showAndWait();

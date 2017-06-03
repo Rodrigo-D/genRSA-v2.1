@@ -12,8 +12,9 @@ import Model.ComponentesRSA;
 import Model.Constantes;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.math.BigInteger;
 import java.util.Scanner;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -190,67 +191,56 @@ public class ManageKey {
     
      /**
      * Método encargado de guardar el log de Número No Cifrables
-     * @param label nodo cualquiera de la escena que se usa para ir escalando y obtener la ventana. 
+     * @param label --> nodo cualquiera de la escena que se usa para ir escalando y obtener la ventana. 
      * @param RSA 
+     * @param logNNCFile 
      */
-    public void saveLogNNC (Label label, ComponentesRSA RSA) {        
-        File logNNCFile;
+    public void saveLogNNC (Label label, ComponentesRSA RSA, File logNNCFile) {        
         CalculateNNC NNC;
         
-        if (RSA != null){
-            if (this.nncGreaterThanMAX(RSA.getNumNNC())){ 
-                this.errorDialog.muchNNC();
-                return;
-            } 
-
-            if (this.keySizeGreaterThanMAX(RSA.getD().bitLength())){
-                this.errorDialog.bigKeySize();
-                return;
-            }  
+        if (RSA != null){            
+            if (RSA.getD().bitLength() > Constantes.MAX_KeySize && logNNCFile != null) {
+                Platform.runLater(() ->this.infoDialog.bigKeySize());
+            }            
         } else {
-                this.errorDialog.RSAnotGenerated();
-                return;
+            //no se puede dar, no estaria activo el boton del log
+            Platform.runLater(() ->this.errorDialog.RSAnotGenerated());
+            return;
         }
-        
-        this.fileChooser.setTitle("Seleccionar directorio donde guardar el log");        
-        this.fileChooser.setInitialFileName("LogNNC genRSA");
-        logNNCFile = this.fileChooser.showSaveDialog(label.getScene().getWindow()); 
-        
+               
         if (logNNCFile != null ){            
             this.fileChooser.setInitialDirectory(logNNCFile.getParentFile());
 
-            NNC = new CalculateNNC(this.radix, RSA, logNNCFile);
-            NNC.calculate(); 
-            this.infoDialog.LogNNCSaved();
+            NNC = new CalculateNNC(this.radix, RSA, logNNCFile);            
+
+            if (RSA.getNumNNC().compareTo(Constantes.MAX_INT_BI) == -1){
+                NNC.quickCalculate(); 
+            } else {
+                NNC.calculate();
+            }
+            
+            if (CalculateNNC.isCancelled){
+                Platform.runLater(() ->this.infoDialog.LogNNCStopped());
+            } else {
+                Platform.runLater(() ->this.infoDialog.LogNNCSaved());                
+            } 
             
         } else {            
-            this.errorDialog.FileToSave();
+            Platform.runLater(() ->this.errorDialog.FileToSave());
         }
     }
     
-    
-    
-    
-    
-    public boolean nncGreaterThanMAX (BigInteger NumNNC){
-        
-       return (NumNNC.compareTo(Constantes.MAX_NNC)) == 1;        
+    public void setLogCancelled() {
+        CalculateNNC.isCancelled = true;
     }
-
-    
-    private boolean keySizeGreaterThanMAX(int KeySize) {
-        return (KeySize > Constantes.MAX_KeySize);
-    }
-    
-    
-    
-    
-    
+  
     /**
      * @param radix 
      */
     public void setUnits( int radix){
         this.radix = radix;
     }
+
+   
     
 }

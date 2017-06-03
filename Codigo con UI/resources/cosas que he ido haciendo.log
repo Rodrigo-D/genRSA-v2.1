@@ -1,5 +1,26 @@
 cosas que he ido haciendo:
 
+
+31 - 05 - 2017
+
+Ataque ciclico, ojo con:
+
+	Clase cPrint, todos los metodos que usen getStartBttn--> dissableStart, enableStart, inProgress, endProgress. Ojo tb con el getContinue Bttn. --> OK, SOLUCIONADO.
+	ojo con que si no le pone el puto mensaje a cifrar y le das y luego le vuelves a dar no funciona.
+	ataque a clave de 1024 y una vez con vueltas 9.999 le das y lo paras, la segunda vez hace algo raro. --> OK, SOLUCIONADO.
+	
+Ataque factorizacion:
+	se queda hecho el controller y el fxml.
+	queda el fprint y el fattack.
+
+
+30 - 05 - 2017
+
+Paradoja del cumpleaños mensajes y parar.
+hexadecimal no poner puntos.
+mas tiempo para el preloader.
+cambiar implementacion de miller rabin.
+
 08 - 05 - 2017
 
 Texto cifra y firma.

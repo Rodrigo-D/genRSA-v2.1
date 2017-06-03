@@ -194,8 +194,16 @@ public class FactorizeController {
     
     
     
+    public void setRadix(int radix) {
+        this.radix = radix;
+    }
+    
+    public FactorizeAttack getFactorizeAttack() {
+        return this.factorize;
+    }
     
     
+    //PARTE GRAFICA
     
     public TextField getModulus() {
         return Modulus;
@@ -236,11 +244,5 @@ public class FactorizeController {
         return ObtainPQ;
     }
     
-    public void setRadix(int radix) {
-        this.radix = radix;
-    }
-    
-    
-    
-    
+       
 }

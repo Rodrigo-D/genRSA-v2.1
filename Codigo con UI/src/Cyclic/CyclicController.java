@@ -248,9 +248,11 @@ public class CyclicController {
     
     public void setFirstTime(boolean firstTime){
         this.firstTime = firstTime;
-    }
-    
+    }    
       
+    public CyclicAttack getCyclicAtack() {
+        return this.cyclicAttack;
+    }
     
     //parte gráfica -----------------------------------------------------------
     public TextField getModulus() {
@@ -301,5 +303,6 @@ public class CyclicController {
         return this.clearBttn;
     }
 
+    
 
 }

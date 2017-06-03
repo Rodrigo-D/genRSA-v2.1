@@ -37,7 +37,7 @@
                         <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>
                   </MenuItem>
-                  <MenuItem mnemonicParsing="false" onAction="#delete" text="Borrar Clave">
+                  <MenuItem fx:id="deleteKeyMenu" mnemonicParsing="false" onAction="#delete" text="Borrar Clave">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
@@ -54,7 +54,7 @@
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="M" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" onAction="#processAutomaticGeneration" text="Automática">
+                  <MenuItem fx:id="autoGenerarMenu" mnemonicParsing="false" onAction="#processAutomaticGeneration" text="Automática">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="A" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                      </accelerator></MenuItem>
@@ -141,7 +141,7 @@
                <tooltip>
                   <Tooltip text="Pulsar tras haber introducido la clave pública y los primos p y q" />
                </tooltip></Button>
-            <Button alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#delete" prefWidth="120.0" text="Limpiar Datos">
+            <Button fx:id="limpiarDatosBttn" alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#delete" prefWidth="120.0" text="Limpiar Datos">
                <tooltip>
                   <Tooltip text="Pulsar para borrar los datos de la clave" />
                </tooltip></Button>
@@ -573,7 +573,7 @@
                               </ImageView>
                               <Label minWidth="-Infinity" prefHeight="25.0" text="Número primo p" HBox.hgrow="NEVER">
                                  <HBox.margin>
-                                    <Insets right="52.0" />
+                                    <Insets right="57.0" />
                                  </HBox.margin>
                               </Label>
                               <Separator halignment="RIGHT" orientation="VERTICAL" HBox.hgrow="ALWAYS" />
@@ -592,7 +592,7 @@
                               <ImageView fx:id="isPrime_Q" fitHeight="25.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER" />
                               <Label minWidth="-Infinity" prefHeight="25.0" text="Número primo q" HBox.hgrow="NEVER">
                                  <HBox.margin>
-                                    <Insets right="52.0" />
+                                    <Insets right="57.0" />
                                  </HBox.margin>
                               </Label>
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
@@ -774,12 +774,12 @@
                                     <Insets right="19.0" />
                                  </HBox.margin>
                               </Separator>
-                              <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#processAutomaticGeneration" text="Generar">
+                              <Button fx:id="autoGenerarBttn" minWidth="-Infinity" mnemonicParsing="false" onAction="#processAutomaticGeneration" text="Generación Automática">
                                  <tooltip>
                                     <Tooltip text="Pulsar para generar la clave RSA" />
                                  </tooltip>
                                  <HBox.margin>
-                                    <Insets bottom="5.0" left="66.0" right="65.0" />
+                                    <Insets bottom="5.0" left="14.0" right="35.0" top="3.0" />
                                  </HBox.margin>
                               </Button>
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
@@ -870,7 +870,7 @@
                         <HBox alignment="TOP_CENTER" maxHeight="500.0" prefHeight="100.0" prefWidth="200.0" spacing="20.0" VBox.vgrow="ALWAYS">
                            <children>
                               <ProgressIndicator fx:id="progress" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="29.0" visible="false" />
-                              <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#delete" prefHeight="25.0" text="Limpiar Datos">
+                              <Button fx:id="limpiarDatos1Bttn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#delete" prefHeight="25.0" text="Limpiar Datos">
                                  <tooltip>
                                     <Tooltip text="Pulsar para borrar los datos de la clave" />
                                  </tooltip>

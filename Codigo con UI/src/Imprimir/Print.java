@@ -74,7 +74,7 @@ public class Print {
     }
     
     public void limitPrivPairKey() {
-        this.scene.getClaves_parejas().appendText("Se ha alcanzado número máximo de claves privadas parejas a imprimir: 60");
+        this.scene.getClaves_parejas().appendText("Se ha alcanzado número máximo de claves privadas parejas a imprimir: 300");
     }
 
     public void numClavesParejas(BigInteger numCKP) {

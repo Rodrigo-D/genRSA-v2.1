@@ -721,7 +721,7 @@
                               </Separator>
                               <CheckBox fx:id="tipicalPubKey" alignment="BOTTOM_LEFT" minWidth="-Infinity" mnemonicParsing="false" prefHeight="17.0" prefWidth="16.0">
                                  <tooltip>
-                                    <Tooltip text="Marcar si se desea que la clave tenga los primos p y q de igual tamaño" />
+                                    <Tooltip text="Marcar si se desea que la clave generada tenga como clave pública 65.537" />
                                  </tooltip>
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="26.0" />

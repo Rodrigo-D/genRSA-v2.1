@@ -14,6 +14,7 @@ import Metodos.CalculateNNC;
 import Metodos.CheckPrimes;
 import Metodos.GenerarClaves;
 import Metodos.ManageKey;
+import Metodos.Utilidades;
 import Model.ComponentesRSA;
 import Paradox.ParadoxController;
 import Sign.SignController;
@@ -224,6 +225,8 @@ public class SceneController {
     private ManageKey manageKey;
     
     private boolean startLogNNC;
+    
+    private Utilidades utilidades;
 
     
     
@@ -295,6 +298,7 @@ public class SceneController {
         checkPrimes = new CheckPrimes(this);
         manageKey = new ManageKey();
         
+        utilidades = new Utilidades();
         startLogNNC = true;
         
         this.disableButtons();      
@@ -550,6 +554,7 @@ public class SceneController {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(this.unitsD.getScene().getWindow());            
             stage.getIcons().add(new Image(SceneController.class.getResourceAsStream("/allImages/genRSA.png")));
+            stage.setTitle("genRSA - Ataque por Factorización");  
             stage.setScene(scene);
             stage.show();        
             
@@ -592,6 +597,7 @@ public class SceneController {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(this.unitsD.getScene().getWindow());
             stage.getIcons().add(new Image(SceneController.class.getResourceAsStream("/allImages/genRSA.png")));
+            stage.setTitle("genRSA - Ataque Cíclico"); 
             stage.setScene(scene);
             stage.show(); 
             
@@ -635,6 +641,7 @@ public class SceneController {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(this.unitsD.getScene().getWindow());
             stage.getIcons().add(new Image(SceneController.class.getResourceAsStream("/allImages/genRSA.png")));
+            stage.setTitle("genRSA - Ataque por la Paradoja del Cumpleaños"); 
             stage.setScene(scene);
             stage.show();  
             
@@ -671,28 +678,29 @@ public class SceneController {
             DeCipherCtr.setRadix(this.radix);
             
             //parte gráfica
-            DeCipherCtr.getModulus().setText(this.RSA.getN().toString(this.radix).toUpperCase());
-            DeCipherCtr.getPubKey().setText(this.RSA.getE().toString(this.radix).toUpperCase());
+            DeCipherCtr.getModulus().setText(this.utilidades.putPoints(this.RSA.getN().toString(this.radix).toUpperCase(), this.radix));
+            DeCipherCtr.getPubKey().setText(this.utilidades.putPoints(this.RSA.getE().toString(this.radix).toUpperCase(), this.radix));
             
-            DeCipherCtr.getModulus1().setText(this.RSA.getN().toString(this.radix).toUpperCase());
+            DeCipherCtr.getModulus1().setText(this.utilidades.putPoints(this.RSA.getN().toString(this.radix).toUpperCase(), this.radix));
             //obtengo todas las claves privadas parejas
             String[] PPK = this.claves_parejas.getText().split("\n");
                         
             //las meto en el comboBox
             ComboBox comboBox = DeCipherCtr.getPrivKeys();
             comboBox.getItems().add("Clave Privada");
-            comboBox.getItems().add(this.RSA.getD().toString(this.radix).toUpperCase());
+            comboBox.getItems().add(this.utilidades.putPoints(this.RSA.getD().toString(this.radix).toUpperCase(), this.radix));
             comboBox.getItems().add("Claves Privadas Parejas");
             for (iterator=0; iterator< PPK.length; iterator++){
                 comboBox.getItems().add( PPK[iterator]);
             }            
-            comboBox.setValue(this.RSA.getD().toString(this.radix).toUpperCase());
+            comboBox.setValue(this.utilidades.putPoints(this.RSA.getD().toString(this.radix).toUpperCase(), this.radix));
             comboBox.setVisibleRowCount(7);
                                     
             Scene scene = new Scene(root);            
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(this.unitsD.getScene().getWindow());            
             stage.getIcons().add(new Image(SceneController.class.getResourceAsStream("/allImages/genRSA.png")));
+            stage.setTitle("genRSA - Cifrado y Descifrado"); 
             stage.setScene(scene);
             stage.show();       
             
@@ -726,10 +734,10 @@ public class SceneController {
             SignCtr.setRadix(this.radix);
             
             //parte gráfica
-            SignCtr.getModulus().setText(this.RSA.getN().toString(this.radix).toUpperCase());
-            SignCtr.getPubKey().setText(this.RSA.getE().toString(this.radix).toUpperCase());
+            SignCtr.getModulus().setText(this.utilidades.putPoints(this.RSA.getN().toString(this.radix).toUpperCase(), this.radix));
+            SignCtr.getPubKey().setText(this.utilidades.putPoints(this.RSA.getE().toString(this.radix).toUpperCase(), this.radix));
             
-            SignCtr.getModulus1().setText(this.RSA.getN().toString(this.radix).toUpperCase());
+            SignCtr.getModulus1().setText(this.utilidades.putPoints(this.RSA.getN().toString(this.radix).toUpperCase(), this.radix));
             //obtengo todas las claves privadas parejas
             String[] PPK = this.claves_parejas.getText().split("\n");
             //quito la informacion acerca de los bits "--> XXbits"
@@ -737,18 +745,19 @@ public class SceneController {
             //las meto en el comboBox
             ComboBox comboBox = SignCtr.getPrivKeys();
             comboBox.getItems().add("Clave Privada");
-            comboBox.getItems().add(this.RSA.getD().toString(this.radix).toUpperCase());
+            comboBox.getItems().add(this.utilidades.putPoints(this.RSA.getD().toString(this.radix).toUpperCase(), this.radix));
             comboBox.getItems().add("Claves Privadas Parejas");
             for (iterator=0; iterator< PPK.length; iterator++){
                 comboBox.getItems().add( PPK[iterator]);
             }            
-            comboBox.setValue(this.RSA.getD().toString(this.radix).toUpperCase());
+            comboBox.setValue(this.utilidades.putPoints(this.RSA.getD().toString(this.radix).toUpperCase(), this.radix));
             comboBox.setVisibleRowCount(7);
             
             Scene scene = new Scene(root);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(this.unitsD.getScene().getWindow());            
             stage.getIcons().add(new Image(SceneController.class.getResourceAsStream("/allImages/genRSA.png")));
+            stage.setTitle("genRSA - Firma y Validación"); 
             stage.setScene(scene);
             stage.show();       
             

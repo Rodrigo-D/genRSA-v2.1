@@ -284,8 +284,8 @@ public class GenerarClaves {
             //para controlar el while, dado que si el numero es mayor que el max_value de los integer
             //podria llegar a ser un numero negativo y no se calcularian las CKP
             CKP_int = this.CKPtoInt();
-            //OJO, he añadido condicion para que pare a las 60
-            while (CKP_int >= iterador && iterador <= 60){
+            //OJO, he añadido condicion para que pare a las 300
+            while (CKP_int >= iterador && iterador <= 300){
                     cpp=cpp.add(this.RSA.getGamma());
                     if (cpp.compareTo(this.RSA.getD()) != 0){
                             listCPP.add(this.utilidades.putPoints(cpp.toString(this.radix).toUpperCase(), this.radix) + " -> " + cpp.bitLength() + " bits");
@@ -294,7 +294,7 @@ public class GenerarClaves {
             }
             
              Platform.runLater(() ->this.print.privPairKey(listCPP));
-            if (iterador > 60){
+            if (iterador > 300){
                 Platform.runLater(() ->this.print.limitPrivPairKey());
             }
     }

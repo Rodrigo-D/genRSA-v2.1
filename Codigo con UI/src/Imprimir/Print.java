@@ -5,9 +5,9 @@
  */
 package Imprimir;
 
-import Metodos.Utilidades;
+import Methods.Utilidades;
 import Model.ComponentesRSA;
-import genrsa.SceneController;
+import genrsa.GenRSAController;
 import java.math.BigInteger;
 import java.util.List;
 import javafx.scene.image.Image;
@@ -20,7 +20,7 @@ public class Print {
     /**
      * Atributo encargado de manejar todos 
      */
-    private final SceneController scene;
+    private final GenRSAController scene;
     
     private final Utilidades utilidades;
     
@@ -28,7 +28,7 @@ public class Print {
     private final Image tick;
     private final Image interrogation;
     
-    public Print (SceneController sceneC){
+    public Print (GenRSAController sceneC){
         this.scene = sceneC;
         utilidades = new Utilidades();
         cross = new Image(Print.class.getResourceAsStream("/allImages/cross.png"));

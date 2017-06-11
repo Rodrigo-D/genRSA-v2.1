@@ -5,7 +5,7 @@
  */
 package Imprimir;
 
-import Metodos.Utilidades;
+import Methods.Utilidades;
 import Sign.SignController;
 import javafx.scene.control.TextArea;
 

@@ -6,7 +6,7 @@
 package Imprimir;
 
 import Factorize.FactorizeController;
-import Metodos.Utilidades;
+import Methods.Utilidades;
 
 /**
  *

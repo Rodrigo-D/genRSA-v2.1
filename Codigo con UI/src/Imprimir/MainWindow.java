@@ -5,7 +5,7 @@
  */
 package Imprimir;
 
-import genrsa.SceneController;
+import genrsa.GenRSAController;
 import javafx.scene.image.Image;
 
 
@@ -15,7 +15,7 @@ import javafx.scene.image.Image;
  */
 public class MainWindow {  
     
-    private final SceneController scene;
+    private final GenRSAController scene;
     
     private final Image interrogation;
     
@@ -23,7 +23,7 @@ public class MainWindow {
      * Constructor de la clase
      * @param sceneC 
      */
-    public MainWindow (SceneController sceneC){
+    public MainWindow (GenRSAController sceneC){
         this.scene = sceneC;
         this.interrogation = new Image(MainWindow.class.getResourceAsStream("/allImages/interrogation.png"));
     }

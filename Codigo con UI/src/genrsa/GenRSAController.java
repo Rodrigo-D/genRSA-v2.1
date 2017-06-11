@@ -5,23 +5,21 @@
  */
 package genrsa;
 
-import Metodos.InitCBox;
-import Cyclic.CyclicController;
-import DeCipher.DeCipherController;
-import Factorize.FactorizeController;
-import Imprimir.MainWindow;
-import Metodos.CalculateNNC;
-import Metodos.CheckPrimes;
-import Metodos.GenerarClaves;
-import Metodos.ManageKey;
-import Metodos.Utilidades;
-import Model.ComponentesRSA;
+
 import Paradox.ParadoxController;
+import Cyclic.CyclicController;
+import Factorize.FactorizeController;
+import DeCipher.DeCipherController;
 import Sign.SignController;
+import Imprimir.MainWindow;
+import Methods.*;
+import Model.ComponentesRSA;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -46,14 +44,15 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import org.apache.commons.lang3.StringUtils;
 
 
 /**
- *
+ * Controlador de la escena principal
  * @author rdiazarr
  */
-public class SceneController {
+public class GenRSAController {
     
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -237,57 +236,57 @@ public class SceneController {
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         
-        assert genManBttn != null : "fx:id=\"genManBttn\" was not injected: check your FXML file 'scene.fxml'.";
-        assert primo_P != null : "fx:id=\"primo_P\" was not injected: check your FXML file 'scene.fxml'.";
-        assert bits_primo_P != null : "fx:id=\"bits_primo_P\" was not injected: check your FXML file 'scene.fxml'.";
-        assert cBoxP != null : "fx:id=\"cBoxP\" was not injected: check your FXML file 'scene.fxml'.";
-        assert primo_Q != null : "fx:id=\"primo_Q\" was not injected: check your FXML file 'scene.fxml'.";
-        assert bits_primo_Q != null : "fx:id=\"bits_primo_Q\" was not injected: check your FXML file 'scene.fxml'.";
-        assert cBoxQ != null : "fx:id=\"cBoxQ\" was not injected: check your FXML file 'scene.fxml'.";
-        assert clave_Privada != null : "fx:id=\"clave_Privada\" was not injected: check your FXML file 'scene.fxml'.";
-        assert bits_clave_Privada != null : "fx:id=\"bits_clave_Privada\" was not injected: check your FXML file 'scene.fxml'.";
-        assert modulo_N != null : "fx:id=\"modulo_N\" was not injected: check your FXML file 'scene.fxml'.";
-        assert bits_modulo_N != null : "fx:id=\"bits_modulo_N\" was not injected: check your FXML file 'scene.fxml'.";
-        assert clave_Publica != null : "fx:id=\"clave_Publica\" was not injected: check your FXML file 'scene.fxml'.";
-        assert bits_clave_Publica != null : "fx:id=\"bits_clave_Publica\" was not injected: check your FXML file 'scene.fxml'.";
-        assert num_claves_parejas != null : "fx:id=\"num_claves_parejas\" was not injected: check your FXML file 'scene.fxml'.";
-        assert claves_parejas != null : "fx:id=\"claves_parejas\" was not injected: check your FXML file 'scene.fxml'.";
-        assert iteraciones_primalidad != null : "fx:id=\"iteraciones_primalidad\" was not injected: check your FXML file 'scene.fxml'.";
-        assert isPrime_P != null : "fx:id=\"esPrimo_P\" was not injected: check your FXML file 'scene.fxml'.";
-        assert isPrime_Q != null : "fx:id=\"esPrimo_Q\" was not injected: check your FXML file 'scene.fxml'.";
-        assert tiempo_primalidad != null : "fx:id=\"tiempo_primalidad\" was not injected: check your FXML file 'scene.fxml'.";
-        assert bits_clave_automatica != null : "fx:id=\"bits_clave_automatica\" was not injected: check your FXML file 'scene.fxml'.";
-        assert tiempo_clave_automatica != null : "fx:id=\"tiempo_clave_automatica\" was not injected: check your FXML file 'scene.fxml'.";
-        assert sameSizePrimes != null : "fx:id=\"sameSizePrimes\" was not injected: check your FXML file 'scene.fxml'.";
-        assert tipicalPubKey != null : "fx:id=\"tipicalPubKey\" was not injected: check your FXML file 'scene.fxml'.";
-        assert cantidadNNC != null : "fx:id=\"cantidadNNC\" was not injected: check your FXML file 'scene.fxml'.";
-        assert progress != null : "fx:id=\"progress\" was not injected: check your FXML file 'scene.fxml'.";
-        assert unitsP != null : "fx:id=\"unitsP\" was not injected: check your FXML file 'scene.fxml'.";
-        assert unitsQ != null : "fx:id=\"unitsQ\" was not injected: check your FXML file 'scene.fxml'.";
-        assert unitsD != null : "fx:id=\"unitsD\" was not injected: check your FXML file 'scene.fxml'.";
-        assert unitsN != null : "fx:id=\"unitsN\" was not injected: check your FXML file 'scene.fxml'.";
-        assert unitsE != null : "fx:id=\"unitsE\" was not injected: check your FXML file 'scene.fxml'.";
-        assert logNNCbttn != null : "fx:id=\"logNNCbttn\" was not injected: check your FXML file 'escena.fxml'.";        
-        assert saveKeyMenuI != null : "fx:id=\"saveKeyMenuI\" was not injected: check your FXML file 'escena.fxml'.";
-        assert DeCipherMenuI != null : "fx:id=\"DeCipherMenuI\" was not injected: check your FXML file 'escena.fxml'.";
-        assert SignMenuI != null : "fx:id=\"SignMenuI\" was not injected: check your FXML file 'escena.fxml'.";
-        assert openKeyMenuI != null : "fx:id=\"openKeyMenuI\" was not injected: check your FXML file 'escena.fxml'.";        
-        assert manualMenuI != null : "fx:id=\"manualMenuI\" was not injected: check your FXML file 'escena.fxml'.";
-        assert millerMenuI != null : "fx:id=\"millerMenuI\" was not injected: check your FXML file 'escena.fxml'.";
-        assert fermatMenuI != null : "fx:id=\"fermatMenuI\" was not injected: check your FXML file 'escena.fxml'.";
-        assert paradoxMenuI != null : "fx:id=\"paradoxMenuI\" was not injected: check your FXML file 'escena.fxml'.";
-        assert cyclicMenuI != null : "fx:id=\"cyclicMenuI\" was not injected: check your FXML file 'escena.fxml'.";
-        assert factorizeMenuI != null : "fx:id=\"factorizeMenuI\" was not injected: check your FXML file 'escena.fxml'.";
-        assert Decimal != null : "fx:id=\"Decimal\" was not injected: check your FXML file 'escena.fxml'.";
-        assert Hexadecimal != null : "fx:id=\"Hexadecimal\" was not injected: check your FXML file 'escena.fxml'.";
-        assert limpiarDatosBttn != null : "fx:id=\"limpiarDatosBttn\" was not injected: check your FXML file 'escena.fxml'.";
-        assert limpiarDatos1Bttn != null : "fx:id=\"limpiarDatos1Bttn\" was not injected: check your FXML file 'escena.fxml'.";
-        assert autoGenerarBttn != null : "fx:id=\"autoGenerarBttn\" was not injected: check your FXML file 'escena.fxml'.";
-        assert deleteKeyMenu != null : "fx:id=\"deleteKeyMenu\" was not injected: check your FXML file 'escena.fxml'.";
-        assert autoGenerarMenu != null : "fx:id=\"autoGenerarMenu\" was not injected: check your FXML file 'escena.fxml'.";
+        assert genManBttn != null : "fx:id=\"genManBttn\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert primo_P != null : "fx:id=\"primo_P\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert bits_primo_P != null : "fx:id=\"bits_primo_P\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert cBoxP != null : "fx:id=\"cBoxP\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert primo_Q != null : "fx:id=\"primo_Q\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert bits_primo_Q != null : "fx:id=\"bits_primo_Q\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert cBoxQ != null : "fx:id=\"cBoxQ\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert clave_Privada != null : "fx:id=\"clave_Privada\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert bits_clave_Privada != null : "fx:id=\"bits_clave_Privada\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert modulo_N != null : "fx:id=\"modulo_N\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert bits_modulo_N != null : "fx:id=\"bits_modulo_N\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert clave_Publica != null : "fx:id=\"clave_Publica\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert bits_clave_Publica != null : "fx:id=\"bits_clave_Publica\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert num_claves_parejas != null : "fx:id=\"num_claves_parejas\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert claves_parejas != null : "fx:id=\"claves_parejas\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert iteraciones_primalidad != null : "fx:id=\"iteraciones_primalidad\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert isPrime_P != null : "fx:id=\"esPrimo_P\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert isPrime_Q != null : "fx:id=\"esPrimo_Q\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert tiempo_primalidad != null : "fx:id=\"tiempo_primalidad\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert bits_clave_automatica != null : "fx:id=\"bits_clave_automatica\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert tiempo_clave_automatica != null : "fx:id=\"tiempo_clave_automatica\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert sameSizePrimes != null : "fx:id=\"sameSizePrimes\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert tipicalPubKey != null : "fx:id=\"tipicalPubKey\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert cantidadNNC != null : "fx:id=\"cantidadNNC\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert progress != null : "fx:id=\"progress\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert unitsP != null : "fx:id=\"unitsP\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert unitsQ != null : "fx:id=\"unitsQ\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert unitsD != null : "fx:id=\"unitsD\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert unitsN != null : "fx:id=\"unitsN\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert unitsE != null : "fx:id=\"unitsE\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert logNNCbttn != null : "fx:id=\"logNNCbttn\" was not injected: check your FXML file 'genRSA.fxml'.";        
+        assert saveKeyMenuI != null : "fx:id=\"saveKeyMenuI\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert DeCipherMenuI != null : "fx:id=\"DeCipherMenuI\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert SignMenuI != null : "fx:id=\"SignMenuI\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert openKeyMenuI != null : "fx:id=\"openKeyMenuI\" was not injected: check your FXML file 'genRSA.fxml'.";        
+        assert manualMenuI != null : "fx:id=\"manualMenuI\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert millerMenuI != null : "fx:id=\"millerMenuI\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert fermatMenuI != null : "fx:id=\"fermatMenuI\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert paradoxMenuI != null : "fx:id=\"paradoxMenuI\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert cyclicMenuI != null : "fx:id=\"cyclicMenuI\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert factorizeMenuI != null : "fx:id=\"factorizeMenuI\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert Decimal != null : "fx:id=\"Decimal\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert Hexadecimal != null : "fx:id=\"Hexadecimal\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert limpiarDatosBttn != null : "fx:id=\"limpiarDatosBttn\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert limpiarDatos1Bttn != null : "fx:id=\"limpiarDatos1Bttn\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert autoGenerarBttn != null : "fx:id=\"autoGenerarBttn\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert deleteKeyMenu != null : "fx:id=\"deleteKeyMenu\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert autoGenerarMenu != null : "fx:id=\"autoGenerarMenu\" was not injected: check your FXML file 'genRSA.fxml'.";
         
-        isPrime_P.setImage(new Image(SceneController.class.getResourceAsStream("/allImages/interrogation.png")));
-        isPrime_Q.setImage(new Image(SceneController.class.getResourceAsStream("/allImages/interrogation.png")));
+        isPrime_P.setImage(new Image(GenRSAController.class.getResourceAsStream("/allImages/interrogation.png")));
+        isPrime_Q.setImage(new Image(GenRSAController.class.getResourceAsStream("/allImages/interrogation.png")));
         
         radix = 10;
         initCboxes = new InitCBox();
@@ -389,9 +388,7 @@ public class SceneController {
             fileChooser.getExtensionFilters().add(extensionFilter);
             fileChooser.setTitle("Seleccionar directorio donde guardar el log");        
             fileChooser.setInitialFileName("LogNNC genRSA");
-            File logNNCFile = fileChooser.showSaveDialog(labelPubKey.getScene().getWindow());
-            
-            
+            File logNNCFile = fileChooser.showSaveDialog(labelPubKey.getScene().getWindow());            
             
             
             Task CAstart= new Task() {
@@ -423,6 +420,20 @@ public class SceneController {
             this.manageKey.setLogCancelled();
             this.startLogNNC = true;
         }
+    }
+    
+    /**
+     * Método usado para cambiar el boton de pausa/generacion del log de NNC
+     * @param stop
+     */
+    public void configureLogStop(final boolean stop) {   
+        
+        if (stop) {            
+            this.logNNCbttn.setDisable(false);
+            this.logNNCbttn.setText("  Parar  Log  ");
+        } else {
+            this.logNNCbttn.setText("Generar Log");
+        }        
     }
     
     /**
@@ -525,11 +536,9 @@ public class SceneController {
                                 this.iteraciones_primalidad.getText(), isMiller);
     }
      
-    
- 
-    
+        
     /**
-     * 
+     * Método usado para cargar la ventana de Factorización
      * @param event 
      */
     public void Factorize(ActionEvent event) {          
@@ -553,7 +562,7 @@ public class SceneController {
             Scene scene = new Scene(root);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(this.unitsD.getScene().getWindow());            
-            stage.getIcons().add(new Image(SceneController.class.getResourceAsStream("/allImages/genRSA.png")));
+            stage.getIcons().add(new Image(GenRSAController.class.getResourceAsStream("/allImages/genRSA.png")));
             stage.setTitle("genRSA - Ataque por Factorización");  
             stage.setScene(scene);
             stage.show();        
@@ -569,7 +578,7 @@ public class SceneController {
     }
     
     /**
-     * 
+     * Método usado para cargar la ventana de ataque ciclico
      * @param event 
      */
     public void Cyclic(ActionEvent event) {          
@@ -596,7 +605,7 @@ public class SceneController {
             Scene scene = new Scene(root);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(this.unitsD.getScene().getWindow());
-            stage.getIcons().add(new Image(SceneController.class.getResourceAsStream("/allImages/genRSA.png")));
+            stage.getIcons().add(new Image(GenRSAController.class.getResourceAsStream("/allImages/genRSA.png")));
             stage.setTitle("genRSA - Ataque Cíclico"); 
             stage.setScene(scene);
             stage.show(); 
@@ -612,7 +621,7 @@ public class SceneController {
     }
     
     /**
-     * 
+     * Método usado para cargar la ventana de ataque por la paradoja del cumpleaños
      * @param event 
      */
     public void Paradox (ActionEvent event) {          
@@ -640,7 +649,7 @@ public class SceneController {
             Scene scene = new Scene(root);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(this.unitsD.getScene().getWindow());
-            stage.getIcons().add(new Image(SceneController.class.getResourceAsStream("/allImages/genRSA.png")));
+            stage.getIcons().add(new Image(GenRSAController.class.getResourceAsStream("/allImages/genRSA.png")));
             stage.setTitle("genRSA - Ataque por la Paradoja del Cumpleaños"); 
             stage.setScene(scene);
             stage.show();  
@@ -657,7 +666,7 @@ public class SceneController {
     
     
     /**
-     * 
+     * Método usado para cargar la ventana de Cifra
      * @param event 
      */
     public void DeCipher (ActionEvent event) {          
@@ -699,7 +708,7 @@ public class SceneController {
             Scene scene = new Scene(root);            
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(this.unitsD.getScene().getWindow());            
-            stage.getIcons().add(new Image(SceneController.class.getResourceAsStream("/allImages/genRSA.png")));
+            stage.getIcons().add(new Image(GenRSAController.class.getResourceAsStream("/allImages/genRSA.png")));
             stage.setTitle("genRSA - Cifrado y Descifrado"); 
             stage.setScene(scene);
             stage.show();       
@@ -713,7 +722,7 @@ public class SceneController {
     
     
     /**
-     * 
+     * Método usado para cargar la ventana de Firma
      * @param event 
      */
     public void Sign (ActionEvent event) {          
@@ -756,7 +765,7 @@ public class SceneController {
             Scene scene = new Scene(root);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(this.unitsD.getScene().getWindow());            
-            stage.getIcons().add(new Image(SceneController.class.getResourceAsStream("/allImages/genRSA.png")));
+            stage.getIcons().add(new Image(GenRSAController.class.getResourceAsStream("/allImages/genRSA.png")));
             stage.setTitle("genRSA - Firma y Validación"); 
             stage.setScene(scene);
             stage.show();       
@@ -771,14 +780,14 @@ public class SceneController {
     
     
     /**
-     * Comprueba la primalidad de P y Q por el metodo de Fermat
+     * Muestra por pantalla la información relativa a genRSA 
      * @param event 
      */
     public void aboutGenRSA(ActionEvent event) {
         Alert info = new Alert(Alert.AlertType.INFORMATION);
         info.setTitle("Acerca de genRSA");
         Stage stage = (Stage) info.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(SceneController.class.getResourceAsStream("/allImages/info.png")));
+        stage.getIcons().add(new Image(GenRSAController.class.getResourceAsStream("/allImages/info.png")));
         
         info.setHeaderText("genRSA - Generación de claves RSA v2.1");
         
@@ -817,10 +826,10 @@ public class SceneController {
             this.DeCipherMenuI.setDisable(true);
             this.SignMenuI.setDisable(true);
         } else {
-             this.logNNCbttn.setDisable(false);
-             this.saveKeyMenuI.setDisable(false);
-             this.DeCipherMenuI.setDisable(false);
-             this.SignMenuI.setDisable(false);
+            this.logNNCbttn.setDisable(false);
+            this.saveKeyMenuI.setDisable(false);
+            this.DeCipherMenuI.setDisable(false);
+            this.SignMenuI.setDisable(false);
         }        
     }
     
@@ -856,24 +865,6 @@ public class SceneController {
         this.deleteKeyMenu.setDisable(disable);
         
     }
-    
-    
-    /**
-     * Método usado para cambiar el boton de pausa/generacion del log de NNC
-     * 
-     * @param stop
-     */
-    public void configureLogStop(final boolean stop) {   
-        
-        if (stop) {            
-            this.logNNCbttn.setDisable(false);
-            this.logNNCbttn.setText("  Parar  Log  ");
-        } else {
-            this.logNNCbttn.setText("Generar Log");
-        }        
-    }
-    
-    
     
     
     /**
@@ -931,6 +922,7 @@ public class SceneController {
         
         this.generate.numberToBits(publicKey, this.bits_clave_Publica);
     }
+    
     
     /**
      * Método usado cuando se selecciona un primo de la CBOX

@@ -6,7 +6,7 @@
 package Imprimir;
 
 import Cyclic.CyclicController;
-import Metodos.Utilidades;
+import Methods.Utilidades;
 import javafx.scene.effect.BlendMode;
 
 /**

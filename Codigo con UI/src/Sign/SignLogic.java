@@ -8,7 +8,7 @@ package Sign;
 import Imprimir.ErrorDialog;
 import Imprimir.InfoDialog;
 import Imprimir.SignPrint;
-import Metodos.Utilidades;
+import Methods.Utilidades;
 import Model.Constantes;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;

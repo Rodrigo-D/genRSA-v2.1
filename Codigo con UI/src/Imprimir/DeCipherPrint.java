@@ -6,7 +6,7 @@
 package Imprimir;
 
 import DeCipher.DeCipherController;
-import Metodos.Utilidades;
+import Methods.Utilidades;
 import javafx.scene.control.TextArea;
 
 /**

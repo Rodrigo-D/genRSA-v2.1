@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Metodos;
+package Methods;
 
 import Imprimir.ErrorDialog;
 import Imprimir.Print;
 import Model.Constantes;
-import genrsa.SceneController;
+import genrsa.GenRSAController;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
@@ -36,7 +36,7 @@ public class CheckPrimes {
      * Constructor de la clase
      * @param scene
      */
-    public CheckPrimes(SceneController scene) {
+    public CheckPrimes(GenRSAController scene) {
         this.utilidades = new Utilidades();
         this.print = new Print(scene);
         this.radix = 10;        
@@ -44,7 +44,7 @@ public class CheckPrimes {
     }
     
     /**
-     * 
+     * Método que comprueba errores y llama al test a ejecutar
      * @param probNumberP
      * @param probNumberQ
      * @param vueltas
@@ -108,14 +108,22 @@ public class CheckPrimes {
     }
     
 
-    //Test de primalidad, algoritmos usados: Miller Rabin y Lucas-Lehmer
+    /**
+     * Test de primalidad, algoritmos usados: Miller Rabin y Lucas-Lehmer
+     * @param probPrime
+     * @return 
+     */
     private boolean testPrimalityMillerRabin(BigInteger probPrime) {        
         return probPrime.isProbablePrime(vueltas);
     }
 
 
 
-    //test de primalidad: Fermat	
+    /**
+     * Test de primalidad: Fermat
+     * @param probPrime
+     * @return 
+     */	
     private boolean testPrimalityFermat(BigInteger probPrime) {
         BigInteger a;
         BigInteger probPrimeMinusTwo;
@@ -140,22 +148,29 @@ public class CheckPrimes {
     }
 
 
-    //Devuelve un BigInteger random entre los dos valores pasados por parametros (AMBOS INCLUSIVE)
+    /**
+     * Devuelve un BigInteger random entre los dos valores pasados por parametros (AMBOS INCLUSIVE)
+     * @param bottom
+     * @param top
+     * @return 
+     */
     private BigInteger uniformRandom(BigInteger bottom, BigInteger top) {
         SecureRandom rnd = new SecureRandom();
         BigInteger random;
+        
         do {
-                random = new BigInteger(top.bitLength(), rnd);
+            random = new BigInteger(top.bitLength(), rnd);
         } while (random.compareTo(bottom) < 0 || random.compareTo(top) > 0);
         return random;
     }
     
     
     /**
-     * 
+     * Establece la base a utilizar
      * @param radix 
      */
-    public void setUnits( int radix){
+    public void setUnits( int radix ){
         this.radix = radix;
     }
+    
 }

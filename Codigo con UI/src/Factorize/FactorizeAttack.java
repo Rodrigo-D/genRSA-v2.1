@@ -8,7 +8,7 @@ package Factorize;
 import Imprimir.ErrorDialog;
 import Imprimir.FactorizePrint;
 import Imprimir.InfoDialog;
-import Metodos.Utilidades;
+import Methods.Utilidades;
 import Model.Constantes;
 import java.math.BigInteger;
 import javafx.application.Platform;

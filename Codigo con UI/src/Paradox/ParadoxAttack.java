@@ -8,7 +8,7 @@ package Paradox;
 import Imprimir.ErrorDialog;
 import Imprimir.InfoDialog;
 import Imprimir.ParadoxPrint;
-import Metodos.Utilidades;
+import Methods.Utilidades;
 import Model.Constantes;
 import java.math.BigInteger;
 import javafx.application.Platform;

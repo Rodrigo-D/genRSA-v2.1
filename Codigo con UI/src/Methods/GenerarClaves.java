@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Metodos;
+package Methods;
 
 import Imprimir.ErrorDialog;
 import Imprimir.Print;
 import Model.ComponentesRSA;
 import Model.Constantes;
-import genrsa.SceneController;
+import genrsa.GenRSAController;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class GenerarClaves {
     //atributo que almacena las claves privadas parejas
     private List<String> listCPP;
     
-    public GenerarClaves (SceneController scene){
+    public GenerarClaves (GenRSAController scene){
         this.RSA = new ComponentesRSA();
         this.utilidades = new Utilidades();
         this.print = new Print(scene);

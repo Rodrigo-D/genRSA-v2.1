@@ -5,7 +5,7 @@
  */
 package Imprimir;
 
-import Metodos.Utilidades;
+import Methods.Utilidades;
 import Paradox.ParadoxController;
 
 /**

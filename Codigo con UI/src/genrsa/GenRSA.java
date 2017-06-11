@@ -5,8 +5,7 @@
  */
 package genrsa;
 
-import Imprimir.LogNNC;
-import Metodos.CalculateNNC;
+import Methods.CalculateNNC;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,11 +24,6 @@ import javafx.stage.Stage;
  */
 public class GenRSA extends Application {
     
-    private final double MINIMUM_WINDOW_WIDTH = 390.0;
-    private final double MINIMUM_WINDOW_HEIGHT = 500.0;
-    
-    
-
     @Override
     public void init() throws Exception {
         double progress =0.0d;
@@ -50,13 +44,10 @@ public class GenRSA extends Application {
     public void start(Stage primaryStage) throws Exception {
         try {
             
-            Parent root = FXMLLoader.load(getClass().getResource("scene.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("genRSA.fxml"));
                         
             Scene scene = new Scene(root);
             
-            primaryStage.setMinWidth(MINIMUM_WINDOW_WIDTH);
-            primaryStage.setMinHeight(MINIMUM_WINDOW_HEIGHT);
-
             primaryStage.setScene(scene);
             primaryStage.setTitle("genRSA - Generación de claves RSA");   
             primaryStage.getIcons().add(new Image(GenRSA.class.getResourceAsStream("/allImages/genRSA.png")));

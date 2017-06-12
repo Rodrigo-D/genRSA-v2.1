@@ -5,7 +5,7 @@
  */
 package Imprimir;
 
-import Methods.Utilidades;
+import Methods.Utilities;
 import Model.ComponentesRSA;
 import java.io.File;
 import java.io.FileWriter;
@@ -27,13 +27,13 @@ public class LogNNC {
     
     private PrintWriter print;
     
-    private Utilidades utilidades;
+    private Utilities utilidades;
         
     public LogNNC (File logFile) {
         try {
             file = new FileWriter (logFile); 
             print = new PrintWriter (file);
-            utilidades = new Utilidades();
+            utilidades = new Utilities();
         } catch (IOException e) {
             ErrorDialog error = new ErrorDialog();            
             error.FileToSave();

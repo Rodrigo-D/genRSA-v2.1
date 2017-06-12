@@ -34,18 +34,29 @@ public class CalculateNNC {
     //Array donde se copia listNNC para que no haya problemas con la escritura en el thread. Para el metodo de calculate
     List <BigInteger> copyListNNC;
     
+    
+    
+    
+    /**
+     * Constructor de la clase
+     * @param radix
+     * @param RSA
+     * @param logFile 
+     */
     public CalculateNNC(int radix, ComponentesRSA RSA, File logFile){
         this.log = new LogNNC(logFile); 
         this.radix = radix;
         this.RSA = RSA;        
         isCancelled = false;
-    }
+    }    
     
     
     
-    
-    //Metodo para calcular los Numeros No Cifrables, cuanndo la canitdad de NNC no supera el Integer.maxValue 
-    //http://www.criptored.upm.es/crypt4you/temas/RSA/leccion5/leccion05.html
+    /**
+     * Metodo para calcular los Numeros No Cifrables, cuando la cantidad de NNC no supera los 10.000.000
+     * y los primos p y q son distintos entre si
+     * http://www.criptored.upm.es/crypt4you/temas/RSA/leccion5/leccion05.html
+     */
     public void quickCalculate() {
         BigInteger number;
         BigInteger inv_pq,inv_qp, p_invpq, q_invqp;
@@ -59,7 +70,7 @@ public class CalculateNNC {
         List <BigInteger> listNq = new ArrayList <>();
         List <BigInteger> quickListNNC = new ArrayList <>();                 
         
-        
+                       
         inv_pq= this.RSA.getP().modInverse(this.RSA.getQ());
         inv_qp= this.RSA.getQ().modInverse(this.RSA.getP());
 
@@ -120,7 +131,7 @@ public class CalculateNNC {
     }
     
     /**
-     * 
+     * Método para calcular los numeros no cifrables en el espacio de p o de q
      * @param array
      * @param P_Q_minusOne
      * @param P_Q 
@@ -150,7 +161,10 @@ public class CalculateNNC {
     }
     
   
-    
+     /**
+     * Metodo para calcular los Numeros No Cifrables, cuando la cantidad de NNC supera los 10.000.000
+     * o los primos p y q no son distintos entre si     * 
+     */
     public void calculate() {
         BigInteger possibleNNC = Constantes.ONE;
         BigInteger result;
@@ -197,9 +211,5 @@ public class CalculateNNC {
             this.log.closeHTML();      
         });
     }
-    
-    
-    
-    
-    
+        
 }

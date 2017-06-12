@@ -8,7 +8,7 @@ package Factorize;
 import Imprimir.ErrorDialog;
 import Imprimir.FactorizePrint;
 import Imprimir.InfoDialog;
-import Methods.Utilidades;
+import Methods.Utilities;
 import Model.Constantes;
 import java.math.BigInteger;
 import javafx.application.Platform;
@@ -23,7 +23,7 @@ public class FactorizeAttack {
     
     private final InfoDialog infoDialog;
     
-    private final Utilidades utilidades;
+    private final Utilities utilidades;
     
     private final FactorizePrint print;
         
@@ -56,7 +56,7 @@ public class FactorizeAttack {
     public FactorizeAttack(FactorizePrint print) {
         this.errorDialog = new ErrorDialog();
         this.infoDialog = new InfoDialog();
-        this.utilidades = new Utilidades();
+        this.utilidades = new Utilities();
         this.print = print;
         this.radix = 10;
         this.isCancelled = false;

@@ -5,7 +5,7 @@
  */
 package Imprimir;
 
-import Methods.Utilidades;
+import Methods.Utilities;
 import Model.ComponentesRSA;
 import genrsa.GenRSAController;
 import java.math.BigInteger;
@@ -22,7 +22,7 @@ public class Print {
      */
     private final GenRSAController scene;
     
-    private final Utilidades utilidades;
+    private final Utilities utilidades;
     
     private final Image cross;
     private final Image tick;
@@ -30,7 +30,7 @@ public class Print {
     
     public Print (GenRSAController sceneC){
         this.scene = sceneC;
-        utilidades = new Utilidades();
+        utilidades = new Utilities();
         cross = new Image(Print.class.getResourceAsStream("/allImages/cross.png"));
         tick = new Image(Print.class.getResourceAsStream("/allImages/tick.png"));
         interrogation = new Image(Print.class.getResourceAsStream("/allImages/interrogation.png"));

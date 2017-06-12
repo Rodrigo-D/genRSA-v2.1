@@ -5,7 +5,7 @@
  */
 package Imprimir;
 
-import Methods.Utilidades;
+import Methods.Utilities;
 import Paradox.ParadoxController;
 
 /**
@@ -16,7 +16,7 @@ public class ParadoxPrint {
     
     private final ParadoxController scene;
     
-    private final Utilidades utilidades;
+    private final Utilities utilidades;
     
     /**
      * Constructor de la clase
@@ -24,7 +24,7 @@ public class ParadoxPrint {
      */
     public ParadoxPrint (ParadoxController paradoxScene){
         this.scene = paradoxScene;
-        this.utilidades = new Utilidades();
+        this.utilidades = new Utilities();
     }
    
     

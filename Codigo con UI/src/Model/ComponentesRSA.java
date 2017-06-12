@@ -24,18 +24,17 @@ public class ComponentesRSA {
     private BigInteger e;
     //clave privada
     private BigInteger d;        
-    
+    // p - 1
     private BigInteger pMinusOne;
-    
+    // q - 1
     private BigInteger qMinusOne;    
-    
+    //cantidad de num no cifrables
     private BigInteger numNNC;  
-    
+    // phi de N
     private BigInteger phiN;
-    
-        
+    // gamma        
     private BigInteger gamma;
-    
+    //cantidad claves privadas parejas
     private BigInteger numCKP;  
       
 

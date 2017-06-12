@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -24,7 +23,8 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author rdiazarr
  * 
- * Clase empleada para gestionar las claves RSA. (guardar claves y recuperarlas)
+ * Clase empleada para gestionar las claves RSA (guardar claves y recuperarlas) 
+ * y para generar el Log de NNC.
  */
 public class ManageKey {
           
@@ -36,6 +36,9 @@ public class ManageKey {
     //decimal = 10, hexadecimal = 16
     private int radix;    
     
+    /**
+     * Constructor de la clase
+     */
     public ManageKey(){        
         ExtensionFilter extensionFilter = new ExtensionFilter("HTML files", "*.html");        
         
@@ -49,8 +52,10 @@ public class ManageKey {
     }
     
     /**
-     * Método encargado de abrir una clave guardada y devolver una lista con los primos p, q y la clave pública.
-     * @param label nodo cualquiera de la escena que se usa para ir escalando y obtener la ventana.
+     * Método encargado de abrir una clave guardada 
+     * y devolver una lista con los primos p, q y la clave pública.
+     * @param label nodo cualquiera de la escena que 
+     * se usa para ir escalando y obtener la ventana.
      * @return 
      */
     public String[] open (Label label) {
@@ -75,7 +80,7 @@ public class ManageKey {
     }
     
     /**
-     * 
+     * Método que procesa el fichero obtenido en el metodo Open
      * @param keyFile
      * @return 
      */
@@ -143,23 +148,8 @@ public class ManageKey {
         
     }
 
-    private boolean keysNotOk(final String[] keys){       
-        boolean existsP;
-        boolean existsQ;
-        boolean existsE;
-        boolean existsUnits;
-        
-        existsP = keys[0] == null;
-        existsQ = keys[1] == null;
-        existsE = keys[2] == null;
-        existsUnits = keys[3] == null;
-               
-        return (existsP || existsQ || existsE || existsUnits);
-    }
-    
-    
      /**
-     * Método encargado de guardar la clave creada
+     * Método encargado de guardar la clave generada
      * @param label nodo cualquiera de la escena que se usa para ir escalando y obtener la ventana. 
      * @param RSA 
      */
@@ -189,7 +179,7 @@ public class ManageKey {
         }        
     }    
     
-     /**
+    /**
      * Método encargado de guardar el log de Número No Cifrables
      * @param label --> nodo cualquiera de la escena que se usa para ir escalando y obtener la ventana. 
      * @param RSA 
@@ -210,10 +200,11 @@ public class ManageKey {
                
         if (logNNCFile != null ){            
             this.fileChooser.setInitialDirectory(logNNCFile.getParentFile());
-
-            NNC = new CalculateNNC(this.radix, RSA, logNNCFile);            
-
-            if (RSA.getNumNNC().compareTo(Constantes.MAX_INT_BI) == -1){
+            
+            NNC = new CalculateNNC(this.radix, RSA, logNNCFile);
+           
+            if ((RSA.getNumNNC().compareTo(Constantes.MAX_NNC_BI) == -1) 
+                    && !(RSA.getP().equals(RSA.getQ()))){
                 NNC.quickCalculate(); 
             } else {
                 NNC.calculate();
@@ -230,10 +221,36 @@ public class ManageKey {
         }
     }
     
+    /**
+     * Método para parar el cálculo del log de Num No Cifrables
+     */
     public void setLogCancelled() {
         CalculateNNC.isCancelled = true;
     }
   
+    
+    /**
+     * Método que comprueba que se hayan recuperado todos los 
+     * numeros necesarios del archivo procesado
+     * @param keys
+     * @return 
+     */
+    private boolean keysNotOk(final String[] keys){       
+        boolean existsP;
+        boolean existsQ;
+        boolean existsE;
+        boolean existsUnits;
+        
+        existsP = keys[0] == null;
+        existsQ = keys[1] == null;
+        existsE = keys[2] == null;
+        existsUnits = keys[3] == null;
+               
+        return (existsP || existsQ || existsE || existsUnits);
+    }
+    
+       
+    
     /**
      * @param radix 
      */

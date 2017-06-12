@@ -6,7 +6,7 @@
 package Imprimir;
 
 import Cyclic.CyclicController;
-import Methods.Utilidades;
+import Methods.Utilities;
 import javafx.scene.effect.BlendMode;
 
 /**
@@ -17,7 +17,7 @@ public class CyclicPrint {
     
     private final CyclicController scene;
     
-    private final Utilidades utilidades;
+    private final Utilities utilidades;
     
     /**
      * Constructor de la clase
@@ -25,7 +25,7 @@ public class CyclicPrint {
      */
     public CyclicPrint (CyclicController cyclicScene){
         this.scene = cyclicScene;
-        this.utilidades = new Utilidades();
+        this.utilidades = new Utilities();
     }
    
     public void messages(String cypherMessage, String message, String modulus, String exponent, int radix) {

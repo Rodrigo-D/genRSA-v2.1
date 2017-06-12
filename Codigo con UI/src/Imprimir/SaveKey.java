@@ -5,7 +5,7 @@
  */
 package Imprimir;
 
-import Methods.Utilidades;
+import Methods.Utilities;
 import Model.ComponentesRSA;
 import java.io.File;
 import java.io.FileWriter;
@@ -25,13 +25,13 @@ public class SaveKey {
     
     private PrintWriter print;
     
-    private Utilidades utilidades;
+    private Utilities utilidades;
     
     public SaveKey (File keyFile) {
         try {
             file = new FileWriter(keyFile);
             print = new PrintWriter (file);
-            utilidades = new Utilidades();
+            utilidades = new Utilities();
         } catch (IOException e) {
            ErrorDialog error = new ErrorDialog();
            error.writingFile();

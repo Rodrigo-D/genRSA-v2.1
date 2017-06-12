@@ -5,7 +5,7 @@
  */
 package Imprimir;
 
-import Methods.Utilidades;
+import Methods.Utilities;
 import Sign.SignController;
 import javafx.scene.control.TextArea;
 
@@ -17,7 +17,7 @@ public class SignPrint {
     
     private final SignController SignScene;
     
-    private final Utilidades utilidades;
+    private final Utilities utilidades;
     
     
     
@@ -27,7 +27,7 @@ public class SignPrint {
      */
     public SignPrint (SignController SignScene){
         this.SignScene = SignScene;
-        this.utilidades = new Utilidades();
+        this.utilidades = new Utilities();
     }    
     
     

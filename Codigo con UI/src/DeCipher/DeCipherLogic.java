@@ -8,7 +8,7 @@ package DeCipher;
 import Imprimir.DeCipherPrint;
 import Imprimir.ErrorDialog;
 import Imprimir.InfoDialog;
-import Methods.Utilidades;
+import Methods.Utilities;
 import Model.Constantes;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -26,7 +26,7 @@ public class DeCipherLogic {
     
     private final InfoDialog infoDialog;
        
-    private final Utilidades utilidades;
+    private final Utilities utilidades;
     
     private final DeCipherPrint DCprint;
     
@@ -47,7 +47,7 @@ public class DeCipherLogic {
     public DeCipherLogic(DeCipherPrint DCprint){
         this.errorDialog = new ErrorDialog();
         this.infoDialog = new InfoDialog();
-        this.utilidades = new Utilidades();
+        this.utilidades = new Utilities();
         this.DCprint = DCprint;
     }
     

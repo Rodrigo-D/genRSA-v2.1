@@ -8,7 +8,7 @@ package Paradox;
 import Imprimir.ErrorDialog;
 import Imprimir.InfoDialog;
 import Imprimir.ParadoxPrint;
-import Methods.Utilidades;
+import Methods.Utilities;
 import Model.Constantes;
 import java.math.BigInteger;
 import javafx.application.Platform;
@@ -23,7 +23,7 @@ public class ParadoxAttack {
     
     private final InfoDialog infoDialog;
     
-    private final Utilidades utilidades;
+    private final Utilities utilidades;
     
     private final ParadoxPrint Pprint;
     
@@ -50,7 +50,7 @@ public class ParadoxAttack {
     public ParadoxAttack(ParadoxPrint paradoxPrint) {
         this.errorDialog = new ErrorDialog();
         this.infoDialog = new InfoDialog();
-        this.utilidades = new Utilidades();
+        this.utilidades = new Utilities();
         this.Pprint = paradoxPrint;
         this.radix = 10;
         this.isCancelled = false;

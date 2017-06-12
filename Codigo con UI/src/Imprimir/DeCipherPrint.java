@@ -6,7 +6,7 @@
 package Imprimir;
 
 import DeCipher.DeCipherController;
-import Methods.Utilidades;
+import Methods.Utilities;
 import javafx.scene.control.TextArea;
 
 /**
@@ -17,7 +17,7 @@ public class DeCipherPrint {
      
     private final DeCipherController DCscene;
     
-    private final Utilidades utilidades;
+    private final Utilities utilidades;
     
     /**
      * Constructor de la clase
@@ -25,7 +25,7 @@ public class DeCipherPrint {
      */
     public DeCipherPrint (DeCipherController DCscene){
         this.DCscene = DCscene;
-        this.utilidades = new Utilidades();
+        this.utilidades = new Utilities();
     }
 
     

@@ -405,9 +405,6 @@ public class ErrorDialog {
                       
         alertError.showAndWait();
     }
-
-    
-
     
     
 }

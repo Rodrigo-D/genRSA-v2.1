@@ -20,7 +20,7 @@ public class CheckPrimes {
     
     BigInteger probPrimeP;
     BigInteger probPrimeQ;
-    Utilidades utilidades;
+    Utilities utilidades;
     int vueltas;
     //true si es P, false si es Q
     boolean isPrimeP;
@@ -37,7 +37,7 @@ public class CheckPrimes {
      * @param scene
      */
     public CheckPrimes(GenRSAController scene) {
-        this.utilidades = new Utilidades();
+        this.utilidades = new Utilities();
         this.print = new Print(scene);
         this.radix = 10;        
         this.errorDialog = new ErrorDialog();

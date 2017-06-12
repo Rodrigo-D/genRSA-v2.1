@@ -11,7 +11,7 @@ import java.math.BigInteger;
  *
  * @author rdiazarr
  */
-public class Utilidades {
+public class Utilities {
     
     /**
      * Metodo para quitar puntos, comas, espacios y tabuladores.
@@ -25,7 +25,12 @@ public class Utilidades {
         return number;
     }
         
-    
+    /**
+     * Metodo para comprobar que el número 
+     * introducido puede ser un integer
+     * @param possibleNum
+     * @return 
+     */
     public boolean isNumber(String possibleNum) {        
         boolean out = true;
         try{
@@ -37,6 +42,12 @@ public class Utilidades {
         return out;
     }
     
+    /**
+     * Metodo que cuenta el num de bits del BigInteger
+     * pasado por parametro
+     * @param number
+     * @return 
+     */
     public String countBits (BigInteger number){
             int numBits;
 
@@ -45,6 +56,11 @@ public class Utilidades {
             return String.valueOf(numBits);
     }
 
+    /**
+     * Método que pasa de milisegundos a segundos poniendo comas
+     * @param runningTime
+     * @return 
+     */
     public String millisToSeconds(long runningTime) {
        String time;
        int numChars;
@@ -65,13 +81,20 @@ public class Utilidades {
         return time;
     }
     
+    /**
+     * Método que pone puntos al numero decimal pasado por parametro
+     * @param number
+     * @param radix
+     * @return 
+     */
     public String putPoints(String number, int radix){  
        int length = number.length();
        if (radix == 10) {
            int processed= number.length()-3;
     
            while (processed>0){
-                number = number.substring(0,processed ) + "." + number.substring(processed, length);
+                number = number.substring(0,processed ) + 
+                        "." + number.substring(processed, length);
                 processed = processed-3;
                 length++;
             }

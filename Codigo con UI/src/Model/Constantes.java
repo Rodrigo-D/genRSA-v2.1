@@ -45,5 +45,6 @@ public class Constantes {
     public static int MAX_INT = 2147483647;
     //maximo valor de entero en BigInteger
     public static BigInteger MAX_INT_BI = new BigInteger ("2147483647");
-    
+    //maximo valor para metodo quickStart 
+    public static BigInteger MAX_NNC_BI = new BigInteger ("10000000");
 }

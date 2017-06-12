@@ -8,7 +8,7 @@ package Cyclic;
 import Imprimir.ErrorDialog;
 import Imprimir.InfoDialog;
 import Imprimir.CyclicPrint;
-import Methods.Utilidades;
+import Methods.Utilities;
 import Model.Constantes;
 import java.math.BigInteger;
 import javafx.application.Platform;
@@ -23,7 +23,7 @@ public class CyclicAttack {
     
     private final InfoDialog infoDialog;
     
-    private final Utilidades utilidades;
+    private final Utilities utilidades;
     
     private final CyclicPrint Cprint;
     
@@ -53,7 +53,7 @@ public class CyclicAttack {
     public CyclicAttack(CyclicPrint cyclicPrint) {
         this.errorDialog = new ErrorDialog();
         this.infoDialog = new InfoDialog();
-        this.utilidades = new Utilidades();
+        this.utilidades = new Utilities();
         this.Cprint = cyclicPrint;
         this.radix = 10;
         this.isCancelled = false;

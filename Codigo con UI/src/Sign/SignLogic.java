@@ -8,7 +8,7 @@ package Sign;
 import Imprimir.ErrorDialog;
 import Imprimir.InfoDialog;
 import Imprimir.SignPrint;
-import Methods.Utilidades;
+import Methods.Utilities;
 import Model.Constantes;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -26,7 +26,7 @@ public class SignLogic {
     
     private final InfoDialog infoDialog;
        
-    private final Utilidades utilidades;
+    private final Utilities utilidades;
     
     private final SignPrint Sprint;
     
@@ -48,7 +48,7 @@ public class SignLogic {
     public SignLogic (SignPrint Sprint){
         this.errorDialog = new ErrorDialog();
         this.infoDialog = new InfoDialog();
-        this.utilidades = new Utilidades();
+        this.utilidades = new Utilities();
         this.Sprint = Sprint;
     }
     

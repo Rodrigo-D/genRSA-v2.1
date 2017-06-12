@@ -6,6 +6,7 @@
 package genrsa;
 
 
+import Imprimir.InitCBox;
 import Paradox.ParadoxController;
 import Cyclic.CyclicController;
 import Factorize.FactorizeController;
@@ -215,7 +216,7 @@ public class GenRSAController {
         
     private ComponentesRSA RSA;
     
-    private GenerarClaves generate;
+    private GenerateKeys generate;
         
     private MainWindow mainWindow;
     
@@ -225,7 +226,7 @@ public class GenRSAController {
     
     private boolean startLogNNC;
     
-    private Utilidades utilidades;
+    private Utilities utilidades;
 
     
     
@@ -292,12 +293,12 @@ public class GenRSAController {
         initCboxes = new InitCBox();
         initCboxes.initCboxDec(cBoxP, cBoxQ);
         
-        generate = new GenerarClaves(this);
+        generate = new GenerateKeys(this);
         mainWindow = new MainWindow(this);
         checkPrimes = new CheckPrimes(this);
         manageKey = new ManageKey();
         
-        utilidades = new Utilidades();
+        utilidades = new Utilities();
         startLogNNC = true;
         
         this.disableButtons();      

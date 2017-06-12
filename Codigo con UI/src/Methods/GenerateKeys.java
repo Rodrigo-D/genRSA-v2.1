@@ -21,13 +21,13 @@ import javafx.scene.control.TextField;
  *
  * @author rdiazarr
  */
-public class GenerarClaves {
+public class GenerateKeys {
     
     private final ErrorDialog errorDialog;
     
     private final ComponentesRSA RSA;   
     
-    private final Utilidades utilidades;
+    private final Utilities utilidades;
     
     private final Print print;
     //decimal =10, hexadecimal =16
@@ -37,12 +37,16 @@ public class GenerarClaves {
     private long startTime;
     // atributo que almacena el tiempo empleado 
     private String time;
-    //atributo que almacena las claves privadas parejas
+    // atributo que almacena las claves privadas parejas
     private List<String> listCPP;
     
-    public GenerarClaves (GenRSAController scene){
+    /**
+     * Constructor de la clase
+     * @param scene 
+     */
+    public GenerateKeys (GenRSAController scene){
         this.RSA = new ComponentesRSA();
-        this.utilidades = new Utilidades();
+        this.utilidades = new Utilities();
         this.print = new Print(scene);
         this.radix = 10;
         this.errorDialog = new ErrorDialog();
@@ -63,8 +67,8 @@ public class GenerarClaves {
         primeQ = this.utilidades.formatNumber(primeQ);                
         pubKey = this.utilidades.formatNumber(pubKey);
         
-         //con que uno de los tres no sea valido se visualiza una pantalla de error
-         /* Step 1: Get the prime numbers (p and q) and the public key */
+        //con que uno de los tres no sea valido se visualiza una pantalla de error
+        /* Step 1: Get the prime numbers (p and q) and the public key */
         try {
             this.RSA.setP ( new BigInteger (primeP, this.radix));
             this.RSA.setQ ( new BigInteger (primeQ, this.radix));    
@@ -124,12 +128,12 @@ public class GenerarClaves {
         this.calculateNumNNC();
         
         return this.RSA;        
-     }
+    }
     
     
     
     /**
-     * automatic generation of RSA KEYS, with the same or different number of bits in prime P and Q
+     * Automatic generation of RSA KEYS, with the same or different number of bits in prime P and Q
      * @param KeySize
      * @param sameSizePrimes
      * @param tipicalPubKey
@@ -142,7 +146,7 @@ public class GenerarClaves {
         
         keySize = this.utilidades.formatNumber(KeySize);
         
-        //se comprueba que sea un número
+        //se comprueba que el keySize introducido sea un número
         if (!this.utilidades.isNumber(keySize)){
             Platform.runLater(() ->this.errorDialog.keySize()); 
             return null;
@@ -184,7 +188,8 @@ public class GenerarClaves {
     }
     
     /**
-     * 
+     * Método para generar de manera automatica las claves RSA con una distancia de bits
+     * entre p y q igual a distanceBits
      * @param keySize
      */
     private void createRSAKeys(int distanceBits) {
@@ -215,7 +220,8 @@ public class GenerarClaves {
     
     
     /**
-     * 
+     * Método para generar de manera automatica las claves RSA con la clave publica = 65.537 y
+     * una distancia entre p y q igual a distanceBits
      * @param keySize
      */
     private void createRSAKeysWithTipicalPubKey(int distanceBits) {
@@ -256,50 +262,55 @@ public class GenerarClaves {
      * Metodo que calcula las claves privada parejas
      */
     public void calculateCKP(){
-            //almacena la clave privada pareja
-            BigInteger cpp;
-            int iterador=1;
-            int CKP_int;
-            listCPP = new ArrayList<>();
+        //almacena la clave privada pareja
+        BigInteger cpp;
+        int iterador=1;
+        int CKP_int;
+        listCPP = new ArrayList<>();
 
-            //minimo comun multiplo a través del mcd-gcd
-            this.RSA.setGamma(this.RSA.getpMinusOne().multiply
-                               (this.RSA.getqMinusOne().divide
-                              (this.RSA.getpMinusOne().gcd(this.RSA.getqMinusOne()))));	 	
-            
-            cpp = this.RSA.getE().modInverse(this.RSA.getGamma());
+        //minimo comun multiplo a través del mcd-gcd
+        this.RSA.setGamma(this.RSA.getpMinusOne().multiply
+                           (this.RSA.getqMinusOne().divide
+                          (this.RSA.getpMinusOne().gcd(this.RSA.getqMinusOne()))));	 	
 
-            this.RSA.setNumCKP( ((this.RSA.getN().subtract(cpp)).divide(this.RSA.getGamma())) );
+        cpp = this.RSA.getE().modInverse(this.RSA.getGamma());
+
+        this.RSA.setNumCKP( ((this.RSA.getN().subtract(cpp)).divide(this.RSA.getGamma())) );
+
+        //Imprime           
+        Platform.runLater(() ->{
+            this.print.numClavesParejas(this.RSA.getNumCKP());
+            this.print.clearPrivPairKey();
+        });
+
+        if (cpp.compareTo(this.RSA.getD()) != 0){
+            listCPP.add(this.utilidades.putPoints(cpp.toString(this.radix).toUpperCase(), this.radix) + " -> " + cpp.bitLength() + " bits");
+        }
+
+        //para controlar el while, dado que si el numero es mayor que el max_value de los integer
+        //podria llegar a ser un numero negativo y no se calcularian las CKP
+        CKP_int = this.CKPtoInt();
+        
+        
+        //OJO, he añadido condicion para que pare a las 300
+        while (CKP_int >= iterador && iterador <= 300){
             
-            //Imprime           
-            Platform.runLater(() ->{
-                this.print.numClavesParejas(this.RSA.getNumCKP());
-                this.print.clearPrivPairKey();
-            });
-            
+            cpp=cpp.add(this.RSA.getGamma());
             if (cpp.compareTo(this.RSA.getD()) != 0){
-                listCPP.add(this.utilidades.putPoints(cpp.toString(this.radix).toUpperCase(), this.radix) + " -> " + cpp.bitLength() + " bits");
+                    listCPP.add(this.utilidades.putPoints(cpp.toString(this.radix).toUpperCase(), this.radix) + " -> " + cpp.bitLength() + " bits");
             }
-            
-            //para controlar el while, dado que si el numero es mayor que el max_value de los integer
-            //podria llegar a ser un numero negativo y no se calcularian las CKP
-            CKP_int = this.CKPtoInt();
-            //OJO, he añadido condicion para que pare a las 300
-            while (CKP_int >= iterador && iterador <= 300){
-                    cpp=cpp.add(this.RSA.getGamma());
-                    if (cpp.compareTo(this.RSA.getD()) != 0){
-                            listCPP.add(this.utilidades.putPoints(cpp.toString(this.radix).toUpperCase(), this.radix) + " -> " + cpp.bitLength() + " bits");
-                    }
-                    iterador++;
-            }
-            
-             Platform.runLater(() ->this.print.privPairKey(listCPP));
-            if (iterador > 300){
-                Platform.runLater(() ->this.print.limitPrivPairKey());
-            }
+            iterador++;
+        }
+
+        Platform.runLater(() ->this.print.privPairKey(listCPP));
+        if (iterador > 300){
+            Platform.runLater(() ->this.print.limitPrivPairKey());
+        }
     }
+    
+    
     /**
-     * Calcula el numero de numeros no cifrables
+     * Calcula la cantidad de numeros no cifrables
      */
     private void calculateNumNNC( ){
         BigInteger eMinusOne,part1, part2;
@@ -316,7 +327,10 @@ public class GenerarClaves {
     
     
     
-    
+    /**
+     * Método usado para que no desborde un int al pasarle un bigInteger
+     * @return 
+     */
     private int CKPtoInt() {
         int numCKP = Constantes.MAX_INT;
         
@@ -330,7 +344,8 @@ public class GenerarClaves {
     
     
     /**
-     * Metodo para calcular la diferencia de bits en el caso de que no se quieran p y q del mismo tamaño
+     * Metodo para calcular la diferencia de bits en
+     * el caso de que no se quieran p y q del mismo tamaño
      * @param isSameSize
      * @return 
      */
@@ -339,7 +354,7 @@ public class GenerarClaves {
         int distance = 0;
         
         if (!isSameSize){
-             if (keySize > 40){
+            if (keySize > 40){
             distance = 4;
             } else if (keySize > 30){
                 distance = 3;
@@ -381,7 +396,6 @@ public class GenerarClaves {
     public void setUnits( int radix){
         this.radix = radix;
     }
-
 
     
 }

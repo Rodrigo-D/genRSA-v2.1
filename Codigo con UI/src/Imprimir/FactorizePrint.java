@@ -6,7 +6,7 @@
 package Imprimir;
 
 import Factorize.FactorizeController;
-import Methods.Utilidades;
+import Methods.Utilities;
 
 /**
  *
@@ -16,7 +16,7 @@ public class FactorizePrint {
     
     private final FactorizeController scene;
     
-    private final Utilidades utilidades;
+    private final Utilities utilidades;
     
     /**
      * Constructor de la clase
@@ -24,7 +24,7 @@ public class FactorizePrint {
      */
     public FactorizePrint (FactorizeController factorizeScene){
         this.scene = factorizeScene;
-        this.utilidades  = new Utilidades();
+        this.utilidades  = new Utilities();
     } 
     
     

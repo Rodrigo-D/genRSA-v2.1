@@ -14,37 +14,37 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.5635036496350365" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Cyclic.CyclicController">
+<SplitPane id="Contenedor Principal" dividerPositions="0.5635036496350365" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Cyclic.CyclicController">
    <items>
-      <VBox alignment="TOP_CENTER">
+      <VBox id="Parte Izquierda" alignment="TOP_CENTER">
          <children>
-            <HBox alignment="BOTTOM_CENTER" minWidth="300.0" VBox.vgrow="ALWAYS">
+            <HBox id="Etiqueta Nombre Ataque" alignment="BOTTOM_CENTER" minWidth="300.0" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets left="15.0" right="15.0" top="15.0" />
                </VBox.margin>
                <children>
-                  <Label text="Ataque Cíclico">
+                  <Label id="Ataque Cíclico" text="Ataque Cíclico">
                      <font>
                         <Font name="System Bold" size="19.0" />
                      </font>
                   </Label>
                </children>
             </HBox>
-            <HBox alignment="TOP_CENTER" minWidth="300.0" VBox.vgrow="NEVER">
+            <HBox id="Num cifrados y Completo" alignment="TOP_CENTER" minWidth="400.0" VBox.vgrow="NEVER">
                <VBox.margin>
                   <Insets left="15.0" top="10.0" />
                </VBox.margin>
                <children>
-                  <VBox alignment="TOP_CENTER" HBox.hgrow="NEVER">
+                  <VBox id="Num Cifrados" alignment="TOP_CENTER" HBox.hgrow="NEVER">
                      <children>
-                        <Separator valignment="BOTTOM" VBox.vgrow="NEVER">
+                        <Separator id="Top" valignment="BOTTOM" VBox.vgrow="NEVER">
                            <VBox.margin>
                               <Insets left="1.0" right="4.0" />
                            </VBox.margin>
                         </Separator>
                         <HBox alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
                            <children>
-                              <Separator orientation="VERTICAL" HBox.hgrow="NEVER">
+                              <Separator id="Left" orientation="VERTICAL" HBox.hgrow="NEVER">
                                  <HBox.margin>
                                     <Insets right="9.0" />
                                  </HBox.margin>
@@ -59,10 +59,10 @@
                                     <Insets bottom="5.0" right="9.0" top="5.0" />
                                  </HBox.margin>
                               </TextField>
-                              <Separator orientation="VERTICAL" />
+                              <Separator id="Right" orientation="VERTICAL" />
                            </children>
                         </HBox>
-                        <Separator>
+                        <Separator id="Bottom">
                            <VBox.margin>
                               <Insets left="1.0" right="4.0" />
                            </VBox.margin>
@@ -75,7 +75,7 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                   </VBox>
-                  <VBox alignment="TOP_CENTER" HBox.hgrow="NEVER">
+                  <VBox id="Hasta que prospere" alignment="TOP_CENTER" HBox.hgrow="NEVER">
                      <children>
                         <Separator valignment="BOTTOM" VBox.vgrow="NEVER">
                            <VBox.margin>
@@ -107,7 +107,7 @@
                   </VBox>
                </children>
             </HBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="NEVER">
+            <VBox id="Datos Ataque" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="NEVER">
                <children>
                   <HBox alignment="CENTER_LEFT" VBox.vgrow="NEVER">
                      <children>
@@ -217,7 +217,7 @@
                   <Insets left="15.0" right="15.0" top="10.0" />
                </VBox.margin>
             </VBox>
-            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" VBox.vgrow="NEVER">
+            <HBox id="Indicador de Progreso" alignment="CENTER" prefHeight="50.0" prefWidth="200.0" VBox.vgrow="NEVER">
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>
@@ -225,7 +225,7 @@
                   <ProgressIndicator fx:id="progress" prefWidth="35.0" visible="false" />
                </children>
             </HBox>
-            <HBox alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
+            <HBox id="Botones" alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
                <children>
                   <VBox alignment="TOP_CENTER" HBox.hgrow="NEVER">
                      <children>
@@ -294,7 +294,7 @@
             </HBox>
          </children>
       </VBox>
-      <VBox prefHeight="200.0" prefWidth="200.0">
+      <VBox id="Parte Derecha" prefHeight="200.0" prefWidth="200.0">
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="30.0">
                <children>

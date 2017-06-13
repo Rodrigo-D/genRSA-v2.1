@@ -108,6 +108,10 @@ public class CyclicController {
     }
     
     @FXML
+    /**
+     * Metodo que inicia el ataque o lo para cuando
+     * se pulsa el boton start/stop
+     */
     public void startStop(ActionEvent event) {
         
         if (start){
@@ -149,6 +153,10 @@ public class CyclicController {
     }
 
     @FXML
+    /**
+     * Metodo para continuar con el ataque por donde se quedo
+     * cuando se pulsa el boton continue
+     */
     public void Continue(ActionEvent event) {
                 
         Task CAcontinue = new Task() {
@@ -170,12 +178,20 @@ public class CyclicController {
     
 
     @FXML
+    /**
+     * Metodo para mostrar la informacion cuando
+     * se pulsa el boton de informacion
+     */
     void info(ActionEvent event) {
         this.cyclicAttack.putInfo();
     }
     
     
     @FXML
+    /**
+     * Metodo para limpiar algunos campos cuando
+     * se pulsa el boton limpiar datos
+     */
     void clear(ActionEvent event) {
         
         this.Complete.setDisable(false);
@@ -211,7 +227,8 @@ public class CyclicController {
     
     @FXML
     /**
-     * Una vez introducido el mensaje si se pulsa enter se lanza el metodo start (igual q pulsar comenzar)
+     * Una vez introducido el mensaje si se pulsa enter 
+     * se lanza el metodo start (igual q pulsar comenzar)
      */
     public void processStart(KeyEvent keyEvent) {
          if (keyEvent.getCode() == KeyCode.ENTER) {            

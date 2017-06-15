@@ -43,7 +43,10 @@ public class DeCipherLogic {
     
     
     
-    
+    /**
+     * Constructor de la clase
+     * @param DCprint 
+     */
     public DeCipherLogic(DeCipherPrint DCprint){
         this.errorDialog = new ErrorDialog();
         this.infoDialog = new InfoDialog();
@@ -53,12 +56,22 @@ public class DeCipherLogic {
     
     
     
-    
+    /**
+     * Método que inicializa variables de cifrado
+     * @param modulus
+     * @param pubKey 
+     */
     public void initCipher (BigInteger modulus, BigInteger pubKey){         
         this.modulus = modulus;
         this.pubKey = pubKey;
     }
     
+    /**
+     * Método que inicializa variables de descifrado y comprueba errores
+     * @param modulus
+     * @param privKey
+     * @return 
+     */
     public boolean initDecipher (BigInteger modulus, String privKey){
         this.modulus = modulus;
         
@@ -79,12 +92,20 @@ public class DeCipherLogic {
         return true;
     }
     
+    /**
+     * Metodo compartido por cifrado y descifrado
+     * Método que decidira como se procesa los datos introducidos:
+     * como texto o como números. 
+     * @param Data
+     * @param isText
+     * @param isOriginal
+     * @return 
+     */
     public boolean processData(TextArea Data,  boolean isText, boolean isOriginal) {        
         String data;
         String lines[];
         boolean result;       
 
-        //PARTE DEL TRATADO DEL TEXTO A CIFRAR
         data = Data.getText();
 
         if (data.length() > 7500){
@@ -102,6 +123,9 @@ public class DeCipherLogic {
         return result;        
     }
     
+    /**
+     * Cifrado de los numeros procesados
+     */
     public void encrypt() {
         BigInteger originalNum;
         String cipheredNum;
@@ -119,6 +143,10 @@ public class DeCipherLogic {
         }        
     }
 
+    /**
+     * Descifrado de los numeros procesados
+     * @param isText 
+     */
     public void decrypt(boolean isText) {
         BigInteger cipheredNum;
         String decipheredNum, decipheredText ;
@@ -148,10 +176,16 @@ public class DeCipherLogic {
         }
     }
     
+    /**
+     * Método para mostrar la información del descifrado
+     */
     public void putDecipherInfo() {
         this.infoDialog.putDecipherInfo();        
     }
 
+    /**
+     * Metodo para mostrar informacion del cifrado
+     */
     public void putCipherInfo() {
         this.infoDialog.putCipherInfo();        
     }
@@ -159,7 +193,12 @@ public class DeCipherLogic {
         
         
         
-        
+     /**
+      * Procesado de los numeros introducidos
+      * @param lines
+      * @param isOriginal
+      * @return 
+      */  
     private boolean processNumbers(String lines[], boolean isOriginal){
         //arrays donde se guardaran los numeros preprocesados y procesados respectivamente
         String numbers[], processedNumbers[];
@@ -196,7 +235,7 @@ public class DeCipherLogic {
                 this.errorDialog.numberData(this.radix);
                 return false;
             }
-            //compruebo q sea un numero mayor que cero
+            //compruebo q sea un numero mayor o igual que cero
             if (number.compareTo(Constantes.ZERO)==-1){
                 this.errorDialog.formatData(this.radix);
                 return false;
@@ -250,7 +289,7 @@ public class DeCipherLogic {
                             endIndex = digitsOfNumber;
                         }
                     } 
-                }//while de detro                    
+                }//while de dentro                    
             }//else de numero mayor q modulo
             lineIterator++;
         }//while de fuera
@@ -267,9 +306,13 @@ public class DeCipherLogic {
     }
     
     
-       
+    /**
+     * Procesado del texto introducido: se pasa de lineas texto a numeros
+     * @param lines
+     * @return 
+     */
     private boolean processText(String lines[]){
-        //arrays donde se guardaran los numeros preprocesados y procesados respectivamente
+        //arrays donde se guardaran los numeros procesados 
         String processedText[];
         //iteradores que llevaran la cuenta de las lineas y los numeros procesados
         int lineIterator=0, processedIterator=0;
@@ -286,14 +329,12 @@ public class DeCipherLogic {
         byte[] asciiText;
         byte[] cutAsciiText;
         
-        //compruebo que se pueda cifrar texto
-        
+        //compruebo que se pueda cifrar texto        
         if(this.modulus.bitLength()<12){
             this.errorDialog.littleModulus();
             return false;            
         }
-        
-        
+                
         linesNum = lines.length;
         this.DataBI = new BigInteger[linesNum+10];
         processedText = new String [linesNum+10];
@@ -377,7 +418,7 @@ public class DeCipherLogic {
                             endIndex = bytesOfNumber;
                         }
                     } 
-                }//while de detro                  
+                }//while de dentro                  
             }//else de numero mayor q modulo
             lineIterator++;
         }//while de fuera

@@ -50,6 +50,10 @@ public class CyclicAttack {
     
     private boolean isCancelled;
 
+    /**
+     * Constructor de la clase
+     * @param cyclicPrint 
+     */
     public CyclicAttack(CyclicPrint cyclicPrint) {
         this.errorDialog = new ErrorDialog();
         this.infoDialog = new InfoDialog();
@@ -62,12 +66,19 @@ public class CyclicAttack {
     
     
     
-    
+    /**
+     * Método que inicializa variables, comprueba errores y 
+     * permite continuar o muestra un mensaje de error.
+     * @param message
+     * @param modulus
+     * @param exponent
+     * @return 
+     */
     public boolean init(String message, String modulus, String exponent) {
        BigInteger messageBI;
        final String processedMessage;
        
-       //MODULUS------------  
+       //CHECK MODULUS------------  
         modulus = this.utilidades.formatNumber(modulus);
         
         try{
@@ -77,7 +88,7 @@ public class CyclicAttack {
             return false;
         }
        
-       //EXPONENT------------  
+       //CHECK EXPONENT------------  
        exponent = this.utilidades.formatNumber(exponent);
         
         try{
@@ -92,7 +103,7 @@ public class CyclicAttack {
             return false;
         }
         
-        //MESSAGE------------ 
+        //CHECK MESSAGE------------ 
         processedMessage = this.utilidades.formatNumber(message);
         
         try{
@@ -111,7 +122,7 @@ public class CyclicAttack {
             Platform.runLater(() -> errorDialog.bigMessage(radix));
             return false;
         }
-        //MESSAGE CIPHERED-------------
+        // INIT MESSAGE CIPHERED-------------
         this.cypherMessage = messageBI.modPow(this.exponent, this.modulus);
         
         //PARTE GRAFICA-------------
@@ -128,7 +139,11 @@ public class CyclicAttack {
     }
     
     
-    //ataque ciclico, no para hasta que prospera o se pulsa el boton de parar.
+    /**
+     * Método para decidir que tipo de visualización de los resultados se
+     * lleva a cabo para el ataque completo. 
+     * No para hasta que prospera o se pulsa el boton de parar.
+     */
     public void complete (){
         
         Platform.runLater(() ->{ 
@@ -147,7 +162,13 @@ public class CyclicAttack {
         }        
     }
     
-    //ataque ciclico, realiza el ataque para un número de vueltas determinado.
+   
+    /**
+     * Método para decidir que tipo de visualización de los resultados se
+     * lleva a cabo para el ataque indicando el num de vueltas. 
+     * Realiza el ataque para un número de vueltas determinado.
+     * @param numOfCyphers 
+     */
     public void start(String numOfCyphers) {
         final BigInteger lapsNum;
         
@@ -182,7 +203,13 @@ public class CyclicAttack {
         }
     }
     
-    
+ 
+    /**
+     * Método para decidir que tipo de visualización de los resultados se
+     * lleva a cabo para CONTINUAR el ataque. 
+     * Continua el ataque para un número de vueltas determinado.
+     * @param numOfCyphers 
+     */
     public void Continue (String numOfCyphers) {
         final BigInteger lapsNum;
         
@@ -261,7 +288,7 @@ public class CyclicAttack {
                 }                  
         }
         
-         //Por si ha encontrado el mensaje en claro o se ha parado y le faltan valores por escribir
+        //Por si ha encontrado el mensaje en claro o se ha parado y le faltan valores por escribir
         if (printFinals){            
             Platform.runLater(() -> this.Cprint.partialResults(this.xplResult));
         }
@@ -292,8 +319,8 @@ public class CyclicAttack {
                 
     }
     
-     /**
-     * Método para imprimir solo 1 de cada 100.000 valores, no para hasta que termina o se pulsa el boton de parar.
+    /**
+     * Método para imprimir solo 1 de cada "REFRESH" valores, no para hasta que termina o se pulsa el boton de parar.
      * BM= big modulus
      * @param REFRESH
      */
@@ -319,7 +346,7 @@ public class CyclicAttack {
                 next = message.modPow(this.exponent, this.modulus);
                 lap = lap.add(Constantes.ONE);                 
                 
-                //para imprimir por pantalla cada XXX vueltas
+                //para imprimir por pantalla cada REFRESH vueltas
                 if ((lap.mod(REFRESH)).equals(Constantes.ZERO)){                    
                     this.result =  "c" + this.utilidades.putPoints(lap.toString(), 10) +
                             " = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase(), this.radix) + "\n";
@@ -445,7 +472,7 @@ public class CyclicAttack {
     
     
     /**
-     * Metodo para comenzar a imprimir 1 de cada 100.000 de los valores del ataque
+     * Metodo para comenzar a imprimir 1 de cada 10.000 de los valores del ataque
      * BLN=big laps num
      * @param lapsNum 
      */
@@ -526,7 +553,8 @@ public class CyclicAttack {
     }
     
     /**
-     * Metodo para continuar imprimiendo todos los valores del ataque a no ser que se pare el ataque
+     * Metodo para continuar imprimiendo todos los valores del
+     * ataque a no ser que se pare el ataque
      * @param lapsNum 
      */
     public void LLNcontinue(BigInteger lapsNum) {
@@ -604,7 +632,8 @@ public class CyclicAttack {
     
     
     /**
-     * Método para continuar imprimiendo, pero esta vez 1 de 100.000 valores del ataque a no ser que se pare el ataque
+     * Método para continuar imprimiendo, pero esta vez 1 de 10.000
+     * valores del ataque a no ser que se pare el ataque
      * @param lapsNum 
      */
     public void BLNcontinue(BigInteger lapsNum) {

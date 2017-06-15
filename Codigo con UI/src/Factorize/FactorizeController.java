@@ -95,7 +95,10 @@ public class FactorizeController {
     }
     
         
-    
+    /**
+     * Método que gestions la pulsacion del boton Comenzar-Parar
+     * @param event 
+     */
     public void startStop(ActionEvent event) {
         
         if (start){
@@ -133,6 +136,11 @@ public class FactorizeController {
         }        
     } 
     
+    
+    /**
+     * Método que gestiona la pulsacion del boton Continuar
+     * @param event 
+     */
     public void Continue(ActionEvent event) {
         
         Task PAcontinue= new Task() {
@@ -156,12 +164,19 @@ public class FactorizeController {
         
     } 
     
+    /**
+     * Metodo que gestiona la pulsacion del boton Informacion
+     * @param event 
+     */
     public void info(ActionEvent event) {        
         this.factorize.putInfo();
         
     } 
 
-    
+    /**
+     * Metodo que gestiona la pulsacion del boton Limpiar Datos
+     * @param eventx 
+     */
     public void clear(ActionEvent eventx){
         this.ObtainPQ.setDisable(false);
         this.NumLaps.setDisable(false);
@@ -178,6 +193,9 @@ public class FactorizeController {
     }
     
     @FXML
+    /**
+     * Metodo que gestiona si se marca la opcion obtener p y q
+     */
     public void checkSelected(ActionEvent event){
         if (this.ObtainPQ.isSelected()){
             this.NumLaps.clear();

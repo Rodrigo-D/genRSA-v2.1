@@ -52,7 +52,10 @@ public class FactorizeAttack {
     private boolean isCancelled;
     
     
-    
+    /**
+     * Constructor de la clase.
+     * @param print 
+     */
     public FactorizeAttack(FactorizePrint print) {
         this.errorDialog = new ErrorDialog();
         this.infoDialog = new InfoDialog();
@@ -62,7 +65,12 @@ public class FactorizeAttack {
         this.isCancelled = false;
     }
     
-    
+    /**
+     * Método que inicializa variables, comprueba errores y 
+     * permite iniciar el ataque o muestra un mensaje de error.
+     * @param modulus
+     * @return 
+     */
     public boolean init(final String modulus){
         final String modulusStr;
         
@@ -94,6 +102,12 @@ public class FactorizeAttack {
         return true;
     }
     
+    /**
+     * Método para decidir que tipo de visualización de los resultados se
+     * lleva a cabo para el ataque indicando el num de vueltas. 
+     * Realiza el ataque para un número de vueltas determinado.
+     * @param lapsNumStr 
+     */
     public void start (String lapsNumStr){
         //Num.Vueltas --> comprobación de errores
         lapsNumStr  = this.utilidades.formatNumber(lapsNumStr);            
@@ -121,6 +135,13 @@ public class FactorizeAttack {
         
     }
     
+    
+    /**
+     * Método para decidir que tipo de visualización de los resultados se
+     * lleva a cabo para CONTINUAR el ataque. 
+     * Continua el ataque para un número de vueltas determinado.
+     * @param lapsNumStr 
+     */
     public void Continue (String lapsNumStr){
         //comprobación de errores
         lapsNumStr  = this.utilidades.formatNumber(lapsNumStr);            
@@ -150,6 +171,12 @@ public class FactorizeAttack {
         
     }
     
+    
+    /**
+     * Método para decidir que tipo de visualización de los resultados se
+     * lleva a cabo para el ataque completo. 
+     * No para hasta que prospera o se pulsa el boton de parar.
+     */
     public void complete (){
                 
         if(this.modulus.bitLength() < 50){

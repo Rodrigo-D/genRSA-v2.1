@@ -96,6 +96,9 @@ public class ParadoxController {
 
 
     @FXML
+    /**
+     * Método que gestiona la pulsacion del boton Comenzar-Parar
+     */
     public void startStop(ActionEvent event) {
         
         if (start) {  
@@ -130,11 +133,17 @@ public class ParadoxController {
     
         
     @FXML
+    /**
+     * Método que gestiona la pulsacion del boton Limpiar Datos
+     */
     public void clear(ActionEvent event) {
         this.paradoxAttack.clear();
     } 
     
     @FXML
+    /**
+     * Método que gestiona la pulsacion del boton Informacion
+     */
     public void info(ActionEvent event) {
         this.paradoxAttack.putInfo();
     }

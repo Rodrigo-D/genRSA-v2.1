@@ -47,6 +47,10 @@ public class ParadoxAttack {
     
     private boolean isCancelled;
 
+    /**
+     * Constructor de la clase
+     * @param paradoxPrint 
+     */
     public ParadoxAttack(ParadoxPrint paradoxPrint) {
         this.errorDialog = new ErrorDialog();
         this.infoDialog = new InfoDialog();
@@ -57,6 +61,14 @@ public class ParadoxAttack {
         
     }
     
+    /**
+     * Método que inicializa variables, comprueba errores y 
+     * permite continuar o muestra un mensaje de error.
+     * @param message
+     * @param modulus
+     * @param exponent
+     * @return 
+     */
     public boolean init(String message, String modulus, String exponent) {       
         //MODULUS------------  
         modulus = this.utilidades.formatNumber(modulus);
@@ -119,7 +131,9 @@ public class ParadoxAttack {
     
     
     /**
-     * Método para saber en que rango actua el bucle y por tanto la impresion de resultados.
+     * Método para decidir que tipo de visualización de los resultados se
+     * lleva a cabo para el ataque completo. 
+     * No para hasta que prospera o se pulsa el boton de parar.
      */
     public void start() {
         if (this.modulus.bitLength() < 30){
@@ -254,9 +268,12 @@ public class ParadoxAttack {
         this.setIsCancelled(false);
     }
     
-    
-    //ataque por la paradoja del cumpleaños. Solo para en el caso de que se pulse "Parar"
-    //no imprime todos los resultados del ataque BM = big modulus
+
+    /**
+     * Ataque por la paradoja del cumpleaños. Solo para en el caso de que se pulse "Parar"
+     * no imprime todos los resultados del ataque BM = big modulus
+     * @param MAX_REFRESH 
+     */
     public void BMstart(BigInteger MAX_REFRESH){
        
         BigInteger cipherI, cipherJ;

@@ -96,6 +96,9 @@ public class DeCipherController {
     
     
     @FXML
+    /**
+     * Método que gestiona la pulsacion del boton Cifrar Datos
+     */
     void cipher(ActionEvent event) {
         boolean isText = this.isTextOriginal.isSelected();
         this.DeCipher.setRadix(this.radix);
@@ -108,11 +111,17 @@ public class DeCipherController {
     }
 
     @FXML
+    /**
+     * Método que gestiona la pulsacion del boton Informacion en la parte de Cifrado
+     */
     void cipherInfo(ActionEvent event) {
         this.DeCipher.putCipherInfo();
     }
 
     @FXML
+    /**
+     * Método que gestiona la pulsacion del boton Limpiar Datos en la parte de Cifrado
+     */        
     void clearCipher(ActionEvent event) {
         this.originalData.clear();
         this.cipheredData1.clear();
@@ -122,6 +131,9 @@ public class DeCipherController {
 
 
     @FXML
+    /**
+     * Método que gestiona la pulsacion del boton Descifrar Datos
+     */            
     void decipher(ActionEvent event) {
         boolean isText = this.isTextCiphered.isSelected();
         this.DeCipher.setRadix(this.radix);
@@ -134,11 +146,17 @@ public class DeCipherController {
     }
 
     @FXML
+    /**
+     * Método que gestiona la pulsacion del boton Informacion en la parte de Descifrado
+     */           
     void decipherInfo(ActionEvent event) {
         this.DeCipher.putDecipherInfo();
     }
 
     @FXML
+    /**
+     * Método que gestiona la pulsacion del boton Limpiar Datos en la parte de Descifrado
+     */              
     void clearDecipher(ActionEvent event) {
         this.cipheredData2.clear();
         this.decipheredData.clear();

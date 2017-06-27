@@ -15,6 +15,7 @@ import Sign.SignController;
 import Imprimir.MainWindow;
 import Methods.*;
 import Model.ComponentesRSA;
+import java.awt.Desktop;
 
 import java.io.File;
 import java.io.IOException;
@@ -326,10 +327,15 @@ public class GenRSAController {
                 
                 RSA = generate.autoRSAkeys(keySize, isSameSize, isTipicalPubKey);
                 
-                Platform.runLater(() -> disableOnProgress(false));
+                Platform.runLater(() ->{
+                    disableOnProgress(false);
+                    mainWindow.clearPrimality();
+                    disableButtons(); 
+                });
+                
                 progress.setVisible(false);
                 
-                disableButtons();                
+                               
                 return null;
             }
         };
@@ -359,6 +365,8 @@ public class GenRSAController {
         String publicKey = this.clave_Publica.getText(); 
         
         this.RSA = this.generate.manualRSAkeys(primeP, primeQ, publicKey);
+        
+        this.mainWindow.clearPrimality();        
         this.disableButtons();
     }
     
@@ -522,19 +530,75 @@ public class GenRSAController {
      * @param event 
      */
     public void primalityMiller(ActionEvent event) {
-        boolean isMiller = true;
-        this.checkPrimes.check(this.primo_P.getText(), this.primo_Q.getText(), 
-                                this.iteraciones_primalidad.getText(), isMiller);
+        Task CAstart= new Task() {
+            @Override
+            protected Object call() throws Exception {
+                    
+                progress.setVisible(true);
+                
+                Platform.runLater(() ->{
+                    mainWindow.clearPrimality();                     
+                    disableOnProgress(true);
+                });
+                
+                boolean isMiller = true;
+                checkPrimes.check(primo_P.getText(), primo_Q.getText(), 
+                                        iteraciones_primalidad.getText(), isMiller);
+                
+                
+                Platform.runLater(() ->{
+                    disableOnProgress(false);    
+                    disableButtons();
+                });
+                
+                progress.setVisible(false);
+                        
+                return null;
+            }
+        };
+        
+        new Thread(CAstart).start();    
+        
     }
+    
      
     /**
      * Comprueba la primalidad de P y Q por el metodo de Fermat
      * @param event 
      */
     public void primalityFermat(ActionEvent event) {
-        boolean isMiller = false;
-        this.checkPrimes.check(this.primo_P.getText(), this.primo_Q.getText(), 
-                                this.iteraciones_primalidad.getText(), isMiller);
+        Task CAstart= new Task() {
+            @Override
+            protected Object call() throws Exception {
+                    
+                progress.setVisible(true);
+                
+                Platform.runLater(() ->{
+                    mainWindow.clearPrimality();                     
+                    disableOnProgress(true);
+                });
+                
+                boolean isMiller = false;
+                checkPrimes.check(primo_P.getText(), primo_Q.getText(), 
+                                iteraciones_primalidad.getText(), isMiller);
+                
+                
+                
+                Platform.runLater(() ->{
+                    disableOnProgress(false); 
+                    disableButtons();
+                });
+                
+                progress.setVisible(false);
+                
+                                
+                return null;
+            }
+        };
+        
+        new Thread(CAstart).start();    
+        
+    
     }
      
         
@@ -804,6 +868,23 @@ public class GenRSAController {
     }
     
     
+     /**
+     * Abre el archivo Manual de usuario
+     * @param event 
+     */
+    public void help(ActionEvent event) {
+        try
+        {
+          String str = System.getProperty("user.dir") + "/ManualDeUsuario.pdf";
+          File localFile = new File(str);
+          Desktop.getDesktop().open(localFile);
+        }
+        catch (IOException e){
+            
+        }
+    }
+    
+    
     
     /**
      * Cierra todo el programa
@@ -1064,5 +1145,6 @@ public class GenRSAController {
     public Label getUnitsE() {
         return unitsE;
     }
+    
      
 }

@@ -83,11 +83,20 @@ public class CyclicPrint {
         this.scene.getStartBttn().setDisable(true);
     }
     
+    /**
+     * Método para permitir parar el ataque.
+     * Activa el boton Parar
+     */
     public void enableStop() {
         this.scene.getStartBttn().setText("    Parar    ");
         this.scene.getStartBttn().setDisable(false);
         this.scene.getClearBttn().setDisable(true);
     }
+    
+    /**
+     * Método para permitir comenzar el ataque.
+     * Activa el botn Comenzar
+     */
     public void enableStart() {
         this.scene.getStartBttn().setText("Comenzar");
         this.scene.getStartBttn().setDisable(false);

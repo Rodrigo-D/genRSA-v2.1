@@ -11,13 +11,16 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
- *
+ * Clase que muestra los dialogos de información
  * @author rdiazarr
  */
 public class InfoDialog {
     
     Alert info = new Alert(AlertType.INFORMATION);
     
+    /**
+     * Constructor de la clase
+     */
     public InfoDialog() {
         info.setTitle("Mensaje de información");
         info.setHeaderText(null);

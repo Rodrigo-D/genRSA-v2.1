@@ -18,6 +18,9 @@ public class ErrorDialog {
     
     Alert alertError;
     
+    /**
+     * Constructor de la clase
+     */
     public ErrorDialog() {
         this.alertError = new Alert(AlertType.ERROR);
         this.alertError.setTitle("Error");        
@@ -98,9 +101,17 @@ public class ErrorDialog {
     }
 
     public void littleKeySize() {        
-        alertError.setHeaderText("Error al introducir la longitud de la clave a generar ");        
+        alertError.setHeaderText("Error al introducir la longitud de la clave a generar");        
        
         alertError.setContentText("Por favor, introduzca una longitud de clave mayor que 5");       
+        
+        alertError.showAndWait(); 
+    }
+    
+    public void bigKeySize() {        
+        alertError.setHeaderText("Error al introducir la longitud de la clave a generar.");        
+       
+        alertError.setContentText("Por favor, introduzca una longitud de clave menor que 8.193");       
         
         alertError.showAndWait(); 
     }
@@ -123,13 +134,24 @@ public class ErrorDialog {
              
              
     public void iterations() {
-        alertError.setHeaderText("Error al introducir el número de vueltas del test de primalidad");        
+        alertError.setHeaderText("Error al introducir el número de iteraciones del test de primalidad");        
        
         alertError.setContentText("Por favor, introduzca un número. \n"
                 + "Otros caracteres permitidos son: espacios, puntos y comas.");       
         
         alertError.showAndWait();    
     }
+    
+    public void bigNumberOfIterations() {
+        alertError.setHeaderText("Error al introducir el número de iteraciones del test de primalidad");        
+       
+        alertError.setContentText("Por favor, introduzca un número entre el 1 y el 300");       
+        
+        alertError.showAndWait();    
+    }
+    
+    
+    
 
     public void muchNNC() {
         alertError.setHeaderText("Error, demasiados NNC a calcular");        

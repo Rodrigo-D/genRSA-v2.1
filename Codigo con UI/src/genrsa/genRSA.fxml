@@ -120,7 +120,7 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Ayuda">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Índice de Contenido">
+                  <MenuItem mnemonicParsing="false" onAction="#help" text="Manual de Usuario">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="F1" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
@@ -473,7 +473,7 @@
                               <AnchorPane prefHeight="177.0" prefWidth="50.0">
                                  <children>
                                     <Label alignment="TOP_LEFT" layoutX="14.0" layoutY="74.0" text="Cantidad" />
-                                    <TextField fx:id="num_claves_parejas" editable="false" layoutX="7.0" layoutY="119.0" minWidth="-Infinity" prefHeight="29.0" prefWidth="60.0">
+                                    <TextField fx:id="num_claves_parejas" blendMode="DARKEN" editable="false" layoutX="7.0" layoutY="119.0" minWidth="-Infinity" prefHeight="29.0" prefWidth="60.0">
                                        <tooltip>
                                           <Tooltip text="Número de claves parejas" />
                                        </tooltip></TextField>

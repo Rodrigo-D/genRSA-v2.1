@@ -16,7 +16,7 @@ import javafx.scene.image.Image;
  *
  * @author rdiazarr
  */
-public class Print {
+public class GenRSAPrint {
     /**
      * Atributo encargado de manejar todos 
      */
@@ -28,12 +28,16 @@ public class Print {
     private final Image tick;
     private final Image interrogation;
     
-    public Print (GenRSAController sceneC){
+    /**
+     * Constructor de la clase
+     * @param sceneC 
+     */
+    public GenRSAPrint (GenRSAController sceneC){
         this.scene = sceneC;
         utilidades = new Utilities();
-        cross = new Image(Print.class.getResourceAsStream("/allImages/cross.png"));
-        tick = new Image(Print.class.getResourceAsStream("/allImages/tick.png"));
-        interrogation = new Image(Print.class.getResourceAsStream("/allImages/interrogation.png"));
+        cross = new Image(GenRSAPrint.class.getResourceAsStream("/allImages/cross.png"));
+        tick = new Image(GenRSAPrint.class.getResourceAsStream("/allImages/tick.png"));
+        interrogation = new Image(GenRSAPrint.class.getResourceAsStream("/allImages/interrogation.png"));
     }
     
     public void rsaGeneration (ComponentesRSA RSA,  String tiempo, int radix){
@@ -85,6 +89,12 @@ public class Print {
         this.scene.getCantidadNNC().setText(this.utilidades.putPoints(numNNC.toString(),10));
     }
 
+    /**
+     * Clase que mostrará la imagen asociada al resultado del test
+     * @param Ptrue
+     * @param Qtrue
+     * @param time 
+     */
     public void primalityResults(boolean Ptrue, boolean Qtrue, String time) {
         if (Ptrue){
             this.scene.getIsPrime_P().setImage(this.tick);
@@ -100,7 +110,10 @@ public class Print {
         
         this.scene.getTiempo_primalidad().setText(time);
     }
-    
+    /**
+     * Clase que borrará los resultados del test de primalidad
+     * dejando en indeterminado el resultado.
+     */
     public void flushIsPrime() {
         this.scene.getIsPrime_P().setImage(this.interrogation);
         this.scene.getIsPrime_Q().setImage(this.interrogation);

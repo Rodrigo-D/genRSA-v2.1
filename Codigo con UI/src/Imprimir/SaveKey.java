@@ -27,6 +27,10 @@ public class SaveKey {
     
     private Utilities utilidades;
     
+    /**
+     * Constructors de la clase
+     * @param keyFile 
+     */
     public SaveKey (File keyFile) {
         try {
             file = new FileWriter(keyFile);
@@ -38,6 +42,11 @@ public class SaveKey {
         }
     }
     
+    /**
+     * Método que guarda en un fichero HTML  la clave RSA generada
+     * @param RSA   objeto con los datos de la clave
+     * @param radix base en la que imprimir la clave: decimal o hexadecimal.
+     */
     public void generateHTML(ComponentesRSA RSA, int radix) {
         Date fecha = new Date();
         SimpleDateFormat estilo = new SimpleDateFormat( "dd 'de' MMMM 'de' yyyy", new Locale("es_ES"));
@@ -84,7 +93,13 @@ public class SaveKey {
      
     }
     
-    
+    /**
+     * Método para calcular  el algoritmo extendido de euclides
+     * Solo se calculara si la longitud del modulo es menor 
+     * que 26 bits y la base es decimal
+     * @param phiN
+     * @param pubKey 
+     */
     private void calculateAEE(int phiN, int pubKey){
         
         
@@ -92,7 +107,7 @@ public class SaveKey {
         this.print.println("<p></p>");
         this.print.println("<p></p>");
         this.print.println("<B><font color=\"DarkGreen \">Algoritmo Extendido de Euclides para el calculo de la clave privada:</font></B>");
-        this.print.println("<B><font color=\"DarkGreen \">   phiN = " + this.utilidades.putPoints(String.valueOf(phiN), 10) + "  y clave pública = " + this.utilidades.putPoints(String.valueOf(pubKey), 10)+ "</font></B>");
+        this.print.println("<B><font color=\"DarkGreen \">   phiN = " + this.utilidades.putPoints(String.valueOf(phiN), 10) + "  --   clave publica = " + this.utilidades.putPoints(String.valueOf(pubKey), 10)+ "</font></B>");
         this.print.println("<B>  </B>");
         this.print.println("<B>Para i=0   </B>");
         this.print.println("<B>        y = -     g = <font color=\"Brown\">" + this.utilidades.putPoints(String.valueOf(phiN),10) + "</font></B>");

@@ -69,7 +69,11 @@ public class InitCBox {
     }
     
     
-    
+    /**
+     * Método para inicializar las comboBox con primos seguros en formato decimal
+     * @param primeP comboBox del primo P
+     * @param primeQ comboBox del primo Q
+     */
     public void initCboxDec(ComboBox primeP, ComboBox primeQ){
         
         primeP.setDisable(true);
@@ -84,7 +88,11 @@ public class InitCBox {
     }
             
        
-    
+    /**
+     * Método para inicializar las comboBox con primos seguros en formato hexadecimal
+     * @param primeP comboBox del primo P
+     * @param primeQ comboBox del primo Q
+     */
     public void initCboxHex (ComboBox primeP, ComboBox primeQ){
        
         primeP.setDisable(true);

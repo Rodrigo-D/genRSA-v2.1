@@ -68,6 +68,12 @@ public class MainWindow {
     
     }
 
+    public void clearPrimality() {
+        this.scene.getIsPrime_P().setImage(this.interrogation);
+        this.scene.getIsPrime_Q().setImage(this.interrogation);
+        this.scene.getTiempo_primalidad().clear();
+    }
+
    
     
 }

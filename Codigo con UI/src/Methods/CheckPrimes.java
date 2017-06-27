@@ -6,11 +6,13 @@
 package Methods;
 
 import Imprimir.ErrorDialog;
-import Imprimir.Print;
+import Imprimir.GenRSAPrint;
 import Model.Constantes;
 import genrsa.GenRSAController;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.concurrent.TimeUnit;
+import javafx.application.Platform;
 
 /**
  *
@@ -28,7 +30,7 @@ public class CheckPrimes {
     //decimal =10, hexadecimal =16
     private int radix;
     
-    private final Print print;
+    private final GenRSAPrint print;
     
     private final ErrorDialog errorDialog; 
     
@@ -38,7 +40,7 @@ public class CheckPrimes {
      */
     public CheckPrimes(GenRSAController scene) {
         this.utilidades = new Utilities();
-        this.print = new Print(scene);
+        this.print = new GenRSAPrint(scene);
         this.radix = 10;        
         this.errorDialog = new ErrorDialog();
     }
@@ -51,7 +53,7 @@ public class CheckPrimes {
      * @param isMiller 
      */
     public void check(String probNumberP, String probNumberQ, String vueltas, 
-                    final boolean isMiller){   
+                    final boolean isMiller) throws InterruptedException{   
         
         //atributos que almacenan los resultados del test de primalidad
         boolean resultadoP, resultadoQ;
@@ -62,7 +64,7 @@ public class CheckPrimes {
         
         
         startTime = System.currentTimeMillis();
-        this.print.flushIsPrime();
+        TimeUnit.MILLISECONDS.sleep(100);
         
          
         probNumberP = this.utilidades.formatNumber(probNumberP);
@@ -75,23 +77,30 @@ public class CheckPrimes {
             this.probPrimeQ = new BigInteger (probNumberQ, this.radix);    
             
         } catch (NumberFormatException n){            
-            this.errorDialog.primeConversion(this.radix);
+            Platform.runLater(() ->this.errorDialog.primeConversion(this.radix));
             return;
         }
         
         if (!this.utilidades.isNumber(vueltas)){
-            this.errorDialog.iterations();         
+            Platform.runLater(() ->this.errorDialog.iterations());         
             return;
         } 
         
         this.vueltas = Integer.parseInt(vueltas);
         
+        if (this.vueltas > 300){
+            Platform.runLater(() ->this.errorDialog.bigNumberOfIterations());
+            return;
+        }
+        
+        
+        
         if (this.probPrimeP.compareTo(Constantes.THREE) <= 0 || this.probPrimeQ.compareTo(Constantes.THREE) <= 0){
-                this.errorDialog.primeLittle();
+                Platform.runLater(() ->this.errorDialog.primeLittle());
                 return;
         }
         if (this.probPrimeP.mod(Constantes.TWO).equals(Constantes.ZERO) || this.probPrimeQ.mod(Constantes.TWO).equals(Constantes.ZERO)){
-                this.errorDialog.multipleTwo();
+                Platform.runLater(() ->this.errorDialog.multipleTwo());
                 return;
         }       
         
@@ -104,7 +113,7 @@ public class CheckPrimes {
         }
         
         time = this.utilidades.millisToSeconds(System.currentTimeMillis() - startTime);
-        this.print.primalityResults(resultadoP, resultadoQ, time);        
+        Platform.runLater(() ->this.print.primalityResults(resultadoP, resultadoQ, time));        
     }
     
 

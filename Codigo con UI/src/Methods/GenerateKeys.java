@@ -6,7 +6,7 @@
 package Methods;
 
 import Imprimir.ErrorDialog;
-import Imprimir.Print;
+import Imprimir.GenRSAPrint;
 import Model.ComponentesRSA;
 import Model.Constantes;
 import genrsa.GenRSAController;
@@ -29,7 +29,7 @@ public class GenerateKeys {
     
     private final Utilities utilidades;
     
-    private final Print print;
+    private final GenRSAPrint print;
     //decimal =10, hexadecimal =16
     private int radix;
     
@@ -47,7 +47,7 @@ public class GenerateKeys {
     public GenerateKeys (GenRSAController scene){
         this.RSA = new ComponentesRSA();
         this.utilidades = new Utilities();
-        this.print = new Print(scene);
+        this.print = new GenRSAPrint(scene);
         this.radix = 10;
         this.errorDialog = new ErrorDialog();
     }
@@ -158,6 +158,11 @@ public class GenerateKeys {
             Platform.runLater(() ->this.errorDialog.littleKeySize()); 
             return null;
         }      
+        
+        if (this.RSA.getKeySize() > 8192){ 
+            Platform.runLater(() ->this.errorDialog.bigKeySize()); 
+            return null;
+        }
         
         distanceBits = this.calculateDistanceBits(sameSizePrimes);
         

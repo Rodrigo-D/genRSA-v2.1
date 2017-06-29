@@ -43,7 +43,7 @@ public class LogNNC {
     
     public void createHTML(ComponentesRSA RSA, int radix) {
         Date fecha = new Date();
-        SimpleDateFormat estilo = new SimpleDateFormat( "dd 'de' MMMM 'de' yyyy", new Locale("es_ES"));
+        SimpleDateFormat estilo = new SimpleDateFormat( "dd 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
         String fechaStr = estilo.format(fecha);
         
         print.println("<html>");

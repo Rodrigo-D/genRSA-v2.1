@@ -393,7 +393,7 @@ public class GenRSAController {
             //para que se decidiera donde se guarda el archivo.
             FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("HTML files", "*.html");    
             FileChooser fileChooser = new FileChooser();
-            fileChooser.setInitialDirectory( new File(System.getProperty("user.home")));
+            fileChooser.setInitialDirectory( new File(System.getProperty("user.dir")));
             fileChooser.getExtensionFilters().add(extensionFilter);
             fileChooser.setTitle("Seleccionar directorio donde guardar el log");        
             fileChooser.setInitialFileName("LogNNC genRSA");
@@ -856,13 +856,13 @@ public class GenRSAController {
         
         info.setHeaderText("genRSA - Generación de claves RSA v2.1");
         
-        info.setContentText("GenRSA es un software de laboratorio para la generación \n"
-                + "de claves RSA.\n"
-                + "Este software tiene como fin que el alumno se familiarize con\n"
-                + "el sistema de cifrado asimétrico de clave pública RSA. \n\n\n"
-                + "Proyecto de fin de grado realizado por Rodrigo Díaz.\n"
+        info.setContentText("genRSA es un software de laboratorio para la generación \n"
+                + "de claves RSA. Este software tiene como fin que el alumno \n"
+                + "se familiarice con el sistema de cifrado asimétrico de \n"
+                + "clave pública RSA. \n\n\n"
+                + "Proyecto de Fin de Grado realizado por Rodrigo Díaz.\n"
                 + "Tutor: Jorge Ramió Aguirre\n"
-                + "Año 2017");
+                + "Año: 2017");
         
         info.showAndWait();
     }

@@ -79,12 +79,21 @@ public class ErrorDialog {
     
     }
     
+    public void pubKeyEqualOne() {
+        alertError.setHeaderText("Error, la clave pública debe ser mayor que 1");        
+       
+        alertError.setContentText("Por favor, introduzca otra clave pública");       
+        
+        alertError.showAndWait();
+    
+    }
+    
     
     public void invalidPubKey() {        
         alertError.setHeaderText("Error en la clave pública");        
        
-        alertError.setContentText("Por favor, introduzca una clave publica"
-                + " tal que mcd [e, Φ(n)] = 1, dado que 1 < e < Φ(n)");       
+        alertError.setContentText("Por favor, introduzca una clave publica tal que\n"
+                + "mcd [e, Φ(n)] = 1, dado que 1 < e < Φ(n)");       
         
         alertError.showAndWait(); 
     }

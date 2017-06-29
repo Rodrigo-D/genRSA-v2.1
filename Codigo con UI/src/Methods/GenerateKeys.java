@@ -95,6 +95,14 @@ public class GenerateKeys {
             this.errorDialog.multipleTwo();    
             this.print.flushNotManual();
             return null;
+        }
+        
+        // se comprueba que e sea mayor que 1
+        if (this.RSA.getE().compareTo(BigInteger.ONE) < 1){
+            
+            this.errorDialog.pubKeyEqualOne();
+            this.print.flushNotManual();
+            return null;
         }       
         
         

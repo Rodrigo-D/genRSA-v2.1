@@ -5,7 +5,6 @@
  */
 package genrsa;
 
-
 import Imprimir.InitCBox;
 import Paradox.ParadoxController;
 import Cyclic.CyclicController;
@@ -29,7 +28,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -849,22 +847,28 @@ public class GenRSAController {
      * @param event 
      */
     public void aboutGenRSA(ActionEvent event) {
-        Alert info = new Alert(Alert.AlertType.INFORMATION);
-        info.setTitle("Acerca de genRSA");
-        Stage stage = (Stage) info.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(GenRSAController.class.getResourceAsStream("/allImages/info.png")));
+        Stage stage;
+        FXMLLoader fxmlLoader;
+        Parent root;
         
-        info.setHeaderText("genRSA - Generación de claves RSA v2.1");
-        
-        info.setContentText("genRSA es un software de laboratorio para la generación \n"
-                + "de claves RSA. Este software tiene como fin que el alumno \n"
-                + "se familiarice con el sistema de cifrado asimétrico de \n"
-                + "clave pública RSA. \n\n\n"
-                + "Proyecto de Fin de Grado realizado por Rodrigo Díaz.\n"
-                + "Tutor: Jorge Ramió Aguirre\n"
-                + "Año: 2017");
-        
-        info.showAndWait();
+        try{      
+            stage= new Stage();
+            fxmlLoader = new FXMLLoader(getClass().getResource("/About/About.fxml"));
+            root = fxmlLoader.load();
+                        
+            Scene scene = new Scene(root);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(this.unitsD.getScene().getWindow());  
+            stage.setResizable(false);
+            stage.getIcons().add(new Image(GenRSAController.class.getResourceAsStream("/allImages/genRSA.png")));
+            stage.setTitle("Acerca de genRSA v2.1"); 
+            stage.setScene(scene);
+            stage.show();     
+             
+        } catch (IOException ex) {
+            //no pongo mensaje de error, porque no se puede dar el caso
+        }
+           
     }
     
     

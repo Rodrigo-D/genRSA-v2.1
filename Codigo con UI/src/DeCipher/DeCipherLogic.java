@@ -117,7 +117,7 @@ public class DeCipherLogic {
         if (isText && isOriginal) {
             result = this.processText(lines);           
         } else  {
-            result = this.processNumbers(lines, isOriginal);
+            result = this.processNumbers(lines, isOriginal, isText);
         } 
        
         return result;        
@@ -197,9 +197,10 @@ public class DeCipherLogic {
       * Procesado de los numeros introducidos
       * @param lines
       * @param isOriginal
+      * @param isText
       * @return 
       */  
-    private boolean processNumbers(String lines[], boolean isOriginal){
+    private boolean processNumbers(String lines[], boolean isOriginal, boolean isText){
         //arrays donde se guardaran los numeros preprocesados y procesados respectivamente
         String numbers[], processedNumbers[];
         //iteradores que llevaran la cuenta de las lineas y los numeros procesados
@@ -213,6 +214,12 @@ public class DeCipherLogic {
         BigInteger cutNum;
         int beginIndex, endIndex;
         boolean modified = false;
+        
+        //compruebo que se pueda descifrar texto        
+        if(this.modulus.bitLength()<12 && !isOriginal && isText){
+            this.errorDialog.littleModulus("descifrar");
+            return false;            
+        }
         
         linesNum = lines.length;
         numbers = new String [linesNum];
@@ -331,7 +338,7 @@ public class DeCipherLogic {
         
         //compruebo que se pueda cifrar texto        
         if(this.modulus.bitLength()<12){
-            this.errorDialog.littleModulus();
+            this.errorDialog.littleModulus("cifrar");
             return false;            
         }
                 

@@ -33,6 +33,7 @@ public class MainWindow {
         
         this.scene.getUnitsP().setText(decHex);
         this.scene.getUnitsQ().setText(decHex);
+        this.scene.getUnitsPhiN().setText(decHex);
         this.scene.getUnitsD().setText(decHex);
         this.scene.getUnitsN().setText(decHex);
         this.scene.getUnitsE().setText(decHex);
@@ -42,12 +43,14 @@ public class MainWindow {
                 
         this.scene.getPrimo_P().clear();
         this.scene.getPrimo_Q().clear();
+        this.scene.getPhiN().clear();
         this.scene.getClave_Privada().clear();
         this.scene.getClave_Publica().clear();
         this.scene.getModulo_N().clear();
         
         this.scene.getBits_primo_P().clear();
         this.scene.getBits_primo_Q().clear();
+        this.scene.getBits_PhiN().clear();
         this.scene.getBits_clave_Privada().clear();
         this.scene.getBits_clave_Publica().clear();
         this.scene.getBits_modulo_N().clear();

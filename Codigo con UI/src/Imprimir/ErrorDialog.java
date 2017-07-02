@@ -79,6 +79,24 @@ public class ErrorDialog {
     
     }
     
+    public void multipleTwoGeneration() {
+        alertError.setHeaderText("Error, los primos p y q han de tener valor impar");        
+       
+        alertError.setContentText("Por favor, introduzca un número que no sea multiplo de 2");       
+        
+        alertError.showAndWait();
+    
+    }
+    
+    public void PQEquals() {
+        alertError.setHeaderText("Error, los  primos p y q no deben ser el mismo número");        
+       
+        alertError.setContentText("Por favor, introduzca números distintos en los primos p y q");       
+        
+        alertError.showAndWait();
+    
+    }
+    
     public void pubKeyEqualOne() {
         alertError.setHeaderText("Error, la clave pública debe ser mayor que 1");        
        

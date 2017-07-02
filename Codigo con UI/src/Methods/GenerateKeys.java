@@ -92,7 +92,15 @@ public class GenerateKeys {
         // se comprueba que p y q no sean pares
         if (this.RSA.getP().mod(Constantes.TWO).equals(Constantes.ZERO) || this.RSA.getQ().mod(Constantes.TWO).equals(Constantes.ZERO)){
             
-            this.errorDialog.multipleTwo();    
+            this.errorDialog.multipleTwoGeneration();    
+            this.print.flushNotManual();
+            return null;
+        }
+        
+        // se comprueba que p y q no sean iguales
+        if (this.RSA.getP().equals(this.RSA.getQ())){
+            
+            this.errorDialog.PQEquals();
             this.print.flushNotManual();
             return null;
         }
@@ -206,9 +214,14 @@ public class GenerateKeys {
      * @param keySize
      */
     private void createRSAKeys(int distanceBits) {
-         /* Step 1: Select the prime numbers (p and q) */
+        /* Step 1: Select the prime numbers (p and q) */
         this.RSA.setP( BigInteger.probablePrime((this.RSA.getKeySize()/2)+distanceBits, new SecureRandom()));
         this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-distanceBits, new SecureRandom()));
+        
+        // P distinct Q
+        while (this.RSA.getP().equals(this.RSA.getQ())){
+            this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-distanceBits, new SecureRandom()));
+        }
 
         /* Step 2:  n = p.q */
         this.RSA.setN( this.RSA.getP().multiply(this.RSA.getQ()));
@@ -245,15 +258,17 @@ public class GenerateKeys {
         /* Step 2: Select the prime numbers (p and q) */
         this.RSA.setP( BigInteger.probablePrime((this.RSA.getKeySize()/2)+distanceBits, new SecureRandom()));
         this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-distanceBits, new SecureRandom()));
+        
 
         /* Step 3: phi N = (p - 1).(q - 1) */
         this.RSA.setpMinusOne( this.RSA.getP().subtract(Constantes.ONE));
         this.RSA.setqMinusOne( this.RSA.getQ().subtract(Constantes.ONE));
         this.RSA.setPhiN( this.RSA.getpMinusOne().multiply(this.RSA.getqMinusOne()));
 
-        /* Step 4: Find q, gcd(e, ø(n)) = 1 ; 1 < e < ø(n) */
+        /* Step 4: Find q, gcd(e, ø(n)) = 1 and 1 < e < ø(n) and p!=q */
         while ((this.RSA.getE().compareTo(this.RSA.getPhiN()) > -1) || 
-                 (this.RSA.getE().gcd(this.RSA.getPhiN()).compareTo(Constantes.ONE)) != 0){
+                 (this.RSA.getE().gcd(this.RSA.getPhiN()).compareTo(Constantes.ONE)) != 0 ||
+                    (this.RSA.getP().equals(this.RSA.getQ()))){
             
             this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-distanceBits, new SecureRandom()));
 

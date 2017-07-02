@@ -312,6 +312,32 @@
                                           <Insets left="30.0" right="10.0" />
                                        </VBox.margin>
                                     </HBox>
+                                    <HBox id="Phi N" prefHeight="45.0" prefWidth="721.0" spacing="8.0">
+                                       <children>
+                                          <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                          <Label minWidth="-Infinity" prefHeight="25.0" prefWidth="89.0" text="Phi N" HBox.hgrow="NEVER" />
+                                          <TextField fx:id="phiN" blendMode="DARKEN" editable="false" minWidth="100.0" prefHeight="25.0" prefWidth="340.0" HBox.hgrow="ALWAYS">
+                                             <tooltip>
+                                                <Tooltip text="Phi N" />
+                                             </tooltip>
+                                          </TextField>
+                                          <Label fx:id="unitsPhiN" minWidth="-Infinity" prefHeight="25.0" text="dec" HBox.hgrow="NEVER">
+                                             <tooltip>
+                                                <Tooltip text="Unidades" />
+                                             </tooltip>
+                                          </Label>
+                                          <TextField fx:id="bits_phiN" alignment="CENTER" blendMode="DARKEN" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="43.0" HBox.hgrow="NEVER">
+                                             <tooltip>
+                                                <Tooltip text="Número de bits del valor Phi N" />
+                                             </tooltip>
+                                          </TextField>
+                                          <Label minWidth="-Infinity" prefHeight="25.0" text="Bits" HBox.hgrow="NEVER" />
+                                          <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="30.0" right="10.0" />
+                                       </VBox.margin>
+                                    </HBox>
                                     <HBox id="Clave d" prefHeight="45.0" prefWidth="721.0" spacing="8.0">
                                        <children>
                                           <Separator orientation="VERTICAL" prefHeight="200.0" />
@@ -673,7 +699,7 @@
                                  </HBox.margin>
                               </Separator>
                               <Label minWidth="-Infinity" prefHeight="25.0" text="Longitud de Clave" HBox.hgrow="NEVER" />
-                              <TextField fx:id="bits_clave_automatica" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" onKeyPressed="#processAutomaticGeneration2" prefHeight="25.0" prefWidth="53.0">
+                              <TextField fx:id="bits_clave_automatica" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" onKeyPressed="#processAutomaticGeneration2" prefHeight="25.0" prefWidth="53.0" text="32">
                                  <tooltip>
                                     <Tooltip text="Longitud en bits de la clave a generar" />
                                  </tooltip>
@@ -750,7 +776,7 @@
                               </Separator>
                               <CheckBox fx:id="sameSizePrimes" alignment="BOTTOM_LEFT" minWidth="-Infinity" mnemonicParsing="false" prefHeight="17.0" prefWidth="16.0">
                                  <tooltip>
-                                    <Tooltip text="Marcar si se desea que la clave tenga los primos p y q de igual tamaño" />
+                                    <Tooltip text="Marcar si se desea que la clave tenga los primos p y q de igual tamaño (a partir de 18 bits)" />
                                  </tooltip>
                                  <HBox.margin>
                                     <Insets bottom="3.0" left="26.0" />

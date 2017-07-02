@@ -114,11 +114,11 @@ public class ParadoxController {
                     Platform.runLater(() ->progress.setVisible(true));
 
                     if (paradoxAttack.init(message, modulus, exponent)){
-                        paradoxAttack.start();
-                        start=true;
+                        paradoxAttack.start();                        
                     }
 
                     Platform.runLater(() ->progress.setVisible(false));
+                    start=true;
                     return null;
                 }
             };

@@ -81,6 +81,12 @@ public class GenRSAController {
     @FXML // fx:id="cBoxQ"
     private ComboBox cBoxQ; // Value injected by FXMLLoader
 
+    @FXML // fx:id="phiN"
+    private TextField phiN; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="phiN"
+    private TextField bits_phiN; // Value injected by FXMLLoader
+    
     @FXML // fx:id="clave_Privada"
     private TextField clave_Privada; // Value injected by FXMLLoader
 
@@ -144,6 +150,9 @@ public class GenRSAController {
     @FXML // fx:id="unitsQ"
     private Label unitsQ; // Value injected by FXMLLoader
     
+    @FXML // fx:id="unitsPhiN"
+    private Label unitsPhiN; // Value injected by FXMLLoader
+     
     @FXML // fx:id="unitsD"
     private Label unitsD; // Value injected by FXMLLoader
     
@@ -243,6 +252,8 @@ public class GenRSAController {
         assert primo_Q != null : "fx:id=\"primo_Q\" was not injected: check your FXML file 'genRSA.fxml'.";
         assert bits_primo_Q != null : "fx:id=\"bits_primo_Q\" was not injected: check your FXML file 'genRSA.fxml'.";
         assert cBoxQ != null : "fx:id=\"cBoxQ\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert phiN != null : "fx:id=\"phiN\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert bits_phiN != null : "fx:id=\"bits_phiN\" was not injected: check your FXML file 'genRSA.fxml'.";
         assert clave_Privada != null : "fx:id=\"clave_Privada\" was not injected: check your FXML file 'genRSA.fxml'.";
         assert bits_clave_Privada != null : "fx:id=\"bits_clave_Privada\" was not injected: check your FXML file 'genRSA.fxml'.";
         assert modulo_N != null : "fx:id=\"modulo_N\" was not injected: check your FXML file 'genRSA.fxml'.";
@@ -263,6 +274,7 @@ public class GenRSAController {
         assert progress != null : "fx:id=\"progress\" was not injected: check your FXML file 'genRSA.fxml'.";
         assert unitsP != null : "fx:id=\"unitsP\" was not injected: check your FXML file 'genRSA.fxml'.";
         assert unitsQ != null : "fx:id=\"unitsQ\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert unitsPhiN != null : "fx:id=\"unitsPhiN\" was not injected: check your FXML file 'genRSA.fxml'.";
         assert unitsD != null : "fx:id=\"unitsD\" was not injected: check your FXML file 'genRSA.fxml'.";
         assert unitsN != null : "fx:id=\"unitsN\" was not injected: check your FXML file 'genRSA.fxml'.";
         assert unitsE != null : "fx:id=\"unitsE\" was not injected: check your FXML file 'genRSA.fxml'.";
@@ -960,6 +972,8 @@ public class GenRSAController {
     private void configureFocus() {
         this.bits_primo_P.setFocusTraversable(false);
         this.bits_primo_Q.setFocusTraversable(false);
+        this.phiN.setFocusTraversable(false);
+        this.bits_phiN.setFocusTraversable(false);
         this.clave_Privada.setFocusTraversable(false);
         this.bits_clave_Privada.setFocusTraversable(false);
         this.modulo_N.setFocusTraversable(false);
@@ -1061,6 +1075,14 @@ public class GenRSAController {
     public TextField getBits_primo_Q() {
         return bits_primo_Q;
     }
+    
+    public TextField getPhiN() {
+        return phiN;
+    }
+    
+    public TextField getBits_PhiN() {
+        return bits_phiN;
+    }
 
     public TextField getClave_Privada() {
         return clave_Privada;
@@ -1137,6 +1159,10 @@ public class GenRSAController {
     public Label getUnitsQ() {
         return unitsQ;
     }    
+    
+    public Label getUnitsPhiN() {
+        return unitsPhiN;
+    }  
 
     public Label getUnitsD() {
         return unitsD;

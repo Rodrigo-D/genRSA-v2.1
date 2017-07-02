@@ -44,12 +44,14 @@ public class GenRSAPrint {
         
         this.scene.getPrimo_P().setText(this.utilidades.putPoints(RSA.getP().toString(radix).toUpperCase(), radix));
         this.scene.getPrimo_Q().setText(this.utilidades.putPoints(RSA.getQ().toString(radix).toUpperCase(), radix));
+        this.scene.getPhiN().setText(this.utilidades.putPoints(RSA.getPhiN().toString(radix).toUpperCase(), radix));
         this.scene.getClave_Privada().setText(this.utilidades.putPoints(RSA.getD().toString(radix).toUpperCase(), radix));
         this.scene.getClave_Publica().setText(this.utilidades.putPoints(RSA.getE().toString(radix).toUpperCase(), radix));
         this.scene.getModulo_N().setText(this.utilidades.putPoints(RSA.getN().toString(radix).toUpperCase(), radix));
         
         this.scene.getBits_primo_P().setText(this.utilidades.countBits(RSA.getP()));
         this.scene.getBits_primo_Q().setText(this.utilidades.countBits(RSA.getQ()));
+        this.scene.getBits_PhiN().setText(this.utilidades.countBits(RSA.getPhiN()));
         this.scene.getBits_clave_Privada().setText(this.utilidades.countBits(RSA.getD()));
         this.scene.getBits_clave_Publica().setText(this.utilidades.countBits(RSA.getE()));
         this.scene.getBits_modulo_N().setText(this.utilidades.countBits(RSA.getN()));
@@ -124,6 +126,8 @@ public class GenRSAPrint {
     public void flushNotManual() {
         this.scene.getModulo_N().clear();
         this.scene.getBits_modulo_N().clear();
+        this.scene.getPhiN().clear();
+        this.scene.getBits_PhiN().clear();
         this.scene.getClave_Privada().clear();
         this.scene.getBits_clave_Privada().clear();
         this.scene.getClaves_parejas().clear();

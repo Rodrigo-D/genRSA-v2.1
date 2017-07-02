@@ -345,8 +345,7 @@ public class GenRSAController {
                     disableButtons(); 
                 });
                 
-                progress.setVisible(false);
-                
+                progress.setVisible(false);               
                                
                 return null;
             }

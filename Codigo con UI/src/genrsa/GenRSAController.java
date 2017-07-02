@@ -196,11 +196,11 @@ public class GenRSAController {
     private MenuItem factorizeMenuI; // Value injected by FXMLLoader
     
     @FXML // fx:id="Decimal"
-    private RadioMenuItem Decimal; // Value injected by FXMLLoader
+    private RadioMenuItem Decimal; // Value injected by FXMLLoader       
     
     @FXML // fx:id="Hexadecimal"
     private RadioMenuItem Hexadecimal; // Value injected by FXMLLoader
-    
+            
     @FXML // fx:id="limpiarDatosBttn"
     private Button limpiarDatosBttn; // Value injected by FXMLLoader
     
@@ -235,6 +235,8 @@ public class GenRSAController {
     private boolean startLogNNC;
     
     private Utilities utilidades;
+    
+    public static Stage secondStage;
 
     
     
@@ -617,12 +619,11 @@ public class GenRSAController {
      * @param event 
      */
     public void Factorize(ActionEvent event) {          
-        Stage stage;
         FXMLLoader fxmlLoader;
         Parent root;
         
         try{              
-            stage= new Stage();
+            secondStage= new Stage();
             fxmlLoader = new FXMLLoader(getClass().getResource("/Factorize/Factorize.fxml"));
             root = fxmlLoader.load();
         
@@ -633,17 +634,19 @@ public class GenRSAController {
                  factorController.getModulus().setText(this.RSA.getN().toString(this.radix).toUpperCase());
             }          
             
+            disableOnProgress(true);
             
             Scene scene = new Scene(root);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(this.unitsD.getScene().getWindow());            
-            stage.getIcons().add(new Image(GenRSAController.class.getResourceAsStream("/allImages/genRSA.png")));
-            stage.setTitle("genRSA - Ataque por Factorización");  
-            stage.setScene(scene);
-            stage.show();        
+            secondStage.initModality(Modality.NONE);         
+            secondStage.getIcons().add(new Image(GenRSAController.class.getResourceAsStream("/allImages/genRSA.png")));
+            secondStage.setTitle("genRSA - Ataque por Factorización");  
+            secondStage.setScene(scene);
+            secondStage.show();        
             
-            stage.setOnCloseRequest(closeEvent -> {
+            secondStage.setOnCloseRequest(closeEvent -> {
                 factorController.getFactorizeAttack().setIsCancelled(true);
+                this.disableOnProgress(false);
+                this.disableButtons();
             });
         
         } catch (IOException ex) {
@@ -657,12 +660,11 @@ public class GenRSAController {
      * @param event 
      */
     public void Cyclic(ActionEvent event) {          
-        Stage stage;
         FXMLLoader fxmlLoader;
         Parent root;
         
         try{              
-            stage= new Stage();
+            secondStage= new Stage();
             fxmlLoader = new FXMLLoader(getClass().getResource("/Cyclic/Cyclic.fxml"));
             root = fxmlLoader.load();
         
@@ -676,17 +678,20 @@ public class GenRSAController {
             } else {
                 cyclicController.setFirstTime(false);
             }
+            
+            disableOnProgress(true);
            
             Scene scene = new Scene(root);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(this.unitsD.getScene().getWindow());
-            stage.getIcons().add(new Image(GenRSAController.class.getResourceAsStream("/allImages/genRSA.png")));
-            stage.setTitle("genRSA - Ataque Cíclico"); 
-            stage.setScene(scene);
-            stage.show(); 
+            secondStage.initModality(Modality.NONE);
+            secondStage.getIcons().add(new Image(GenRSAController.class.getResourceAsStream("/allImages/genRSA.png")));
+            secondStage.setTitle("genRSA - Ataque Cíclico"); 
+            secondStage.setScene(scene);
+            secondStage.show(); 
             
-            stage.setOnCloseRequest(closeEvent -> {
+            secondStage.setOnCloseRequest(closeEvent -> {
                 cyclicController.getCyclicAtack().setIsCancelled(true);
+                this.disableOnProgress(false);
+                this.disableButtons();
             });
         
         } catch (IOException ex) {
@@ -700,12 +705,11 @@ public class GenRSAController {
      * @param event 
      */
     public void Paradox (ActionEvent event) {          
-        Stage stage;
         FXMLLoader fxmlLoader;
         Parent root;
         
         try{              
-            stage= new Stage();
+            secondStage = new Stage();
             fxmlLoader = new FXMLLoader(getClass().getResource("/Paradox/Paradox.fxml"));
             root = fxmlLoader.load();
         
@@ -720,18 +724,21 @@ public class GenRSAController {
                 paradoxController.setFirstTime(false);
             }      
             
+            disableOnProgress(true);            
             
             Scene scene = new Scene(root);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(this.unitsD.getScene().getWindow());
-            stage.getIcons().add(new Image(GenRSAController.class.getResourceAsStream("/allImages/genRSA.png")));
-            stage.setTitle("genRSA - Ataque por la Paradoja del Cumpleaños"); 
-            stage.setScene(scene);
-            stage.show();  
+            secondStage.initModality(Modality.NONE);
+            secondStage.getIcons().add(new Image(GenRSAController.class.getResourceAsStream("/allImages/genRSA.png")));
+            secondStage.setTitle("genRSA - Ataque por la Paradoja del Cumpleaños"); 
+            secondStage.setScene(scene);
+            secondStage.show();  
             
-            stage.setOnCloseRequest(closeEvent -> {
+            secondStage.setOnCloseRequest(closeEvent -> {
                 paradoxController.getParadoxAttack().setIsCancelled(true);
-            });
+                
+                this.disableOnProgress(false);
+                this.disableButtons();
+            });            
         
         } catch (IOException ex) {
             //no pongo mensaje de error, porque no se puede dar el caso
@@ -739,19 +746,20 @@ public class GenRSAController {
                 
     }
     
+
+    
     
     /**
      * Método usado para cargar la ventana de Cifra
      * @param event 
      */
     public void DeCipher (ActionEvent event) {          
-        Stage stage;
         FXMLLoader fxmlLoader;
         Parent root;
         int iterator;
         
         try{      
-            stage= new Stage();
+            secondStage = new Stage();
             fxmlLoader = new FXMLLoader(getClass().getResource("/DeCipher/DeCipher.fxml"));
             root = fxmlLoader.load();
         
@@ -779,15 +787,20 @@ public class GenRSAController {
             }            
             comboBox.setValue(this.utilidades.putPoints(this.RSA.getD().toString(this.radix).toUpperCase(), this.radix));
             comboBox.setVisibleRowCount(7);
-                                    
-            Scene scene = new Scene(root);            
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(this.unitsD.getScene().getWindow());            
-            stage.getIcons().add(new Image(GenRSAController.class.getResourceAsStream("/allImages/genRSA.png")));
-            stage.setTitle("genRSA - Cifrado y Descifrado"); 
-            stage.setScene(scene);
-            stage.show();       
+                            
+            disableOnProgress(true); 
             
+            Scene scene = new Scene(root);            
+            secondStage.initModality(Modality.NONE);           
+            secondStage.getIcons().add(new Image(GenRSAController.class.getResourceAsStream("/allImages/genRSA.png")));
+            secondStage.setTitle("genRSA - Cifrado y Descifrado"); 
+            secondStage.setScene(scene);
+            secondStage.show();       
+            
+            secondStage.setOnCloseRequest(closeEvent -> {                
+                this.disableOnProgress(false);
+                this.disableButtons();
+            });    
         
         } catch (IOException ex) {
             //no pongo mensaje de error, porque no se puede dar el caso
@@ -801,13 +814,12 @@ public class GenRSAController {
      * @param event 
      */
     public void Sign (ActionEvent event) {          
-        Stage stage;
         FXMLLoader fxmlLoader;
         Parent root;
         int iterator;
         
         try{      
-            stage= new Stage();
+            secondStage= new Stage();
             fxmlLoader = new FXMLLoader(getClass().getResource("/Sign/Sign.fxml"));
             root = fxmlLoader.load();
         
@@ -837,13 +849,19 @@ public class GenRSAController {
             comboBox.setValue(this.utilidades.putPoints(this.RSA.getD().toString(this.radix).toUpperCase(), this.radix));
             comboBox.setVisibleRowCount(7);
             
+            disableOnProgress(true);  
+            
             Scene scene = new Scene(root);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(this.unitsD.getScene().getWindow());            
-            stage.getIcons().add(new Image(GenRSAController.class.getResourceAsStream("/allImages/genRSA.png")));
-            stage.setTitle("genRSA - Firma y Validación"); 
-            stage.setScene(scene);
-            stage.show();       
+            secondStage.initModality(Modality.NONE);     
+            secondStage.getIcons().add(new Image(GenRSAController.class.getResourceAsStream("/allImages/genRSA.png")));
+            secondStage.setTitle("genRSA - Firma y Validación"); 
+            secondStage.setScene(scene);
+            secondStage.show();       
+            
+            secondStage.setOnCloseRequest(closeEvent -> {                
+                this.disableOnProgress(false);
+                this.disableButtons();
+            });      
             
         
         } catch (IOException ex) {
@@ -963,7 +981,6 @@ public class GenRSAController {
         this.deleteKeyMenu.setDisable(disable);
         
     }
-    
     
     /**
      * Método usado para evitar que se puedan focalizar

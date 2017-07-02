@@ -49,7 +49,7 @@ public class FactorizeAttack {
     
     private String xplResult;
     
-    private boolean isCancelled;
+    public static boolean isCancelled;
     
     
     /**

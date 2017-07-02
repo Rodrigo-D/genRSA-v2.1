@@ -45,7 +45,7 @@ public class ParadoxAttack {
             
     private BigInteger avgStats;
     
-    private boolean isCancelled;
+    public static boolean isCancelled;
 
     /**
      * Constructor de la clase

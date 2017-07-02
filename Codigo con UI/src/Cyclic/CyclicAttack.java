@@ -48,7 +48,7 @@ public class CyclicAttack {
     
     private String xplResult;
     
-    private boolean isCancelled;
+    public static boolean isCancelled;
 
     /**
      * Constructor de la clase

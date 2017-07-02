@@ -5,7 +5,10 @@
  */
 package genrsa;
 
+import Cyclic.CyclicAttack;
+import Factorize.FactorizeAttack;
 import Methods.CalculateNNC;
+import Paradox.ParadoxAttack;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,6 +55,16 @@ public class GenRSA extends Application {
             primaryStage.setTitle("genRSA - Generación de claves RSA");   
             primaryStage.getIcons().add(new Image(GenRSA.class.getResourceAsStream("/allImages/genRSA.png")));
             primaryStage.show();
+            
+            primaryStage.setOnCloseRequest(closeEvent -> {
+                CalculateNNC.isCancelled=true;
+                if (GenRSAController.secondStage != null){
+                    GenRSAController.secondStage.close();                    
+                }
+                ParadoxAttack.isCancelled = true;
+                CyclicAttack.isCancelled = true;
+                FactorizeAttack.isCancelled = true;
+            });
             
         } catch (IOException ex) {
             Logger.getLogger(GenRSA.class.getName()).log(Level.SEVERE, null, ex);

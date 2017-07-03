@@ -51,6 +51,7 @@ public class CheckPrimes {
      * @param probNumberQ
      * @param vueltas
      * @param isMiller 
+     * @throws java.lang.InterruptedException 
      */
     public void check(String probNumberP, String probNumberQ, String vueltas, 
                     final boolean isMiller) throws InterruptedException{   

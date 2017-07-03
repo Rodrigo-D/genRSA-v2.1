@@ -57,7 +57,7 @@ public class ParadoxAttack {
         this.utilidades = new Utilities();
         this.Pprint = paradoxPrint;
         this.radix = 10;
-        this.isCancelled = false;
+        ParadoxAttack.isCancelled = false;
         
     }
     
@@ -112,6 +112,12 @@ public class ParadoxAttack {
         
         if (this.message.compareTo(this.modulus) > -1){
             Platform.runLater(() -> this.errorDialog.bigMessage(radix));
+            return false;
+        }
+        
+        //CHECK MESSAGE != NNC
+        if (this.message.modPow(this.exponent, this.modulus).equals(this.message)){
+            Platform.runLater(() -> this.Pprint.NNCmessage(radix));
             return false;
         }
         
@@ -445,7 +451,7 @@ public class ParadoxAttack {
 
     
     public void setIsCancelled (boolean value){
-        this.isCancelled = value;
+        ParadoxAttack.isCancelled = value;
     }  
     
 }

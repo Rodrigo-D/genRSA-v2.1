@@ -43,7 +43,7 @@ public class ManageKey {
         ExtensionFilter extensionFilter = new ExtensionFilter("HTML files", "*.html");        
         
         this.fileChooser = new FileChooser();
-        this.fileChooser.setInitialDirectory( new File(System.getProperty("user.home")));
+        this.fileChooser.setInitialDirectory( new File(System.getProperty("user.dir")));
         fileChooser.getExtensionFilters().add(extensionFilter);
         
         this.errorDialog = new ErrorDialog();

@@ -47,7 +47,7 @@ public class LogNNC {
         String fechaStr = estilo.format(fecha);
         
         print.println("<html>");
-        print.println("<head><title> Log Numeros No Cifrables </title></head>");    
+        print.println("<head><title> Log N&uacute;meros No Cifrables </title></head>");    
         
         print.println("<body>");
         print.println("<PRE>");
@@ -61,19 +61,19 @@ public class LogNNC {
              print.println("<B><font color=\"Black\">Unidades: Hexadecimal</font></B>");
         }
         
-        print.println("<B><font color=\"IndianRed\">Numero primo P generado:</font></B>");
+        print.println("<B><font color=\"IndianRed\">N&uacute;mero primo P generado:</font></B>");
         print.println("<B>" + this.utilidades.putPoints(RSA.getP().toString(radix).toUpperCase(), radix) + "</B>");        
-        print.println("<B><font color=\"IndianRed\">Numero primo Q generado:</font></B>");
+        print.println("<B><font color=\"IndianRed\">N&uacute;mero primo Q generado:</font></B>");
         print.println("<B>" + this.utilidades.putPoints(RSA.getQ().toString(radix).toUpperCase(), radix) + "</B>");
-        print.println("<b><font color=\"IndianRed\">Modulo N generado:</font></B>");
+        print.println("<b><font color=\"IndianRed\">M&oacute;dulo N generado:</font></B>");
         print.println("<B>" + this.utilidades.putPoints(RSA.getN().toString(radix).toUpperCase(), radix) + "</B>");        
-        print.println("<B><font color=\"IndianRed\">Clave Publica e generada:</font></B>");
+        print.println("<B><font color=\"IndianRed\">Clave P&uacute;blica e generada:</font></B>");
         print.println("<B>" + this.utilidades.putPoints(RSA.getE().toString(radix).toUpperCase(), radix) + "</B>");
         print.println("<B><font color=\"IndianRed\">Clave Privada d generada:</font></B>");
         print.println("<B>" + this.utilidades.putPoints(RSA.getD().toString(radix).toUpperCase(), radix) + "<br /><br /></B>");
         
-        print.println("<H4><B>NUMEROS NO CIFRABLES</B></H4>");
-        print.println("<B>La cantidad de Numeros No Cifrables es:" + this.utilidades.putPoints(RSA.getNumNNC().toString(), radix) + "</B>");
+        print.println("<H4><B>N&Uacute;MEROS NO CIFRABLES</B></H4>");
+        print.println("<B>La cantidad de N&uacute;meros No Cifrables es: " + this.utilidades.putPoints(RSA.getNumNNC().toString(), radix) + "</B>");
     }
     
     

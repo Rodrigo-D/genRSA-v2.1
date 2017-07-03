@@ -28,11 +28,20 @@ public class CyclicPrint {
         this.utilidades = new Utilities();
     }
    
-    public void messages(String cypherMessage, String message, String modulus, String exponent, int radix) {
-        this.scene.getMessage().setText(this.utilidades.putPoints(message, radix));
-        this.scene.getCypherMessage().setText(this.utilidades.putPoints(cypherMessage, radix));
+    public void messages(String cypheredMessage, String modulus, String exponent, int radix) {
+        this.scene.getCypherMessage().setText(this.utilidades.putPoints(cypheredMessage, radix));
         this.scene.getExponent().setText(this.utilidades.putPoints(exponent, radix));
         this.scene.getModulus().setText(this.utilidades.putPoints(modulus, radix));
+        this.scene.getMRecovered().clear();
+        this.scene.getMessage().clear();
+    }
+    
+    public void NNCmessage(int radix) {
+        this.scene.getResults().setText("\n\n\n\n\n\n\n\n\n *** EL MENSAJE CIFRADO INTRODUCIDO ES ****\n"
+                + "             *** UN NÚMERO NO CIFRABLE ****");
+        this.scene.getMRecovered().clear();
+        this.scene.getMessage().clear();
+        this.scene.getTime().clear();
     }
 
     public void time(String Time) {
@@ -56,6 +65,7 @@ public class CyclicPrint {
         this.scene.getResults().appendText("\n  Mensaje no recuperado. Vuelta -> " +
                 this.utilidades.putPoints(lap, 10) + "\n\n");
         this.scene.getResults().setScrollTop(Double.MAX_VALUE);
+        this.scene.getMRecovered().setText("NO");
     }
     
     public void attackStopped() {
@@ -65,7 +75,8 @@ public class CyclicPrint {
 
 
     public void messageRecovered(String message, int radix) {
-        this.scene.getMRecovered().setText(this.utilidades.putPoints(message, radix));
+        this.scene.getMRecovered().setText("SI");
+        this.scene.getMessage().setText(this.utilidades.putPoints(message, radix));
         this.scene.getContinueBttn().setDisable(true);
     }
 
@@ -75,7 +86,7 @@ public class CyclicPrint {
     
     //parte de botones
     public void dissableStart() {
-        this.scene.getMessage().setEditable(false);
+        this.scene.getCypherMessage().setEditable(false);
         this.scene.getModulus().setEditable(false);
         this.scene.getExponent().setEditable(false);
         this.scene.getComplete().setDisable(true);
@@ -116,7 +127,7 @@ public class CyclicPrint {
         this.scene.getComplete().setDisable(true);        
         this.scene.getModulus().setEditable(false);        
         this.scene.getExponent().setEditable(false);                
-        this.scene.getMessage().setEditable(false);
+        this.scene.getCypherMessage().setEditable(false);
         
         this.scene.getContinueBttn().setDisable(true);                
         this.scene.getClearBttn().setDisable(true);
@@ -127,16 +138,13 @@ public class CyclicPrint {
         this.scene.getComplete().setDisable(false);        
         this.scene.getModulus().setEditable(true);        
         this.scene.getExponent().setEditable(true);                
-        this.scene.getMessage().setEditable(true);           
+        this.scene.getCypherMessage().setEditable(true);           
         this.scene.getClearBttn().setDisable(false);
     }
 
     public void enableContinue() {
         this.scene.getContinueBttn().setDisable(false);
     }
-
-
-   
 
    
 }

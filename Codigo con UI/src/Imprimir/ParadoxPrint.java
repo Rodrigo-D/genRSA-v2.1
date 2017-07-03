@@ -146,6 +146,15 @@ public class ParadoxPrint {
         this.scene.getTime().clear();
     }
 
+    public void NNCmessage(int radix) {
+        this.scene.getResults().setText("\n\n\n\n\n\n\n\n\n"
+                + "                               *** EL MENSAJE INTRODUCIDO ES ****\n"
+                + "                                 *** UN NÚMERO NO CIFRABLE ****");
+        this.scene.getPrivateKey().clear();
+        this.scene.getTime().clear();         
+        this.scene.getAvgCiphersStats().clear();
+    }
+
     
     
 }

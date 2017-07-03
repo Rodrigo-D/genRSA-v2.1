@@ -210,7 +210,7 @@ public class GenerateKeys {
     
     /**
      * Método para generar de manera automatica las claves RSA con una distancia de bits
-     * entre p y q igual a distanceBits
+     * entre p y q igual a distanceBits. La clave pública será el valor más bajo posible.
      * @param keySize
      * @param sameSizePrimes
      */
@@ -241,8 +241,9 @@ public class GenerateKeys {
         this.RSA.setPhiN( this.RSA.getpMinusOne().multiply(this.RSA.getqMinusOne()));
 
         /* Step 4: Find e, gcd(e, ø(n)) = 1 ; 1 < e < ø(n) */
+        this.RSA.setE(Constantes.ONE);
         do {
-                this.RSA.setE( new BigInteger(this.RSA.getKeySize(), new SecureRandom()));
+                this.RSA.setE( this.RSA.getE().add(Constantes.TWO));
                 // compareTo da 1 si es mayor que el valor entre parentesis
         } while ((this.RSA.getE().compareTo(this.RSA.getPhiN()) > -1) || 
                  (this.RSA.getE().gcd(this.RSA.getPhiN()).compareTo(Constantes.ONE)) != 0);

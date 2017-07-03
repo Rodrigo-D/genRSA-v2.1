@@ -67,13 +67,13 @@ public class SaveKey {
              print.println("<B><font color=\"Black\">Unidades: Hexadecimal</font></B>");
         }
         
-        print.println("<B><font color=\"IndianRed\">Numero primo P generado:</font></B>");
+        print.println("<B><font color=\"IndianRed\">N&uacute;mero primo P generado:</font></B>");
         print.println("<B>" + this.utilidades.putPoints(RSA.getP().toString(radix).toUpperCase(), radix) + "</B>");        
-        print.println("<B><font color=\"IndianRed\">Numero primo Q generado:</font></B>");
+        print.println("<B><font color=\"IndianRed\">N&uacute;mero primo Q generado:</font></B>");
         print.println("<B>" + this.utilidades.putPoints(RSA.getQ().toString(radix).toUpperCase(), radix) + "</B>");
-        print.println("<b><font color=\"IndianRed\">Modulo N generado:</font></B>");
+        print.println("<b><font color=\"IndianRed\">M&oacute;dulo N generado:</font></B>");
         print.println("<B>" + this.utilidades.putPoints(RSA.getN().toString(radix).toUpperCase(), radix) + "</B>");        
-        print.println("<B><font color=\"IndianRed\">Clave Publica e generada:</font></B>");
+        print.println("<B><font color=\"IndianRed\">Clave P&uacute;blica e generada:</font></B>");
         print.println("<B>" + this.utilidades.putPoints(RSA.getE().toString(radix).toUpperCase(), radix) + "</B>");
         print.println("<B><font color=\"IndianRed\">Clave Privada d generada:</font></B>");
         print.println("<B>" + this.utilidades.putPoints(RSA.getD().toString(radix).toUpperCase(), radix) + "</B>");
@@ -106,8 +106,8 @@ public class SaveKey {
         this.print.println("<p></p>");
         this.print.println("<p></p>");
         this.print.println("<p></p>");
-        this.print.println("<B><font color=\"DarkGreen \">Algoritmo Extendido de Euclides para el calculo de la clave privada:</font></B>");
-        this.print.println("<B><font color=\"DarkGreen \">   phiN = " + this.utilidades.putPoints(String.valueOf(phiN), 10) + "  --   clave publica = " + this.utilidades.putPoints(String.valueOf(pubKey), 10)+ "</font></B>");
+        this.print.println("<B><font color=\"DarkGreen \">Algoritmo Extendido de Euclides para el c&aacute;lculo de la Clave Privada:</font></B>");
+        this.print.println("<B><font color=\"DarkGreen \">   &Phi;(n) = " + this.utilidades.putPoints(String.valueOf(phiN), 10) + "   --   Clave P&uacute;blica = " + this.utilidades.putPoints(String.valueOf(pubKey), 10)+ "</font></B>");
         this.print.println("<B>  </B>");
         this.print.println("<B>Para i=0   </B>");
         this.print.println("<B>        y = -     g = <font color=\"Brown\">" + this.utilidades.putPoints(String.valueOf(phiN),10) + "</font></B>");
@@ -159,7 +159,7 @@ public class SaveKey {
         if (vMinus1 < 0) {
             vMinus1 = vMinus1 + phiN;
         }
-        
+        this.print.println("<B>  </B>");
         this.print.println("<B><font color=\"Green\"> Clave Privada encontrada = " + this.utilidades.putPoints(String.valueOf(vMinus1), 10) + "</font></B>");
         
     }

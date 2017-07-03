@@ -163,7 +163,7 @@ public class ErrorDialog {
     public void iterations() {
         alertError.setHeaderText("Error al introducir el número de iteraciones del test de primalidad");        
        
-        alertError.setContentText("Por favor, introduzca un número. \n"
+        alertError.setContentText("Por favor, introduzca un número entre el 1 y el 300. \n"
                 + "Otros caracteres permitidos son: espacios, puntos y comas.");       
         
         alertError.showAndWait();    
@@ -296,7 +296,7 @@ public class ErrorDialog {
     }
 
     public void bigMessage(int radix) {
-        alertError.setHeaderText("Error el mensaje introducido es mayor que el módulo");        
+        alertError.setHeaderText("Error el mensaje cifrado introducido es mayor que el módulo");        
        
         if (radix==10){
             alertError.setContentText("Por favor, introduzca un número decimal menor que el módulo.\n"
@@ -308,6 +308,7 @@ public class ErrorDialog {
                
         alertError.showAndWait();  
     }
+    
 
     public void cyphers() {
         alertError.setHeaderText("Error al introducir el número de cifrados del ataque cíclico");        
@@ -455,6 +456,8 @@ public class ErrorDialog {
                       
         alertError.showAndWait();
     }
+
+
     
     
 }

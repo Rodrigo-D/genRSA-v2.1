@@ -60,7 +60,7 @@ public class CyclicAttack {
         this.utilidades = new Utilities();
         this.Cprint = cyclicPrint;
         this.radix = 10;
-        this.isCancelled = false;
+        CyclicAttack.isCancelled = false;
         
     }
     
@@ -69,14 +69,13 @@ public class CyclicAttack {
     /**
      * Método que inicializa variables, comprueba errores y 
      * permite continuar o muestra un mensaje de error.
-     * @param message
+     * @param cypheredMessage
      * @param modulus
      * @param exponent
      * @return 
      */
-    public boolean init(String message, String modulus, String exponent) {
-       BigInteger messageBI;
-       final String processedMessage;
+    public boolean init(String cypheredMessage, String modulus, String exponent) {
+        final String processedCypheredMessage;
        
        //CHECK MODULUS------------  
         modulus = this.utilidades.formatNumber(modulus);
@@ -103,32 +102,35 @@ public class CyclicAttack {
             return false;
         }
         
-        //CHECK MESSAGE------------ 
-        processedMessage = this.utilidades.formatNumber(message);
+        //CHECK CYPHEREDMESSAGE------------ 
+        processedCypheredMessage = this.utilidades.formatNumber(cypheredMessage);
         
         try{
-            messageBI = new BigInteger(processedMessage, this.radix);
+            this.cypherMessage = new BigInteger(processedCypheredMessage, this.radix);
         } catch (NumberFormatException n){  
             Platform.runLater(() -> this.errorDialog.cyclicMessage(this.radix));
             return false;
         }
         
-        if (messageBI.compareTo(Constantes.ONE) == -1){
+        if (this.cypherMessage.compareTo(Constantes.ONE) == -1){
             Platform.runLater(() -> this.errorDialog.cyclicMessage(radix));
             return false;
         }
         
-        if (messageBI.compareTo(this.modulus) > -1){
+        if (this.cypherMessage.compareTo(this.modulus) > -1){
             Platform.runLater(() -> errorDialog.bigMessage(radix));
             return false;
         }
-        // INIT MESSAGE CIPHERED-------------
-        this.cypherMessage = messageBI.modPow(this.exponent, this.modulus);
+        
+        //CHECK CYPHEREDMESSAGE != NNC
+        if (this.cypherMessage.modPow(this.exponent, this.modulus).equals(this.cypherMessage)){
+            Platform.runLater(() -> this.Cprint.NNCmessage(radix));
+            return false;
+        }
         
         //PARTE GRAFICA-------------
         Platform.runLater(() ->{ 
             this.Cprint.messages(this.cypherMessage.toString(this.radix).toUpperCase(),
-                            processedMessage.toUpperCase(),
                             this.modulus.toString(this.radix).toUpperCase(),
                             this.exponent.toString(this.radix).toUpperCase(),
                             this.radix);
@@ -451,7 +453,7 @@ public class CyclicAttack {
                 this.Cprint.enableStart();
             });
             
-        } else if(this.isCancelled) {
+        } else if(CyclicAttack.isCancelled) {
             Platform.runLater(() -> {
                 this.Cprint.time(Time);
                 this.Cprint.attackStopped();
@@ -533,7 +535,7 @@ public class CyclicAttack {
                 this.Cprint.enableStart();
             });
             
-        } else if(this.isCancelled) {
+        } else if(CyclicAttack.isCancelled) {
             Platform.runLater(() -> {
                 this.Cprint.time(Time);
                 this.Cprint.attackStopped();
@@ -613,7 +615,7 @@ public class CyclicAttack {
                 this.Cprint.enableStart();                
             });
             
-        } else if(this.isCancelled) {
+        } else if(CyclicAttack.isCancelled) {
             Platform.runLater(() -> {
                 this.Cprint.time(Time);
                 this.Cprint.attackStopped();
@@ -704,7 +706,7 @@ public class CyclicAttack {
                 Platform.runLater(() -> this.Cprint.partialResults(this.xplResult));
             }
             
-            if(this.isCancelled) {
+            if(CyclicAttack.isCancelled) {
                 Platform.runLater(() -> {
                     this.Cprint.time(Time);
                     this.Cprint.attackStopped();
@@ -740,6 +742,6 @@ public class CyclicAttack {
     
     
     public void setIsCancelled (boolean value){
-        this.isCancelled = value;
+        CyclicAttack.isCancelled = value;
     }  
 }

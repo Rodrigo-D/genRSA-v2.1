@@ -172,12 +172,12 @@
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mensaje Original">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mensaje Cifrado">
                            <HBox.margin>
-                              <Insets bottom="3.0" left="30.0" right="29.0" />
+                              <Insets bottom="3.0" left="30.0" right="33.0" />
                            </HBox.margin>
                         </Text>
-                        <TextField fx:id="Message" onKeyPressed="#processStart" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="CypherMessage" onKeyPressed="#processStart" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="4.0" right="30.0" />
                            </HBox.margin>
@@ -191,12 +191,12 @@
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mensaje Cifrado">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mensaje Original">
                            <HBox.margin>
-                              <Insets bottom="3.0" left="30.0" right="33.0" />
+                              <Insets bottom="3.0" left="30.0" right="29.0" />
                            </HBox.margin>
                         </Text>
-                        <TextField fx:id="CypherMessage" blendMode="DARKEN" editable="false" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="Message" blendMode="DARKEN" editable="false" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="4.0" right="30.0" />
                            </HBox.margin>

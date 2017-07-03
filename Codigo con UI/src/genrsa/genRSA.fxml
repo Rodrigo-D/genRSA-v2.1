@@ -315,7 +315,7 @@
                                     <HBox id="Phi N" prefHeight="45.0" prefWidth="721.0" spacing="8.0">
                                        <children>
                                           <Separator orientation="VERTICAL" prefHeight="200.0" />
-                                          <Label minWidth="-Infinity" prefHeight="25.0" prefWidth="89.0" text="Phi N" HBox.hgrow="NEVER" />
+                                          <Label minWidth="-Infinity" prefHeight="25.0" prefWidth="89.0" text=" Φ (n)" HBox.hgrow="NEVER" />
                                           <TextField fx:id="phiN" blendMode="DARKEN" editable="false" minWidth="100.0" prefHeight="25.0" prefWidth="340.0" HBox.hgrow="ALWAYS">
                                              <tooltip>
                                                 <Tooltip text="Phi N" />
@@ -592,14 +592,14 @@
                                     <Insets right="20.0" />
                                  </HBox.margin>
                               </Separator>
-                              <ImageView fx:id="isPrime_P" fitHeight="25.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
+                              <ImageView fx:id="isPrime_P" fitHeight="21.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
                                  <HBox.margin>
-                                    <Insets bottom="5.0" />
+                                    <Insets bottom="5.0" top="3.0" />
                                  </HBox.margin>
                               </ImageView>
                               <Label minWidth="-Infinity" prefHeight="25.0" text="Número primo p" HBox.hgrow="NEVER">
                                  <HBox.margin>
-                                    <Insets right="57.0" />
+                                    <Insets right="57.0" top="1.0" />
                                  </HBox.margin>
                               </Label>
                               <Separator halignment="RIGHT" orientation="VERTICAL" HBox.hgrow="ALWAYS" />
@@ -615,10 +615,13 @@
                                     <Insets right="20.0" />
                                  </HBox.margin>
                               </Separator>
-                              <ImageView fx:id="isPrime_Q" fitHeight="25.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER" />
+                              <ImageView fx:id="isPrime_Q" fitHeight="21.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" top="3.0" />
+                                 </HBox.margin></ImageView>
                               <Label minWidth="-Infinity" prefHeight="25.0" text="Número primo q" HBox.hgrow="NEVER">
                                  <HBox.margin>
-                                    <Insets right="57.0" />
+                                    <Insets bottom="4.0" right="57.0" top="3.0" />
                                  </HBox.margin>
                               </Label>
                               <Separator orientation="VERTICAL" prefHeight="200.0" />

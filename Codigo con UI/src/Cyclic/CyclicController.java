@@ -104,7 +104,7 @@ public class CyclicController {
         cyclicAttack = new CyclicAttack(new CyclicPrint(this));
         continueBttn.setDisable(true);  
         
-        Platform.runLater(Message::requestFocus);
+        Platform.runLater(CypherMessage::requestFocus);
     }
     
     @FXML
@@ -119,14 +119,14 @@ public class CyclicController {
                 @Override
                 protected Object call() throws Exception {
                     start = false;
-                    String message = Message.getText();
+                    String cypherMessage = CypherMessage.getText();
                     String modulus = Modulus.getText();
                     String exponent = Exponent.getText();
                                         
                     cyclicAttack.setRadix(radix); 
                     Platform.runLater(() ->progress.setVisible(true));                    
 
-                    if (cyclicAttack.init(message, modulus, exponent)){
+                    if (cyclicAttack.init(cypherMessage, modulus, exponent)){
 
                         if(Complete.isSelected()){
                             cyclicAttack.complete();
@@ -199,11 +199,11 @@ public class CyclicController {
         this.NumCiphers.setBlendMode(BlendMode.SRC_OVER);
         this.NumCiphers.setEditable(true);
         this.NumCiphers.setText("10");
-        this.Message.setEditable(true);
-        this.Message.clear();
+        this.CypherMessage.setEditable(true);
+        this.CypherMessage.clear();
         this.Modulus.setEditable(true);
         this.Exponent.setEditable(true);
-        this.CypherMessage.clear();
+        this.Message.clear();
         this.Results.clear();     
         this.mRecovered.clear();
         this.Time.clear();

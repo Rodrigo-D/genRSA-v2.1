@@ -8,6 +8,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -17,7 +18,7 @@
    <items>
       <VBox alignment="TOP_CENTER">
          <children>
-            <HBox alignment="BOTTOM_CENTER" minWidth="300.0" VBox.vgrow="ALWAYS">
+            <HBox alignment="BOTTOM_CENTER" minWidth="320.0" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </VBox.margin>
@@ -110,18 +111,62 @@
                         <Insets left="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="130.0" prefWidth="417.0" VBox.vgrow="NEVER">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                     <children>
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cifrados Estimados">
+                           <HBox.margin>
+                              <Insets left="30.0" right="37.0" top="15.0" />
+                           </HBox.margin>
+                        </Text>
+                        <TextField fx:id="EstimationCiphers" blendMode="DARKEN" editable="false" onKeyPressed="#processStart" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets bottom="4.0" right="30.0" top="15.0" />
+                           </HBox.margin>
+                           <tooltip>
+                              <Tooltip text="Cifrados estimados para la resolución del ataque" />
+                           </tooltip>
+                        </TextField>
+                        <Separator halignment="RIGHT" orientation="VERTICAL" prefHeight="200.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                     <children>
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cifrados Probados">
+                           <HBox.margin>
+                              <Insets left="30.0" right="40.0" />
+                           </HBox.margin>
+                        </Text>
+                        <TextField fx:id="NumCyphers" blendMode="DARKEN" editable="false" onKeyPressed="#processStart" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets bottom="4.0" right="30.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Separator halignment="RIGHT" orientation="VERTICAL" prefHeight="200.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="417.0" VBox.vgrow="NEVER">
                      <children>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Media Cifrados/Seg">
                            <HBox.margin>
-                              <Insets bottom="5.0" left="30.0" right="43.0" />
+                              <Insets bottom="5.0" left="30.0" right="33.0" />
                            </HBox.margin>
                         </Text>
                         <TextField fx:id="AvgCiphersStats" blendMode="DARKEN" editable="false" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="4.0" right="30.0" />
                            </HBox.margin>
+                           <tooltip>
+                              <Tooltip text="Media de cifrados por segundos (se calcula por segundos completos)" />
+                           </tooltip>
                         </TextField>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
                      </children>

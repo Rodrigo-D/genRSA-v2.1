@@ -41,6 +41,12 @@ public class ParadoxController {
 
     @FXML // fx:id="Message"
     private TextField Message; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="EstimationCiphers"
+    private TextField EstimationCiphers; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="NumCyphers"
+    private TextField NumCyphers; // Value injected by FXMLLoader
 
     @FXML // fx:id="AvgCiphersStats"
     private TextField AvgCiphersStats; // Value injected by FXMLLoader
@@ -79,6 +85,8 @@ public class ParadoxController {
         assert Modulus != null : "fx:id=\"Modulus\" was not injected: check your FXML file 'Paradox.fxml'.";
         assert Exponent != null : "fx:id=\"Exponent\" was not injected: check your FXML file 'Paradox.fxml'.";
         assert Message != null : "fx:id=\"Message\" was not injected: check your FXML file 'Paradox.fxml'.";
+        assert EstimationCiphers != null : "fx:id=\"EstimationCiphers\" was not injected: check your FXML file 'Paradox.fxml'.";
+        assert NumCyphers != null : "fx:id=\"NumCyphers\" was not injected: check your FXML file 'Paradox.fxml'.";
         assert AvgCiphersStats != null : "fx:id=\"AvgCiphersStats\" was not injected: check your FXML file 'Paradox.fxml'.";
         assert Results != null : "fx:id=\"Results\" was not injected: check your FXML file 'Paradox.fxml'.";
         assert PrivateKey != null : "fx:id=\"PrivateKey\" was not injected: check your FXML file 'Paradox.fxml'.";
@@ -197,7 +205,15 @@ public class ParadoxController {
     public TextField getMessage() {
         return this.Message;
     }
+    
+    public TextField getEstimationCiphers() {
+        return this.EstimationCiphers;
+    }
 
+    public TextField getNumCyphers() {
+        return this.NumCyphers;
+    }
+        
     public TextField getAvgCiphersStats() {
         return this.AvgCiphersStats;
     }

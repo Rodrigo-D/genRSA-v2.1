@@ -130,6 +130,7 @@ public class ParadoxAttack {
            this.Pprint.enableStop();
            this.Pprint.editableModExp(false);
            this.Pprint.partialClear();
+           this.Pprint.estimation(Constantes.THREE.multiply(this.sqrt(this.modulus)).toString());
         });
         
         return true;        
@@ -209,7 +210,7 @@ public class ParadoxAttack {
                 }                 
                 Platform.runLater(() -> {
                    this.Pprint.partialResults(this.partialResult);
-                   this.Pprint.Stats(this.avgStats.toString());
+                   this.Pprint.Stats(this.avgStats.toString(), this.i.toString(10));
                 });
                 this.result="";
             }               
@@ -265,7 +266,7 @@ public class ParadoxAttack {
         }     
         
         Platform.runLater(() -> {
-            this.Pprint.Stats(this.avgStats.toString());            
+            this.Pprint.Stats(this.avgStats.toString(), this.i.toString(10));            
             this.Pprint.time(time);
             this.Pprint.enableStart();            
             this.Pprint.editableModExp(true);
@@ -329,7 +330,7 @@ public class ParadoxAttack {
                 }                 
                 Platform.runLater(() -> {
                    this.Pprint.partialResults(this.result);
-                   this.Pprint.Stats(this.avgStats.toString());
+                   this.Pprint.Stats(this.avgStats.toString(), this.i.toString(10));
                 });
             }             
         } 
@@ -388,7 +389,7 @@ public class ParadoxAttack {
         }     
         
         Platform.runLater(() -> {
-            this.Pprint.Stats(this.avgStats.toString());
+            this.Pprint.Stats(this.avgStats.toString(),  this.i.toString(10));
             
             this.Pprint.time(time);
             this.Pprint.enableStart();
@@ -424,6 +425,27 @@ public class ParadoxAttack {
         } else{
             Platform.runLater(() -> this.Pprint.badResult());
         }
+    }
+    
+    /**
+     * Método para calcular la raiz cuadrada de un número
+     * @param number
+     * @return 
+     */
+    private BigInteger sqrt(BigInteger number) {
+	    BigInteger a = Constantes.ONE;
+	    BigInteger b = number.shiftRight(5).add(BigInteger.valueOf(8));
+            BigInteger mid ;
+            
+	    while (b.compareTo(a) >= 0) {
+	        mid = a.add(b).shiftRight(1);
+	        if (mid.multiply(mid).compareTo(number) > 0) {
+	            b = mid.subtract(Constantes.ONE);
+	        } else {
+	            a = mid.add(Constantes.ONE);
+	        }
+	    }
+	    return a.subtract(Constantes.ONE);
     }
     
     

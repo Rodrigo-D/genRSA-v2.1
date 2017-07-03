@@ -446,7 +446,7 @@ public class GenRSAController {
      * Método usado para cambiar el boton de pausa/generacion del log de NNC
      * @param stop
      */
-    public void configureLogStop(final boolean stop) {   
+    private void configureLogStop(final boolean stop) {   
         
         if (stop) {            
             this.logNNCbttn.setDisable(false);
@@ -901,14 +901,30 @@ public class GenRSAController {
     }
     
     
-     /**
+    /**
      * Abre el archivo Manual de usuario
      * @param event 
      */
     public void help(ActionEvent event) {
         try
         {
-          String str = System.getProperty("user.dir") + "/ManualDeUsuario.pdf";
+          String str = System.getProperty("user.dir") + "/pdf/Manual de Usuario.pdf";
+          File localFile = new File(str);
+          Desktop.getDesktop().open(localFile);
+        }
+        catch (IOException e){
+            
+        }
+    }
+    
+    /**
+     * Abre el archivo Banco de pruebas
+     * @param event 
+     */
+    public void testBench(ActionEvent event) {
+        try
+        {
+          String str = System.getProperty("user.dir") + "/pdf/Banco de Pruebas.pdf";
           File localFile = new File(str);
           Desktop.getDesktop().open(localFile);
         }

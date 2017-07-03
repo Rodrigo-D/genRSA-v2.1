@@ -28,14 +28,15 @@ public class ParadoxPrint {
     }
    
     
-    public void numbers(String modulus, String exponent, String message, int radix) {
+    public void numbers(final String modulus, final String exponent, final String message, final int radix) {
         this.scene.getModulus().setText(this.utilidades.putPoints(modulus, radix));
         this.scene.getExponent().setText(this.utilidades.putPoints(exponent, radix));
-        this.scene.getMessage().setText(this.utilidades.putPoints(message, radix));    
-        
+        this.scene.getMessage().setText(this.utilidades.putPoints(message, radix));        
     }
     
     public void partialClear() {
+        this.scene.getEstimationCiphers().clear();
+        this.scene.getNumCyphers().clear();
         this.scene.getAvgCiphersStats().clear();       
         this.scene.getResults().clear();
         this.scene.getPrivateKey().clear();
@@ -124,7 +125,13 @@ public class ParadoxPrint {
         this.scene.getResults().appendText("\n\n ******** EL ATAQUE SE HA DETENDIDO ******** ");
         this.scene.getPrivateKey().clear();
     }
-    public void Stats(String stats) {
+
+    public void estimation ( final String estimation){        
+        this.scene.getEstimationCiphers().setText(this.utilidades.putPoints(estimation, 10));
+    }
+
+    public void Stats(final String stats, final String numCyphers) {
+        this.scene.getNumCyphers().setText(this.utilidades.putPoints(numCyphers, 10));
         this.scene.getAvgCiphersStats().setText(this.utilidades.putPoints(stats, 10));
     }
         
@@ -132,6 +139,8 @@ public class ParadoxPrint {
     
     
     public void partialDelete() {
+        this.scene.getEstimationCiphers().clear();
+        this.scene.getNumCyphers().clear();
         this.scene.getAvgCiphersStats().clear();
         this.scene.getResults().appendText("Error al realizar el ataque, la columna I \n"
                 + "ha sobrepasado el valor de la columna J");
@@ -140,6 +149,8 @@ public class ParadoxPrint {
     }
     
     public void delete() {
+        this.scene.getEstimationCiphers().clear();
+        this.scene.getNumCyphers().clear();
         this.scene.getAvgCiphersStats().clear();
         this.scene.getResults().clear();
         this.scene.getPrivateKey().clear();
@@ -152,6 +163,8 @@ public class ParadoxPrint {
                 + "                                 *** UN NÚMERO NO CIFRABLE ****");
         this.scene.getPrivateKey().clear();
         this.scene.getTime().clear();         
+        this.scene.getEstimationCiphers().clear();
+        this.scene.getNumCyphers().clear();
         this.scene.getAvgCiphersStats().clear();
     }
 

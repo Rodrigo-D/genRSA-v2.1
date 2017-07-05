@@ -65,7 +65,7 @@ public class CyclicPrint {
         this.scene.getResults().appendText("\n  Mensaje no recuperado. Vuelta -> " +
                 this.utilidades.putPoints(lap, 10) + "\n\n");
         this.scene.getResults().setScrollTop(Double.MAX_VALUE);
-        this.scene.getMRecovered().setText("NO");
+        this.scene.getMRecovered().setText("   NO");
     }
     
     public void attackStopped() {
@@ -75,7 +75,7 @@ public class CyclicPrint {
 
 
     public void messageRecovered(String message, int radix) {
-        this.scene.getMRecovered().setText("SI");
+        this.scene.getMRecovered().setText("    SI");
         this.scene.getMessage().setText(this.utilidades.putPoints(message, radix));
         this.scene.getContinueBttn().setDisable(true);
     }

@@ -116,9 +116,8 @@ public class ParadoxPrint {
     }
     
     public void badResult() {
-        this.scene.getResults().appendText(" El resultado t obtenido es un Falso Positivo, \n" +
-                 " es decir, solo descifra el mensaje introducido."
-                 + " Prueba con otro mensaje.");
+        this.scene.getResults().appendText(" El resultado t obtenido es un Falso Positivo, es decir, \n" +
+                 " solo descifra el mensaje introducido. Prueba con otro mensaje.");
     }
     
     public void attackStopped() {

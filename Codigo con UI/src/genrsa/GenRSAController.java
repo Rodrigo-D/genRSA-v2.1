@@ -908,7 +908,7 @@ public class GenRSAController {
     public void help(ActionEvent event) {
         try
         {
-          String str = System.getProperty("user.dir") + "/pdf/Manual de Usuario.pdf";
+          String str = System.getProperty("user.dir") + "/Documentación/Manual de Usuario.pdf";
           File localFile = new File(str);
           Desktop.getDesktop().open(localFile);
         }
@@ -924,7 +924,7 @@ public class GenRSAController {
     public void testBench(ActionEvent event) {
         try
         {
-          String str = System.getProperty("user.dir") + "/pdf/Banco de Pruebas.pdf";
+          String str = System.getProperty("user.dir") + "/Documentación/Banco de Pruebas.pdf";
           File localFile = new File(str);
           Desktop.getDesktop().open(localFile);
         }

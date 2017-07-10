@@ -219,18 +219,16 @@ public class GenerateKeys {
         this.RSA.setP( BigInteger.probablePrime((this.RSA.getKeySize()/2)+distanceBits, new SecureRandom()));
         this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-distanceBits, new SecureRandom()));
         
-        // P distinct Q
-        while (this.RSA.getP().equals(this.RSA.getQ())){
-            this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-distanceBits, new SecureRandom()));
-        }
-
+      
         /* Step 2:  n = p.q */
         this.RSA.setN( this.RSA.getP().multiply(this.RSA.getQ()));
         
         if (!sameSizePrimes || (this.RSA.getKeySize() % 2) == 1){
             distanceBits--;
         }        
-        while (this.RSA.getN().bitLength() != this.RSA.getKeySize()){
+        
+        //se comprueba que n sea de la longitud pedida y que p sea distinto de q
+        while (this.RSA.getN().bitLength() != this.RSA.getKeySize() || this.RSA.getP().equals(this.RSA.getQ())){
             this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-(distanceBits), new SecureRandom()));
             this.RSA.setN( this.RSA.getP().multiply(this.RSA.getQ()));
         }

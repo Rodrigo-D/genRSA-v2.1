@@ -15,42 +15,6 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="93.0" layoutX="30.0" layoutY="138.0" stroke="#948787c9" strokeType="INSIDE" width="442.0" />
-      <Label layoutX="47.0" layoutY="155.0" text="genRSA es un software de laboratorio para la generación de claves RSA. " textFill="#575555">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label layoutX="47.0" layoutY="175.0" text="Este software tiene como fin que el alumno se familiarice con el sistema " textFill="#575555">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label layoutX="47.0" layoutY="195.0" text="de cifrado asimétrico de clave pública RSA." textFill="#575555">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label layoutX="47.0" layoutY="260.0" text="Proyecto de Fin de Grado realizado por Rodrigo Díaz" textFill="#575555">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label layoutX="47.0" layoutY="280.0" text="Tutor: Jorge Ramió Aguirre" textFill="#575555">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label layoutX="47.0" layoutY="332.0" text="Contacto: " textFill="#575555">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label layoutX="47.0" layoutY="300.0" text="Año: 2017" textFill="#575555">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
       <Label layoutX="189.0" layoutY="67.0" text="Escuela Técnica Superior de Ingeniería de" textFill="#037abe">
          <font>
             <Font name="System Bold" size="13.0" />
@@ -61,6 +25,48 @@
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <Hyperlink ellipsisString="" layoutX="105.0" layoutY="329.0" onAction="#mailTo" style="-fx-border-color: null; -fx-border-style: solid; -fx-border-width: 0px;" text="rodrigo.diaza@alumnos.upm.es" textOverrun="CENTER_ELLIPSIS" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="93.0" layoutX="30.0" layoutY="132.0" stroke="#948787c9" strokeType="INSIDE" width="442.0" />
+      <Label layoutX="47.0" layoutY="149.0" text="genRSA es un software de laboratorio para la generación de claves RSA. " textFill="#575555">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="47.0" layoutY="169.0" text="Este software tiene como fin que el alumno se familiarice con el sistema " textFill="#575555">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="47.0" layoutY="189.0" text="de cifrado asimétrico de clave pública RSA." textFill="#575555">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="47.0" layoutY="250.0" prefHeight="17.0" prefWidth="380.0" text="Proyecto de Fin de Grado realizado por Rodrigo Díaz Arroyo" textFill="#575555">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="47.0" layoutY="270.0" text="Tutor: Jorge Ramió Aguirre" textFill="#575555">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="47.0" layoutY="290.0" text="Año: 2017" textFill="#575555">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="47.0" layoutY="317.0" text="Contacto: " textFill="#575555">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Hyperlink ellipsisString="" layoutX="105.0" layoutY="314.0" onAction="#mailTo" style="-fx-border-color: null; -fx-border-style: solid; -fx-border-width: 0px;" text="rodrigo.diaza@alumnos.upm.es" textOverrun="CENTER_ELLIPSIS" />
+      <Label layoutX="47.0" layoutY="332.0" text="GitHub:" textFill="#575555">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Hyperlink ellipsisString="" layoutX="105.0" layoutY="330.0" onAction="#openLink" style="-fx-border-color: null; -fx-border-style: solid; -fx-border-width: 0px;" text="https://github.com/Rodrigo-D/genRSA-v2.1" textOverrun="CENTER_ELLIPSIS" />
    </children>
 </AnchorPane>

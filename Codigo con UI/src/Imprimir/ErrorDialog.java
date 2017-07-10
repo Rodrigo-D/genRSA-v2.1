@@ -441,7 +441,7 @@ public class ErrorDialog {
     public void littleModulus(String operacion) {
         alertError.setHeaderText("Error el módulo es demasiado pequeño para " + operacion + " texto.");        
        
-        alertError.setContentText("Por favor, genere una nueva clave de módulo mayor que 11 bits.");
+        alertError.setContentText("Por favor, genere una nueva clave cuyo módulo tenga un valor mayor que 256.");
         
                
         alertError.showAndWait();

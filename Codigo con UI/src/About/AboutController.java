@@ -54,6 +54,18 @@ public class AboutController {
 
     }
     
+    @FXML
+    void openLink(ActionEvent event) throws URISyntaxException, IOException {
+        
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+            if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                URI openLink = new URI("https://github.com/Rodrigo-D/genRSA-v2.1");
+                desktop.browse(openLink);
+            }
+        }
+
+    }
 
     
     

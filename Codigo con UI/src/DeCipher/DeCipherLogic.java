@@ -216,7 +216,7 @@ public class DeCipherLogic {
         boolean modified = false;
         
         //compruebo que se pueda descifrar texto        
-        if(this.modulus.bitLength()<12 && !isOriginal && isText){
+        if(this.modulus.compareTo(new BigInteger("256")) == -1 && !isOriginal && isText){
             this.errorDialog.littleModulus("descifrar");
             return false;            
         }
@@ -337,7 +337,7 @@ public class DeCipherLogic {
         byte[] cutAsciiText;
         
         //compruebo que se pueda cifrar texto        
-        if(this.modulus.bitLength()<12){
+        if(this.modulus.compareTo(new BigInteger("256")) == -1){
             this.errorDialog.littleModulus("cifrar");
             return false;            
         }

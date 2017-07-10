@@ -186,7 +186,7 @@ public class SignLogic {
         boolean modified = false;
         
         //compruebo que se pueda validar texto
-        if(this.modulus.bitLength()<12 && !isOriginal && isText){
+        if(this.modulus.compareTo(new BigInteger("256")) == -1 && !isOriginal && isText){
             this.errorDialog.littleModulus("validar");
             return false;            
         }
@@ -301,7 +301,7 @@ public class SignLogic {
         byte[] cutAsciiText;
         
         //compruebo que se pueda firmar texto
-        if(this.modulus.bitLength()<12){
+        if(this.modulus.compareTo(new BigInteger("256")) == -1){
             this.errorDialog.littleModulus("firmar");
             return false;            
         }

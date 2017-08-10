@@ -66,7 +66,7 @@
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem fx:id="SignMenuI" mnemonicParsing="false" onAction="#Sign" text="Frimar_Validar">
+                  <MenuItem fx:id="SignMenuI" mnemonicParsing="false" onAction="#Sign" text="Firmar_Validar">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="F" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                      </accelerator>

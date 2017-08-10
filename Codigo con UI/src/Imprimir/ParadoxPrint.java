@@ -61,21 +61,21 @@ public class ParadoxPrint {
     //IMPRESION DE RESULTADOS
     public void initialResults(String cipherI, String cipherJ, String j, String modulus, int radix) {
         //el mensaje/número elegido es igual que el cipherI por estar elevado a 1
-        String lineas = "Columna I (valor inicial)\n" +
+        String lineas = "Columna I \n" +
                         "---------------------------\n" + 
-                        "mensaje^1 mod Módulo\n";        
+                        "mensaje^3 mod Módulo\n";        
         
         
-        lineas = lineas + this.utilidades.putPoints(cipherI, radix) + "^1 mod " + this.utilidades.putPoints(modulus, radix) + " = " + this.utilidades.putPoints(cipherI, radix)+ "\n";
+        lineas = lineas + this.utilidades.putPoints(cipherI, radix) + "^3 mod " + this.utilidades.putPoints(modulus, radix) + " = " + this.utilidades.putPoints(cipherI, radix)+ "\n";
         
-        lineas = lineas +  "\n\nColumna J (valor buscado)\n" +
+        lineas = lineas +  "\nColumna J \n" +
                         "-----------------------------\n" + 
                         "mensaje^(Módulo/2) mod Módulo \n"; 
         
-         lineas = lineas + this.utilidades.putPoints(cipherI, radix) + "^" + j + " mod " + this.utilidades.putPoints(modulus, radix) + " = " + this.utilidades.putPoints(cipherJ, radix) + "\n\n";
+        lineas = lineas + this.utilidades.putPoints(cipherI, radix) + "^" + j + " mod " + this.utilidades.putPoints(modulus, radix) + " = " + this.utilidades.putPoints(cipherJ, radix) + "\n\n";
         
         
-        lineas = lineas + "\n\nCifrados sucesivos Columna I\n" 
+        lineas = lineas + "\n\nCifrados sucesivos\n" 
                         + "--------------------------------\n";
         
         this.scene.getResults().setText(lineas);        
@@ -84,6 +84,16 @@ public class ParadoxPrint {
     
     public void partialResults(String results) {
         this.scene.getResults().appendText(results);
+        
+    }
+    
+    public void colisionDetected(String text) {
+        this.scene.getResults().appendText(text);
+        
+    }
+    
+    public void modInverseError(String text) {
+        this.scene.getResults().appendText(text);
         
     }
 

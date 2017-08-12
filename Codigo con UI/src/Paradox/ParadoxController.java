@@ -63,6 +63,9 @@ public class ParadoxController {
     @FXML // fx:id="clearBttn"
     private Button clearBttn; // Value injected by FXMLLoader
     
+    @FXML // fx:id="pauseBttn"
+    private Button pauseBttn; // Value injected by FXMLLoader
+    
     @FXML // fx:id="startBttn"
     private Button startBttn; // Value injected by FXMLLoader
     
@@ -93,6 +96,7 @@ public class ParadoxController {
         assert Time != null : "fx:id=\"Time\" was not injected: check your FXML file 'Paradox.fxml'.";        
         assert startBttn != null : "fx:id=\"startBttn\" was not injected: check your FXML file 'Paradox.fxml'.";
         assert clearBttn != null : "fx:id=\"clearBttn\" was not injected: check your FXML file 'Paradox.fxml'.";
+        assert pauseBttn != null : "fx:id=\"pauseBttn\" was not injected: check your FXML file 'Paradox.fxml'.";
         assert progress != null : "fx:id=\"progress\" was not injected: check your FXML file 'Paradox.fxml'.";
         
         firstTime = true;
@@ -137,6 +141,34 @@ public class ParadoxController {
             paradoxAttack.setIsCancelled(true);
         }   
     }  
+    
+    
+    @FXML
+    /**
+     * Metodo para pausar y continuar el ataque por donde se quedo
+     * cuando se pulsa el boton pause/continue
+     */
+    public void pauseContinue(ActionEvent event) {
+                
+      /*  Task CAcontinue = new Task() {
+            @Override
+            protected Object call() throws Exception {
+                start = false;
+                String numOfCyphers = NumCiphers.getText();    
+                Platform.runLater(() ->progress.setVisible(true));
+                cyclicAttack.Continue(numOfCyphers);
+                Platform.runLater(() ->progress.setVisible(false));
+                start = true;
+                cyclicAttack.setIsCancelled(false);
+                return null;
+            }
+        };
+        
+        new Thread(CAcontinue).start();        */
+    }
+    
+    
+    
     
     
         

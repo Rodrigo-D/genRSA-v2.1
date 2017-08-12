@@ -684,8 +684,9 @@ public class CyclicAttack {
         Platform.runLater(() -> this.Cprint.endProgress());
         
         if (next.equals(this.cypherMessage)){
+            
             //ha encontrado el mensaje en claro y lo escribe          
-            this.xplResult = "c" + this.utilidades.putPoints(lap.add(Constantes.MINUS_ONE).toString(), 10) +
+            this.xplResult = "c" + this.utilidades.putPoints(this.totalLapsNum.add(Constantes.MINUS_ONE).toString(), 10) +
                     " = " + this.utilidades.putPoints(messageStr, this.radix) + "\n" +
                     "c" + this.utilidades.putPoints(lapStr, 10) +
                     " = " + this.utilidades.putPoints(next.toString(this.radix).toUpperCase(), this.radix) + "\n";           

@@ -143,7 +143,7 @@ public class ParadoxAttack {
      * No para hasta que prospera o se pulsa el boton de parar.
      */
     public void start() {
-        if (this.modulus.bitLength() < 25){
+        if (this.modulus.bitLength() < 30){
             this.LMstart();
         } else if (this.modulus.bitLength() < 40){
             this.BMstart(Constantes.MIDDLE_REFRESH);
@@ -168,6 +168,7 @@ public class ParadoxAttack {
         final String time, cipherIstr, cipherJstr;        
         long statsTime;
         boolean write = false;
+        BigInteger REFRESH = Constantes.MIN_REFRESH.divide(Constantes.TWO);
         
         startTime = System.currentTimeMillis();
 				
@@ -211,7 +212,7 @@ public class ParadoxAttack {
                           this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase(), this.radix) + " = " + 
                           this.utilidades.putPoints(cipherJ.toString(this.radix).toUpperCase(), this.radix) + "\n";
             
-            if (i.mod(Constantes.MIN_REFRESH).equals(Constantes.ZERO)){
+            if (i.mod(REFRESH).equals(Constantes.ZERO)){
                 this.partialResult = this.result;
                 write = true;
                 this.avgStats = this.i.multiply(Constantes.TWO);
@@ -241,7 +242,7 @@ public class ParadoxAttack {
             Platform.runLater(() -> {
                 this.Pprint.colisionDetected("\n\nSe ha detectado una colision de la posición " + 
                         this.utilidades.putPoints(this.i.toString().toUpperCase(), 10) + 
-                        " de la Columna I con la primera posición de la Columna J.");
+                        " de la Columna I\ncon la primera posición de la Columna J.");
                 
                 this.Pprint.wValue(this.i.toString(this.radix).toUpperCase(), 
                                     this.initialJ.toString(this.radix).toUpperCase(),
@@ -333,113 +334,176 @@ public class ParadoxAttack {
      */
     public void BMstart(BigInteger MAX_REFRESH){
        
-        BigInteger cipherI, cipherJ;
+        BigInteger cipherI, cipherJ, initialCipherI, initialCipherJ;
         BigInteger IMinusJ, w, t;
         long startTime, totalTime;
         final String time, cipherIstr, cipherJstr;
         long statsTime;
         boolean write = false;
-        
+                
         startTime = System.currentTimeMillis();
         
 	//Calculo e impresion de primeros resultados			
-        this.i = new BigInteger("1");
+        this.i = new BigInteger("3");
+        this.initialI = new BigInteger("3");
         this.j = this.modulus.divide(Constantes.TWO);
-
-        cipherI = this.message;
-        cipherJ = this.message.modPow(j, this.modulus);
-
+        this.initialJ = this.modulus.divide(Constantes.TWO);
+        
+        
+        initialCipherI = cipherI = this.message.modPow(this.i, this.modulus);
+        initialCipherJ = cipherJ = this.message.modPow(this.j, this.modulus);
+        
         
         cipherIstr = cipherI.toString(this.radix).toUpperCase();
         cipherJstr = cipherJ.toString(this.radix).toUpperCase();
         
         
         Platform.runLater(() -> this.Pprint.initialResults(cipherIstr, cipherJstr,
-                                                        this.j.toString(this.radix).toUpperCase(),
+                                                        this.initialJ.toString(this.radix).toUpperCase(),
                                                         this.modulus.toString(this.radix).toUpperCase(),
                                                         this.radix));
         
         //Comienza el bucle del ataque
-        while (!(cipherI.equals(cipherJ)) && this.i.compareTo(this.j) == -1 && !(isCancelled)){
+        while (!(cipherI.equals(initialCipherJ)) && !(cipherJ.equals(initialCipherI))
+                && !(isCancelled)){
+            
+            
             this.i = this.i.add(Constantes.ONE);
+            this.j = this.j.add(Constantes.ONE);
+            
             cipherI = this.message.multiply(cipherI).mod(this.modulus);
+            cipherJ = this.message.multiply(cipherJ).mod(this.modulus);
+            
             write = false;
 
             if (i.mod(MAX_REFRESH).equals(Constantes.ZERO)){
-                this.result = this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase(), this.radix) + "^" +
+                this.result = "Col I --> " + this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase(), this.radix) + "^" +
                           this.utilidades.putPoints(this.i.toString(this.radix).toUpperCase(), this.radix) + " mod " +
                           this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase(), this.radix) + " = " + 
-                          this.utilidades.putPoints(cipherI.toString(this.radix).toUpperCase(), this.radix) + "\n";
+                          this.utilidades.putPoints(cipherI.toString(this.radix).toUpperCase(), this.radix) + "\n" +
+                          "Col J --> " + this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase(), this.radix) + "^" +
+                          this.utilidades.putPoints(this.j.toString(this.radix).toUpperCase(), this.radix) + " mod " +
+                          this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase(), this.radix) + " = " + 
+                          this.utilidades.putPoints(cipherJ.toString(this.radix).toUpperCase(), this.radix) + "\n";
+            
                 
                 write = true;
                 
-                this.avgStats = this.i;
+                this.avgStats = this.i.multiply(Constantes.TWO);
                 statsTime = (System.currentTimeMillis() - startTime)/1000;
                 if (statsTime > 1){
-                    this.avgStats = this.i.divide(new BigInteger(String.valueOf(statsTime)));
+                    this.avgStats = (this.i.multiply(Constantes.TWO)).divide(new BigInteger(String.valueOf(statsTime)));
                 }                 
                 Platform.runLater(() -> {
                    this.Pprint.partialResults(this.result);
-                   this.Pprint.Stats(this.avgStats.toString(), this.i.toString(10));
+                   this.Pprint.Stats(this.avgStats.toString(), (this.i.multiply(Constantes.TWO)).toString(10));
                 });
             }             
         } 
         
         //Por si ha encontrado la clave y le faltan valores por escribir
         if (!write){
-            this.partialResult = this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase(), this.radix) + "^" +
+            this.partialResult = "Col I --> " + this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase(), this.radix) + "^" +
                           this.utilidades.putPoints(this.i.toString(this.radix).toUpperCase(), this.radix) + " mod " +
                           this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase(), this.radix) + " = " + 
-                          this.utilidades.putPoints(cipherI.toString(this.radix).toUpperCase(), this.radix) + "\n";
+                          this.utilidades.putPoints(cipherI.toString(this.radix).toUpperCase(), this.radix) + "\n" +
+                          "Col J --> " + this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase(), this.radix) + "^" +
+                          this.utilidades.putPoints(this.j.toString(this.radix).toUpperCase(), this.radix) + " mod " +
+                          this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase(), this.radix) + " = " + 
+                          this.utilidades.putPoints(cipherJ.toString(this.radix).toUpperCase(), this.radix) + "\n";
             
             Platform.runLater(() -> this.Pprint.partialResults(this.partialResult));
         }  
 
         
-        if (cipherI.equals(cipherJ)){
+        
+        //si existe una colision de un valor de la columna I con el primer  valor de la columna J
+        if (cipherI.equals(initialCipherJ)){
             //CALCULOS PARA OBTENER LA POSIBLE CLAVE           
-            IMinusJ = this.i.subtract(this.j).abs();
+            IMinusJ = this.i.subtract(this.initialJ).abs();
             w = (IMinusJ).divide(this.exponent.gcd(IMinusJ));        
 
-            Platform.runLater(() -> this.Pprint.wValue(this.i.toString(this.radix).toUpperCase(), 
-                                                    this.j.toString(this.radix).toUpperCase(),
+            Platform.runLater(() -> {
+                this.Pprint.colisionDetected("\n\nSe ha detectado una colision de la posición " + 
+                        this.utilidades.putPoints(this.i.toString().toUpperCase(), 10) + 
+                        " de la Columna I\ncon la primera posición de la Columna J.");
+                
+                this.Pprint.wValue(this.i.toString(this.radix).toUpperCase(), 
+                                                    this.initialJ.toString(this.radix).toUpperCase(),
                                                     this.exponent.toString(this.radix).toUpperCase(),
                                                     w.toString(this.radix).toUpperCase(),
-                                                    this.radix));
+                                                    this.radix);});
 
            //t es la clave privada o una clave privada pareja o un falso positivo
-            t = this.exponent.modInverse(w); 
+           try {
+                t = this.exponent.modInverse(w);  
+                Platform.runLater(() -> {
+                    this.Pprint.privateKey(t.toString(this.radix).toUpperCase(), this.radix);
+                    this.Pprint.tValue(t.toString(this.radix).toUpperCase(), this.radix);
+                });
             
+                this.checkObtainedKey(t);
+            }catch(ArithmeticException e){
+                Platform.runLater(() -> this.Pprint.modInverseError("\n\n ERROR NO EXISTE EL INVERSO DEL EXPONENTE EN EL CUERPO W.\n"));
+            }         
+        
+           
+           
+        //si existe una colision de un valor de la columna J con el primer  valor de la columna I
+        } else if (cipherJ.equals(initialCipherI)){
+           
+            //CALCULOS PARA OBTENER LA POSIBLE CLAVE
+            IMinusJ = this.j.subtract(this.initialI).abs();
+            w = (IMinusJ).divide(this.exponent.gcd(IMinusJ));        
+
             Platform.runLater(() -> {
-                this.Pprint.tValue(t.toString(this.radix).toUpperCase(), this.radix);
+                this.Pprint.colisionDetected("\n\nSe ha detectado una colision de la posición " +
+                        this.utilidades.putPoints(this.j.toString().toUpperCase(), 10) + 
+                        " de la Columna J con la primera posición de la Columna I.");
+                
+                this.Pprint.wValue(this.j.toString(this.radix).toUpperCase(), 
+                                    this.initialI.toString(this.radix).toUpperCase(),
+                                    this.exponent.toString(this.radix).toUpperCase(),
+                                    w.toString(this.radix).toUpperCase(),
+                                    this.radix);});
+
+
+            //t es la clave privada o una clave privada pareja o un falso positivo
+            try {
+                t = this.exponent.modInverse(w); 
+               
+                Platform.runLater(() -> {
                 this.Pprint.privateKey(t.toString(this.radix).toUpperCase(), this.radix);
-            });
-            this.checkObtainedKey(t);
+                this.Pprint.tValue(t.toString(this.radix).toUpperCase(), this.radix);
+                });
             
-         //Si se ha  pulsado el boton de parar el ataque y no se ha encontrado la clave privada    
-        } else if (isCancelled){
-             Platform.runLater(() -> {
+                this.checkObtainedKey(t);        
+            
+            }catch(ArithmeticException e){
+                Platform.runLater(() -> this.Pprint.modInverseError("\n\n ERROR NO EXISTE EL INVERSO DEL EXPONENTE EN EL CUERPO W.\n"));
+            }               
+            
+        //Si se ha  pulsado el boton de parar el ataque y no se ha encontrado la clave privada
+        }else {
+            Platform.runLater(() -> {
                 this.Pprint.attackStopped();   
             });
-             
-        //Si el ataque no hubiera funcionado --> fallido
-        } else {               
-            Platform.runLater(() -> {
-                this.Pprint.partialDelete();        
-            });
-        }
+            
+        }        
+           
+           
                 
         totalTime = System.currentTimeMillis() - startTime;
         time = this.utilidades.millisToSeconds(totalTime);
         
-        totalTime = totalTime / 1000;
-        this.avgStats = this.i;
+        totalTime = (totalTime / 1000);
+        this.avgStats =  (this.i.subtract(Constantes.TWO)).multiply(Constantes.TWO);
         if (totalTime > 1){
-            this.avgStats = this.i.divide(new BigInteger(String.valueOf(totalTime)));
+            this.avgStats = ((this.i.subtract(Constantes.TWO)).multiply(Constantes.TWO)).divide(new BigInteger(String.valueOf(totalTime)));
         }     
         
         Platform.runLater(() -> {
-            this.Pprint.Stats(this.avgStats.toString(),  this.i.toString(10));
+            this.Pprint.Stats(this.avgStats.toString(), ((this.i.subtract(Constantes.TWO)).multiply(Constantes.TWO)).toString(10));  
             
             this.Pprint.time(time);
             this.Pprint.enableStart();

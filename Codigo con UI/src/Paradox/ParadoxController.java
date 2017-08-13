@@ -81,6 +81,8 @@ public class ParadoxController {
     
     private Boolean start;
     
+    private Boolean pause;
+    
     
     
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -101,6 +103,7 @@ public class ParadoxController {
         
         firstTime = true;
         start = true;
+        pause = true;
         paradoxAttack = new ParadoxAttack(new ParadoxPrint(this));
         
         Platform.runLater(Message::requestFocus);
@@ -114,7 +117,7 @@ public class ParadoxController {
     public void startStop(ActionEvent event) {
         
         if (start) {  
-            Task CAstart= new Task() {
+            Task PAstart= new Task() {
                 @Override
                 protected Object call() throws Exception {
                     start = false;
@@ -122,6 +125,7 @@ public class ParadoxController {
                     String modulus = Modulus.getText();
                     String exponent = Exponent.getText();
 
+                    paradoxAttack.setIsPaused(false);
                     paradoxAttack.setRadix(radix);
                     Platform.runLater(() ->progress.setVisible(true));
 
@@ -130,16 +134,28 @@ public class ParadoxController {
                     }
 
                     Platform.runLater(() ->progress.setVisible(false));
-                    start=true;
+                    if (pause){
+                        start=true;
+                    }
                     return null;
                 }
             };
 
-            new Thread(CAstart).start();  
+            new Thread(PAstart).start();  
             
-        } else {
-            paradoxAttack.setIsCancelled(true);
+        //si no esta pausado    
+        } else if (pause){
+            pause=true;
+            start=true;
+            paradoxAttack.setIsCancelled(true);            
+        
+        //si esta pausado    
+        } else  {
+            pause=true;
+            start=true;
+            paradoxAttack.setIsCancelledWhenPause();
         }   
+        
     }  
     
     
@@ -149,22 +165,36 @@ public class ParadoxController {
      * cuando se pulsa el boton pause/continue
      */
     public void pauseContinue(ActionEvent event) {
-                
-      /*  Task CAcontinue = new Task() {
-            @Override
-            protected Object call() throws Exception {
-                start = false;
-                String numOfCyphers = NumCiphers.getText();    
-                Platform.runLater(() ->progress.setVisible(true));
-                cyclicAttack.Continue(numOfCyphers);
-                Platform.runLater(() ->progress.setVisible(false));
-                start = true;
-                cyclicAttack.setIsCancelled(false);
-                return null;
-            }
-        };
+       
+        if (pause) {  
+            paradoxAttack.setIsPaused(true);
+            pause = false;
+         
+        //Continuar el ataque por donde se pausó    
+        } else {
+           
+            Task PAcontinue = new Task() {
+                @Override
+                protected Object call() throws Exception {
+                    
+                    pause = true;
+                    
+                    Platform.runLater(() ->progress.setVisible(true));
+                    paradoxAttack.Continue();
+                    Platform.runLater(() ->progress.setVisible(false));
+                    
+                    if (pause){
+                        start=true;
+                    }
+                    return null;
+                }   
+            };
         
-        new Thread(CAcontinue).start();        */
+            new Thread(PAcontinue).start();     
+        }   
+    
+        
+      
     }
     
     
@@ -265,7 +295,11 @@ public class ParadoxController {
     public Button getStartBttn() {
         return this.startBttn;
     }
-
+ 
+    public Button getPauseBttn() {
+        return this.pauseBttn;
+    }
+    
     public Button getClearBttn() {
         return this.clearBttn;
     }

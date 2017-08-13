@@ -48,14 +48,28 @@ public class ParadoxPrint {
         this.scene.getClearBttn().setDisable(true);
     }
     
+    public void enablePause() {
+        this.scene.getPauseBttn().setText("Pausar");
+        this.scene.getPauseBttn().setDisable(false);
+        this.scene.getClearBttn().setDisable(true);
+    }
+    
     public void enableStart() {
         this.scene.getStartBttn().setText("Comenzar");
+        this.scene.getPauseBttn().setDisable(true);
         this.scene.getClearBttn().setDisable(false);
+    }
+    
+     public void enableContinue() {
+        this.scene.getPauseBttn().setText("Continuar");        
+        this.scene.getPauseBttn().setDisable(false);
+        this.scene.getClearBttn().setDisable(true);
     }
      
     public void editableModExp(boolean editable) {
         this.scene.getExponent().setEditable(editable);
         this.scene.getModulus().setEditable(editable);
+        this.scene.getMessage().setEditable(editable);
     }
 
     //IMPRESION DE RESULTADOS
@@ -100,9 +114,9 @@ public class ParadoxPrint {
     public void wValue(String i, String j, String exponent, String w, int radix) {
         this.scene.getResults().appendText("\n\n    Cálculo de la Clave Privada, Clave Privada Pareja o Falso Positivo:\n");
         this.scene.getResults().appendText(" --> Se calcula w = (i - j) / mcd (e, |i - j|)."
-                + " \n     Siendo i=" + this.utilidades.putPoints(i, radix) +
-                ",  j=" + this.utilidades.putPoints(j, radix) +
-                "  y la clave pública= " + this.utilidades.putPoints(exponent, radix) + ".\n"
+                + " \n     Siendo i = " + this.utilidades.putPoints(i, radix) +
+                ",  j = " + this.utilidades.putPoints(j, radix) +
+                "  y la clave pública = " + this.utilidades.putPoints(exponent, radix) + ".\n"
                 + " --> Resultado w = " + this.utilidades.putPoints(w, radix) + "\n");
     }
      
@@ -132,6 +146,16 @@ public class ParadoxPrint {
     
     public void attackStopped() {
         this.scene.getResults().appendText("\n\n ******** EL ATAQUE SE HA DETENDIDO ******** ");
+        this.scene.getPrivateKey().clear();
+    }
+    
+    public void attackPaused() {
+        this.scene.getResults().appendText("\n\n ******** EL ATAQUE SE HA PAUSADO ******** ");
+        this.scene.getPrivateKey().clear();
+    }
+    
+    public void attackContinue() {
+        this.scene.getResults().appendText("\n\n ******** EL ATAQUE CONTINUA  ******** \n\n");
         this.scene.getPrivateKey().clear();
     }
 

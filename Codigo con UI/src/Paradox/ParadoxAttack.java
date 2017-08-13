@@ -46,6 +46,12 @@ public class ParadoxAttack {
     private BigInteger avgStats;
     
     public static boolean isCancelled;
+    
+    public static boolean isPaused;
+    
+    public static BigInteger storeI, storeJ;
+        
+    public static long globalTime;
 
     /**
      * Constructor de la clase
@@ -58,6 +64,7 @@ public class ParadoxAttack {
         this.Pprint = paradoxPrint;
         this.radix = 10;
         ParadoxAttack.isCancelled = false;
+        ParadoxAttack.isPaused = false;
         
     }
     
@@ -124,10 +131,11 @@ public class ParadoxAttack {
         //PARTE GRAFICA-------------
         Platform.runLater(() ->{
            this.Pprint.numbers(this.modulus.toString(this.radix).toUpperCase(),
-                                                    this.exponent.toString(this.radix).toUpperCase(),
-                                                    this.message.toString(this.radix).toUpperCase(),
-                                                    this.radix);
+                                        this.exponent.toString(this.radix).toUpperCase(),
+                                        this.message.toString(this.radix).toUpperCase(),
+                                        this.radix);
            this.Pprint.enableStop();
+           this.Pprint.enablePause();
            this.Pprint.editableModExp(false);
            this.Pprint.partialClear();
            this.Pprint.estimation(Constantes.THREE.multiply(this.sqrt(this.modulus)).toString());
@@ -140,7 +148,7 @@ public class ParadoxAttack {
     /**
      * Método para decidir que tipo de visualización de los resultados se
      * lleva a cabo para el ataque completo. 
-     * No para hasta que prospera o se pulsa el boton de parar.
+     * No para hasta que prospera o se pulsa el boton de parar o pausar.
      */
     public void start() {
         if (this.modulus.bitLength() < 30){
@@ -156,8 +164,36 @@ public class ParadoxAttack {
     
     
     
+     /**
+     * Método para decidir que tipo de visualización de los resultados se
+     * lleva a cabo para continuar el ataque. 
+     * No para hasta que prospera o se pulsa el boton de parar o pausar.
+     */
+    public void Continue() {
+        
+        Platform.runLater(() ->{
+            this.Pprint.enableStop();
+            this.Pprint.enablePause();
+            this.Pprint.editableModExp(false); // --> ESTO NO VA AQUI, VA AL FINAL DE LOS METODOS DE START SI ES PAuSADO
+        });
+        
+        if (this.modulus.bitLength() < 30){
+            this.LMcontinue();
+        } else if (this.modulus.bitLength() < 40){
+            this.BMcontinue(Constantes.MIDDLE_REFRESH);
+        } else if (this.modulus.bitLength() < 50){
+            this.BMcontinue(Constantes.BM_REFRESH);
+        } else {
+            this.BMcontinue(Constantes.MAX_REFRESH);
+        }       
+    }
+    
+    
+      
+    
+    
     /**
-     * Ataque por la paradoja del cumpleaños. Solo para en el caso de que se pulse "Parar"
+     * Ataque por la paradoja del cumpleaños. 
      * imprime todos los resultados del ataque LM = little modulus
      */
     public void LMstart(){
@@ -194,7 +230,7 @@ public class ParadoxAttack {
         
         //Comienza el bucle del ataque
         while (!(cipherI.equals(initialCipherJ)) && !(cipherJ.equals(initialCipherI))
-                && !(isCancelled)){
+                && !(isCancelled) && !(isPaused)){
             
             
             this.i = this.i.add(Constantes.ONE);
@@ -212,7 +248,7 @@ public class ParadoxAttack {
                           this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase(), this.radix) + " = " + 
                           this.utilidades.putPoints(cipherJ.toString(this.radix).toUpperCase(), this.radix) + "\n";
             
-            if (i.mod(REFRESH).equals(Constantes.ZERO)){
+            if (this.i.mod(REFRESH).equals(Constantes.ZERO)){
                 this.partialResult = this.result;
                 write = true;
                 this.avgStats = this.i.multiply(Constantes.TWO);
@@ -299,15 +335,21 @@ public class ParadoxAttack {
                 Platform.runLater(() -> this.Pprint.modInverseError("\n\n ERROR NO EXISTE EL INVERSO DEL EXPONENTE EN EL CUERPO W.\n"));
             }               
             
-        //Si se ha  pulsado el boton de parar el ataque y no se ha encontrado la clave privada
+        //Si se ha  pulsado el boton de parar o pausar el ataque y no se ha encontrado la clave privada
         }else {
-            Platform.runLater(() -> {
-                this.Pprint.attackStopped();   
-            });
             
+            if (ParadoxAttack.isPaused){
+                Platform.runLater(() -> this.Pprint.attackPaused());                
+                ParadoxAttack.storeI = this.i;
+                ParadoxAttack.storeJ = this.j;                
+                
+            } else {
+                Platform.runLater(() -> this.Pprint.attackStopped());
+            }
         }        
         
         totalTime = System.currentTimeMillis() - startTime;
+        ParadoxAttack.globalTime = totalTime;
         time = this.utilidades.millisToSeconds(totalTime);
         
         totalTime = (totalTime/1000);
@@ -319,16 +361,26 @@ public class ParadoxAttack {
         Platform.runLater(() -> {
             this.Pprint.Stats(this.avgStats.toString(), ((this.i.subtract(Constantes.TWO)).multiply(Constantes.TWO)).toString(10));            
             this.Pprint.time(time);
-            this.Pprint.enableStart();            
-            this.Pprint.editableModExp(true);
+            
         });
         
+        if (ParadoxAttack.isPaused){
+            Platform.runLater(() -> this.Pprint.enableContinue());             
+        } else {
+            Platform.runLater(() -> {
+                this.Pprint.enableStart();            
+                this.Pprint.editableModExp(true);
+            });
+        }
+        
+        
         this.setIsCancelled(false);
+        this.setIsPaused(false);
     }
     
 
     /**
-     * Ataque por la paradoja del cumpleaños. Solo para en el caso de que se pulse "Parar"
+     * Ataque por la paradoja del cumpleaños. 
      * no imprime todos los resultados del ataque BM = big modulus
      * @param MAX_REFRESH 
      */
@@ -365,7 +417,7 @@ public class ParadoxAttack {
         
         //Comienza el bucle del ataque
         while (!(cipherI.equals(initialCipherJ)) && !(cipherJ.equals(initialCipherI))
-                && !(isCancelled)){
+                && !(isCancelled)&& !(isPaused)){
             
             
             this.i = this.i.add(Constantes.ONE);
@@ -483,17 +535,23 @@ public class ParadoxAttack {
                 Platform.runLater(() -> this.Pprint.modInverseError("\n\n ERROR NO EXISTE EL INVERSO DEL EXPONENTE EN EL CUERPO W.\n"));
             }               
             
-        //Si se ha  pulsado el boton de parar el ataque y no se ha encontrado la clave privada
+        //Si se ha  pulsado el boton de parar o pausar el ataque y no se ha encontrado la clave privada
         }else {
-            Platform.runLater(() -> {
-                this.Pprint.attackStopped();   
-            });
-            
+                        
+            if (ParadoxAttack.isPaused){
+                Platform.runLater(() -> this.Pprint.attackPaused());                
+                ParadoxAttack.storeI = this.i;
+                ParadoxAttack.storeJ = this.j;                
+                
+            } else {
+                Platform.runLater(() -> this.Pprint.attackStopped());
+            }            
         }        
            
            
                 
         totalTime = System.currentTimeMillis() - startTime;
+        ParadoxAttack.globalTime = totalTime;
         time = this.utilidades.millisToSeconds(totalTime);
         
         totalTime = (totalTime / 1000);
@@ -504,14 +562,403 @@ public class ParadoxAttack {
         
         Platform.runLater(() -> {
             this.Pprint.Stats(this.avgStats.toString(), ((this.i.subtract(Constantes.TWO)).multiply(Constantes.TWO)).toString(10));  
-            
             this.Pprint.time(time);
-            this.Pprint.enableStart();
-            this.Pprint.editableModExp(true);
         });
+              
+        if (ParadoxAttack.isPaused){
+            Platform.runLater(() -> this.Pprint.enableContinue());             
+        } else {
+            Platform.runLater(() -> {
+                this.Pprint.enableStart();            
+                this.Pprint.editableModExp(true);
+            });
+        }
         
         this.setIsCancelled(false);
+        this.setIsPaused(false);
     }
+    
+    
+ 
+    
+    
+    /**
+     * Método para continuar el ataque por la paradoja del cumpleaños por donde se pausó.
+     * imprime todos los resultados del ataque LM = little modulus
+     */
+    public void LMcontinue(){
+       
+        BigInteger cipherI, cipherJ, initialCipherI, initialCipherJ;
+        BigInteger IMinusJ, w, t;
+        long startTime, totalTime;
+        final String time;        
+        long statsTime;
+        boolean write = false;
+        BigInteger REFRESH = Constantes.MIN_REFRESH.divide(Constantes.TWO);
+        
+        startTime = System.currentTimeMillis();
+				
+        //Calculo e impresion de primeros resultados
+        this.i = ParadoxAttack.storeI;
+        this.initialI = new BigInteger("3");
+        this.j = ParadoxAttack.storeJ;     
+        this.initialJ = this.modulus.divide(Constantes.TWO);
+
+        cipherI = this.message.modPow(this.i, this.modulus);
+        initialCipherI = this.message.modPow(this.initialI, this.modulus);
+        cipherJ = this.message.modPow(this.j, this.modulus);
+        initialCipherJ = this.message.modPow(this.initialJ, this.modulus);
+        
+        Platform.runLater(() -> this.Pprint.attackContinue());
+        this.result = ""; 
+        
+        //Comienza el bucle del ataque
+        while (!(cipherI.equals(initialCipherJ)) && !(cipherJ.equals(initialCipherI))
+                && !(isCancelled) && !(isPaused)){
+            
+            
+            this.i = this.i.add(Constantes.ONE);
+            this.j = this.j.add(Constantes.ONE);
+            cipherI = this.message.multiply(cipherI).mod(this.modulus);
+            cipherJ = this.message.multiply(cipherJ).mod(this.modulus);
+                    
+            write = false;
+            this.result = this.result + "Col I --> " + this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase(), this.radix) + "^" +
+                          this.utilidades.putPoints(this.i.toString(this.radix).toUpperCase(), this.radix) + " mod " +
+                          this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase(), this.radix) + " = " + 
+                          this.utilidades.putPoints(cipherI.toString(this.radix).toUpperCase(), this.radix) + "\n" + 
+                          "Col J --> " + this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase(), this.radix) + "^" +
+                          this.utilidades.putPoints(this.j.toString(this.radix).toUpperCase(), this.radix) + " mod " +
+                          this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase(), this.radix) + " = " + 
+                          this.utilidades.putPoints(cipherJ.toString(this.radix).toUpperCase(), this.radix) + "\n";
+            
+            if (this.i.mod(REFRESH).equals(Constantes.ZERO)){
+                this.partialResult = this.result;
+                write = true;
+                this.avgStats = this.i.multiply(Constantes.TWO);
+                statsTime = (System.currentTimeMillis() - startTime)/1000;
+                if (statsTime > 1){
+                    this.avgStats = (this.i.multiply(Constantes.TWO)).divide(new BigInteger(String.valueOf(statsTime)));
+                }                 
+                Platform.runLater(() -> {
+                   this.Pprint.partialResults(this.partialResult);
+                   this.Pprint.Stats(this.avgStats.toString(), (this.i.multiply(Constantes.TWO)).toString(10));
+                });
+                this.result="";
+            }               
+        }         
+        //Por si ha encontrado la clave y le faltan valores por escribir
+        if (!write){
+            Platform.runLater(() -> this.Pprint.partialResults(this.result));
+        }             
+        
+        //si existe una colision de un valor de la columna I con el primer  valor de la columna J
+        if (cipherI.equals(initialCipherJ)){
+            //CALCULOS PARA OBTENER LA POSIBLE CLAVE
+            IMinusJ = this.i.subtract(this.initialJ).abs();
+            w = (IMinusJ).divide(this.exponent.gcd(IMinusJ));        
+
+            
+            Platform.runLater(() -> {
+                this.Pprint.colisionDetected("\n\nSe ha detectado una colision de la posición " + 
+                        this.utilidades.putPoints(this.i.toString().toUpperCase(), 10) + 
+                        " de la Columna I\ncon la primera posición de la Columna J.");
+                
+                this.Pprint.wValue(this.i.toString(this.radix).toUpperCase(), 
+                                    this.initialJ.toString(this.radix).toUpperCase(),
+                                    this.exponent.toString(this.radix).toUpperCase(),
+                                    w.toString(this.radix).toUpperCase(),
+                                    this.radix);});
+
+
+            //t es la clave privada o una clave privada pareja o un falso positivo
+            try {
+                t = this.exponent.modInverse(w);  
+                Platform.runLater(() -> {
+                    this.Pprint.privateKey(t.toString(this.radix).toUpperCase(), this.radix);
+                    this.Pprint.tValue(t.toString(this.radix).toUpperCase(), this.radix);
+                });
+
+                this.checkObtainedKey(t);
+            }catch(ArithmeticException e){
+                Platform.runLater(() -> this.Pprint.modInverseError("\n\n ERROR NO EXISTE EL INVERSO DEL EXPONENTE EN EL CUERPO W.\n"));
+            }             
+            
+        //si existe una colision de un valor de la columna J con el primer  valor de la columna I
+        } else if (cipherJ.equals(initialCipherI)){
+           
+            
+            //CALCULOS PARA OBTENER LA POSIBLE CLAVE
+            IMinusJ = this.j.subtract(this.initialI).abs();
+            w = (IMinusJ).divide(this.exponent.gcd(IMinusJ));        
+
+            Platform.runLater(() -> {
+                this.Pprint.colisionDetected("\n\nSe ha detectado una colision de la posición " +
+                        this.utilidades.putPoints(this.j.toString().toUpperCase(), 10) + 
+                        " de la Columna J con la primera posición de la Columna I.");
+                
+                this.Pprint.wValue(this.j.toString(this.radix).toUpperCase(), 
+                                    this.initialI.toString(this.radix).toUpperCase(),
+                                    this.exponent.toString(this.radix).toUpperCase(),
+                                    w.toString(this.radix).toUpperCase(),
+                                    this.radix);});
+
+
+            //t es la clave privada o una clave privada pareja o un falso positivo
+            try {
+                t = this.exponent.modInverse(w); 
+               
+                Platform.runLater(() -> {
+                this.Pprint.privateKey(t.toString(this.radix).toUpperCase(), this.radix);
+                this.Pprint.tValue(t.toString(this.radix).toUpperCase(), this.radix);
+                });
+            
+                this.checkObtainedKey(t);        
+            
+            }catch(ArithmeticException e){
+                Platform.runLater(() -> this.Pprint.modInverseError("\n\n ERROR NO EXISTE EL INVERSO DEL EXPONENTE EN EL CUERPO W.\n"));
+            }               
+            
+        //Si se ha  pulsado el boton de parar o pausar el ataque y no se ha encontrado la clave privada
+        }else {
+            
+            if (ParadoxAttack.isPaused){
+                Platform.runLater(() -> this.Pprint.attackPaused());                
+                ParadoxAttack.storeI = this.i;
+                ParadoxAttack.storeJ = this.j;
+            } else {
+                Platform.runLater(() -> this.Pprint.attackStopped());                
+            }
+        }        
+        
+        totalTime = (System.currentTimeMillis() - startTime) + ParadoxAttack.globalTime;
+        ParadoxAttack.globalTime = totalTime;
+        time = this.utilidades.millisToSeconds(totalTime);
+        
+        totalTime = (totalTime/1000);
+        this.avgStats = (this.i.subtract(Constantes.TWO)).multiply(Constantes.TWO);
+        if (totalTime > 1){
+            this.avgStats = ((this.i.subtract(Constantes.TWO)).multiply(Constantes.TWO)).divide(new BigInteger(String.valueOf(totalTime)));
+        }     
+        
+        Platform.runLater(() -> {
+            this.Pprint.Stats(this.avgStats.toString(), ((this.i.subtract(Constantes.TWO)).multiply(Constantes.TWO)).toString(10));            
+            this.Pprint.time(time);
+            
+        });
+        
+        if (ParadoxAttack.isPaused){
+            Platform.runLater(() -> this.Pprint.enableContinue());             
+        } else {
+            Platform.runLater(() -> {
+                this.Pprint.enableStart();            
+                this.Pprint.editableModExp(true);
+            });
+        }
+        
+        
+        this.setIsCancelled(false);
+        this.setIsPaused(false);
+    }
+    
+    
+     /**
+     * Método para continuar el ataque por la paradoja del cumpleaños por donde se pauso.
+     * no imprime todos los resultados del ataque BM = big modulus
+     * @param MAX_REFRESH 
+     */
+    public void BMcontinue(BigInteger MAX_REFRESH){
+       
+        BigInteger cipherI, cipherJ, initialCipherI, initialCipherJ;
+        BigInteger IMinusJ, w, t;
+        long startTime, totalTime;
+        final String time;
+        long statsTime;
+        boolean write = false;
+                
+        startTime = System.currentTimeMillis();
+        
+	//Calculo e impresion de primeros resultados			
+        this.i = ParadoxAttack.storeI;
+        this.initialI = new BigInteger("3");
+        this.j = ParadoxAttack.storeJ;  
+        this.initialJ = this.modulus.divide(Constantes.TWO);
+        
+        
+        cipherI = this.message.modPow(this.i, this.modulus);
+        initialCipherI = this.message.modPow(this.initialI, this.modulus);
+        cipherJ = this.message.modPow(this.j, this.modulus);
+        initialCipherJ = this.message.modPow(this.initialJ, this.modulus);
+        
+        
+        Platform.runLater(() -> this.Pprint.attackContinue());
+        
+        //Comienza el bucle del ataque
+        while (!(cipherI.equals(initialCipherJ)) && !(cipherJ.equals(initialCipherI))
+                && !(isCancelled)&& !(isPaused)){
+            
+            
+            this.i = this.i.add(Constantes.ONE);
+            this.j = this.j.add(Constantes.ONE);
+            
+            cipherI = this.message.multiply(cipherI).mod(this.modulus);
+            cipherJ = this.message.multiply(cipherJ).mod(this.modulus);
+            
+            write = false;
+
+            if (i.mod(MAX_REFRESH).equals(Constantes.ZERO)){
+                this.result = "Col I --> " + this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase(), this.radix) + "^" +
+                          this.utilidades.putPoints(this.i.toString(this.radix).toUpperCase(), this.radix) + " mod " +
+                          this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase(), this.radix) + " = " + 
+                          this.utilidades.putPoints(cipherI.toString(this.radix).toUpperCase(), this.radix) + "\n" +
+                          "Col J --> " + this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase(), this.radix) + "^" +
+                          this.utilidades.putPoints(this.j.toString(this.radix).toUpperCase(), this.radix) + " mod " +
+                          this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase(), this.radix) + " = " + 
+                          this.utilidades.putPoints(cipherJ.toString(this.radix).toUpperCase(), this.radix) + "\n";
+            
+                
+                write = true;
+                
+                this.avgStats = this.i.multiply(Constantes.TWO);
+                statsTime = (System.currentTimeMillis() - startTime)/1000;
+                if (statsTime > 1){
+                    this.avgStats = (this.i.multiply(Constantes.TWO)).divide(new BigInteger(String.valueOf(statsTime)));
+                }                 
+                Platform.runLater(() -> {
+                   this.Pprint.partialResults(this.result);
+                   this.Pprint.Stats(this.avgStats.toString(), (this.i.multiply(Constantes.TWO)).toString(10));
+                });
+            }             
+        } 
+        
+        //Por si ha encontrado la clave y le faltan valores por escribir
+        if (!write){
+            this.partialResult = "Col I --> " + this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase(), this.radix) + "^" +
+                          this.utilidades.putPoints(this.i.toString(this.radix).toUpperCase(), this.radix) + " mod " +
+                          this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase(), this.radix) + " = " + 
+                          this.utilidades.putPoints(cipherI.toString(this.radix).toUpperCase(), this.radix) + "\n" +
+                          "Col J --> " + this.utilidades.putPoints(this.message.toString(this.radix).toUpperCase(), this.radix) + "^" +
+                          this.utilidades.putPoints(this.j.toString(this.radix).toUpperCase(), this.radix) + " mod " +
+                          this.utilidades.putPoints(this.modulus.toString(this.radix).toUpperCase(), this.radix) + " = " + 
+                          this.utilidades.putPoints(cipherJ.toString(this.radix).toUpperCase(), this.radix) + "\n";
+            
+            Platform.runLater(() -> this.Pprint.partialResults(this.partialResult));
+        }  
+
+        
+        
+        //si existe una colision de un valor de la columna I con el primer  valor de la columna J
+        if (cipherI.equals(initialCipherJ)){
+            //CALCULOS PARA OBTENER LA POSIBLE CLAVE           
+            IMinusJ = this.i.subtract(this.initialJ).abs();
+            w = (IMinusJ).divide(this.exponent.gcd(IMinusJ));        
+
+            Platform.runLater(() -> {
+                this.Pprint.colisionDetected("\n\nSe ha detectado una colision de la posición " + 
+                        this.utilidades.putPoints(this.i.toString().toUpperCase(), 10) + 
+                        " de la Columna I\ncon la primera posición de la Columna J.");
+                
+                this.Pprint.wValue(this.i.toString(this.radix).toUpperCase(), 
+                                                    this.initialJ.toString(this.radix).toUpperCase(),
+                                                    this.exponent.toString(this.radix).toUpperCase(),
+                                                    w.toString(this.radix).toUpperCase(),
+                                                    this.radix);});
+
+           //t es la clave privada o una clave privada pareja o un falso positivo
+           try {
+                t = this.exponent.modInverse(w);  
+                Platform.runLater(() -> {
+                    this.Pprint.privateKey(t.toString(this.radix).toUpperCase(), this.radix);
+                    this.Pprint.tValue(t.toString(this.radix).toUpperCase(), this.radix);
+                });
+            
+                this.checkObtainedKey(t);
+            }catch(ArithmeticException e){
+                Platform.runLater(() -> this.Pprint.modInverseError("\n\n ERROR NO EXISTE EL INVERSO DEL EXPONENTE EN EL CUERPO W.\n"));
+            }         
+        
+           
+           
+        //si existe una colision de un valor de la columna J con el primer  valor de la columna I
+        } else if (cipherJ.equals(initialCipherI)){
+           
+            //CALCULOS PARA OBTENER LA POSIBLE CLAVE
+            IMinusJ = this.j.subtract(this.initialI).abs();
+            w = (IMinusJ).divide(this.exponent.gcd(IMinusJ));        
+
+            Platform.runLater(() -> {
+                this.Pprint.colisionDetected("\n\nSe ha detectado una colision de la posición " +
+                        this.utilidades.putPoints(this.j.toString().toUpperCase(), 10) + 
+                        " de la Columna J con la primera posición de la Columna I.");
+                
+                this.Pprint.wValue(this.j.toString(this.radix).toUpperCase(), 
+                                    this.initialI.toString(this.radix).toUpperCase(),
+                                    this.exponent.toString(this.radix).toUpperCase(),
+                                    w.toString(this.radix).toUpperCase(),
+                                    this.radix);});
+
+
+            //t es la clave privada o una clave privada pareja o un falso positivo
+            try {
+                t = this.exponent.modInverse(w); 
+               
+                Platform.runLater(() -> {
+                this.Pprint.privateKey(t.toString(this.radix).toUpperCase(), this.radix);
+                this.Pprint.tValue(t.toString(this.radix).toUpperCase(), this.radix);
+                });
+            
+                this.checkObtainedKey(t);        
+            
+            }catch(ArithmeticException e){
+                Platform.runLater(() -> this.Pprint.modInverseError("\n\n ERROR NO EXISTE EL INVERSO DEL EXPONENTE EN EL CUERPO W.\n"));
+            }               
+            
+        //Si se ha  pulsado el boton de parar o pausar el ataque y no se ha encontrado la clave privada
+        }else {
+                        
+            if (ParadoxAttack.isPaused){
+                Platform.runLater(() -> this.Pprint.attackPaused());                
+                ParadoxAttack.storeI = this.i;
+                ParadoxAttack.storeJ = this.j;                
+                
+            } else {
+                Platform.runLater(() -> this.Pprint.attackStopped());
+            }            
+        }        
+           
+           
+                
+        totalTime = (System.currentTimeMillis() - startTime) + ParadoxAttack.globalTime;
+        ParadoxAttack.globalTime = totalTime;
+        time = this.utilidades.millisToSeconds(totalTime);
+        
+        totalTime = (totalTime / 1000);
+        this.avgStats =  (this.i.subtract(Constantes.TWO)).multiply(Constantes.TWO);
+        if (totalTime > 1){
+            this.avgStats = ((this.i.subtract(Constantes.TWO)).multiply(Constantes.TWO)).divide(new BigInteger(String.valueOf(totalTime)));
+        }     
+        
+        Platform.runLater(() -> {
+            this.Pprint.Stats(this.avgStats.toString(), ((this.i.subtract(Constantes.TWO)).multiply(Constantes.TWO)).toString(10));  
+            this.Pprint.time(time);
+        });
+              
+        if (ParadoxAttack.isPaused){
+            Platform.runLater(() -> this.Pprint.enableContinue());             
+        } else {
+            Platform.runLater(() -> {
+                this.Pprint.enableStart();            
+                this.Pprint.editableModExp(true);
+            });
+        }
+        
+        this.setIsCancelled(false);
+        this.setIsPaused(false);
+    }
+    
+       
+    
+    
     
     /**
      * Metodo que comprueba que la clave obtenida no sea un falso positivo
@@ -588,6 +1035,18 @@ public class ParadoxAttack {
     
     public void setIsCancelled (boolean value){
         ParadoxAttack.isCancelled = value;
+    }  
+    
+    
+    public void setIsCancelledWhenPause (){
+        Platform.runLater(() -> {
+            this.Pprint.enableStart();            
+            this.Pprint.editableModExp(true);
+        });
+    }  
+    
+    public void setIsPaused (boolean value){
+        ParadoxAttack.isPaused = value;
     }  
     
 }

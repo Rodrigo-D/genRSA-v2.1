@@ -214,9 +214,9 @@
                                     <Insets bottom="10.0" left="5.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button fx:id="pauseBttn" disable="true" mnemonicParsing="false" onAction="#pauseContinue" text="Pausar">
+                              <Button fx:id="pauseBttn" disable="true" minHeight="25.0" minWidth="69.0" mnemonicParsing="false" onAction="#pauseContinue" text="Pausar">
                                  <HBox.margin>
-                                    <Insets bottom="10.0" left="35.0" right="10.0" top="10.0" />
+                                    <Insets bottom="10.0" left="25.0" right="4.0" top="10.0" />
                                  </HBox.margin>
                               </Button>
                               <Separator orientation="VERTICAL">
@@ -239,7 +239,7 @@
                               </Button>
                               <Button fx:id="clearBttn" mnemonicParsing="false" onAction="#clear" text="Limpiar Datos">
                                  <HBox.margin>
-                                    <Insets bottom="10.0" right="10.0" />
+                                    <Insets bottom="10.0" right="12.0" />
                                  </HBox.margin>
                               </Button>
                               <Separator orientation="VERTICAL" />

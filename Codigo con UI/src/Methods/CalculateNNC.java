@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javafx.application.Platform;
+import javafx.scene.control.ProgressIndicator;
 
 /**
  *
@@ -29,6 +30,10 @@ public class CalculateNNC {
     //decimal = 10, hexadecimal = 16
     private final int radix;
     
+    private final ProgressIndicator progressInd;
+        
+    private double progress;
+        
     //Array donde se almacenan los NNC del cuerpo de cifra. Para el metodo de calculate
     List <BigInteger> listNNC = new ArrayList <>();
     //Array donde se copia listNNC para que no haya problemas con la escritura en el thread. Para el metodo de calculate
@@ -42,12 +47,15 @@ public class CalculateNNC {
      * @param radix
      * @param RSA
      * @param logFile 
+     * @param progressInd
      */
-    public CalculateNNC(int radix, ComponentesRSA RSA, File logFile){
+    public CalculateNNC(int radix, ComponentesRSA RSA, File logFile, ProgressIndicator progressInd){
         this.log = new LogNNC(logFile); 
         this.radix = radix;
         this.RSA = RSA;        
-        isCancelled = false;
+        CalculateNNC.isCancelled = false;
+        this.progressInd = progressInd;
+        this.progress = 0d;
     }    
     
     
@@ -56,8 +64,9 @@ public class CalculateNNC {
      * Metodo para calcular los Numeros No Cifrables, cuando la cantidad de NNC no supera los 10.000.000
      * y los primos p y q son distintos entre si
      * http://www.criptored.upm.es/crypt4you/temas/RSA/leccion5/leccion05.html
+     * @throws java.lang.InterruptedException
      */
-    public void quickCalculate() {
+    public void quickCalculate() throws InterruptedException {
         BigInteger number;
         BigInteger inv_pq,inv_qp, p_invpq, q_invqp;
         //valor maximo alcanzado al guardar valores en la lista de numNp y de numNq
@@ -80,7 +89,7 @@ public class CalculateNNC {
         Platform.runLater(() -> this.log.createHTML(this.RSA, this.radix));
 
         //Obtener los NNC de p 
-        numNp = this.calculatePQ_NNC(listNp, this.RSA.getpMinusOne(), this.RSA.getP());        
+        numNp = this.calculatePQ_NNC(listNp, this.RSA.getpMinusOne(), this.RSA.getP(), 0.0d, Constantes.ZERO);        
         if (isCancelled){
             Platform.runLater(() ->{
                 this.log.cancelledHTML();
@@ -90,7 +99,7 @@ public class CalculateNNC {
         }
         
         // Obtener los NNC de q         
-        numNq = this.calculatePQ_NNC(listNq, this.RSA.getqMinusOne(), this.RSA.getQ());        
+        numNq = this.calculatePQ_NNC(listNq, this.RSA.getqMinusOne(), this.RSA.getQ(), 0.45d, this.RSA.getpMinusOne());        
         if (isCancelled){
             Platform.runLater(() ->{
                 this.log.cancelledHTML();
@@ -112,6 +121,10 @@ public class CalculateNNC {
                     number=(listNp.get(iteradorP).add(listNq.get(iteradorQ))).mod(this.RSA.getN());
                     quickListNNC.add(number);
             }//2do for
+            
+            this.progress = 0.9d + ((iteradorQ * 0.8)/numNq );
+            Platform.runLater(() -> this.progressInd.setProgress(progress));
+            
             if (isCancelled){
                 break;
             }                
@@ -121,13 +134,17 @@ public class CalculateNNC {
         //ordeno la lista
         Collections.sort(quickListNNC);
         
-        Platform.runLater(() ->{               
+        Thread.sleep(150);
+        
+        Platform.runLater(() ->{    
             this.log.WriteList(quickListNNC, this.radix);  
             if (isCancelled){
                 this.log.cancelledHTML();
             }
             this.log.closeHTML();
         });
+        
+        
     }
     
     /**
@@ -135,27 +152,41 @@ public class CalculateNNC {
      * @param array
      * @param P_Q_minusOne
      * @param P_Q 
+     * @param startProgress
      */
-    private int calculatePQ_NNC (List <BigInteger> list, BigInteger P_Q_minusOne, BigInteger P_Q ){
-        int position;
+    private int calculatePQ_NNC (List <BigInteger> list, BigInteger P_Q_minusOne,
+            BigInteger P_Q, double startProgress, BigInteger partial ) throws InterruptedException{
+        
+        int position;       
         BigInteger possibleNNC = Constantes.ONE;
         BigInteger result;
+        
+        BigInteger BI_90 = new BigInteger("90");
+        BigInteger partialTotal = P_Q_minusOne.add(partial);
         
         //	x^e mod p = x con 1 ≤ x ≤ p-1
         //      x^e mod q = x con 1 ≤ x ≤ q-1        
         list.add(Constantes.ZERO);
         list.add(Constantes.ONE);
         position = 1;
+        
         do{
             possibleNNC=possibleNNC.add(Constantes.ONE);
 
             result = possibleNNC.modPow(this.RSA.getE(), P_Q);
 
             if (result.compareTo(possibleNNC)==0){
-                    position++;
-                    list.add(result);                                                
+                position++;
+                list.add(result);      
+            }
+            
+            if(possibleNNC.mod(Constantes.BLN_REFRESH).compareTo(Constantes.ZERO) == 0){
+                progress = startProgress + (Double.parseDouble(((((possibleNNC.add(partial)).multiply(BI_90))).divide(partialTotal)).toString())/100d);
+                Platform.runLater(() -> this.progressInd.setProgress(progress));
             }
         } while (possibleNNC.compareTo(P_Q_minusOne)!=0 && !isCancelled);
+        
+        Thread.sleep(150);
         
         return position;
     }
@@ -198,7 +229,13 @@ public class CalculateNNC {
                 Platform.runLater(() -> this.log.WriteList(copyListNNC, this.radix));
                 partialNumNNC=0;
                 listNNC = new ArrayList <>();                
-            }          
+            }       
+            
+            
+            if(possibleNNC.mod(Constantes.BLN_REFRESH).compareTo(Constantes.ZERO) == 0){
+                progress = Double.parseDouble(((possibleNNC).divide(modulusMinusOne)).toString());
+                Platform.runLater(() -> this.progressInd.setProgress(progress));
+            }
             
         } while (possibleNNC.compareTo(modulusMinusOne) != 0 && !isCancelled);
         

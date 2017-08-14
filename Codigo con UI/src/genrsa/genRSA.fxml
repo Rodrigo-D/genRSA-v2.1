@@ -901,6 +901,15 @@
                               <Insets left="1.0" right="14.0" />
                            </VBox.margin>
                         </Separator>
+                        <HBox alignment="CENTER" minHeight="53.0" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <ProgressIndicator fx:id="progressNNC" minHeight="30.0" minWidth="30.0" progress="0.0" visible="false" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets bottom="2.0" top="8.0" />
+                                 </HBox.margin>
+                              </ProgressIndicator>
+                           </children>
+                        </HBox>
                         <HBox alignment="TOP_CENTER" maxHeight="500.0" prefHeight="100.0" prefWidth="200.0" spacing="20.0" VBox.vgrow="ALWAYS">
                            <children>
                               <ProgressIndicator fx:id="progress" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="29.0" visible="false" />
@@ -909,12 +918,12 @@
                                     <Tooltip text="Pulsar para borrar los datos de la clave" />
                                  </tooltip>
                                  <HBox.margin>
-                                    <Insets right="35.0" top="15.0" />
+                                    <Insets right="35.0" top="5.0" />
                                  </HBox.margin>
                               </Button>
                            </children>
                            <VBox.margin>
-                              <Insets top="51.0" />
+                              <Insets />
                            </VBox.margin>
                         </HBox>
                      </children>

@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import org.apache.commons.lang3.StringUtils;
@@ -181,11 +182,11 @@ public class ManageKey {
     
     /**
      * Método encargado de guardar el log de Número No Cifrables
-     * @param label --> nodo cualquiera de la escena que se usa para ir escalando y obtener la ventana. 
+     * @param progressInd --> nodo cualquiera de la escena que se usa para ir escalando y obtener la ventana. 
      * @param RSA 
      * @param logNNCFile 
      */
-    public void saveLogNNC (Label label, ComponentesRSA RSA, File logNNCFile) {        
+    public void saveLogNNC (ProgressIndicator progressInd, ComponentesRSA RSA, File logNNCFile) throws InterruptedException {        
         CalculateNNC NNC;
         
         if (RSA != null){            
@@ -201,7 +202,7 @@ public class ManageKey {
         if (logNNCFile != null ){            
             this.fileChooser.setInitialDirectory(logNNCFile.getParentFile());
             
-            NNC = new CalculateNNC(this.radix, RSA, logNNCFile);
+            NNC = new CalculateNNC(this.radix, RSA, logNNCFile, progressInd);
            
             if ((RSA.getNumNNC().compareTo(Constantes.MAX_NNC_BI) == -1) 
                     && !(RSA.getP().equals(RSA.getQ()))){

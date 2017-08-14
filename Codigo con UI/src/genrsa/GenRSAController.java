@@ -140,6 +140,9 @@ public class GenRSAController {
 
     @FXML // fx:id="cantidadNNC"
     private TextField cantidadNNC; // Value injected by FXMLLoader
+        
+    @FXML // fx:id="progressNNC"
+    private ProgressIndicator progressNNC; // Value injected by FXMLLoader
     
     @FXML // fx:id="progress"
     private ProgressIndicator progress; // Value injected by FXMLLoader
@@ -273,6 +276,7 @@ public class GenRSAController {
         assert sameSizePrimes != null : "fx:id=\"sameSizePrimes\" was not injected: check your FXML file 'genRSA.fxml'.";
         assert tipicalPubKey != null : "fx:id=\"tipicalPubKey\" was not injected: check your FXML file 'genRSA.fxml'.";
         assert cantidadNNC != null : "fx:id=\"cantidadNNC\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert progressNNC != null : "fx:id=\"progressNNC\" was not injected: check your FXML file 'genRSA.fxml'.";
         assert progress != null : "fx:id=\"progress\" was not injected: check your FXML file 'genRSA.fxml'.";
         assert unitsP != null : "fx:id=\"unitsP\" was not injected: check your FXML file 'genRSA.fxml'.";
         assert unitsQ != null : "fx:id=\"unitsQ\" was not injected: check your FXML file 'genRSA.fxml'.";
@@ -415,20 +419,20 @@ public class GenRSAController {
                 @Override
                 protected Object call() throws Exception {
                     startLogNNC = false;
-                    progress.setVisible(true);                
+                    progressNNC.setVisible(true);                
                     Platform.runLater(() ->{
                         disableOnProgress(true);
                         configureLogStop(true);
                     });
 
 
-                    manageKey.saveLogNNC(unitsP, RSA, logNNCFile);
+                    manageKey.saveLogNNC(progressNNC, RSA, logNNCFile);
 
                     Platform.runLater(() ->{
                         disableOnProgress(false);
                         configureLogStop(false);
                     });
-                    progress.setVisible(false);
+                    progressNNC.setVisible(false);
                     startLogNNC = true;
                     return null;
                 }

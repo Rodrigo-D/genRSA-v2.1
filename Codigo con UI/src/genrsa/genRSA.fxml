@@ -1,0 +1,986 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.RadioMenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="580.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="genrsa.GenRSAController">
+   <children>
+      <MenuBar VBox.vgrow="NEVER">
+         <menus>
+            <Menu mnemonicParsing="false" text="Archivo">
+               <items>
+                  <MenuItem fx:id="saveKeyMenuI" mnemonicParsing="false" onAction="#saveKey" text="Guardar Clave">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="openKeyMenuI" mnemonicParsing="false" onAction="#openKey" text="Abrir clave">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem fx:id="deleteKeyMenu" mnemonicParsing="false" onAction="#delete" text="Borrar Clave">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#exitApplication" text="Salir">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                     </accelerator></MenuItem>
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Generar Clave">
+               <items>
+                  <MenuItem fx:id="manualMenuI" mnemonicParsing="false" onAction="#processManualGeneration" text="Manual">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="M" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="autoGenerarMenu" mnemonicParsing="false" onAction="#processAutomaticGeneration" text="Automática">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="A" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                     </accelerator></MenuItem>
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Operaciones">
+               <items>
+                  <MenuItem fx:id="DeCipherMenuI" mnemonicParsing="false" onAction="#DeCipher" text="Cifrar_Descifrar">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="SignMenuI" mnemonicParsing="false" onAction="#Sign" text="Firmar_Validar">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="F" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Test Primalidad">
+               <items>
+                  <MenuItem fx:id="millerMenuI" mnemonicParsing="false" onAction="#primalityMiller" text="Miller Rabin">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="M" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="fermatMenuI" mnemonicParsing="false" onAction="#primalityFermat" text="Fermat">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="F" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Ataques">
+               <items>
+                  <MenuItem fx:id="paradoxMenuI" mnemonicParsing="false" onAction="#Paradox" text="Paradoja del Cumpleaños">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="DIGIT1" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="cyclicMenuI" mnemonicParsing="false" onAction="#Cyclic" text="Cíclico">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="DIGIT2" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="factorizeMenuI" mnemonicParsing="false" onAction="#Factorize" text="Factorizar n">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="DIGIT3" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Unidades">
+               <items>
+                  <RadioMenuItem fx:id="Decimal" mnemonicParsing="false" onAction="#unitsDecimal" selected="true" text="Decimal">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="Unidades" />
+                     </toggleGroup>
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                     </accelerator>
+                  </RadioMenuItem>
+                  <RadioMenuItem fx:id="Hexadecimal" mnemonicParsing="false" onAction="#unitsHexadecimal" text="Hexadecimal" toggleGroup="$Unidades">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="H" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                     </accelerator>
+                  </RadioMenuItem>
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Ayuda">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#help" text="Manual de Usuario">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="F1" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#testBench" text="Banco de pruebas">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="F2" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#aboutGenRSA" text="Acerca de">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="F10" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <HBox id="Genera. manual y salir de la app" alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="660.0" spacing="30.0" VBox.vgrow="NEVER">
+         <children>
+            <Button fx:id="genManBttn" alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#processManualGeneration" text="Generación Manual">
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+               <tooltip>
+                  <Tooltip text="Pulsar tras haber introducido la clave pública y los primos p y q" />
+               </tooltip></Button>
+            <Button fx:id="limpiarDatosBttn" alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#delete" prefWidth="120.0" text="Limpiar Datos">
+               <tooltip>
+                  <Tooltip text="Pulsar para borrar los datos de la clave" />
+               </tooltip></Button>
+            <Button alignment="CENTER" minWidth="-Infinity" mnemonicParsing="false" onAction="#exitApplication" prefWidth="120.0" text="Salir de genRSA" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="10.0" top="10.0" />
+         </padding>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </HBox>
+      <Separator prefWidth="200.0">
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </Separator>
+      <HBox id="Clave y Primalidad" prefHeight="671.0" prefWidth="660.0" spacing="30.0" VBox.vgrow="ALWAYS">
+         <children>
+            <AnchorPane id="Clave y parejas" prefHeight="610.0" prefWidth="478.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <VBox layoutX="10.0" layoutY="23.0" prefHeight="615.0" prefWidth="660.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox id="Clave RSA">
+                           <children>
+                              <Separator orientation="VERTICAL" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets top="8.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <Label minWidth="-Infinity" text="Clave RSA" HBox.hgrow="NEVER" />
+                              <Separator prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets top="8.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <Separator orientation="VERTICAL" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets top="8.0" />
+                                 </HBox.margin>
+                              </Separator>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="14.0" top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox id="Separador, priv y public" prefHeight="341.0" prefWidth="427.0">
+                           <children>
+                              <Separator orientation="VERTICAL" prefHeight="200.0" />
+                              <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <HBox id="Componentes Privados" minWidth="-Infinity" prefHeight="26.0" prefWidth="354.0">
+                                       <children>
+                                          <Separator orientation="VERTICAL" prefHeight="2.0" prefWidth="6.0" valignment="BOTTOM" HBox.hgrow="NEVER">
+                                             <HBox.margin>
+                                                <Insets top="8.0" />
+                                             </HBox.margin>
+                                          </Separator>
+                                          <Label text="Componentes privados RSA">
+                                             <HBox.margin>
+                                                <Insets left="2.0" right="4.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Separator halignment="RIGHT" HBox.hgrow="ALWAYS">
+                                             <HBox.margin>
+                                                <Insets top="8.0" />
+                                             </HBox.margin>
+                                          </Separator>
+                                          <Separator orientation="VERTICAL">
+                                             <HBox.margin>
+                                                <Insets top="8.0" />
+                                             </HBox.margin>
+                                          </Separator>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="30.0" right="10.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox id="Primo p" prefHeight="51.0" prefWidth="721.0">
+                                       <children>
+                                          <Separator orientation="VERTICAL" prefHeight="200.0">
+                                             <HBox.margin>
+                                                <Insets right="8.0" />
+                                             </HBox.margin></Separator>
+                                          <Label minWidth="-Infinity" prefHeight="25.0" text="Numero primo p" HBox.hgrow="NEVER">
+                                             <HBox.margin>
+                                                <Insets right="8.0" />
+                                             </HBox.margin></Label>
+                                          <TextField fx:id="primo_P" minWidth="100.0" onKeyPressed="#processManualGeneration2" onKeyReleased="#bitsP" prefHeight="25.0" prefWidth="340.0" HBox.hgrow="ALWAYS">
+                                             <tooltip>
+                                                <Tooltip text="Introduce el primo p" />
+                                             </tooltip></TextField>
+                                          <ComboBox fx:id="cBoxP" minWidth="-Infinity" onAction="#cBoxPselected" prefWidth="35.0" visibleRowCount="9">
+                                             <HBox.margin>
+                                                <Insets right="8.0" />
+                                             </HBox.margin>
+                                          </ComboBox>
+                                          <Label fx:id="unitsP" minWidth="-Infinity" prefHeight="25.0" text="dec" HBox.hgrow="NEVER">
+                                             <tooltip>
+                                                <Tooltip text="Unidades" />
+                                             </tooltip>
+                                             <HBox.margin>
+                                                <Insets right="8.0" />
+                                             </HBox.margin></Label>
+                                          <TextField fx:id="bits_primo_P" alignment="CENTER" blendMode="DARKEN" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="43.0" HBox.hgrow="NEVER">
+                                             <tooltip>
+                                                <Tooltip text="Número de bits del primo p" />
+                                             </tooltip>
+                                             <HBox.margin>
+                                                <Insets right="8.0" />
+                                             </HBox.margin></TextField>
+                                          <Label minWidth="-Infinity" prefHeight="25.0" text="Bits" HBox.hgrow="NEVER">
+                                             <HBox.margin>
+                                                <Insets right="8.0" />
+                                             </HBox.margin></Label>
+                                          <Separator orientation="VERTICAL" prefHeight="200.0">
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin></Separator>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="30.0" right="10.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox id="Primo q" prefHeight="51.0" prefWidth="721.0">
+                                       <children>
+                                          <Separator orientation="VERTICAL" prefHeight="200.0">
+                                             <HBox.margin>
+                                                <Insets right="8.0" />
+                                             </HBox.margin></Separator>
+                                          <Label minWidth="-Infinity" prefHeight="25.0" text="Numero primo q" HBox.hgrow="NEVER">
+                                             <HBox.margin>
+                                                <Insets right="8.0" />
+                                             </HBox.margin></Label>
+                                          <TextField fx:id="primo_Q" minWidth="100.0" onKeyPressed="#processManualGeneration2" onKeyReleased="#bitsQ" prefHeight="25.0" prefWidth="340.0" HBox.hgrow="ALWAYS">
+                                             <tooltip>
+                                                <Tooltip text="Introduce el primo q" />
+                                             </tooltip></TextField>
+                                          <ComboBox fx:id="cBoxQ" minWidth="-Infinity" onAction="#cBoxQselected" prefWidth="35.0" visibleRowCount="9">
+                                             <HBox.margin>
+                                                <Insets right="8.0" />
+                                             </HBox.margin>
+                                          </ComboBox>
+                                          <Label fx:id="unitsQ" minWidth="-Infinity" prefHeight="25.0" text="dec" HBox.hgrow="NEVER">
+                                             <tooltip>
+                                                <Tooltip text="Unidades" />
+                                             </tooltip>
+                                             <HBox.margin>
+                                                <Insets right="8.0" />
+                                             </HBox.margin></Label>
+                                          <TextField fx:id="bits_primo_Q" alignment="CENTER" blendMode="DARKEN" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="43.0" HBox.hgrow="NEVER">
+                                             <tooltip>
+                                                <Tooltip text="Número de bits del primo q" />
+                                             </tooltip>
+                                             <HBox.margin>
+                                                <Insets right="8.0" />
+                                             </HBox.margin></TextField>
+                                          <Label minWidth="-Infinity" prefHeight="25.0" text="Bits" HBox.hgrow="NEVER">
+                                             <HBox.margin>
+                                                <Insets right="8.0" />
+                                             </HBox.margin></Label>
+                                          <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="30.0" right="10.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox id="Phi N" prefHeight="45.0" prefWidth="721.0" spacing="8.0">
+                                       <children>
+                                          <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                          <Label minWidth="-Infinity" prefHeight="25.0" prefWidth="89.0" text=" Φ (n)" HBox.hgrow="NEVER" />
+                                          <TextField fx:id="phiN" blendMode="DARKEN" editable="false" minWidth="100.0" prefHeight="25.0" prefWidth="340.0" HBox.hgrow="ALWAYS">
+                                             <tooltip>
+                                                <Tooltip text="Phi N" />
+                                             </tooltip>
+                                          </TextField>
+                                          <Label fx:id="unitsPhiN" minWidth="-Infinity" prefHeight="25.0" text="dec" HBox.hgrow="NEVER">
+                                             <tooltip>
+                                                <Tooltip text="Unidades" />
+                                             </tooltip>
+                                          </Label>
+                                          <TextField fx:id="bits_phiN" alignment="CENTER" blendMode="DARKEN" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="43.0" HBox.hgrow="NEVER">
+                                             <tooltip>
+                                                <Tooltip text="Número de bits del valor Phi N" />
+                                             </tooltip>
+                                          </TextField>
+                                          <Label minWidth="-Infinity" prefHeight="25.0" text="Bits" HBox.hgrow="NEVER" />
+                                          <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="30.0" right="10.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox id="Clave d" prefHeight="45.0" prefWidth="721.0" spacing="8.0">
+                                       <children>
+                                          <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                          <Label minWidth="-Infinity" prefHeight="25.0" prefWidth="89.0" text="Clave privada d" HBox.hgrow="NEVER" />
+                                          <TextField fx:id="clave_Privada" blendMode="DARKEN" editable="false" minWidth="100.0" prefHeight="25.0" prefWidth="340.0" HBox.hgrow="ALWAYS">
+                                             <tooltip>
+                                                <Tooltip text="Exponente privado" />
+                                             </tooltip></TextField>
+                                          <Label fx:id="unitsD" minWidth="-Infinity" prefHeight="25.0" text="dec" HBox.hgrow="NEVER">
+                                             <tooltip>
+                                                <Tooltip text="Unidades" />
+                                             </tooltip></Label>
+                                          <TextField fx:id="bits_clave_Privada" alignment="CENTER" blendMode="DARKEN" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="43.0" HBox.hgrow="NEVER">
+                                             <tooltip>
+                                                <Tooltip text="Número de bits de la clave privada" />
+                                             </tooltip></TextField>
+                                          <Label minWidth="-Infinity" prefHeight="25.0" text="Bits" HBox.hgrow="NEVER" />
+                                          <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="30.0" right="10.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <Separator prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets left="31.0" right="14.0" />
+                                       </VBox.margin>
+                                    </Separator>
+                                    <HBox id="Componentes públicos" alignment="TOP_CENTER" prefHeight="56.0" prefWidth="354.0">
+                                       <children>
+                                          <Separator orientation="VERTICAL" prefHeight="200.0" HBox.hgrow="NEVER">
+                                             <HBox.margin>
+                                                <Insets top="8.0" />
+                                             </HBox.margin>
+                                          </Separator>
+                                          <Label minWidth="-Infinity" text="Componentes públicos RSA" HBox.hgrow="NEVER">
+                                             <HBox.margin>
+                                                <Insets left="2.0" right="4.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Separator prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                             <HBox.margin>
+                                                <Insets top="8.0" />
+                                             </HBox.margin>
+                                          </Separator>
+                                          <Separator orientation="VERTICAL" prefHeight="200.0" HBox.hgrow="NEVER">
+                                             <HBox.margin>
+                                                <Insets top="8.0" />
+                                             </HBox.margin>
+                                          </Separator>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="30.0" right="10.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets top="30.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox id="Módulo n" prefHeight="51.0" prefWidth="721.0" spacing="8.0">
+                                       <children>
+                                          <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                          <Label minWidth="-Infinity" prefHeight="25.0" prefWidth="89.0" text="Módulo n" HBox.hgrow="NEVER" />
+                                          <TextField fx:id="modulo_N" blendMode="DARKEN" editable="false" minWidth="100.0" prefHeight="25.0" prefWidth="340.0" HBox.hgrow="ALWAYS">
+                                             <tooltip>
+                                                <Tooltip text="Módulo del cuerpo de cifra" />
+                                             </tooltip></TextField>
+                                          <Label fx:id="unitsN" minWidth="-Infinity" prefHeight="25.0" text="dec" HBox.hgrow="NEVER">
+                                             <tooltip>
+                                                <Tooltip text="Unidades" />
+                                             </tooltip></Label>
+                                          <TextField fx:id="bits_modulo_N" alignment="CENTER" blendMode="DARKEN" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="43.0" HBox.hgrow="NEVER">
+                                             <tooltip>
+                                                <Tooltip text="Número de bits del módulo n" />
+                                             </tooltip></TextField>
+                                          <Label minWidth="-Infinity" prefHeight="25.0" text="Bits" HBox.hgrow="NEVER" />
+                                          <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="30.0" right="10.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox id="Clave pública e" prefHeight="42.0" prefWidth="354.0" spacing="8.0">
+                                       <children>
+                                          <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                          <Label minWidth="-Infinity" prefHeight="25.0" prefWidth="89.0" text="Clave pública e" HBox.hgrow="NEVER" />
+                                          <TextField fx:id="clave_Publica" minWidth="100.0" onKeyPressed="#processManualGeneration2" onKeyReleased="#bitsPublicKey" prefHeight="25.0" prefWidth="340.0" HBox.hgrow="ALWAYS">
+                                             <tooltip>
+                                                <Tooltip text="Introduce la clave pública" />
+                                             </tooltip></TextField>
+                                          <Label fx:id="unitsE" minWidth="-Infinity" prefHeight="25.0" text="dec" HBox.hgrow="NEVER">
+                                             <tooltip>
+                                                <Tooltip text="Unidades" />
+                                             </tooltip></Label>
+                                          <TextField fx:id="bits_clave_Publica" alignment="CENTER" blendMode="DARKEN" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="43.0" HBox.hgrow="NEVER">
+                                             <tooltip>
+                                                <Tooltip text="Número de bits de la clave pública e" />
+                                             </tooltip></TextField>
+                                          <Label minWidth="-Infinity" prefHeight="25.0" text="Bits" HBox.hgrow="NEVER" />
+                                          <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="30.0" right="10.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <Separator prefWidth="200.0">
+                                       <VBox.margin>
+                                          <Insets left="31.0" right="14.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets bottom="10.0" />
+                                       </padding>
+                                    </Separator>
+                                 </children>
+                              </VBox>
+                              <Separator orientation="VERTICAL" prefHeight="200.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets left="14.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <Separator prefHeight="20.0" prefWidth="406.0" valignment="TOP" VBox.vgrow="NEVER">
+                           <VBox.margin>
+                              <Insets left="15.0" right="4.0" />
+                           </VBox.margin>
+                        </Separator>
+                        <HBox id="Claves parejas" prefHeight="0.0" prefWidth="354.0">
+                           <children>
+                              <Separator orientation="VERTICAL" prefHeight="200.0" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets top="8.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <Label id="Claves Parejas" alignment="TOP_LEFT" minWidth="-Infinity" text="Claves Privadas Parejas" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets left="2.0" right="4.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Separator prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets top="8.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <Separator orientation="VERTICAL" prefHeight="200.0" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets top="8.0" />
+                                 </HBox.margin>
+                              </Separator>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="14.0" right="10.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets top="35.0" />
+                           </padding>
+                        </HBox>
+                        <HBox prefHeight="177.0" prefWidth="394.0">
+                           <children>
+                              <Separator orientation="VERTICAL" prefHeight="200.0" />
+                              <AnchorPane prefHeight="177.0" prefWidth="50.0">
+                                 <children>
+                                    <Label alignment="TOP_LEFT" layoutX="14.0" layoutY="74.0" text="Cantidad" />
+                                    <TextField fx:id="num_claves_parejas" blendMode="DARKEN" editable="false" layoutX="7.0" layoutY="119.0" minWidth="-Infinity" prefHeight="29.0" prefWidth="60.0">
+                                       <tooltip>
+                                          <Tooltip text="Número de claves parejas" />
+                                       </tooltip></TextField>
+                                    <Label alignment="TOP_LEFT" layoutX="13.0" layoutY="91.0" text="de Claves" />
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" right="17.0" />
+                                 </HBox.margin>
+                              </AnchorPane>
+                              <TextArea fx:id="claves_parejas" blendMode="DARKEN" editable="false" prefHeight="177.0" prefWidth="224.0" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <tooltip>
+                                    <Tooltip text="Conjunto de claves parejas.  Mostradas como maximo 30." />
+                                 </tooltip>
+                              </TextArea>
+                              <Separator orientation="VERTICAL" prefHeight="200.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets left="14.0" right="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <Separator>
+                           <VBox.margin>
+                              <Insets left="15.0" right="14.0" />
+                           </VBox.margin>
+                        </Separator>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane id="Primalidad, generar, nnc" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="NEVER">
+               <children>
+                  <VBox prefHeight="680.0" prefWidth="279.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox id="Primalidad" prefHeight="30.0" VBox.vgrow="NEVER">
+                           <children>
+                              <Separator orientation="VERTICAL" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets top="8.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <Label minWidth="-Infinity" text="Test de primalidad" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets left="2.0" right="4.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Separator prefWidth="119.0" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets top="8.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <Separator orientation="VERTICAL" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets top="8.0" />
+                                 </HBox.margin>
+                              </Separator>
+                           </children>
+                           <VBox.margin>
+                              <Insets right="15.0" top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox id="Iteraciones" prefHeight="30.0" spacing="8.0" VBox.vgrow="NEVER">
+                           <children>
+                              <Separator orientation="VERTICAL" prefHeight="200.0" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <Label minWidth="-Infinity" prefHeight="25.0" text="Iteraciones" HBox.hgrow="NEVER" />
+                              <TextField fx:id="iteraciones_primalidad" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="53.0" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets right="60.0" />
+                                 </HBox.margin>
+                                 <tooltip>
+                                    <Tooltip text="A mayor número de iteraciones mayor fiabilidad del resultado" />
+                                 </tooltip>
+                              </TextField>
+                              <Separator halignment="RIGHT" orientation="VERTICAL" HBox.hgrow="ALWAYS" />
+                           </children>
+                           <VBox.margin>
+                              <Insets right="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox id="Test p" prefHeight="30.0" spacing="8.0" VBox.vgrow="NEVER">
+                           <children>
+                              <Separator orientation="VERTICAL" prefHeight="200.0">
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <ImageView fx:id="isPrime_P" fitHeight="17.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" top="3.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <Label minWidth="-Infinity" prefHeight="25.0" text="Número primo p" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets right="65.0" top="1.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Separator halignment="RIGHT" orientation="VERTICAL" HBox.hgrow="ALWAYS" />
+                           </children>
+                           <VBox.margin>
+                              <Insets right="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox id="Test q" prefHeight="20.0" spacing="8.0" VBox.vgrow="NEVER">
+                           <children>
+                              <Separator orientation="VERTICAL" prefHeight="200.0">
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <ImageView fx:id="isPrime_Q" fitHeight="17.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" top="3.0" />
+                                 </HBox.margin></ImageView>
+                              <Label minWidth="-Infinity" prefHeight="25.0" text="Número primo q" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets bottom="4.0" right="65.0" top="3.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Separator orientation="VERTICAL" prefHeight="200.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets right="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox id="Tiempo iteraciones" alignment="CENTER_LEFT" prefHeight="40.0" spacing="8.0" VBox.vgrow="NEVER">
+                           <children>
+                              <Separator orientation="VERTICAL" prefHeight="200.0" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <Label minWidth="-Infinity" prefHeight="25.0" text="Tiempo" HBox.hgrow="NEVER">
+                                 <padding>
+                                    <Insets right="18.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="tiempo_primalidad" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="53.0" promptText="0.000" HBox.hgrow="NEVER">
+                                 <tooltip>
+                                    <Tooltip text="Tiempo transcurrido en el cálculo de los resultados" />
+                                 </tooltip>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <Label minWidth="-Infinity" prefHeight="25.0" text="Seg" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets right="32.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Separator orientation="VERTICAL" prefHeight="200.0" HBox.hgrow="NEVER" />
+                           </children>
+                           <VBox.margin>
+                              <Insets right="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <Separator prefWidth="200.0" VBox.vgrow="NEVER">
+                           <VBox.margin>
+                              <Insets left="1.0" right="19.0" />
+                           </VBox.margin>
+                        </Separator>
+                        <HBox id="no hace nada, grafico" fillHeight="false" minHeight="10.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <TextArea disable="true" visible="false" />
+                           </children></HBox>
+                        <HBox VBox.vgrow="NEVER">
+                           <children>
+                              <Separator orientation="VERTICAL" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets top="8.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <Label id="Gen. Automática" minWidth="-Infinity" text="Generar Clave Automáticamente" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets left="2.0" right="4.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Separator prefWidth="200.0" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets top="8.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <Separator orientation="VERTICAL" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets top="8.0" />
+                                 </HBox.margin>
+                              </Separator>
+                           </children>
+                           <padding>
+                              <Insets right="11.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox id="Long. gen" prefHeight="30.0" spacing="8.0" VBox.vgrow="NEVER">
+                           <children>
+                              <Separator orientation="VERTICAL">
+                                 <HBox.margin>
+                                    <Insets right="19.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <Label minWidth="-Infinity" prefHeight="25.0" text="Longitud de Clave" HBox.hgrow="NEVER" />
+                              <TextField fx:id="bits_clave_automatica" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" onKeyPressed="#processAutomaticGeneration2" prefHeight="25.0" prefWidth="53.0" text="32">
+                                 <tooltip>
+                                    <Tooltip text="Longitud en bits de la clave a generar" />
+                                 </tooltip>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <Label minWidth="-Infinity" prefHeight="25.0" text="Bits" HBox.hgrow="NEVER" />
+                              <Separator orientation="VERTICAL" />
+                           </children>
+                           <VBox.margin>
+                              <Insets right="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox id="Tiempo gen" prefHeight="25.0" spacing="8.0" VBox.vgrow="NEVER">
+                           <children>
+                              <Separator orientation="VERTICAL" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets right="18.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <Label minWidth="-Infinity" prefHeight="25.0" text="Tiempo " HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets right="52.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="tiempo_clave_automatica" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="53.0" promptText="0.000">
+                                 <tooltip>
+                                    <Tooltip text="Tiempo transcurrido en la generación de la clave RSA" />
+                                 </tooltip>
+                              </TextField>
+                              <Label minWidth="-Infinity" prefHeight="25.0" text="Seg" HBox.hgrow="NEVER" />
+                              <Separator orientation="VERTICAL" HBox.hgrow="NEVER" />
+                           </children>
+                           <VBox.margin>
+                              <Insets right="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox id="tipical pub Key" alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="30.0" spacing="5.0" VBox.vgrow="NEVER">
+                           <children>
+                              <Separator orientation="VERTICAL" prefHeight="200.0">
+                                 <HBox.margin>
+                                    <Insets right="19.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <CheckBox fx:id="tipicalPubKey" alignment="BOTTOM_LEFT" minWidth="-Infinity" mnemonicParsing="false" prefHeight="17.0" prefWidth="16.0">
+                                 <tooltip>
+                                    <Tooltip text="Marcar si se desea que la clave generada tenga como clave pública 65.537" />
+                                 </tooltip>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="26.0" />
+                                 </HBox.margin>
+                              </CheckBox>
+                              <Label fx:id="labelPubKey" minWidth="-Infinity" prefHeight="25.0" text="Clave Pública = 65537">
+                                 <HBox.margin>
+                                    <Insets bottom="3.0" right="26.0" />
+                                 </HBox.margin>
+                                 <tooltip>
+                                    <Tooltip text="Clave usada en la mayoría de certificados" />
+                                 </tooltip>
+                              </Label>
+                              <Separator orientation="VERTICAL" prefHeight="200.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets right="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox id="sameSize P Q" alignment="CENTER_LEFT" prefHeight="30.0" spacing="5.0" VBox.vgrow="NEVER">
+                           <children>
+                              <Separator orientation="VERTICAL" prefHeight="200.0">
+                                 <HBox.margin>
+                                    <Insets right="19.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <CheckBox fx:id="sameSizePrimes" alignment="BOTTOM_LEFT" minWidth="-Infinity" mnemonicParsing="false" prefHeight="17.0" prefWidth="16.0">
+                                 <tooltip>
+                                    <Tooltip text="Marcar si se desea que la clave tenga los primos p y q de igual tamaño (a partir de 18 bits)" />
+                                 </tooltip>
+                                 <HBox.margin>
+                                    <Insets bottom="3.0" left="26.0" />
+                                 </HBox.margin>
+                              </CheckBox>
+                              <Label minWidth="-Infinity" prefHeight="25.0" text="p y q igual tamaño">
+                                 <HBox.margin>
+                                    <Insets bottom="3.0" right="43.0" />
+                                 </HBox.margin>
+                                 <tooltip>
+                                    <Tooltip text="Primos de igual tamaño es una debilidad" />
+                                 </tooltip>
+                              </Label>
+                              <Separator orientation="VERTICAL" prefHeight="200.0" />
+                           </children>
+                        </HBox>
+                        <HBox id="primos seguros" alignment="CENTER_LEFT" prefHeight="30.0" spacing="5.0" VBox.vgrow="NEVER">
+                           <children>
+                              <Separator orientation="VERTICAL" prefHeight="200.0">
+                                 <HBox.margin>
+                                    <Insets right="19.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <CheckBox fx:id="securePrimes" alignment="BOTTOM_LEFT" minWidth="-Infinity" mnemonicParsing="false" prefHeight="17.0" prefWidth="16.0">
+                                 <tooltip>
+                                    <Tooltip text="Marcar si se desea que la clave tenga los primos p y q de igual tamaño (a partir de 18 bits)" />
+                                 </tooltip>
+                                 <HBox.margin>
+                                    <Insets bottom="3.0" left="26.0" top="2.0" />
+                                 </HBox.margin>
+                              </CheckBox>
+                              <Label minWidth="-Infinity" prefHeight="25.0" text="primos seguros">
+                                 <HBox.margin>
+                                    <Insets bottom="3.0" right="61.0" top="2.0" />
+                                 </HBox.margin>
+                                 <tooltip>
+                                    <Tooltip text="Primos de igual tamaño es una debilidad" />
+                                 </tooltip>
+                              </Label>
+                              <Separator orientation="VERTICAL" prefHeight="200.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox id="generar automatica" alignment="CENTER_LEFT" prefHeight="40.0" spacing="5.0" VBox.vgrow="NEVER">
+                           <children>
+                              <Separator orientation="VERTICAL" prefHeight="200.0">
+                                 <HBox.margin>
+                                    <Insets right="19.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <Button fx:id="autoGenerarBttn" minWidth="-Infinity" mnemonicParsing="false" onAction="#processAutomaticGeneration" text="Generación Automática">
+                                 <tooltip>
+                                    <Tooltip text="Pulsar para generar la clave RSA" />
+                                 </tooltip>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="14.0" right="35.0" top="3.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Separator orientation="VERTICAL" prefHeight="200.0" />
+                           </children>
+                        </HBox>
+                        <Separator prefWidth="200.0" VBox.vgrow="NEVER">
+                           <VBox.margin>
+                              <Insets left="1.0" right="15.0" />
+                           </VBox.margin>
+                        </Separator>
+                        <HBox id="no hace nada, grafico" maxHeight="-Infinity" minHeight="35.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <TextArea visible="false" />
+                           </children></HBox>
+                        <HBox VBox.vgrow="NEVER">
+                           <children>
+                              <Separator orientation="VERTICAL" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets top="8.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <Label minWidth="-Infinity" text="Números No Cifrables - NNC" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets left="2.0" right="4.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Separator prefWidth="200.0" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets top="8.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <Separator orientation="VERTICAL" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets top="8.0" />
+                                 </HBox.margin>
+                              </Separator>
+                           </children>
+                           <VBox.margin>
+                              <Insets right="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="247.0" spacing="8.0" VBox.vgrow="NEVER">
+                           <children>
+                              <Separator orientation="VERTICAL" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets right="13.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <Label minWidth="-Infinity" prefHeight="25.0" text="Cantidad de NNC">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="cantidadNNC" blendMode="DARKEN" editable="false" minWidth="-Infinity" prefHeight="25.0" prefWidth="76.0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" right="14.0" />
+                                 </HBox.margin>
+                                 <tooltip>
+                                    <Tooltip text="Número de NNC" />
+                                 </tooltip>
+                              </TextField>
+                              <Separator orientation="VERTICAL" prefHeight="200.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets right="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="40.0" VBox.vgrow="NEVER">
+                           <children>
+                              <Separator orientation="VERTICAL">
+                                 <HBox.margin>
+                                    <Insets right="80.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <Button fx:id="logNNCbttn" alignment="TOP_LEFT" minWidth="-Infinity" mnemonicParsing="false" onAction="#generateNNC" text="Generar Log">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" right="58.0" />
+                                 </HBox.margin>
+                                 <tooltip>
+                                    <Tooltip text="Pulsar para generar el log" />
+                                 </tooltip>
+                              </Button>
+                              <Separator orientation="VERTICAL" />
+                           </children>
+                        </HBox>
+                        <Separator prefWidth="200.0" VBox.vgrow="NEVER">
+                           <VBox.margin>
+                              <Insets left="1.0" right="14.0" />
+                           </VBox.margin>
+                        </Separator>
+                        <HBox alignment="CENTER" fillHeight="false" minHeight="52.0" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <ProgressIndicator fx:id="progressNNC" minHeight="30.0" minWidth="30.0" progress="0.0" visible="false" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </ProgressIndicator>
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_CENTER" maxHeight="500.0" prefHeight="100.0" prefWidth="200.0" spacing="20.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <ProgressIndicator fx:id="progress" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="29.0" visible="false" />
+                              <Button fx:id="limpiarDatos1Bttn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#delete" prefHeight="25.0" text="Limpiar Datos">
+                                 <tooltip>
+                                    <Tooltip text="Pulsar para borrar los datos de la clave" />
+                                 </tooltip>
+                                 <HBox.margin>
+                                    <Insets right="35.0" top="9.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+      <HBox prefHeight="53.0" prefWidth="1094.0">
+         <children>
+            <Label alignment="BOTTOM_LEFT" prefHeight="17.0" prefWidth="1001.0" text="Universidad Politécnica de Madrid" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin></Label>
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="500.0" text="Generación RSA v2.1" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin></Label>
+         </children>
+      </HBox>
+   </children>
+</VBox>

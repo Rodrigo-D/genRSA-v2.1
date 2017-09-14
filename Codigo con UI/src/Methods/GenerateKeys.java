@@ -153,9 +153,10 @@ public class GenerateKeys {
      * @param KeySize
      * @param sameSizePrimes
      * @param tipicalPubKey
+     * @param securePrimes
      * @return 
      */
-    public ComponentesRSA autoRSAkeys(String KeySize, boolean sameSizePrimes, boolean tipicalPubKey) {        
+    public ComponentesRSA autoRSAkeys(String KeySize, boolean sameSizePrimes, boolean tipicalPubKey, boolean securePrimes) {        
         this.startTime = System.currentTimeMillis();
         int distanceBits;
         final String keySize;
@@ -185,14 +186,25 @@ public class GenerateKeys {
         if (tipicalPubKey){
             
             if(this.RSA.getKeySize()>18){
-                this.createRSAKeysWithTipicalPubKey(distanceBits, sameSizePrimes);
+                this.createRSAKeysWithTipicalPubKey(distanceBits, sameSizePrimes, securePrimes);
             } else {
                 Platform.runLater(() ->this.errorDialog.keySizeTipicalPubKey(this.radix));
                 return null;
             }
             
         } else {
-            this.createRSAKeys(distanceBits, sameSizePrimes);        
+            if (securePrimes){
+                
+                if(this.RSA.getKeySize()>7){
+                    this.createRSAKeysSecure(distanceBits, sameSizePrimes);
+                } else {
+                    Platform.runLater(() ->this.errorDialog.keySizeSecurePrime());
+                    return null;
+                }    
+            } else {
+                this.createRSAKeys(distanceBits, sameSizePrimes);        
+
+            }
         }
         
         this.time = this.utilidades.millisToSeconds(System.currentTimeMillis()  - this.startTime);
@@ -211,6 +223,61 @@ public class GenerateKeys {
     /**
      * Método para generar de manera automatica las claves RSA con una distancia de bits
      * entre p y q igual a distanceBits. La clave pública será el valor más bajo posible.
+     * Y se usarán primos seguros. 
+     * @param keySize
+     * @param sameSizePrimes
+     */
+    private void createRSAKeysSecure(int distanceBits, final boolean sameSizePrimes) {
+  
+        /* Step 1: Select the prime numbers (p and q) */
+        do {
+            this.RSA.setP( BigInteger.probablePrime((this.RSA.getKeySize()/2)+distanceBits, new SecureRandom()));
+        } while (!((this.RSA.getP().multiply(Constantes.TWO)).add(Constantes.ONE)).isProbablePrime(150));
+
+        do {
+            this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-distanceBits, new SecureRandom()));
+        } while (!((this.RSA.getQ().multiply(Constantes.TWO)).add(Constantes.ONE)).isProbablePrime(150));
+                        
+            
+        /* Step 2:  n = p.q */
+        this.RSA.setN( this.RSA.getP().multiply(this.RSA.getQ()));
+        
+        if (!sameSizePrimes || (this.RSA.getKeySize() % 2) == 1){
+            distanceBits--;
+        }        
+        
+        //se comprueba que n sea de la longitud pedida y que p sea distinto de q
+        while (this.RSA.getN().bitLength() != this.RSA.getKeySize() || this.RSA.getP().equals(this.RSA.getQ())){
+            
+            do {
+                this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-(distanceBits), new SecureRandom()));
+            } while (!((this.RSA.getQ().multiply(Constantes.TWO)).add(Constantes.ONE)).isProbablePrime(150));
+                        
+            this.RSA.setN( this.RSA.getP().multiply(this.RSA.getQ()));
+        }
+
+        /* Step 3: phi N = (p - 1).(q - 1) */
+        this.RSA.setpMinusOne( this.RSA.getP().subtract(Constantes.ONE));
+        this.RSA.setqMinusOne( this.RSA.getQ().subtract(Constantes.ONE));
+        this.RSA.setPhiN( this.RSA.getpMinusOne().multiply(this.RSA.getqMinusOne()));
+
+        /* Step 4: Find e, gcd(e, ø(n)) = 1 ; 1 < e < ø(n) */
+        this.RSA.setE(Constantes.ONE);
+        do {
+            this.RSA.setE( this.RSA.getE().add(Constantes.TWO));
+                // compareTo da 1 si es mayor que el valor entre parentesis
+        } while ((this.RSA.getE().compareTo(this.RSA.getPhiN()) > -1) || 
+                 (this.RSA.getE().gcd(this.RSA.getPhiN()).compareTo(Constantes.ONE)) != 0);
+
+        /* Step 5: Calculate d such that e.d = 1 (mod ø(n)) */
+        this.RSA.setD( this.RSA.getE().modInverse(this.RSA.getPhiN()));
+    }
+    
+    
+     /**
+     * Método para generar de manera automatica las claves RSA con una distancia de bits
+     * entre p y q igual a distanceBits. La clave pública será el valor más bajo posible.
+	 * Con primos al azar, no tienen porque ser seguros.
      * @param keySize
      * @param sameSizePrimes
      */
@@ -252,23 +319,35 @@ public class GenerateKeys {
     
     
     
-    
     /**
      * Método para generar de manera automatica las claves RSA con la clave publica = 65.537 y
-     * una distancia entre p y q igual a distanceBits
+     * una distancia entre p y q igual a distanceBits.
      * @param keySize
      * @param sameSizePrimes
+     * @param securePrimes
      */
-    private void createRSAKeysWithTipicalPubKey(int distanceBits, final boolean sameSizePrimes) {
+    private void createRSAKeysWithTipicalPubKey(int distanceBits, final boolean sameSizePrimes, boolean securePrimes) {
         
         /* Step 1: Set e=65537 */
         this.RSA.setE(new BigInteger("65537"));
         
-        /* Step 2: Select the prime numbers (p and q) */
-        this.RSA.setP( BigInteger.probablePrime((this.RSA.getKeySize()/2)+distanceBits, new SecureRandom()));
-        this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-distanceBits, new SecureRandom()));
+        /* Step 2: Select the prime numbers (p and q) */        
+        if (securePrimes){
+            
+            do {
+                this.RSA.setP( BigInteger.probablePrime((this.RSA.getKeySize()/2)+distanceBits, new SecureRandom()));
+            } while (!((this.RSA.getP().multiply(Constantes.TWO)).add(Constantes.ONE)).isProbablePrime(150));
+            
+            do {
+                this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-distanceBits, new SecureRandom()));
+            } while (!((this.RSA.getQ().multiply(Constantes.TWO)).add(Constantes.ONE)).isProbablePrime(150));
+                        
+        } else {
+            this.RSA.setP( BigInteger.probablePrime((this.RSA.getKeySize()/2)+distanceBits, new SecureRandom()));
+            this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-distanceBits, new SecureRandom()));
+        }
         
-
+        
         /* Step 3: phi N = (p - 1).(q - 1) */
         this.RSA.setpMinusOne( this.RSA.getP().subtract(Constantes.ONE));
         this.RSA.setqMinusOne( this.RSA.getQ().subtract(Constantes.ONE));
@@ -285,9 +364,16 @@ public class GenerateKeys {
                  (this.RSA.getE().gcd(this.RSA.getPhiN()).compareTo(Constantes.ONE)) != 0 ||
                     (this.RSA.getP().equals(this.RSA.getQ())) ||
                         (this.RSA.getN().bitLength() != this.RSA.getKeySize())){
+                        
+            if (securePrimes){
+                do {
+                    this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-(distanceBits), new SecureRandom()));
+                } while (!((this.RSA.getQ().multiply(Constantes.TWO)).add(Constantes.ONE)).isProbablePrime(150));
+                        
+            } else {               
+                this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-(distanceBits), new SecureRandom()));
+            }
             
-           
-            this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-(distanceBits), new SecureRandom()));
             this.RSA.setN( this.RSA.getP().multiply(this.RSA.getQ()));            
             
             this.RSA.setqMinusOne( this.RSA.getQ().subtract(Constantes.ONE));

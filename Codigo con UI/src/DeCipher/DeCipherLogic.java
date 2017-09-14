@@ -94,7 +94,7 @@ public class DeCipherLogic {
     
     /**
      * Metodo compartido por cifrado y descifrado
-     * Método que decidira como se procesa los datos introducidos:
+     * Método que decidirá como se procesa los datos introducidos:
      * como texto o como números. 
      * @param Data
      * @param isText
@@ -116,9 +116,11 @@ public class DeCipherLogic {
         lines = data.split("\n");        
         if (isText && isOriginal) {
             result = this.processText(lines);           
-        } else  {
-            result = this.processNumbers(lines, isOriginal, isText);
-        } 
+        } else  if (isText){
+            result = this.processNumbersText(lines);
+        } else {
+            result = this.processNumbers(lines, isOriginal);
+        }
        
         return result;        
     }
@@ -196,11 +198,9 @@ public class DeCipherLogic {
      /**
       * Procesado de los numeros introducidos
       * @param lines
-      * @param isOriginal
-      * @param isText
       * @return 
       */  
-    private boolean processNumbers(String lines[], boolean isOriginal, boolean isText){
+    private boolean processNumbersText(String lines[]){
         //arrays donde se guardaran los numeros preprocesados y procesados respectivamente
         String numbers[], processedNumbers[];
         //iteradores que llevaran la cuenta de las lineas y los numeros procesados
@@ -216,7 +216,7 @@ public class DeCipherLogic {
         boolean modified = false;
         
         //compruebo que se pueda descifrar texto        
-        if(this.modulus.compareTo(new BigInteger("256")) == -1 && !isOriginal && isText){
+        if(this.modulus.compareTo(new BigInteger("256")) == -1 ){
             this.errorDialog.littleModulus("descifrar");
             return false;            
         }
@@ -302,11 +302,95 @@ public class DeCipherLogic {
         }//while de fuera
 
        
-       this.DCprint.inputNumbersData(processedNumbers, isOriginal, this.radix);
+       this.DCprint.inputNumbersData(processedNumbers, false, this.radix);
                
         
         if(modified){
             this.infoDialog.warningDeCipher();
+        }
+        
+        return true;
+    }
+    
+    
+    /**
+      * Procesado de los números introducidos
+      * @param lines
+      * @param isOriginal
+      * @return 
+      */  
+    private boolean processNumbers(String lines[], boolean isOriginal){
+        //arrays donde se guardarán los numeros procesados
+        String  processedNumbers[];
+        //iterador que llevará la cuenta de las lineas
+        int lineIterator=0;
+        BigInteger number;
+        int linesNum;
+        
+        int warningTimes=0;
+        boolean warning = false;
+        BigInteger warnNumber = Constantes.ZERO, reduceNumber = Constantes.ZERO;
+        
+        
+        linesNum = lines.length;
+        processedNumbers = new String [linesNum];
+        this.DataBI = new BigInteger[linesNum];
+        while (lineIterator < linesNum){
+            //quita puntos, comas y espacios a la linea
+            processedNumbers[lineIterator] = this.utilidades.formatNumber(lines[lineIterator]);
+
+            //compruebo q no se dejen lineas vacias
+            if(processedNumbers[lineIterator].equals("")){
+                lineIterator++;
+                continue;
+            }
+
+            //compruebo q la linea sea un numero decimal o hexadecimal (según la base/radix)
+            try{
+                number = new BigInteger(processedNumbers[lineIterator], this.radix);
+            } catch (NumberFormatException n){            
+                this.errorDialog.numberData(this.radix);
+                return false;
+            }
+            //compruebo q sea un numero mayor o igual que cero
+            if (number.compareTo(Constantes.ZERO)==-1){
+                this.errorDialog.formatData(this.radix);
+                return false;
+            }
+                        
+            
+            //compruebo que sea un numero menor que el modulo
+            if (number.compareTo(this.modulus) < 1){
+                this.DataBI[lineIterator] = number;
+
+            //si el número es mayor que el módulo se avisará de que realmente se va a 
+            //cifrar/descifrar un número equivalente en el modulo de cifra.
+            } else {
+                
+                if (!warning){
+                    warnNumber = number;
+                    reduceNumber = number.mod(this.modulus);
+                }
+                
+                
+                this.DataBI[lineIterator]= number.mod(this.modulus);
+                
+                warning=true;       
+                warningTimes++;
+            }//else de numero mayor q modulo
+            
+            
+            lineIterator++;
+        }//while de fuera
+
+       
+       this.DCprint.inputNumbersData(processedNumbers, isOriginal, this.radix);
+               
+        
+        if(warning){
+            this.infoDialog.warningNumbers(warningTimes,
+                    this.utilidades.putPoints(warnNumber.toString(this.radix).toUpperCase(), this.radix),
+                    this.utilidades.putPoints(reduceNumber.toString(this.radix).toUpperCase(), this.radix));
         }
         
         return true;

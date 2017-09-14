@@ -100,9 +100,12 @@ public class SignLogic {
         lines = data.split("\n");        
         if (isText && isOriginal) {
             result = this.processText(lines);           
-        } else  {
-            result = this.processNumbers(lines, isOriginal, isText);
-        } 
+        } else if (isText){
+            result = this.processNumbersText(lines);
+        } else {
+            result = this.processNumbers(lines, isOriginal);
+        }
+        
        
         return result;        
     }
@@ -164,13 +167,11 @@ public class SignLogic {
     
     
     /**
-     * 
+     * Procesado de los números introducidos
      * @param lines
-     * @param isOriginal
-     * @param isText
      * @return 
      */
-    private boolean processNumbers(String lines[], boolean isOriginal, boolean isText){
+    private boolean processNumbersText(String lines[]){
         //arrays donde se guardaran los numeros preprocesados y procesados respectivamente
         String numbers[], processedNumbers[];
         //iteradores que llevaran la cuenta de las lineas y los numeros procesados
@@ -186,7 +187,7 @@ public class SignLogic {
         boolean modified = false;
         
         //compruebo que se pueda validar texto
-        if(this.modulus.compareTo(new BigInteger("256")) == -1 && !isOriginal && isText){
+        if(this.modulus.compareTo(new BigInteger("256")) == -1){
             this.errorDialog.littleModulus("validar");
             return false;            
         }
@@ -212,11 +213,12 @@ public class SignLogic {
                 this.errorDialog.numberData(this.radix);
                 return false;
             }
-            //compruebo q sea un numero mayor que cero
+            //compruebo q sea un numero mayor o igual que cero
             if (number.compareTo(Constantes.ZERO)==-1){
                 this.errorDialog.formatData(this.radix);
                 return false;
             }
+            
             
             //compruebo que sea un numero menor que el modulo
             if (number.compareTo(this.modulus) < 1){
@@ -264,13 +266,13 @@ public class SignLogic {
                             endIndex = digitsOfNumber;
                         }
                     } 
-                }//while de detro                    
+                }//while de dentro                    
             }//else de numero mayor q modulo
             lineIterator++;
         }//while de fuera
 
        
-       this.Sprint.inputNumbersData(processedNumbers, isOriginal, this.radix);
+       this.Sprint.inputNumbersData(processedNumbers, false, this.radix);
                
         
         if(modified){
@@ -282,8 +284,94 @@ public class SignLogic {
     
     
     
-     private boolean processText(String lines[]){
-        //arrays donde se guardaran los numeros preprocesados y procesados respectivamente
+     /**
+     * Procesado de los números introducidos
+     * @param lines
+     * @param isOriginal
+     * @return 
+     */
+    private boolean processNumbers(String lines[], boolean isOriginal){
+        //arrays donde se guardarán los numeros procesados
+        String processedNumbers[];
+        //iterador que llevará la cuenta de las lineas
+        int lineIterator=0;
+        BigInteger number;
+        int linesNum;
+        
+        int warningTimes=0;
+        boolean warning = false;
+        BigInteger warnNumber = Constantes.ZERO, reduceNumber = Constantes.ZERO;
+        
+        linesNum = lines.length;
+        processedNumbers = new String [linesNum];
+        this.DataBI = new BigInteger[linesNum];
+        while (lineIterator < linesNum ){
+            //quita puntos, comas y espacios a la linea
+            processedNumbers[lineIterator] = this.utilidades.formatNumber(lines[lineIterator]);
+
+            //compruebo q no se dejen lineas vacias
+            if(processedNumbers[lineIterator].equals("")){
+                lineIterator++;
+                continue;
+            }
+
+            //compruebo q la linea sea un numero decimal o hexadecimal (según la base/radix)
+            try{
+                number = new BigInteger(processedNumbers[lineIterator], this.radix);
+            } catch (NumberFormatException n){            
+                this.errorDialog.numberData(this.radix);
+                return false;
+            }
+            //compruebo q sea un numero mayor o igual que cero
+            if (number.compareTo(Constantes.ZERO)==-1){
+                this.errorDialog.formatData(this.radix);
+                return false;
+            }            
+            
+            //compruebo que sea un numero menor que el modulo
+            if (number.compareTo(this.modulus) < 1){
+                this.DataBI[lineIterator] = number;
+
+            //si el número es mayor que el módulo se avisará de que realmente se va a 
+            //firmar/validar un número equivalente en el modulo de cifra.    
+            } else {
+            
+                 if (!warning){
+                    warnNumber = number;
+                    reduceNumber = number.mod(this.modulus);
+                }      
+                
+                this.DataBI[lineIterator]= number.mod(this.modulus);
+                
+                warning=true;       
+                warningTimes++;
+            }//else de numero mayor q modulo
+            
+            
+            lineIterator++;
+        }//while de fuera
+
+       
+        this.Sprint.inputNumbersData(processedNumbers, isOriginal, this.radix);
+               
+         if(warning){
+            this.infoDialog.warningNumbers(warningTimes,
+                    this.utilidades.putPoints(warnNumber.toString(this.radix).toUpperCase(), this.radix),
+                    this.utilidades.putPoints(reduceNumber.toString(this.radix).toUpperCase(), this.radix));
+        }
+      
+        
+        return true;
+    }    
+    
+    
+    /**
+     * Procesado del texto introducido: se pasa de lineas texto a numeros
+     * @param lines
+     * @return 
+     */
+    private boolean processText(String lines[]){
+        //arrays donde se guardaran los numeros procesados
         String processedText[];
         //iteradores que llevaran la cuenta de las lineas y los numeros procesados
         int lineIterator=0, processedIterator=0;
@@ -390,7 +478,7 @@ public class SignLogic {
                             endIndex = bytesOfNumber;
                         }
                     } 
-                }//while de detro                  
+                }//while de dentro                  
             }//else de numero mayor q modulo
             lineIterator++;
         }//while de fuera

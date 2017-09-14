@@ -128,6 +128,9 @@ public class GenRSAController {
 
     @FXML // fx:id="tiempo_clave_automatica"
     private TextField tiempo_clave_automatica; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="securePrimes"
+    private CheckBox securePrimes; // Value injected by FXMLLoader
 
     @FXML // fx:id="sameSizePrimes"
     private CheckBox sameSizePrimes; // Value injected by FXMLLoader    
@@ -273,6 +276,7 @@ public class GenRSAController {
         assert tiempo_primalidad != null : "fx:id=\"tiempo_primalidad\" was not injected: check your FXML file 'genRSA.fxml'.";
         assert bits_clave_automatica != null : "fx:id=\"bits_clave_automatica\" was not injected: check your FXML file 'genRSA.fxml'.";
         assert tiempo_clave_automatica != null : "fx:id=\"tiempo_clave_automatica\" was not injected: check your FXML file 'genRSA.fxml'.";
+        assert securePrimes != null : "fx:id=\"securePrimes\" was not injected: check your FXML file 'genRSA.fxml'.";
         assert sameSizePrimes != null : "fx:id=\"sameSizePrimes\" was not injected: check your FXML file 'genRSA.fxml'.";
         assert tipicalPubKey != null : "fx:id=\"tipicalPubKey\" was not injected: check your FXML file 'genRSA.fxml'.";
         assert cantidadNNC != null : "fx:id=\"cantidadNNC\" was not injected: check your FXML file 'genRSA.fxml'.";
@@ -337,11 +341,12 @@ public class GenRSAController {
                 String keySize = bits_clave_automatica.getText(); 
                 boolean isSameSize = sameSizePrimes.isSelected();
                 boolean isTipicalPubKey = tipicalPubKey.isSelected();
+                boolean isSecurePrimes = securePrimes.isSelected();
 
                 progress.setVisible(true);                
                 Platform.runLater(() ->disableOnProgress(true));
                 
-                RSA = generate.autoRSAkeys(keySize, isSameSize, isTipicalPubKey);
+                RSA = generate.autoRSAkeys(keySize, isSameSize, isTipicalPubKey, isSecurePrimes);
                 
                 Platform.runLater(() ->{
                     disableOnProgress(false);
@@ -1174,10 +1179,6 @@ public class GenRSAController {
 
     public TextField getTiempo_clave_automatica() {
         return tiempo_clave_automatica;
-    }
-
-    public CheckBox getSameSizePrimes() {
-        return sameSizePrimes;
     }
             
     public CheckBox getTipicalPubKey() {

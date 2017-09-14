@@ -96,8 +96,8 @@ public class InfoDialog {
                  + "Se toma i=1 y j=módulo/2. \n"                
                  + "Para i=i+1 se calcula N^i mod n. \n"
                  + "Para j se calcula N^j mod n. \n"
-                 + "Cuando se encuentra un resultado en i  igual al \n"
-                 + "al resultado en j se calcula la clave privada d.\n"
+                 + "Cuando se encuentra un resultado en i igual al primer \n"
+                 + "resultado en j (y viceversa),  se calcula la clave privada d.\n"
                  + "Se lee el valor del contador de i y de j, se calcula\n"
                  + " w = (i - j) / mcd (e, |i - j|).\n" 
                  + "Deberán existir dos valores (s, t) de forma que se\n" 
@@ -126,13 +126,34 @@ public class InfoDialog {
         info.showAndWait();
     }
     
+    public void warningNumbers(int times, String originalNum, String reduceNumber) {
+        
+        if(times == 1 && originalNum.length() < 35 && reduceNumber.length() < 35 ) {
+            info.setHeaderText("Atención, se ha introducido un número mayor que el módulo.");
+            info.setContentText("Por este motivo, el número " + originalNum + " se ha reducido aplicando "
+                + "la operación módulo. Dando como resultado el número equivalente " + reduceNumber);
+        } else if (times ==1) {
+            info.setHeaderText("Atención, se ha introducido un número mayor que el módulo.");
+            info.setContentText("Por este motivo, a dicho número se le ha aplicado la "
+                    + "operación módulo para obtener un número equivalente.");
+        }
+        else{
+            info.setHeaderText("Atención, se han introducido números mayor que el módulo.");
+            info.setContentText("Por este motivo, a dichos números se les ha aplicado la "
+                    + "operación módulo para obtener números equivalentes.");
+        }        
+        info.showAndWait();
+    }
+    
+    
     public void warningSign() {
         info.setHeaderText("Atención, no se han introducido de forma correcta los datos.");
         info.setContentText("Para que se garantize la firma/validación de todos los números, \n"
                 + "introduzca un número menor al valor del módulo en cada línea.");
         info.showAndWait();
     }
-
+    
+    
     public void putCipherInfo() {
         info.setHeaderText(null);
         info.setContentText("El proceso de cifrado siempre se realiza con la clave\n" 
@@ -141,7 +162,7 @@ public class InfoDialog {
                  + "Se garantiza la Confidencialidad.\n\n"                
                  + "Si los datos introducidos no son texto, se introducirá un\n"
                  + "número por línea. Si el número introducido es mayor que el\n"
-                 + "módulo se dividirá en números de menor o igual valor que el módulo.\n\n"
+                 + "módulo se realizará el módulo para cifrar un número equivalente.\n\n"
                  + "Si los datos introducidos son texto, se pasarán a formato ASCII\n"
                  + "y se cifrarán en bloques de bytes. Los bloques serán de \n"
                  + "tamaño máximo igual al número de bytes del módulo menos uno.");
@@ -156,7 +177,7 @@ public class InfoDialog {
                  + "podrá descifrar los datos.\n\n"                
                  + "Si los datos introducidos no son texto, se introducirá un\n"
                  + "número por línea. Si el número introducido es mayor que el\n"
-                 + "módulo se dividirá en números de menor o igual valor que el módulo.\n\n"
+                 + "módulo se realizará el módulo para cifrar un número equivalente.\n\n"
                  + "Si los datos introducidos son texto, se descifrarán y se pasarán a \n"
                  + "formato ASCII. Es el usuario el que debe asegurarse que los \n"
                  + "datos introducidos tienen caracteres ASCII legibles.");
@@ -173,7 +194,7 @@ public class InfoDialog {
                  + "garantizar la Integridad.\n\n"                
                  + "Si los datos introducidos no son texto, se introducirá un\n"
                  + "número por línea. Si el número introducido es mayor que el\n"
-                 + "módulo se dividirá en números de menor o igual valor que el módulo.\n\n"
+                 + "módulo se realizará el módulo para cifrar un número equivalente.\n\n"
                  + "Si los datos introducidos son texto, se pasarán a formato ASCII\n"
                  + "y se firmarán en bloques de bytes. Los bloques serán de tamaño \n"
                  + "máximo igual al número de bytes del módulo menos uno.");
@@ -191,7 +212,7 @@ public class InfoDialog {
                  + "aplicandole la clave pública del emisor\n\n"
                  + "Si los datos introducidos no son texto, se introducirá un\n"
                  + "número por línea. Si el número introducido es mayor que el\n"
-                 + "módulo se dividirá en números de menor o igual valor que el módulo.\n\n"
+                 + "módulo se realizará el módulo para cifrar un número equivalente.\n\n"
                  + "Si los datos introducidos son texto, se validarán y se pasarán a \n"
                  + "formato ASCII. Es el usuario el que debe asegurarse que los datos \n"
                  + "introducidos tienen caracteres ASCII legibles.");

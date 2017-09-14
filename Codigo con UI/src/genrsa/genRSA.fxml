@@ -495,7 +495,7 @@
                               <Insets left="14.0" right="10.0" />
                            </VBox.margin>
                            <padding>
-                              <Insets top="40.0" />
+                              <Insets top="35.0" />
                            </padding>
                         </HBox>
                         <HBox prefHeight="177.0" prefWidth="394.0">
@@ -541,7 +541,7 @@
                <children>
                   <VBox prefHeight="680.0" prefWidth="279.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <HBox id="Primalidad" prefHeight="30.0">
+                        <HBox id="Primalidad" prefHeight="30.0" VBox.vgrow="NEVER">
                            <children>
                               <Separator orientation="VERTICAL" HBox.hgrow="NEVER">
                                  <HBox.margin>
@@ -671,7 +671,10 @@
                               <Insets left="1.0" right="19.0" />
                            </VBox.margin>
                         </Separator>
-                        <HBox id="no hace nada, grafico" maxHeight="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+                        <HBox id="no hace nada, grafico" fillHeight="false" minHeight="10.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <TextArea disable="true" visible="false" />
+                           </children></HBox>
                         <HBox VBox.vgrow="NEVER">
                            <children>
                               <Separator orientation="VERTICAL" HBox.hgrow="NEVER">
@@ -679,7 +682,7 @@
                                     <Insets top="8.0" />
                                  </HBox.margin>
                               </Separator>
-                              <Label id="Gen. Automática" minWidth="-Infinity" text="Generar Clave Automática" HBox.hgrow="NEVER">
+                              <Label id="Gen. Automática" minWidth="-Infinity" text="Generar Clave Automáticamente" HBox.hgrow="NEVER">
                                  <HBox.margin>
                                     <Insets left="2.0" right="4.0" />
                                  </HBox.margin>
@@ -696,8 +699,11 @@
                               </Separator>
                            </children>
                            <padding>
-                              <Insets right="11.0" top="50.0" />
+                              <Insets right="11.0" />
                            </padding>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
                         </HBox>
                         <HBox id="Long. gen" prefHeight="30.0" spacing="8.0" VBox.vgrow="NEVER">
                            <children>
@@ -801,6 +807,35 @@
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
                            </children>
                         </HBox>
+                        <HBox id="primos seguros" alignment="CENTER_LEFT" prefHeight="30.0" spacing="5.0" VBox.vgrow="NEVER">
+                           <children>
+                              <Separator orientation="VERTICAL" prefHeight="200.0">
+                                 <HBox.margin>
+                                    <Insets right="19.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <CheckBox fx:id="securePrimes" alignment="BOTTOM_LEFT" minWidth="-Infinity" mnemonicParsing="false" prefHeight="17.0" prefWidth="16.0">
+                                 <tooltip>
+                                    <Tooltip text="Marcar si se desea que la clave tenga los primos p y q de igual tamaño (a partir de 18 bits)" />
+                                 </tooltip>
+                                 <HBox.margin>
+                                    <Insets bottom="3.0" left="26.0" top="2.0" />
+                                 </HBox.margin>
+                              </CheckBox>
+                              <Label minWidth="-Infinity" prefHeight="25.0" text="primos seguros">
+                                 <HBox.margin>
+                                    <Insets bottom="3.0" right="61.0" top="2.0" />
+                                 </HBox.margin>
+                                 <tooltip>
+                                    <Tooltip text="Primos de igual tamaño es una debilidad" />
+                                 </tooltip>
+                              </Label>
+                              <Separator orientation="VERTICAL" prefHeight="200.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </HBox>
                         <HBox id="generar automatica" alignment="CENTER_LEFT" prefHeight="40.0" spacing="5.0" VBox.vgrow="NEVER">
                            <children>
                               <Separator orientation="VERTICAL" prefHeight="200.0">
@@ -824,7 +859,10 @@
                               <Insets left="1.0" right="15.0" />
                            </VBox.margin>
                         </Separator>
-                        <HBox id="no hace nada, grafico" maxHeight="-Infinity" prefHeight="40.0" prefWidth="200.0" />
+                        <HBox id="no hace nada, grafico" maxHeight="-Infinity" minHeight="35.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <TextArea visible="false" />
+                           </children></HBox>
                         <HBox VBox.vgrow="NEVER">
                            <children>
                               <Separator orientation="VERTICAL" HBox.hgrow="NEVER">
@@ -849,7 +887,7 @@
                               </Separator>
                            </children>
                            <VBox.margin>
-                              <Insets right="10.0" top="33.0" />
+                              <Insets right="10.0" />
                            </VBox.margin>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="247.0" spacing="8.0" VBox.vgrow="NEVER">
@@ -896,29 +934,29 @@
                               <Separator orientation="VERTICAL" />
                            </children>
                         </HBox>
-                        <Separator prefWidth="200.0">
+                        <Separator prefWidth="200.0" VBox.vgrow="NEVER">
                            <VBox.margin>
                               <Insets left="1.0" right="14.0" />
                            </VBox.margin>
                         </Separator>
-                        <HBox alignment="CENTER" minHeight="53.0" prefHeight="100.0" prefWidth="200.0">
+                        <HBox alignment="CENTER" fillHeight="false" minHeight="52.0" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                            <children>
                               <ProgressIndicator fx:id="progressNNC" minHeight="30.0" minWidth="30.0" progress="0.0" visible="false" HBox.hgrow="NEVER">
                                  <HBox.margin>
-                                    <Insets bottom="2.0" top="8.0" />
+                                    <Insets top="5.0" />
                                  </HBox.margin>
                               </ProgressIndicator>
                            </children>
                         </HBox>
                         <HBox alignment="TOP_CENTER" maxHeight="500.0" prefHeight="100.0" prefWidth="200.0" spacing="20.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <ProgressIndicator fx:id="progress" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="29.0" visible="false" />
+                              <ProgressIndicator fx:id="progress" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="29.0" visible="false" />
                               <Button fx:id="limpiarDatos1Bttn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#delete" prefHeight="25.0" text="Limpiar Datos">
                                  <tooltip>
                                     <Tooltip text="Pulsar para borrar los datos de la clave" />
                                  </tooltip>
                                  <HBox.margin>
-                                    <Insets right="35.0" top="5.0" />
+                                    <Insets right="35.0" top="9.0" />
                                  </HBox.margin>
                               </Button>
                            </children>

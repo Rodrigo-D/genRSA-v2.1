@@ -158,6 +158,17 @@ public class ErrorDialog {
         
         alertError.showAndWait(); 
     }
+    
+    public void keySizeSecurePrime() {
+        alertError.setHeaderText("Error longitud de clave demasiado pequeña.");        
+       
+       
+        alertError.setContentText("Por favor, para generar una clave RSA con primos seguros\n"
+                + "introduzca una longitud de clave mayor que 7.");   
+                    
+        
+        alertError.showAndWait(); 
+    }
              
              
     public void iterations() {

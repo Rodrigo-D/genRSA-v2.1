@@ -263,6 +263,7 @@ public class DeCipherLogic {
                 
                 
                 modified=true;
+                continuar=true;
                 //obtengo el número de dígitos de n(módulo)                
                 digitsOfModulus = this.modulus.toString(this.radix).length();
                 //obtengo el numero de digitos del numero que hay en la linea
@@ -373,7 +374,8 @@ public class DeCipherLogic {
                 }
                 
                 
-                this.DataBI[lineIterator]= number.mod(this.modulus);
+                this.DataBI[lineIterator] = number.mod(this.modulus);
+                processedNumbers[lineIterator] = number.mod(this.modulus).toString(radix);
                 
                 warning=true;       
                 warningTimes++;

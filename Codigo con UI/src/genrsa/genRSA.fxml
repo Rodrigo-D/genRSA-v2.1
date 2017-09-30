@@ -816,18 +816,18 @@
                               </Separator>
                               <CheckBox fx:id="securePrimes" alignment="BOTTOM_LEFT" minWidth="-Infinity" mnemonicParsing="false" prefHeight="17.0" prefWidth="16.0">
                                  <tooltip>
-                                    <Tooltip text="Marcar si se desea que la clave tenga los primos p y q de igual tamaño (a partir de 18 bits)" />
+                                    <Tooltip text="Marcar si se desea que la clave se genere con primos seguros" />
                                  </tooltip>
                                  <HBox.margin>
                                     <Insets bottom="3.0" left="26.0" top="2.0" />
                                  </HBox.margin>
                               </CheckBox>
-                              <Label minWidth="-Infinity" prefHeight="25.0" text="primos seguros">
+                              <Label minWidth="-Infinity" prefHeight="25.0" text="Primos seguros">
                                  <HBox.margin>
                                     <Insets bottom="3.0" right="61.0" top="2.0" />
                                  </HBox.margin>
                                  <tooltip>
-                                    <Tooltip text="Primos de igual tamaño es una debilidad" />
+                                    <Tooltip text="Primos seguros es una fortaleza" />
                                  </tooltip>
                               </Label>
                               <Separator orientation="VERTICAL" prefHeight="200.0" />

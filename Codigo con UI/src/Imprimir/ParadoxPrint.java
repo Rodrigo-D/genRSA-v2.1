@@ -73,20 +73,20 @@ public class ParadoxPrint {
     }
 
     //IMPRESION DE RESULTADOS
-    public void initialResults(String cipherI, String cipherJ, String j, String modulus, int radix) {
+    public void initialResults(String message, String cipherI, String cipherJ, String j, String modulus, int radix) {
         //el mensaje/número elegido es igual que el cipherI por estar elevado a 1
         String lineas = "Columna I \n" +
                         "---------------------------\n" + 
                         "mensaje^3 mod Módulo\n";        
         
         
-        lineas = lineas + this.utilidades.putPoints(cipherI, radix) + "^3 mod " + this.utilidades.putPoints(modulus, radix) + " = " + this.utilidades.putPoints(cipherI, radix)+ "\n";
+        lineas = lineas + this.utilidades.putPoints(message, radix) + "^3 mod " + this.utilidades.putPoints(modulus, radix) + " = " + this.utilidades.putPoints(cipherI, radix)+ "\n";
         
         lineas = lineas +  "\nColumna J \n" +
                         "-----------------------------\n" + 
                         "mensaje^(Módulo/2) mod Módulo \n"; 
         
-        lineas = lineas + this.utilidades.putPoints(cipherI, radix) + "^" + j + " mod " + this.utilidades.putPoints(modulus, radix) + " = " + this.utilidades.putPoints(cipherJ, radix) + "\n\n";
+        lineas = lineas + this.utilidades.putPoints(message, radix) + "^" + this.utilidades.putPoints(j,radix) + " mod " + this.utilidades.putPoints(modulus, radix) + " = " + this.utilidades.putPoints(cipherJ, radix) + "\n\n";
         
         
         lineas = lineas + "\n\nCifrados sucesivos\n" 

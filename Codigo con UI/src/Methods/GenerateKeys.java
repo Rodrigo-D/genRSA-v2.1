@@ -23,6 +23,8 @@ import javafx.scene.control.TextField;
  */
 public class GenerateKeys {
     
+    public static boolean isCancelled;
+    
     private final ErrorDialog errorDialog;
     
     private final ComponentesRSA RSA;   
@@ -50,6 +52,7 @@ public class GenerateKeys {
         this.print = new GenRSAPrint(scene);
         this.radix = 10;
         this.errorDialog = new ErrorDialog();
+        GenerateKeys.isCancelled = false;
     }
     
     /**
@@ -207,17 +210,23 @@ public class GenerateKeys {
             }
         }
         
-        this.time = this.utilidades.millisToSeconds(System.currentTimeMillis()  - this.startTime);
-        
-        Platform.runLater(() ->{
-            this.print.rsaGeneration(this.RSA, this.time, this.radix);
-            this.print.autoBitsKey(keySize);
-        });
-        
-        this.calculateCKP();
-        this.calculateNumNNC();
-        
-        return this.RSA;
+        if (!GenerateKeys.isCancelled) {
+            this.time = this.utilidades.millisToSeconds(System.currentTimeMillis()  - this.startTime);        
+
+            Platform.runLater(() ->{
+                this.print.rsaGeneration(this.RSA, this.time, this.radix);
+                this.print.autoBitsKey(keySize);
+            });
+
+            this.calculateCKP();
+            this.calculateNumNNC();
+            GenerateKeys.isCancelled=false;
+            return this.RSA;
+            
+        } else {            
+            GenerateKeys.isCancelled=false;
+            return null;
+        }        
     }
     
     /**
@@ -227,17 +236,24 @@ public class GenerateKeys {
      * @param keySize
      * @param sameSizePrimes
      */
-    private void createRSAKeysSecure(int distanceBits, final boolean sameSizePrimes) {
+    private boolean createRSAKeysSecure(int distanceBits, final boolean sameSizePrimes) {
   
         /* Step 1: Select the prime numbers (p and q) */
         do {
             this.RSA.setP( BigInteger.probablePrime((this.RSA.getKeySize()/2)+distanceBits, new SecureRandom()));
-        } while (!((this.RSA.getP().multiply(Constantes.TWO)).add(Constantes.ONE)).isProbablePrime(150));
+        } while (!(this.RSA.getP().divide(Constantes.TWO)).isProbablePrime(150) && !GenerateKeys.isCancelled);
+        
+        if (GenerateKeys.isCancelled){
+                return false;
+        }
 
         do {
             this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-distanceBits, new SecureRandom()));
-        } while (!((this.RSA.getQ().multiply(Constantes.TWO)).add(Constantes.ONE)).isProbablePrime(150));
-                        
+        } while (!(this.RSA.getQ().divide(Constantes.TWO)).isProbablePrime(150) && !GenerateKeys.isCancelled);
+        
+        if (GenerateKeys.isCancelled){
+                return false;
+        }
             
         /* Step 2:  n = p.q */
         this.RSA.setN( this.RSA.getP().multiply(this.RSA.getQ()));
@@ -247,13 +263,17 @@ public class GenerateKeys {
         }        
         
         //se comprueba que n sea de la longitud pedida y que p sea distinto de q
-        while (this.RSA.getN().bitLength() != this.RSA.getKeySize() || this.RSA.getP().equals(this.RSA.getQ())){
+        while ((this.RSA.getN().bitLength() != this.RSA.getKeySize() || this.RSA.getP().equals(this.RSA.getQ())) && !GenerateKeys.isCancelled){
             
             do {
                 this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-(distanceBits), new SecureRandom()));
-            } while (!((this.RSA.getQ().multiply(Constantes.TWO)).add(Constantes.ONE)).isProbablePrime(150));
+            } while (!(this.RSA.getQ().divide(Constantes.TWO)).isProbablePrime(150) && !GenerateKeys.isCancelled);
                         
-            this.RSA.setN( this.RSA.getP().multiply(this.RSA.getQ()));
+            this.RSA.setN(this.RSA.getP().multiply(this.RSA.getQ()));
+        }
+        
+        if (GenerateKeys.isCancelled){
+            return false;
         }
 
         /* Step 3: phi N = (p - 1).(q - 1) */
@@ -268,9 +288,12 @@ public class GenerateKeys {
                 // compareTo da 1 si es mayor que el valor entre parentesis
         } while ((this.RSA.getE().compareTo(this.RSA.getPhiN()) > -1) || 
                  (this.RSA.getE().gcd(this.RSA.getPhiN()).compareTo(Constantes.ONE)) != 0);
-
+        
         /* Step 5: Calculate d such that e.d = 1 (mod ø(n)) */
         this.RSA.setD( this.RSA.getE().modInverse(this.RSA.getPhiN()));
+        
+        return false;
+        
     }
     
     
@@ -281,11 +304,19 @@ public class GenerateKeys {
      * @param keySize
      * @param sameSizePrimes
      */
-    private void createRSAKeys(int distanceBits, final boolean sameSizePrimes) {
+    private boolean createRSAKeys(int distanceBits, final boolean sameSizePrimes) {
         /* Step 1: Select the prime numbers (p and q) */
         this.RSA.setP( BigInteger.probablePrime((this.RSA.getKeySize()/2)+distanceBits, new SecureRandom()));
+        
+        if (GenerateKeys.isCancelled){
+            return false;
+        }
+        
         this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-distanceBits, new SecureRandom()));
         
+        if (GenerateKeys.isCancelled){
+            return false;
+        }
       
         /* Step 2:  n = p.q */
         this.RSA.setN( this.RSA.getP().multiply(this.RSA.getQ()));
@@ -295,9 +326,13 @@ public class GenerateKeys {
         }        
         
         //se comprueba que n sea de la longitud pedida y que p sea distinto de q
-        while (this.RSA.getN().bitLength() != this.RSA.getKeySize() || this.RSA.getP().equals(this.RSA.getQ())){
+        while ((this.RSA.getN().bitLength() != this.RSA.getKeySize() || this.RSA.getP().equals(this.RSA.getQ())) && !GenerateKeys.isCancelled){
             this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-(distanceBits), new SecureRandom()));
             this.RSA.setN( this.RSA.getP().multiply(this.RSA.getQ()));
+        }
+        
+        if (GenerateKeys.isCancelled){
+            return false;
         }
 
         /* Step 3: phi N = (p - 1).(q - 1) */
@@ -315,6 +350,8 @@ public class GenerateKeys {
 
         /* Step 5: Calculate d such that e.d = 1 (mod ø(n)) */
         this.RSA.setD( this.RSA.getE().modInverse(this.RSA.getPhiN()));
+        
+        return false;
     }
     
     
@@ -326,7 +363,7 @@ public class GenerateKeys {
      * @param sameSizePrimes
      * @param securePrimes
      */
-    private void createRSAKeysWithTipicalPubKey(int distanceBits, final boolean sameSizePrimes, boolean securePrimes) {
+    private boolean createRSAKeysWithTipicalPubKey(int distanceBits, final boolean sameSizePrimes, boolean securePrimes) {
         
         /* Step 1: Set e=65537 */
         this.RSA.setE(new BigInteger("65537"));
@@ -336,15 +373,31 @@ public class GenerateKeys {
             
             do {
                 this.RSA.setP( BigInteger.probablePrime((this.RSA.getKeySize()/2)+distanceBits, new SecureRandom()));
-            } while (!((this.RSA.getP().multiply(Constantes.TWO)).add(Constantes.ONE)).isProbablePrime(150));
+            } while (!(this.RSA.getP().divide(Constantes.TWO)).isProbablePrime(150) && !GenerateKeys.isCancelled);
+            
+            if (GenerateKeys.isCancelled){
+                return false;
+            }            
             
             do {
                 this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-distanceBits, new SecureRandom()));
-            } while (!((this.RSA.getQ().multiply(Constantes.TWO)).add(Constantes.ONE)).isProbablePrime(150));
+            } while (!(this.RSA.getQ().divide(Constantes.TWO)).isProbablePrime(150) && !GenerateKeys.isCancelled);
+            
+            if (GenerateKeys.isCancelled){
+                return false;
+            }
                         
         } else {
             this.RSA.setP( BigInteger.probablePrime((this.RSA.getKeySize()/2)+distanceBits, new SecureRandom()));
+            
+            if (GenerateKeys.isCancelled){
+                return false;
+            }
             this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-distanceBits, new SecureRandom()));
+            
+            if (GenerateKeys.isCancelled){
+                return false;
+            }
         }
         
         
@@ -360,15 +413,15 @@ public class GenerateKeys {
         } 
 
         /* Step 4: Find q, such tah gcd(e, ø(n)) = 1 and 1 < e < ø(n) and p!=q and*/
-        while ((this.RSA.getE().compareTo(this.RSA.getPhiN()) > -1) || 
+        while (((this.RSA.getE().compareTo(this.RSA.getPhiN()) > -1) || 
                  (this.RSA.getE().gcd(this.RSA.getPhiN()).compareTo(Constantes.ONE)) != 0 ||
                     (this.RSA.getP().equals(this.RSA.getQ())) ||
-                        (this.RSA.getN().bitLength() != this.RSA.getKeySize())){
+                        (this.RSA.getN().bitLength() != this.RSA.getKeySize())) && !GenerateKeys.isCancelled){
                         
             if (securePrimes){
                 do {
                     this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-(distanceBits), new SecureRandom()));
-                } while (!((this.RSA.getQ().multiply(Constantes.TWO)).add(Constantes.ONE)).isProbablePrime(150));
+                } while (!(this.RSA.getQ().divide(Constantes.TWO)).isProbablePrime(150) && !GenerateKeys.isCancelled);
                         
             } else {               
                 this.RSA.setQ( BigInteger.probablePrime((this.RSA.getKeySize()/2)-(distanceBits), new SecureRandom()));
@@ -379,9 +432,15 @@ public class GenerateKeys {
             this.RSA.setqMinusOne( this.RSA.getQ().subtract(Constantes.ONE));
             this.RSA.setPhiN( this.RSA.getpMinusOne().multiply(this.RSA.getqMinusOne()));            
         }     
-
+        
+        if (GenerateKeys.isCancelled){
+                return false;
+        }
+        
         /* Step 6: Calculate d such that e.d = 1 (mod ø(n)) */
         this.RSA.setD( this.RSA.getE().modInverse(this.RSA.getPhiN()));
+        
+        return false;
     }
     
     
@@ -516,7 +575,12 @@ public class GenerateKeys {
         }
     }
     
-    
+    /**
+     * Método para parar la generación de la clave
+     */
+    public void setGenKeyCancelled() {
+        GenerateKeys.isCancelled = true;
+    }
     
     /**
      * 

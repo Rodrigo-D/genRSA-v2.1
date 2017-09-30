@@ -185,6 +185,7 @@ public class ManageKey {
      * @param progressInd --> nodo cualquiera de la escena que se usa para ir escalando y obtener la ventana. 
      * @param RSA 
      * @param logNNCFile 
+     * @throws InterruptedException
      */
     public void saveLogNNC (ProgressIndicator progressInd, ComponentesRSA RSA, File logNNCFile) throws InterruptedException {        
         CalculateNNC NNC;

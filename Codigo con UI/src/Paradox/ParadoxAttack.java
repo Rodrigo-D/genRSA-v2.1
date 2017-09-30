@@ -201,7 +201,7 @@ public class ParadoxAttack {
         BigInteger cipherI, cipherJ, initialCipherI, initialCipherJ;
         BigInteger IMinusJ, w, t;
         long startTime, totalTime;
-        final String time, cipherIstr, cipherJstr;        
+        final String time, cipherIstr, cipherJstr, messageStr;        
         long statsTime;
         boolean write = false;
         BigInteger REFRESH = Constantes.MIN_REFRESH.divide(Constantes.TWO);
@@ -220,9 +220,10 @@ public class ParadoxAttack {
         
         cipherIstr = cipherI.toString(this.radix).toUpperCase();
         cipherJstr = cipherJ.toString(this.radix).toUpperCase();
+        messageStr = this.message.toString(this.radix).toUpperCase();
         
         
-        Platform.runLater(() -> this.Pprint.initialResults(cipherIstr, cipherJstr,
+        Platform.runLater(() -> this.Pprint.initialResults(messageStr, cipherIstr, cipherJstr,
                                                         this.initialJ.toString(this.radix).toUpperCase(),
                                                         this.modulus.toString(this.radix).toUpperCase(),
                                                         this.radix));
@@ -389,7 +390,7 @@ public class ParadoxAttack {
         BigInteger cipherI, cipherJ, initialCipherI, initialCipherJ;
         BigInteger IMinusJ, w, t;
         long startTime, totalTime;
-        final String time, cipherIstr, cipherJstr;
+        final String time, cipherIstr, cipherJstr, messageStr;
         long statsTime;
         boolean write = false;
                 
@@ -408,9 +409,10 @@ public class ParadoxAttack {
         
         cipherIstr = cipherI.toString(this.radix).toUpperCase();
         cipherJstr = cipherJ.toString(this.radix).toUpperCase();
+        messageStr = this.message.toString(this.radix).toUpperCase();
         
         
-        Platform.runLater(() -> this.Pprint.initialResults(cipherIstr, cipherJstr,
+        Platform.runLater(() -> this.Pprint.initialResults(messageStr, cipherIstr, cipherJstr,
                                                         this.initialJ.toString(this.radix).toUpperCase(),
                                                         this.modulus.toString(this.radix).toUpperCase(),
                                                         this.radix));

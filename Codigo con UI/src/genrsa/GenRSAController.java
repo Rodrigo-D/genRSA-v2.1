@@ -240,6 +240,8 @@ public class GenRSAController {
     
     private boolean startLogNNC;
     
+    private boolean startGenKey;
+    
     private Utilities utilidades;
     
     public static Stage secondStage;
@@ -321,6 +323,7 @@ public class GenRSAController {
         
         utilidades = new Utilities();
         startLogNNC = true;
+        startGenKey = true;
         
         this.disableButtons();      
         this.configureFocus();
@@ -333,35 +336,49 @@ public class GenRSAController {
      * Método usado cuando se pulsa el boton de generar de manera automática una clave   
      * @param event 
      */
-    public void processAutomaticGeneration(ActionEvent event) {      
-        
-        Task CAstart= new Task() {
-            @Override
-            protected Object call() throws Exception {
-                String keySize = bits_clave_automatica.getText(); 
-                boolean isSameSize = sameSizePrimes.isSelected();
-                boolean isTipicalPubKey = tipicalPubKey.isSelected();
-                boolean isSecurePrimes = securePrimes.isSelected();
+    public void processAutomaticGeneration(ActionEvent event) {     
 
-                progress.setVisible(true);                
-                Platform.runLater(() ->disableOnProgress(true));
-                
-                RSA = generate.autoRSAkeys(keySize, isSameSize, isTipicalPubKey, isSecurePrimes);
-                
-                Platform.runLater(() ->{
-                    disableOnProgress(false);
-                    mainWindow.clearPrimality();
-                    disableButtons(); 
-                });
-                
-                progress.setVisible(false);               
-                               
-                return null;
-            }
-        };
-        
-        new Thread(CAstart).start();    
-        
+        if (this.startGenKey){
+            
+            Task CAstart= new Task() {
+                @Override
+                protected Object call() throws Exception {
+                    startGenKey = false;
+                    String keySize = bits_clave_automatica.getText(); 
+                    boolean isSameSize = sameSizePrimes.isSelected();
+                    boolean isTipicalPubKey = tipicalPubKey.isSelected();
+                    boolean isSecurePrimes = securePrimes.isSelected();
+
+                    progress.setVisible(true);                
+                    Platform.runLater(() ->{
+                        disableOnProgress(true);
+                        configureGenKeyStop(true);
+                    });
+
+                    RSA = generate.autoRSAkeys(keySize, isSameSize, isTipicalPubKey, isSecurePrimes);
+
+                    Platform.runLater(() ->{
+                        disableOnProgress(false);
+                        configureGenKeyStop(false);
+                        mainWindow.clearPrimality();
+                        disableButtons(); 
+                        configureGenKeyButtons(isTipicalPubKey,keySize );
+                    });                
+                    progress.setVisible(false);        
+                    startGenKey=true;
+
+                    return null;
+                }
+            };
+
+            new Thread(CAstart).start(); 
+            
+        } else {
+            this.autoGenerarBttn.setDisable(true);
+            this.generate.setGenKeyCancelled();
+            this.mainWindow.delete();
+            this.startGenKey = true;
+        }
     }
     
     /**
@@ -451,19 +468,7 @@ public class GenRSAController {
         }
     }
     
-    /**
-     * Método usado para cambiar el boton de pausa/generacion del log de NNC
-     * @param stop
-     */
-    private void configureLogStop(final boolean stop) {   
-        
-        if (stop) {            
-            this.logNNCbttn.setDisable(false);
-            this.logNNCbttn.setText("  Parar  Log  ");
-        } else {
-            this.logNNCbttn.setText("Generar Log");
-        }        
-    }
+    
     
     /**
      * Método usado para borrar toda la informacion de la pantalla principal
@@ -952,6 +957,46 @@ public class GenRSAController {
         //para pararlo en caso de que no haya terminado
         CalculateNNC.isCancelled=true;
         System.exit(0);
+    }
+    
+    /**
+     * Método usado para cambiar el boton de pausa/generacion del log de NNC
+     * @param stop
+     */
+    private void configureLogStop(final boolean stop) {   
+        
+        if (stop) {            
+            this.logNNCbttn.setDisable(false);
+            this.logNNCbttn.setText("  Parar  Log  ");
+        } else {
+            this.logNNCbttn.setText("Generar Log");
+        }        
+    }
+    
+    /**
+     * Método usado para cambiar el boton de pausa/generacion automatica de claves
+     * @param stop
+     */
+    private void configureGenKeyStop(final boolean stop) {   
+        
+        if (stop) {            
+            this.autoGenerarBttn.setDisable(false);
+            this.autoGenerarBttn.setText("Parar  Auto-Generación");
+        } else {
+            this.autoGenerarBttn.setDisable(false);
+            this.autoGenerarBttn.setText("Generación Automática");
+        }        
+    }
+    
+    /**
+     * Método usado para dejar como estaba la zona de generación automática.
+     * @param stop
+     */
+    private void configureGenKeyButtons(final boolean typicalPubKey, final String keySize) {   
+        
+        this.bits_clave_automatica.setText(keySize);
+        this.tipicalPubKey.setSelected(typicalPubKey);
+        
     }
     
     

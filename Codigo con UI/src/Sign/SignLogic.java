@@ -233,6 +233,7 @@ public class SignLogic {
             //NUMERO MENOR AL MODULO EN CADA LINEA
             
                 modified=true;
+                continuar=true;
                 //obtengo el número de dígitos de n(módulo)                
                 digitsOfModulus = this.modulus.toString(this.radix).length();
                 //obtengo el numero de digitos del numero que hay en la linea
@@ -341,8 +342,9 @@ public class SignLogic {
                     reduceNumber = number.mod(this.modulus);
                 }      
                 
-                this.DataBI[lineIterator]= number.mod(this.modulus);
-                
+                this.DataBI[lineIterator] = number.mod(this.modulus);
+                processedNumbers[lineIterator] = number.mod(this.modulus).toString(radix);
+                                
                 warning=true;       
                 warningTimes++;
             }//else de numero mayor q modulo

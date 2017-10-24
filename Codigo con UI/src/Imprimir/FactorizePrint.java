@@ -74,6 +74,13 @@ public class FactorizePrint {
         this.scene.getResults().appendText(line);        
     }
     
+    public void errorFactorize() {
+        String line = "\n\n  **** ERROR AL FACTORIZAR EL MÓDULO ****" +
+                      "\n   El número n introducido no está compuesto"
+                    + "\n     únicamente por dos números primos";        
+        this.scene.getResults().appendText(line);        
+    }
+    
     public void attackStopped() {
         this.scene.getResults().appendText("\n\n ******** EL ATAQUE SE HA DETENDIDO ******** ");
     }

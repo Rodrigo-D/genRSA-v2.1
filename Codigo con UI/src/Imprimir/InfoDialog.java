@@ -121,8 +121,16 @@ public class InfoDialog {
 
     public void warningDeCipher() {
         info.setHeaderText("Atención, no se han introducido de forma correcta los datos.");
-        info.setContentText("Para que se garantize el cifrado/descifrado de todos los números, \n"
+        info.setContentText("Para que se garantice el cifrado/descifrado de todos los números, \n"
                 + "introduzca un número menor al valor del módulo en cada línea.");
+        info.showAndWait();
+    }
+    
+    public void warningTextDeCipher(int bitsModulo, int bytesModulo) {
+        info.setHeaderText(null);
+        info.setContentText("Como se trata de texto y el módulo tiene " + bitsModulo + " bits, "
+                + "la cifra se realizará con bloques de " + bytesModulo + " bytes.");
+        
         info.showAndWait();
     }
     
@@ -148,8 +156,16 @@ public class InfoDialog {
     
     public void warningSign() {
         info.setHeaderText("Atención, no se han introducido de forma correcta los datos.");
-        info.setContentText("Para que se garantize la firma/validación de todos los números, \n"
+        info.setContentText("Para que se garantice la firma/validación de todos los números, \n"
                 + "introduzca un número menor al valor del módulo en cada línea.");
+        info.showAndWait();
+    }
+    
+    public void warningTextSign (int bitsModulo, int bytesModulo) {
+        info.setHeaderText(null);
+        info.setContentText("Como se trata de texto y el módulo tiene " + bitsModulo + " bits, "
+                + "la firma se realizará con bloques de " + bytesModulo + " bytes.");
+        
         info.showAndWait();
     }
     

@@ -259,17 +259,27 @@ public class FactorizeAttack {
        
         
         if (this.find){
-            final String strPrimeP = s.toString(this.radix);
-            final String strPrimeQ = this.modulus.divide(s).toString(this.radix);
-            final String strLaps = laps.toString();
+            BigInteger primeQ = this.modulus.divide(s);
             
-            Platform.runLater(() -> {
-                this.print.primeP(strPrimeP, this.radix);
-                this.print.primeQ(strPrimeQ, this.radix);
-                this.print.find(strLaps);
-                this.print.EnableStartBttns();
-                this.print.editableModulus(true);
-            });
+            if (s.isProbablePrime(100) && primeQ.isProbablePrime(100)){
+                final String strPrimeP = s.toString(this.radix);
+                final String strPrimeQ = primeQ.toString(this.radix);
+                final String strLaps = laps.toString();
+
+                Platform.runLater(() -> {
+                    this.print.primeP(strPrimeP, this.radix);
+                    this.print.primeQ(strPrimeQ, this.radix);
+                    this.print.find(strLaps);
+                    this.print.EnableStartBttns();
+                    this.print.editableModulus(true);
+                });
+            } else {
+                Platform.runLater(() -> {
+                    this.print.errorFactorize();
+                    this.print.EnableStartBttns();
+                    this.print.editableModulus(true);
+                });
+            }            
             
         } else if (isCancelled){
             Platform.runLater(() -> {
@@ -353,18 +363,28 @@ public class FactorizeAttack {
         
         Platform.runLater(() ->this.print.time(time));
 
-        if (this.find){
-            final String strPrimeP = s.toString(this.radix);
-            final String strPrimeQ = this.modulus.divide(s).toString(this.radix);
-            final String strLaps = laps.toString();
+        if (this.find){            
+            BigInteger primeQ = this.modulus.divide(s);
             
-            Platform.runLater(() -> {
-                this.print.primeP(strPrimeP, this.radix);
-                this.print.primeQ(strPrimeQ, this.radix);
-                this.print.find(strLaps);
-                this.print.EnableStartBttns();
-                this.print.editableModulus(true);
-            });
+            if (s.isProbablePrime(100) && primeQ.isProbablePrime(100)){            
+                final String strPrimeP = s.toString(this.radix);
+                final String strPrimeQ = primeQ.toString(this.radix);
+                final String strLaps = laps.toString();
+
+                Platform.runLater(() -> {
+                    this.print.primeP(strPrimeP, this.radix);
+                    this.print.primeQ(strPrimeQ, this.radix);
+                    this.print.find(strLaps);
+                    this.print.EnableStartBttns();
+                    this.print.editableModulus(true);
+                });
+            } else {
+                Platform.runLater(() -> {
+                    this.print.errorFactorize();
+                    this.print.EnableStartBttns();
+                    this.print.editableModulus(true);
+                });
+            }
             
         } else if (isCancelled){
             Platform.runLater(() -> {
@@ -442,17 +462,28 @@ public class FactorizeAttack {
         
 
         if (this.find){
-            final String strPrimeP = s.toString(this.radix);
-            final String strPrimeQ = this.modulus.divide(s).toString(this.radix);
-            final String strLaps = this.lapsNumTotal.toString();
+            BigInteger primeQ = this.modulus.divide(s);
             
-            Platform.runLater(() -> {
-                this.print.primeP(strPrimeP, this.radix);
-                this.print.primeQ(strPrimeQ, this.radix);
-                this.print.find(strLaps);
-                this.print.EnableStartBttns();
-                this.print.editableModulus(true);
-            });            
+            if (s.isProbablePrime(100) && primeQ.isProbablePrime(100)){
+                final String strPrimeP = s.toString(this.radix);
+                final String strPrimeQ = primeQ.toString(this.radix);
+                final String strLaps = this.lapsNumTotal.toString();
+
+                Platform.runLater(() -> {
+                    this.print.primeP(strPrimeP, this.radix);
+                    this.print.primeQ(strPrimeQ, this.radix);
+                    this.print.find(strLaps);
+                    this.print.EnableStartBttns();
+                    this.print.editableModulus(true);
+                });
+            } else {
+                Platform.runLater(() -> {
+                    this.print.errorFactorize();
+                    this.print.EnableStartBttns();
+                    this.print.editableModulus(true);
+                });
+            }    
+                
         } else if (isCancelled){
             Platform.runLater(() -> {
                 this.print.EnableStartBttns();
@@ -532,17 +563,28 @@ public class FactorizeAttack {
         
 
         if (this.find){
-            final String strPrimeP = s.toString(this.radix);
-            final String strPrimeQ = this.modulus.divide(s).toString(this.radix);
-            final String strLaps = this.lapsNumTotal.toString();
+            BigInteger primeQ = this.modulus.divide(s);
             
-            Platform.runLater(() -> {
-                this.print.primeP(strPrimeP, this.radix);
-                this.print.primeQ(strPrimeQ, this.radix);
-                this.print.find(strLaps);
-                this.print.EnableStartBttns();
-                this.print.editableModulus(true);
-            });            
+            if (s.isProbablePrime(100) && primeQ.isProbablePrime(100)){
+                final String strPrimeP = s.toString(this.radix);
+                final String strPrimeQ = primeQ.toString(this.radix);
+                final String strLaps = this.lapsNumTotal.toString();
+
+                Platform.runLater(() -> {
+                    this.print.primeP(strPrimeP, this.radix);
+                    this.print.primeQ(strPrimeQ, this.radix);
+                    this.print.find(strLaps);
+                    this.print.EnableStartBttns();
+                    this.print.editableModulus(true);
+                });
+            } else {
+                Platform.runLater(() -> {
+                    this.print.errorFactorize();
+                    this.print.EnableStartBttns();
+                    this.print.editableModulus(true);
+                });
+            }   
+            
         } else if (isCancelled){
             Platform.runLater(() -> {
                 this.print.EnableStartBttns();
@@ -610,15 +652,25 @@ public class FactorizeAttack {
             Platform.runLater(() -> this.print.attackStopped());
             
         } else {
-            final String strPrimeP = s.toString(this.radix);
-            final String strPrimeQ = this.modulus.divide(s).toString(this.radix);
-            final String strLaps = laps.toString();
+            BigInteger primeQ = this.modulus.divide(s);
             
-            Platform.runLater(() -> {
-                this.print.primeP(strPrimeP, this.radix);
-                this.print.primeQ(strPrimeQ, this.radix);
-                this.print.find(strLaps);
-            });
+            if (s.isProbablePrime(100) && primeQ.isProbablePrime(100)){
+                final String strPrimeP = s.toString(this.radix);
+                final String strPrimeQ = primeQ.toString(this.radix);
+                final String strLaps = laps.toString();
+
+                Platform.runLater(() -> {
+                    this.print.primeP(strPrimeP, this.radix);
+                    this.print.primeQ(strPrimeQ, this.radix);
+                    this.print.find(strLaps);
+                });
+            }else {
+                Platform.runLater(() -> {
+                    this.print.errorFactorize();
+                    this.print.EnableStartBttns();
+                    this.print.editableModulus(true);
+                });
+            }    
         }
         time = this.utilidades.millisToSeconds(System.currentTimeMillis() - startTime);
        
@@ -694,16 +746,26 @@ public class FactorizeAttack {
         if (this.isCancelled){
             Platform.runLater(() -> this.print.attackStopped());
             
-        } else {
-            final String strPrimeP = s.toString(this.radix);
-            final String strPrimeQ = this.modulus.divide(s).toString(this.radix);
-            final String strLaps = laps.toString();
+        } else {            
+            BigInteger primeQ = this.modulus.divide(s);
             
-            Platform.runLater(() -> {
-                this.print.primeP(strPrimeP, this.radix);
-                this.print.primeQ(strPrimeQ, this.radix);
-                this.print.find(strLaps);
-            });
+            if (s.isProbablePrime(100) && primeQ.isProbablePrime(100)){
+                final String strPrimeP = s.toString(this.radix);
+                final String strPrimeQ = primeQ.toString(this.radix);
+                final String strLaps = laps.toString();
+
+                Platform.runLater(() -> {
+                    this.print.primeP(strPrimeP, this.radix);
+                    this.print.primeQ(strPrimeQ, this.radix);
+                    this.print.find(strLaps);
+                });
+            } else {
+                Platform.runLater(() -> {
+                    this.print.errorFactorize();
+                    this.print.EnableStartBttns();
+                    this.print.editableModulus(true);
+                });
+            }    
         }
 
         time = this.utilidades.millisToSeconds(System.currentTimeMillis() - startTime);

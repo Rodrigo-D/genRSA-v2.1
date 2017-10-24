@@ -42,12 +42,25 @@ public class AboutController {
     
     
     @FXML
-    void mailTo(ActionEvent event) throws URISyntaxException, IOException {
+    void mailTo1(ActionEvent event) throws URISyntaxException, IOException {
         
         if (Desktop.isDesktopSupported()) {
             Desktop desktop = Desktop.getDesktop();
             if (desktop.isSupported(Desktop.Action.MAIL)) {
                 URI mailto = new URI("mailto:rodrigo.diaza@alumnos.upm.com?subject=genRSA");
+                desktop.mail(mailto);
+            }
+        }
+
+    }
+    
+    @FXML
+    void mailTo2(ActionEvent event) throws URISyntaxException, IOException {
+        
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+            if (desktop.isSupported(Desktop.Action.MAIL)) {
+                URI mailto = new URI("mailto:jorge@criptored.com?subject=genRSA");
                 desktop.mail(mailto);
             }
         }

@@ -209,10 +209,10 @@ public class ParadoxAttack {
         startTime = System.currentTimeMillis();
 				
         //Calculo e impresion de primeros resultados
-        this.i = new BigInteger("3");
-        this.initialI = new BigInteger("3");
-        this.j = this.modulus.divide(Constantes.TWO);        
-        this.initialJ = this.modulus.divide(Constantes.TWO);
+        this.i = new BigInteger("0");
+        this.initialI = new BigInteger("0");
+        this.j = this.modulus.divide(Constantes.TWO).add(Constantes.ONE);        
+        this.initialJ = this.modulus.divide(Constantes.TWO).add(Constantes.ONE);
 
         initialCipherI = cipherI = this.message.modPow(this.i, this.modulus);
         initialCipherJ = cipherJ = this.message.modPow(this.j, this.modulus);
@@ -397,10 +397,10 @@ public class ParadoxAttack {
         startTime = System.currentTimeMillis();
         
 	//Calculo e impresion de primeros resultados			
-        this.i = new BigInteger("3");
-        this.initialI = new BigInteger("3");
-        this.j = this.modulus.divide(Constantes.TWO);
-        this.initialJ = this.modulus.divide(Constantes.TWO);
+        this.i = new BigInteger("0");
+        this.initialI = new BigInteger("0");
+        this.j = this.modulus.divide(Constantes.TWO).add(Constantes.ONE);
+        this.initialJ = this.modulus.divide(Constantes.TWO).add(Constantes.ONE);
         
         
         initialCipherI = cipherI = this.message.modPow(this.i, this.modulus);
@@ -602,9 +602,9 @@ public class ParadoxAttack {
 				
         //Calculo e impresion de primeros resultados
         this.i = ParadoxAttack.storeI;
-        this.initialI = new BigInteger("3");
+        this.initialI = new BigInteger("0");
         this.j = ParadoxAttack.storeJ;     
-        this.initialJ = this.modulus.divide(Constantes.TWO);
+        this.initialJ = this.modulus.divide(Constantes.TWO).add(Constantes.ONE);
 
         cipherI = this.message.modPow(this.i, this.modulus);
         initialCipherI = this.message.modPow(this.initialI, this.modulus);
@@ -782,9 +782,9 @@ public class ParadoxAttack {
         
 	//Calculo e impresion de primeros resultados			
         this.i = ParadoxAttack.storeI;
-        this.initialI = new BigInteger("3");
+        this.initialI = new BigInteger("0");
         this.j = ParadoxAttack.storeJ;  
-        this.initialJ = this.modulus.divide(Constantes.TWO);
+        this.initialJ = this.modulus.divide(Constantes.TWO).add(Constantes.ONE);
         
         
         cipherI = this.message.modPow(this.i, this.modulus);

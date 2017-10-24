@@ -137,9 +137,9 @@
                      </VBox.margin>
                      <children>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="N = p * q">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="n = p x q">
                            <HBox.margin>
-                              <Insets left="30.0" right="20.0" />
+                              <Insets left="30.0" right="22.0" />
                            </HBox.margin>
                         </Text>
                         <TextField fx:id="Modulus" HBox.hgrow="ALWAYS">

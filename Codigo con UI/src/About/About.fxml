@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="361.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="About.AboutController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="376.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="About.AboutController">
    <children>
       <ImageView fx:id="imageAbout" fitHeight="86.0" fitWidth="124.0" layoutX="30.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" />
       <Label layoutX="242.0" layoutY="22.0" prefHeight="45.0" prefWidth="147.0" text="genRSA v2.1" textFill="#e0123b">
@@ -36,7 +36,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label layoutX="47.0" layoutY="189.0" text="de cifrado asimétrico de clave pública RSA." textFill="#575555">
+      <Label layoutX="47.0" layoutY="189.0" text="de criptografía asimétrica de clave pública RSA." textFill="#575555">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -56,19 +56,25 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label layoutX="47.0" layoutY="317.0" text="Contacto: " textFill="#575555">
+      <Label layoutX="47.0" layoutY="317.0" text="Contacto 1: " textFill="#575555">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Hyperlink ellipsisString="" layoutX="105.0" layoutY="314.0" onAction="#mailTo" style="-fx-border-color: null; -fx-border-style: solid; -fx-border-width: 0px;" text="rodrigo.diaza@alumnos.upm.es" textOverrun="CENTER_ELLIPSIS" />
-      <Label layoutX="47.0" layoutY="332.0" text="GitHub:" textFill="#575555">
+      <Hyperlink ellipsisString="" layoutX="116.0" layoutY="315.0" onAction="#mailTo1" style="-fx-border-color: null; -fx-border-style: solid; -fx-border-width: 0px;" text="rodrigo.diaza@alumnos.upm.es" textOverrun="CENTER_ELLIPSIS" />
+      <Label layoutX="47.0" layoutY="334.0" text="Contacto 2:" textFill="#575555">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Hyperlink ellipsisString="" layoutX="105.0" layoutY="330.0" onAction="#openLink" style="-fx-border-color: null; -fx-border-style: solid; -fx-border-width: 0px;" text="https://github.com/Rodrigo-D/genRSA-v2.1" textOverrun="CENTER_ELLIPSIS" />
-      <Label layoutX="434.0" layoutY="335.0" text="20170924" textFill="#726f6f">
+      <Hyperlink ellipsisString="" layoutX="116.0" layoutY="332.0" onAction="#mailTo2" style="-fx-border-color: null; -fx-border-style: solid; -fx-border-width: 0px;" text="jorge@criptored.com" textOverrun="CENTER_ELLIPSIS" />
+      <Label layoutX="47.0" layoutY="351.0" text="GitHub:" textFill="#575555">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Hyperlink ellipsisString="" layoutX="116.0" layoutY="349.0" onAction="#openLink" style="-fx-border-color: null; -fx-border-style: solid; -fx-border-width: 0px;" text="https://github.com/Rodrigo-D/genRSA-v2.1" textOverrun="CENTER_ELLIPSIS" />
+      <Label layoutX="415.0" layoutY="355.0" prefHeight="13.0" prefWidth="58.0" text="Act. 20171018" textFill="#726f6f">
          <font>
             <Font size="9.0" />
          </font>

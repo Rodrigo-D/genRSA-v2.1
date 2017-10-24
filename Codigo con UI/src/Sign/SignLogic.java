@@ -125,7 +125,7 @@ public class SignLogic {
                 if (isText){
                     validateByte = signedNum.modPow(this.pubKey, this.modulus).toByteArray();
                     try {
-                        validatedText = new String (validateByte, "US-ASCII");
+                        validatedText = new String (validateByte, "Cp437");
                     } catch (UnsupportedEncodingException ex) {
                         this.errorDialog.unsupportedASCIIDecipherValidate();
                         return;
@@ -180,7 +180,7 @@ public class SignLogic {
         int linesNum;
         
         int digitsOfNumber, digitsOfModulus;
-        boolean continuar = true;
+        boolean continuar;
         String cutNumStr;
         BigInteger cutNum;
         int beginIndex, endIndex;
@@ -380,7 +380,7 @@ public class SignLogic {
         BigInteger number;
         int linesNum;
         
-        int bytesOfNumber, bytesOfModulus;
+        int bytesOfNumber, bytesOfModulus=0;
         boolean continuar;
         BigInteger cutNum;
         int beginIndex, endIndex;
@@ -409,12 +409,17 @@ public class SignLogic {
             }
 
             //Transformo el texto a numeros ASCII decimales;
-            asciiText = lines[lineIterator].getBytes(StandardCharsets.US_ASCII);
+            try{
+                asciiText = lines[lineIterator].getBytes("Cp437");
+            } catch (UnsupportedEncodingException n){            
+                this.errorDialog.unsupportedASCII();
+                return false;
+            }
             
             
             //Transformo el ASCII a bigInteger
             try{
-                number = new BigInteger(asciiText);
+                number = new BigInteger(1, asciiText);
             } catch (NumberFormatException n){            
                 this.errorDialog.unsupportedASCII();
                 return false;
@@ -433,7 +438,7 @@ public class SignLogic {
             if (bytesOfModulus > bytesOfNumber){
                                  
                 try {
-                    processedText[processedIterator] = new String (asciiText, "US-ASCII");
+                    processedText[processedIterator] = new String (asciiText, "Cp437");
                 } catch (UnsupportedEncodingException ex) {
                     this.errorDialog.unsupportedASCII();
                     return false;
@@ -457,11 +462,11 @@ public class SignLogic {
                 while (continuar){
                     //corto la linea en un numero de bytes igual a los bytes del modulo - 1
                     cutAsciiText = Arrays.copyOfRange(asciiText, beginIndex, endIndex);
-                    cutNum =  new BigInteger(cutAsciiText);
+                    cutNum =  new BigInteger(1, cutAsciiText);
                     
                     //guardo los datos obtenidos
                     try {
-                        processedText[processedIterator] = new String (cutAsciiText, "US-ASCII");
+                        processedText[processedIterator] = new String (cutAsciiText, "Cp437");
                     } catch (UnsupportedEncodingException ex) {
                         this.errorDialog.unsupportedASCII();
                         return false;
@@ -490,7 +495,7 @@ public class SignLogic {
                
         
         if(modified){
-            this.infoDialog.warningDeCipher();
+            this.infoDialog.warningTextDeCipher(this.modulus.bitLength(), bytesOfModulus-1);
         }
         
         return true;

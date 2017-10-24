@@ -526,7 +526,7 @@ public class GenRSAController {
         this.mainWindow.delete();
         this.RSA = null;    
         this.initCboxes.initCboxDec(this.cBoxP, this.cBoxQ);
-        this.labelPubKey.setText("Clave pública = 65537");        
+        this.labelPubKey.setText("Clave pública = 65.537 ");        
         this.tipicalPubKey.setSelected(false);
         this.disableButtons();
     }
@@ -544,7 +544,7 @@ public class GenRSAController {
         this.mainWindow.delete();
         this.RSA = null;
         this.initCboxes.initCboxHex(this.cBoxP, this.cBoxQ);
-        this.labelPubKey.setText("Clave pública = 10001");        
+        this.labelPubKey.setText("Clave pública = 10001  ");        
         this.tipicalPubKey.setSelected(false);
         this.disableButtons();
     }

@@ -124,7 +124,7 @@
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="F1" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" onAction="#testBench" text="Banco de pruebas">
+                  <MenuItem mnemonicParsing="false" onAction="#testBench" text="Banco de Pruebas">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="F2" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>
@@ -475,7 +475,7 @@
                                     <Insets top="8.0" />
                                  </HBox.margin>
                               </Separator>
-                              <Label id="Claves Parejas" alignment="TOP_LEFT" minWidth="-Infinity" text="Claves Privadas Parejas" HBox.hgrow="NEVER">
+                              <Label id="Claves Parejas" alignment="TOP_LEFT" minWidth="-Infinity" text="Claves Privadas Parejas - CPP" HBox.hgrow="NEVER">
                                  <HBox.margin>
                                     <Insets left="2.0" right="4.0" />
                                  </HBox.margin>
@@ -767,9 +767,9 @@
                                     <Insets bottom="5.0" left="26.0" />
                                  </HBox.margin>
                               </CheckBox>
-                              <Label fx:id="labelPubKey" minWidth="-Infinity" prefHeight="25.0" text="Clave Pública = 65537">
+                              <Label fx:id="labelPubKey" minWidth="-Infinity" prefHeight="25.0" text="Clave pública = 65.537 ">
                                  <HBox.margin>
-                                    <Insets bottom="3.0" right="26.0" />
+                                    <Insets bottom="3.0" right="19.0" />
                                  </HBox.margin>
                                  <tooltip>
                                     <Tooltip text="Clave usada en la mayoría de certificados" />
@@ -972,11 +972,11 @@
       </HBox>
       <HBox prefHeight="53.0" prefWidth="1094.0">
          <children>
-            <Label alignment="BOTTOM_LEFT" prefHeight="17.0" prefWidth="1001.0" text="Universidad Politécnica de Madrid" HBox.hgrow="ALWAYS">
+            <Label alignment="BOTTOM_LEFT" prefHeight="17.0" prefWidth="1001.0" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin></Label>
-            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="500.0" text="Generación RSA v2.1" HBox.hgrow="ALWAYS">
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="500.0" text="genRSA v2.1" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets right="5.0" />
                </HBox.margin></Label>

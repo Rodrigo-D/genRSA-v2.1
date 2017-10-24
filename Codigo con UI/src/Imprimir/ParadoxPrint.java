@@ -77,14 +77,14 @@ public class ParadoxPrint {
         //el mensaje/número elegido es igual que el cipherI por estar elevado a 1
         String lineas = "Columna I \n" +
                         "---------------------------\n" + 
-                        "mensaje^3 mod Módulo\n";        
+                        "mensaje^0 mod Módulo\n";        
         
         
-        lineas = lineas + this.utilidades.putPoints(message, radix) + "^3 mod " + this.utilidades.putPoints(modulus, radix) + " = " + this.utilidades.putPoints(cipherI, radix)+ "\n";
+        lineas = lineas + this.utilidades.putPoints(message, radix) + "^0 mod " + this.utilidades.putPoints(modulus, radix) + " = " + this.utilidades.putPoints(cipherI, radix)+ "\n";
         
         lineas = lineas +  "\nColumna J \n" +
                         "-----------------------------\n" + 
-                        "mensaje^(Módulo/2) mod Módulo \n"; 
+                        "mensaje^(Módulo/2)+1 mod Módulo \n"; 
         
         lineas = lineas + this.utilidades.putPoints(message, radix) + "^" + this.utilidades.putPoints(j,radix) + " mod " + this.utilidades.putPoints(modulus, radix) + " = " + this.utilidades.putPoints(cipherJ, radix) + "\n\n";
         
